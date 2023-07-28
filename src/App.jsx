@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { Provider } from 'react-redux'
+import { store } from './redux/store'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -8,6 +10,7 @@ function App() {
 
   return (
     <>
+    <Provider store={store}>
       <div>
         <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -28,6 +31,7 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      </Provider>
     </>
   )
 }
