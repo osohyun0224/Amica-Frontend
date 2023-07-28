@@ -1,12 +1,8 @@
-
 // other imports...
 
 const LoginPage = () => {
-    // your component logic...
-    return (
-        <div>
-        </div>
-    )
-}
+  // your component logic...
+  return <div></div>;
+};
 
 export default LoginPage;
