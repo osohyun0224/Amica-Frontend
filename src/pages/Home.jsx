@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import Button from '../components/Button.jsx';
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import Button from "../components/Button.jsx";
 
 const PageContainer = styled.div`
   background-color: white;
-  min-height: 100vh;
+  min-height: 100%;
   margin: 0 auto;
   max-width: 1000px;
 `;
@@ -32,7 +32,8 @@ const StyledLoginButton = styled(StyledButton)`
 `;
 
 const StyledSignupButton = styled(StyledButton)`
-  background: linear-gradient(0deg, #EEF1F4, #EEF1F4), linear-gradient(0deg, #667080, #667080);
+  background: linear-gradient(0deg, #eef1f4, #eef1f4),
+    linear-gradient(0deg, #667080, #667080);
   color: #667080;
   border: 1px solid #667080;
 `;
