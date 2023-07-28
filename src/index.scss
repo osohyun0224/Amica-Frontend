@@ -1,0 +1,26 @@
+// *, :root, html, body 스타일은 여기서 지정합니다.
+
+* {
+  /* Clear CSS */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font: inherit;
+  color: inherit;
+  flex-shrink: 0;
+}
+
+:root {
+}
+
+html {
+}
+
+body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: gray; // PC에서 보여질 배경
+  display: flex;
+  justify-content: center;
+}
