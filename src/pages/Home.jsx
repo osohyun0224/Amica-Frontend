@@ -12,7 +12,8 @@ const PageContainer = styled.div`
 const ButtonContainer = styled.div`
   position: fixed;
   bottom: 50px;
-  width: 100%;
+  left: 0;
+  right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,7 +41,6 @@ function Home() {
   return (
     <PageContainer>
       <h1>Home Page</h1>
-      
       <ButtonContainer>
         <Link to="/login">
           <StyledLoginButton>로그인</StyledLoginButton>
