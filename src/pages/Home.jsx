@@ -30,6 +30,12 @@ const StyledLoginButton = styled(StyledButton)`
   box-shadow: 0px 4px 4px 0px #00000040;
 `;
 
+const StyledSignupButton = styled(StyledButton)`
+  background: linear-gradient(0deg, #EEF1F4, #EEF1F4), linear-gradient(0deg, #667080, #667080);
+  color: #667080;
+  border: 1px solid #667080;
+`;
+
 function Home() {
   return (
     <PageContainer>
@@ -37,10 +43,10 @@ function Home() {
       
       <ButtonContainer>
         <Link to="/login">
-          <StyledLoginButton>Login</StyledLoginButton>
+          <StyledLoginButton>로그인</StyledLoginButton>
         </Link>
         <Link to="/signup">
-          <StyledButton>Sign Up</StyledButton>
+          <StyledSignupButton>회원가입</StyledSignupButton>
         </Link>
       </ButtonContainer>
     </PageContainer>
