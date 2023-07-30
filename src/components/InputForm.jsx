@@ -7,7 +7,7 @@ const InputFormContainer = styled.div`
   width: 400px;
   position: relative;
   margin-top: 20px;
-  margin-left: -98px;
+  margin-left: -20px;
   margin-bottom: 50px;
 `;
 
@@ -20,9 +20,9 @@ const Label = styled.label`
 const Input = styled.input`
   flex-grow: 1;
   height: 40px;
-  border: none; // Remove all borders
+  border: none; 
   padding: 10px;
-  outline: none; // Remove outline
+  outline: none; 
 `;
 
 const BottomLine = styled.div`
