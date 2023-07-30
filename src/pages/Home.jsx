@@ -39,15 +39,28 @@ const StyledSignupButton = styled(StyledButton)`
 `;
 
 const Title = styled.h1`
-  font-family: "Nanum Gothic";
-  font-style: normal;
-  font-weight: 800;
+  font-family: Nanum Gothic;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 33px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin-top: 100px;
+`;
+
+const SubTitle = styled.p`
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
 `;
 
 function Home() {
   return (
     <PageContainer>
-      <Title>Home Page</Title>
+      <Title>대충 깔쌈한 슬로건?</Title>
+      <SubTitle>너도 한번 Join 해라 어쩌고</SubTitle>
       <ButtonContainer>
         <Link to="/login">
           <StyledLoginButton>로그인</StyledLoginButton>
