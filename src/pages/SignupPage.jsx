@@ -13,13 +13,13 @@ const PageContainer = styled.div`
   max-width: 1000px;
   padding-top: 30px;
   padding-left: 50px;
-  position: relative;  // Add this line
+  position: relative;  
 `;
 
 const BackButtonImage = styled.img`
   position: absolute;
-  margin-top: -30px;
-  margin-left: -120px;
+  margin-top: 0px;
+  margin-left: -40px;
   cursor: pointer;
 `;
 
@@ -27,8 +27,8 @@ const SignupTitle = styled.h3`
   font-family: "Nanum Gothic";
   font-size: 24px;
   font-weight: 700;
-  margin-top: 70px;
-  margin-left: -100px;
+  margin-top: 80px;
+  margin-left: -20px;
   color: #667080;
 `;
 
@@ -38,7 +38,7 @@ const SignupText = styled.p`
   font-weight: 500;
   text-align: left;
   margin-top: 10px;
-  margin-left: -100px;
+  margin-left: -20px;
   color: #667080;
 `;
 
@@ -49,7 +49,7 @@ const BottomBox = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 149%;  
+  width: 100%;  
   height: 84px;
   background-color: #667080;
   color: white;
@@ -57,7 +57,7 @@ const BottomBox = styled(Link)`
   position: absolute;  
   bottom: 0;
   text-decoration: none;
-  margin-left: -132px;
+  margin-left: -50px;
 `;
 
 function SignupPage() {
@@ -71,7 +71,7 @@ function SignupPage() {
         필요한 서비스를 받을 수 있는 <br /> 이메일 주소를 입력하세요.
       </SignupText>
       <EmailInput label="이메일" placeholder="이메일 주소를 입력하세요." type="email"/>
-      <BottomBox to="/yourDestinationPath">박스 텍스트 또는 컨텐츠</BottomBox>
+      <BottomBox to="/">다음</BottomBox>
     </PageContainer>
   );
 }
