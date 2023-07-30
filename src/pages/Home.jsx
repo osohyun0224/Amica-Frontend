@@ -55,6 +55,7 @@ const SubTitle = styled.p`
   letter-spacing: 0em;
   text-align: left;
 `;
+
 function Home() {
   return (
     <PageContainer>
