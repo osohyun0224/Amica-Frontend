@@ -45,6 +45,7 @@ const Title = styled.h1`
   line-height: 33px;
   letter-spacing: 0em;
   text-align: left;
+  margin-left: 20px;
   margin-top: 100px;
 `;
 
@@ -53,6 +54,8 @@ const SubTitle = styled.p`
   font-weight: 600;
   line-height: 18px;
   letter-spacing: 0em;
+  margin-left: 20px;
+  margin-top: 10px;
   text-align: left;
 `;
 

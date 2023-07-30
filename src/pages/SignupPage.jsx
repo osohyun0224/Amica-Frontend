@@ -13,13 +13,13 @@ const PageContainer = styled.div`
   max-width: 1000px;
   padding-top: 30px;
   padding-left: 50px;
-  position: relative;  // Add this line
+  position: relative;  
 `;
 
 const BackButtonImage = styled.img`
   position: absolute;
   margin-top: -30px;
-  margin-left: -120px;
+  margin-left: 0px;
   cursor: pointer;
 `;
 
