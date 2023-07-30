@@ -38,10 +38,16 @@ const StyledSignupButton = styled(StyledButton)`
   border: 1px solid #667080;
 `;
 
+const Title = styled.h1`
+  font-family: "Nanum Gothic";
+  font-style: normal;
+  font-weight: 800;
+`;
+
 function Home() {
   return (
     <PageContainer>
-      <h1>Home Page</h1>
+      <Title>Home Page</Title>
       <ButtonContainer>
         <Link to="/login">
           <StyledLoginButton>로그인</StyledLoginButton>
