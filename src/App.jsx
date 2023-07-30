@@ -6,6 +6,7 @@ import SignupPage from "./pages/SignupPage.jsx";
 import LedgerPage from "./pages/LedgerPage.jsx";
 import MyPetPage from "./pages/MyPetPage.jsx";
 import HeaderPage from "./pages/HeaderPage.jsx";
+import Main from "./pages/Main.jsx";
 import "./App.scss";
 
 const Container = styled.div`
@@ -18,11 +19,11 @@ function App() {
     <Container>
       <Router>
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route element={<HeaderPage />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/main" element={<Main />} />
             <Route path="/ledger" element={<LedgerPage />} />
             <Route path="/my-pet" element={<MyPetPage />} />
           </Route>

@@ -80,8 +80,8 @@ function HeaderPage() {
         </TitleWrapper>
         <MenuWrapper>
           <MenuButton
-            to="/home"
-            className={pathname === "/home" ? "selected" : ""}
+            to="/main"
+            className={pathname === "/main" ? "selected" : ""}
           >
             HOME
           </MenuButton>
