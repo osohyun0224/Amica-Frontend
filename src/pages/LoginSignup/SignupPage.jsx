@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link , useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import InputForm from "../components/InputForm.jsx";
-import BackButton from "../assets/images/getback.png";
-import Popup from "../components/Popup.jsx";
+import InputForm from "../../components/InputForm.jsx";
+import BackButton from "../../assets/images/getback.png";
+import Popup from "../../components/Popup.jsx";
 
 
 const PageContainer = styled.div`

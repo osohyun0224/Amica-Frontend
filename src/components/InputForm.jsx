@@ -1,4 +1,5 @@
-import styled from "styled-components";
+/** @jsxImportSource @emotion/react */
+import styled from '@emotion/styled';
 
 const InputFormContainer = styled.div`
   display: flex;

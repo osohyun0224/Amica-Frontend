@@ -1,8 +1,8 @@
 import { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import InputForm from "../components/InputForm.jsx";
-import BackButton from "../assets/images/getback.png";
+import InputForm from "../../components/InputForm.jsx";
+import BackButton from "../../assets/images/getback.png";
 
 const PageContainer = styled.div`
   display: flex;
@@ -126,7 +126,7 @@ function PasswordPage() {
         비밀번호는 8자리 이상, 영문, 숫자가 포함되어야 하며, 비밀번호 확인란과
         일치해야 합니다.
       </ConditionText>
-      <BottomBox to="/" $isValid={isValid}>
+      <BottomBox to="/compelete" $isValid={isValid}>
         다음
       </BottomBox>
     </PageContainer>
