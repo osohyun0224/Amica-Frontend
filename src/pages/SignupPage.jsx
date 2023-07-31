@@ -15,8 +15,8 @@ const PageContainer = styled.div`
   padding-top: 30px;
   padding-left: 50px;
   position: relative;  
+  z-index: 1;
 `;
-
 const BackButtonImage = styled.img`
   position: absolute;
   margin-top: 0px;
@@ -63,14 +63,15 @@ const BottomBox = styled(Link)`
 
 const Overlay = styled.div`
   display: ${props => props.show ? 'block' : 'none'};
-  position: fixed;  
+  position: absolute;  
   top: 0;
   left: 0;
-  width: 100vw; 
-  height: 100vh; 
+  width: 100%; 
+  height: 100%; 
   background-color: rgba(0, 0, 0, 0.3);
-  z-index: 999;
+  z-index: 2;
 `;
+
 
 const PopupBox = styled.div`
   display: ${props => props.show ? 'block' : 'none'};
@@ -78,8 +79,9 @@ const PopupBox = styled.div`
   bottom: 84px;
   width: 100%; 
   height: 250px; 
-  background-color: white;
   margin-left: -50px;
+  background-color: white;
+  z-index: 3;
 `;
 
 
@@ -92,7 +94,6 @@ function SignupPage() {
 
   return (
     <PageContainer>
-      <Overlay show={showPopup} onClick={closePopup} />
       <Link to="/">
         <BackButtonImage src={BackButton} alt="Back" />
       </Link>
@@ -101,8 +102,9 @@ function SignupPage() {
         필요한 서비스를 받을 수 있는 <br /> 이메일 주소를 입력하세요.
       </SignupText>
       <EmailInput label="이메일" placeholder="이메일 주소를 입력하세요." type="email"/>
+      <Overlay show={showPopup} onClick={closePopup} />
       <PopupBox show={showPopup}>
-        {/* 팝업 박스 내용을 여기에 채워주세요 */}
+        {/* .. */}
       </PopupBox>
       <BottomBox to="/" onClick={(e) => { e.preventDefault(); setShowPopup(true); }}>다음</BottomBox>
     </PageContainer>
