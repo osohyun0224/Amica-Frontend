@@ -4,6 +4,7 @@ import Home from "./pages/Home.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
 import PasswordPage from "./pages/PasswordPage.jsx";
+import SignCompelete from "./pages/SignCompelete.jsx";
 import LedgerPage from "./pages/LedgerPage.jsx";
 import MyPetPage from "./pages/MyPetPage.jsx";
 import HeaderPage from "./pages/HeaderPage.jsx";
@@ -24,6 +25,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/password" element={<PasswordPage />} />
+          <Route path="/compelete" element={<SignCompelete />} />
           <Route element={<HeaderPage />}>
             <Route path="/main" element={<Main />} />
             <Route path="/ledger" element={<LedgerPage />} />
