@@ -71,6 +71,7 @@ const Content = styled.div`
 
 function HeaderPage() {
   const { pathname } = useLocation();
+  const getSelected = (value) => (pathname === value ? "selected" : "");
   return (
     <>
       <Header>
@@ -79,22 +80,13 @@ function HeaderPage() {
           <Image src={ProfileImage} alt="프로필" />
         </TitleWrapper>
         <MenuWrapper>
-          <MenuButton
-            to="/main"
-            className={pathname === "/main" ? "selected" : ""}
-          >
+          <MenuButton to="/main" className={getSelected("/main")}>
             HOME
           </MenuButton>
-          <MenuButton
-            to="/ledger"
-            className={pathname === "/ledger" ? "selected" : ""}
-          >
+          <MenuButton to="/ledger" className={getSelected("/ledger")}>
             가계부
           </MenuButton>
-          <MenuButton
-            to="/my-pet"
-            className={pathname === "/my-pet" ? "selected" : ""}
-          >
+          <MenuButton to="/my-pet" className={getSelected("/my-pet")}>
             My Pet
           </MenuButton>
         </MenuWrapper>
