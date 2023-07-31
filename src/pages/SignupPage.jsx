@@ -136,7 +136,7 @@ function SignupPage() {
       <Popup showPopup={showPopup} setShowPopup={setShowPopup}>
         <CheckboxContainer>
           <Checkbox type="checkbox" id="agree" checked={agree} onChange={toggleCheckbox} />
-          <CheckboxLabel htmlFor="agree">전체 내용에 동의합니다.</CheckboxLabel>
+          <CheckboxLabel htmlFor="agree">전체동의</CheckboxLabel>
         </CheckboxContainer>
       </Popup>
       <BottomBox to="/" onClick={(e) => { e.preventDefault(); setShowPopup(true); }}>다음</BottomBox>

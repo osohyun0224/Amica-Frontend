@@ -1,7 +1,7 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
-import ProfileImage from "../assets/profile.png";
+import ProfileImage from "../assets/images/profile.png";
 
 const Header = styled.div`
   position: relative;
