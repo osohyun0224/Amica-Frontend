@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import BackButton from "../assets/images/getback.png";
 import InputForm from "../components/InputForm.jsx";
+import BackButton from "../assets/images/getback.png";
+//import XButton from "../assets/images/x.png";
 
 const PageContainer = styled.div`
   display: flex;
@@ -87,17 +88,64 @@ const PopupBox = styled.div`
   box-sizing: border-box; 
 `;
 
+
 const CheckboxContainer = styled.div`
   display: flex;
   align-items: center;
 `;
 
+
 const CheckboxLabel = styled.label`
-  margin-left: 10px; // Spacing between checkbox and label
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  font-size: 22px;
+  user-select: none;
+
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 20px;
+    width: 20px;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 50%;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #000000;
+  }
 `;
+
+const Checkbox = styled.input`
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+
+  &:checked ~ ${CheckboxLabel}:after {
+    display: block;
+  }
+`;
+
+
+
 function SignupPage() {
   const [showPopup, setShowPopup] = useState(false);
-  const [agree, setAgree] = useState(false); // State for checkbox
+  const [agree, setAgree] = useState(false); 
 
   const closePopup = () => {
     setShowPopup(false);
@@ -120,10 +168,10 @@ function SignupPage() {
       <Overlay show={showPopup} onClick={closePopup} />
       <PopupBox show={showPopup}>
         <CheckboxContainer>
-          <input type="checkbox" checked={agree} onChange={toggleCheckbox} />
-          <CheckboxLabel>전체 내용에 동의합니다.</CheckboxLabel>
+          <Checkbox type="checkbox" id="agree" checked={agree} onChange={toggleCheckbox} />
+          <CheckboxLabel htmlFor="agree">전체 내용에 동의합니다.</CheckboxLabel>
         </CheckboxContainer>
-        {/* 음하하하 */}
+        {/*음하하하하 */}
       </PopupBox>
       <BottomBox to="/" onClick={(e) => { e.preventDefault(); setShowPopup(true); }}>다음</BottomBox>
     </PageContainer>
