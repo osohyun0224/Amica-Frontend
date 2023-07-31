@@ -16,9 +16,11 @@
     "@reduxjs/toolkit": "^1.9.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-indiana-drag-scroll": "^3.0.3-alpha",
     "react-redux": "^8.1.1",
     "react-router-dom": "^6.14.2",
     "redux": "^4.2.1",
+    "simplebar-react": "^3.2.4",
     "styled-components": "^6.0.5"
   },
   "devDependencies": {
