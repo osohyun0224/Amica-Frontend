@@ -1,29 +1,30 @@
+/** @jsxImportSource @emotion/react */
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import XButton from "../assets/images/x.png";
+import styled from "@emotion/styled";
 
 const Overlay = styled.div`
-  display: ${props => props.show ? 'block' : 'none'};
-  position: absolute;  
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100%; 
-  height: 100%; 
+  width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 2;
+  display: ${(props) => (props.show ? 'block' : 'none')};
 `;
 
 const PopupBox = styled.div`
-  display: ${props => props.show ? 'block' : 'none'};
-  position: absolute;  
+  position: absolute;
   bottom: 84px;
-  width: 100%; 
-  height: 250px; 
-  margin-left: -50px;
+  width: 100%;
+  height: 250px;
   background-color: white;
   z-index: 3;
   padding: 20px;
-  box-sizing: border-box; 
+  box-sizing: border-box;
+  margin-left: -50px;
+  display: ${(props) => (props.show ? 'block' : 'none')};
 `;
 
 const XButtonImage = styled.img`
