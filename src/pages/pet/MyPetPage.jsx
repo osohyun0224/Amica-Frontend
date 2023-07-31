@@ -72,6 +72,7 @@ const PetListItem = ({ src, name, onClick }) => {
 PetListItem.propTypes = {
   src: PropTypes.string,
   name: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 const MyPetPage = () => {
@@ -126,7 +127,7 @@ const MyPetPage = () => {
     },
   ];
 
-  let [pet, setPet] = useState(petList[0]);
+  const [pet, setPet] = useState(petList[0]);
 
   return (
     <Container>
@@ -140,7 +141,6 @@ const MyPetPage = () => {
             src={item.image}
             name={item.name}
             onClick={() => {
-              console.log("1");
               setPet(item);
             }}
           />
