@@ -32,16 +32,13 @@ const XButtonImage = styled.img`
   right: 10px;
   cursor: pointer;
 `;
-const Popup = ({ showPopup, setShowPopup, children }) => {
-  const closePopup = () => {
-    setShowPopup(false);
-  };
 
+const Popup = ({ showPopup, handleClose, children }) => {
   return (
     <>
-      <Overlay show={showPopup} onClick={closePopup} />
+      <Overlay show={showPopup} onClick={handleClose} />
       <PopupBox show={showPopup}>
-        <XButtonImage src={XButton} alt="Close" onClick={closePopup} /> 
+        <XButtonImage src={XButton} alt="Close" onClick={handleClose} /> 
         {children}
       </PopupBox>
     </>
@@ -50,7 +47,7 @@ const Popup = ({ showPopup, setShowPopup, children }) => {
 
 Popup.propTypes = {
   showPopup: PropTypes.bool.isRequired,
-  setShowPopup: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
   children: PropTypes.node
 };
 
