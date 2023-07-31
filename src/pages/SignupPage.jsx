@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import BackButton from "../assets/images/getback.png";
@@ -60,9 +61,38 @@ const BottomBox = styled(Link)`
   margin-left: -50px;
 `;
 
+const Overlay = styled.div`
+  display: ${props => props.show ? 'block' : 'none'};
+  position: fixed;  
+  top: 0;
+  left: 0;
+  width: 100vw; 
+  height: 100vh; 
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 999;
+`;
+
+const PopupBox = styled.div`
+  display: ${props => props.show ? 'block' : 'none'};
+  position: absolute;  
+  bottom: 84px;
+  width: 100%; 
+  height: 250px; 
+  background-color: white;
+  margin-left: -50px;
+`;
+
+
 function SignupPage() {
+  const [showPopup, setShowPopup] = useState(false);
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
   return (
     <PageContainer>
+      <Overlay show={showPopup} onClick={closePopup} />
       <Link to="/">
         <BackButtonImage src={BackButton} alt="Back" />
       </Link>
@@ -71,7 +101,10 @@ function SignupPage() {
         필요한 서비스를 받을 수 있는 <br /> 이메일 주소를 입력하세요.
       </SignupText>
       <EmailInput label="이메일" placeholder="이메일 주소를 입력하세요." type="email"/>
-      <BottomBox to="/">다음</BottomBox>
+      <PopupBox show={showPopup}>
+        {/* 팝업 박스 내용을 여기에 채워주세요 */}
+      </PopupBox>
+      <BottomBox to="/" onClick={(e) => { e.preventDefault(); setShowPopup(true); }}>다음</BottomBox>
     </PageContainer>
   );
 }
