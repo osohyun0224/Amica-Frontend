@@ -34,14 +34,13 @@ const BottomLine = styled.div`
 `;
 
 // eslint-disable-next-line react/prop-types
-function InputField({ label, placeholder, type }) {
+function InputField({ label, placeholder, type, onChange, value }) { 
   return (
     <InputFormContainer>
       <Label>{label}</Label>
-      <Input placeholder={placeholder} type={type} />
+      <Input placeholder={placeholder} type={type} onChange={onChange} value={value} /> 
       <BottomLine />
     </InputFormContainer>
   );
 }
-
 export default InputField;
