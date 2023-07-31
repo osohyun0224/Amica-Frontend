@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import InputForm from "../components/InputForm.jsx";
 import BackButton from "../assets/images/getback.png";
-//import XButton from "../assets/images/x.png";
+import XButton from "../assets/images/x.png";
 
 const PageContainer = styled.div`
   display: flex;
@@ -99,7 +99,7 @@ const CheckboxLabel = styled.label`
   position: relative;
   padding-left: 30px;
   cursor: pointer;
-  font-size: 22px;
+  font-size: 18px;
   user-select: none;
 
   &:before {
@@ -141,7 +141,12 @@ const Checkbox = styled.input`
   }
 `;
 
-
+const XButtonImage = styled.img`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+`;
 
 function SignupPage() {
   const [showPopup, setShowPopup] = useState(false);
@@ -167,11 +172,11 @@ function SignupPage() {
       <EmailInput label="이메일" placeholder="이메일 주소를 입력하세요." type="email"/>
       <Overlay show={showPopup} onClick={closePopup} />
       <PopupBox show={showPopup}>
+        <XButtonImage src={XButton} alt="Close" onClick={closePopup} /> 
         <CheckboxContainer>
           <Checkbox type="checkbox" id="agree" checked={agree} onChange={toggleCheckbox} />
           <CheckboxLabel htmlFor="agree">전체 내용에 동의합니다.</CheckboxLabel>
         </CheckboxContainer>
-        {/*음하하하하 */}
       </PopupBox>
       <BottomBox to="/" onClick={(e) => { e.preventDefault(); setShowPopup(true); }}>다음</BottomBox>
     </PageContainer>
