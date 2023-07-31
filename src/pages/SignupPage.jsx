@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import InputForm from "../components/InputForm.jsx";
 import BackButton from "../assets/images/getback.png";
-import XButton from "../assets/images/x.png";
+import Popup from "../components/Popup.jsx";
 
 const PageContainer = styled.div`
   display: flex;
@@ -63,37 +63,10 @@ const BottomBox = styled(Link)`
   margin-left: -50px;
 `;
 
-const Overlay = styled.div`
-  display: ${props => props.show ? 'block' : 'none'};
-  position: absolute;  
-  top: 0;
-  left: 0;
-  width: 100%; 
-  height: 100%; 
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: 2;
-`;
-
-
-const PopupBox = styled.div`
-  display: ${props => props.show ? 'block' : 'none'};
-  position: absolute;  
-  bottom: 84px;
-  width: 100%; 
-  height: 250px; 
-  margin-left: -50px;
-  background-color: white;
-  z-index: 3;
-  padding: 20px;
-  box-sizing: border-box; 
-`;
-
-
 const CheckboxContainer = styled.div`
   display: flex;
   align-items: center;
 `;
-
 
 const CheckboxLabel = styled.label`
   position: relative;
@@ -141,20 +114,10 @@ const Checkbox = styled.input`
   }
 `;
 
-const XButtonImage = styled.img`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-`;
 
 function SignupPage() {
   const [showPopup, setShowPopup] = useState(false);
   const [agree, setAgree] = useState(false); 
-
-  const closePopup = () => {
-    setShowPopup(false);
-  };
 
   const toggleCheckbox = () => {
     setAgree(!agree);
@@ -170,14 +133,12 @@ function SignupPage() {
         필요한 서비스를 받을 수 있는 <br /> 이메일 주소를 입력하세요.
       </SignupText>
       <EmailInput label="이메일" placeholder="이메일 주소를 입력하세요." type="email"/>
-      <Overlay show={showPopup} onClick={closePopup} />
-      <PopupBox show={showPopup}>
-        <XButtonImage src={XButton} alt="Close" onClick={closePopup} /> 
+      <Popup showPopup={showPopup} setShowPopup={setShowPopup}>
         <CheckboxContainer>
           <Checkbox type="checkbox" id="agree" checked={agree} onChange={toggleCheckbox} />
           <CheckboxLabel htmlFor="agree">전체 내용에 동의합니다.</CheckboxLabel>
         </CheckboxContainer>
-      </PopupBox>
+      </Popup>
       <BottomBox to="/" onClick={(e) => { e.preventDefault(); setShowPopup(true); }}>다음</BottomBox>
     </PageContainer>
   );
