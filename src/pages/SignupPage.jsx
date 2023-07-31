@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import BackButton from "../assets/images/getback.png";
 import InputForm from "../components/InputForm.jsx";
+import BackButton from "../assets/images/getback.png";
+import Popup from "../components/Popup.jsx";
 
 const PageContainer = styled.div`
   display: flex;
@@ -14,8 +16,8 @@ const PageContainer = styled.div`
   padding-top: 30px;
   padding-left: 50px;
   position: relative;  
+  z-index: 1;
 `;
-
 const BackButtonImage = styled.img`
   position: absolute;
   margin-top: 0px;
@@ -43,6 +45,7 @@ const SignupText = styled.p`
 `;
 
 const EmailInput = styled(InputForm)`
+//혹시 몰라서 일단 스타일 넣어둠.
 `;
 
 const BottomBox = styled(Link)`
@@ -60,7 +63,66 @@ const BottomBox = styled(Link)`
   margin-left: -50px;
 `;
 
+const CheckboxContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const CheckboxLabel = styled.label`
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  font-size: 18px;
+  user-select: none;
+
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 20px;
+    width: 20px;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 50%;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #000000;
+  }
+`;
+
+const Checkbox = styled.input`
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+
+  &:checked ~ ${CheckboxLabel}:after {
+    display: block;
+  }
+`;
+
+
 function SignupPage() {
+  const [showPopup, setShowPopup] = useState(false);
+  const [agree, setAgree] = useState(false); 
+
+  const toggleCheckbox = () => {
+    setAgree(!agree);
+  };
+
   return (
     <PageContainer>
       <Link to="/">
@@ -71,7 +133,13 @@ function SignupPage() {
         필요한 서비스를 받을 수 있는 <br /> 이메일 주소를 입력하세요.
       </SignupText>
       <EmailInput label="이메일" placeholder="이메일 주소를 입력하세요." type="email"/>
-      <BottomBox to="/">다음</BottomBox>
+      <Popup showPopup={showPopup} setShowPopup={setShowPopup}>
+        <CheckboxContainer>
+          <Checkbox type="checkbox" id="agree" checked={agree} onChange={toggleCheckbox} />
+          <CheckboxLabel htmlFor="agree">전체 내용에 동의합니다.</CheckboxLabel>
+        </CheckboxContainer>
+      </Popup>
+      <BottomBox to="/" onClick={(e) => { e.preventDefault(); setShowPopup(true); }}>다음</BottomBox>
     </PageContainer>
   );
 }
