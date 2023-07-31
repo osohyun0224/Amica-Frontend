@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import InputForm from "../components/InputForm.jsx";
+import InputForm from "../../components/InputForm.jsx";
 import BackButton from "../assets/images/getback.png";
 
 const PageContainer = styled.div`
