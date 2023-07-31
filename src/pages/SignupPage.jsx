@@ -44,6 +44,7 @@ const SignupText = styled.p`
 `;
 
 const EmailInput = styled(InputForm)`
+//혹시 몰라서 일단 스타일 넣어둠.
 `;
 
 const BottomBox = styled(Link)`
@@ -82,14 +83,28 @@ const PopupBox = styled.div`
   margin-left: -50px;
   background-color: white;
   z-index: 3;
+  padding: 20px;
+  box-sizing: border-box; 
 `;
 
+const CheckboxContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
+const CheckboxLabel = styled.label`
+  margin-left: 10px; // Spacing between checkbox and label
+`;
 function SignupPage() {
   const [showPopup, setShowPopup] = useState(false);
+  const [agree, setAgree] = useState(false); // State for checkbox
 
   const closePopup = () => {
     setShowPopup(false);
+  };
+
+  const toggleCheckbox = () => {
+    setAgree(!agree);
   };
 
   return (
@@ -104,7 +119,11 @@ function SignupPage() {
       <EmailInput label="이메일" placeholder="이메일 주소를 입력하세요." type="email"/>
       <Overlay show={showPopup} onClick={closePopup} />
       <PopupBox show={showPopup}>
-        {/* .. */}
+        <CheckboxContainer>
+          <input type="checkbox" checked={agree} onChange={toggleCheckbox} />
+          <CheckboxLabel>전체 내용에 동의합니다.</CheckboxLabel>
+        </CheckboxContainer>
+        {/* 음하하하 */}
       </PopupBox>
       <BottomBox to="/" onClick={(e) => { e.preventDefault(); setShowPopup(true); }}>다음</BottomBox>
     </PageContainer>
