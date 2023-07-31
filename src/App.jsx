@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
-import LoginPage from "./pages/LoginPage.jsx";
-import SignupPage from "./pages/SignupPage.jsx";
-import PasswordPage from "./pages/PasswordPage.jsx";
-import SignCompelete from "./pages/SignCompelete.jsx";
+import LoginPage from "./pages/LoginSignup/LoginPage.jsx";
+import SignupPage from "./pages/LoginSignup/SignupPage.jsx";
+import PasswordPage from "./pages/LoginSignup/PasswordPage.jsx";
+import SignCompelete from "./pages/LoginSignup/SignCompelete.jsx";
 import LedgerPage from "./pages/LedgerPage.jsx";
 import MyPetPage from "./pages/MyPetPage.jsx";
 import HeaderPage from "./pages/HeaderPage.jsx";
