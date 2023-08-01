@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import styled from '@emotion/styled';
+import styled from "styled-components";
 import PropTypes from "prop-types";
 
 const StyledButton = styled.button`
