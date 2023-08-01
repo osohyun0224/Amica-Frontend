@@ -65,72 +65,86 @@ const BottomBox = styled(Link)`
 `;
 
 const CheckboxContainer = styled.div`
-  display: flex;
-  align-items: center;
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+  user-select: none;
+`;
+
+const CheckboxInput = styled.input`
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
 `;
 
 const CheckboxLabel = styled.label`
   position: relative;
-  padding-left: 30px;
-  cursor: pointer;
-  font-size: 18px;
-  user-select: none;
+  padding-left: 25px;
 
   &:before {
     content: "";
     position: absolute;
     left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 20px;
-    width: 20px;
-    background-color: #ffffff;
-    border: 1px solid #000000;
-    border-radius: 50%;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #667080;
+    border-radius: 3px;
+  }
+
+  ${CheckboxInput}:checked ~ &:before {
+    background-color: #667080;
   }
 
   &:after {
     content: "";
     position: absolute;
     display: none;
-    left: 6px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #000000;
   }
-`;
 
-const Checkbox = styled.input`
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-
-  &:checked ~ ${CheckboxLabel}:after {
+  ${CheckboxInput}:checked ~ &:after {
     display: block;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
   }
 `;
 
+
+// const Checkbox = styled.input`
+//   position: absolute;
+//   opacity: 0;
+//   cursor: pointer;
+//   height: 0;
+//   width: 0;
+
+//   &:checked ~ ${CheckboxLabel}:after {
+//     display: block;
+//   }
+// `;
 
 function SignupPage() {
   const [showPopup, setShowPopup] = useState(false);
-  const [agree, setAgree] = useState(false); 
+  const [agree, setAgree] = useState(false);
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const toggleCheckbox = () => {
     setAgree(!agree);
   };
 
   const handleNextClick = (e) => {
-    e.preventDefault(); 
-    if (agree) { 
+    e.preventDefault();
+    if (agree) {
       navigate('/password');
-    } else { 
+    } else {
       setShowPopup(true);
     }
   }
@@ -151,7 +165,7 @@ function SignupPage() {
       <EmailInput label="이메일" placeholder="이메일 주소를 입력하세요." type="email"/>
       <Popup showPopup={showPopup} handleClose={handleClosePopup}>
         <CheckboxContainer>
-          <Checkbox type="checkbox" id="agree" checked={agree} onChange={toggleCheckbox} />
+          <CheckboxInput type="checkbox" id="agree" checked={agree} onChange={toggleCheckbox} />
           <CheckboxLabel htmlFor="agree">전체동의</CheckboxLabel>
         </CheckboxContainer>
       </Popup>
