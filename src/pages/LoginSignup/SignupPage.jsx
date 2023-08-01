@@ -81,7 +81,7 @@ const CheckboxContainer = styled.div`
 `;
 
 const CheckboxItem = styled.div`
-  border-bottom: ${props => props.border ? '1px solid black' : 'none'};
+  border-bottom: ${props => props.border === true ? '1px solid black' : 'none'};
   padding-bottom: 10px;
   margin-top: 10px; 
 `;
@@ -108,7 +108,7 @@ const CheckboxLabel = styled.label`
   }
 
   &:after {
-    content: "";
+    content: "";  
     position: absolute;
     display: none;
   }
@@ -145,21 +145,32 @@ function SignupPage() {
   const [agreeMarketing, setAgreeMarketing] = useState(false);
 
   const toggleCheckboxTerms = () => {
-    setAgreeTerms(!agreeTerms);
+    const newAgreeTermsState = !agreeTerms;
+    setAgreeTerms(newAgreeTermsState);
+    if (!newAgreeTermsState) setAgree(false);
   };
-
+  
   const toggleCheckboxPrivacy = () => {
-    setAgreePrivacy(!agreePrivacy);
+    const newAgreePrivacyState = !agreePrivacy;
+    setAgreePrivacy(newAgreePrivacyState);
+    if (!newAgreePrivacyState) setAgree(false);
   };
-
+  
   const toggleCheckboxMarketing = () => {
-    setAgreeMarketing(!agreeMarketing);
+    const newAgreeMarketingState = !agreeMarketing;
+    setAgreeMarketing(newAgreeMarketingState);
+    if (!newAgreeMarketingState) setAgree(false);
   };
+  
 
   const navigate = useNavigate();
 
   const toggleCheckbox = () => {
-    setAgree(!agree);
+    const newAgreeState = !agree;
+    setAgree(newAgreeState);
+    setAgreeTerms(newAgreeState);
+    setAgreePrivacy(newAgreeState);
+    setAgreeMarketing(newAgreeState);
   };
 
   const handleNextClick = (e) => {
