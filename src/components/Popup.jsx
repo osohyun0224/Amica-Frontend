@@ -1,7 +1,6 @@
-/** @jsxImportSource @emotion/react */
 import PropTypes from "prop-types";
 import XButton from "../assets/images/x.png";
-import styled from "@emotion/styled";
+import styled from "styled-components";
 
 const Overlay = styled.div`
   position: absolute;
