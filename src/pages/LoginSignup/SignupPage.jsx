@@ -81,9 +81,10 @@ const CheckboxContainer = styled.div`
 `;
 
 const CheckboxItem = styled.div`
-  border-bottom: ${props => props.border === true ? '1px solid black' : 'none'};
+  border-bottom: ${(props) =>
+    props.border === true ? "1px solid black" : "none"};
   padding-bottom: 10px;
-  margin-top: 10px; 
+  margin-top: 10px;
 `;
 
 const CheckboxLabel = styled.label`
@@ -108,7 +109,7 @@ const CheckboxLabel = styled.label`
   }
 
   &:after {
-    content: "";  
+    content: "";
     position: absolute;
     display: none;
   }
@@ -124,6 +125,7 @@ const CheckboxLabel = styled.label`
     transform: rotate(45deg);
   }
 `;
+
 
 // const Checkbox = styled.input`
 //   position: absolute;
@@ -149,19 +151,18 @@ function SignupPage() {
     setAgreeTerms(newAgreeTermsState);
     if (!newAgreeTermsState) setAgree(false);
   };
-  
+
   const toggleCheckboxPrivacy = () => {
     const newAgreePrivacyState = !agreePrivacy;
     setAgreePrivacy(newAgreePrivacyState);
     if (!newAgreePrivacyState) setAgree(false);
   };
-  
+
   const toggleCheckboxMarketing = () => {
     const newAgreeMarketingState = !agreeMarketing;
     setAgreeMarketing(newAgreeMarketingState);
     if (!newAgreeMarketingState) setAgree(false);
   };
-  
 
   const navigate = useNavigate();
 
@@ -175,7 +176,7 @@ function SignupPage() {
 
   const handleNextClick = (e) => {
     e.preventDefault();
-    if (agree) {
+    if (agreeTerms && agreePrivacy) {
       navigate("/password");
     } else {
       setShowPopup(true);
@@ -227,7 +228,9 @@ function SignupPage() {
               checked={agreePrivacy}
               onChange={toggleCheckboxPrivacy}
             />
-            <CheckboxLabel htmlFor="privacy">개인정보 수집 및 이용</CheckboxLabel>
+            <CheckboxLabel htmlFor="privacy">
+              개인정보 수집 및 이용
+            </CheckboxLabel>
           </CheckboxItem>
           <CheckboxItem>
             <CheckboxInput
@@ -242,7 +245,11 @@ function SignupPage() {
           </CheckboxItem>
         </CheckboxContainer>
       </Popup>
-      <BottomBox to="/" onClick={handleNextClick} active={agree ? 1 : 0}>
+      <BottomBox
+        to="/"
+        onClick={handleNextClick}
+        active={agreeTerms && agreePrivacy ? 1 : 0}
+      >
         다음
       </BottomBox>
     </PageContainer>
