@@ -1,22 +1,21 @@
 import { useState } from "react";
-import { Link , useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import InputForm from "../../components/InputForm.jsx";
 import BackButton from "../../assets/images/getback.png";
 import Popup from "../../components/Popup.jsx";
 
-
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;  
+  align-items: flex-start;
   background-color: white;
   min-height: 100vh;
   margin: 0 auto;
   max-width: 1000px;
   padding-top: 30px;
   padding-left: 50px;
-  position: relative;  
+  position: relative;
   z-index: 1;
 `;
 const BackButtonImage = styled.img`
@@ -46,30 +45,22 @@ const SignupText = styled.p`
 `;
 
 const EmailInput = styled(InputForm)`
-//혹시 몰라서 일단 스타일 넣어둠.
+  //혹시 몰라서 일단 스타일 넣어둠.
 `;
 
 const BottomBox = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;  
+  width: 100%;
   height: 84px;
   background-color: #667080;
   color: white;
   text-align: center;
-  position: absolute;  
+  position: absolute;
   bottom: 0;
   text-decoration: none;
   margin-left: -50px;
-`;
-
-const CheckboxContainer = styled.div`
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  cursor: pointer;
-  user-select: none;
 `;
 
 const CheckboxInput = styled.input`
@@ -79,16 +70,33 @@ const CheckboxInput = styled.input`
   height: 0;
   width: 0;
 `;
+const CheckboxContainer = styled.div`
+  display: block;
+  position: relative;
+  padding-left: 0px;
+  cursor: pointer;
+  user-select: none;
+  padding-bottom: 15px;
+  margin-top: 10px;
+`;
+
+const CheckboxItem = styled.div`
+  border-bottom: ${props => props.border ? '1px solid black' : 'none'};
+  padding-bottom: 10px;
+  margin-top: 10px; 
+`;
 
 const CheckboxLabel = styled.label`
-  position: relative;
-  padding-left: 25px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 10px;
 
   &:before {
     content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: text-top;
     width: 18px;
     height: 18px;
     border: 1px solid #667080;
@@ -107,8 +115,8 @@ const CheckboxLabel = styled.label`
 
   ${CheckboxInput}:checked ~ &:after {
     display: block;
-    left: 6px;
-    top: 2px;
+    left: 9px;
+    top: 13px;
     width: 5px;
     height: 10px;
     border: solid white;
@@ -116,7 +124,6 @@ const CheckboxLabel = styled.label`
     transform: rotate(45deg);
   }
 `;
-
 
 // const Checkbox = styled.input`
 //   position: absolute;
@@ -133,6 +140,21 @@ const CheckboxLabel = styled.label`
 function SignupPage() {
   const [showPopup, setShowPopup] = useState(false);
   const [agree, setAgree] = useState(false);
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [agreePrivacy, setAgreePrivacy] = useState(false);
+  const [agreeMarketing, setAgreeMarketing] = useState(false);
+
+  const toggleCheckboxTerms = () => {
+    setAgreeTerms(!agreeTerms);
+  };
+
+  const toggleCheckboxPrivacy = () => {
+    setAgreePrivacy(!agreePrivacy);
+  };
+
+  const toggleCheckboxMarketing = () => {
+    setAgreeMarketing(!agreeMarketing);
+  };
 
   const navigate = useNavigate();
 
@@ -143,15 +165,15 @@ function SignupPage() {
   const handleNextClick = (e) => {
     e.preventDefault();
     if (agree) {
-      navigate('/password');
+      navigate("/password");
     } else {
       setShowPopup(true);
     }
-  }
+  };
 
   const handleClosePopup = () => {
     setShowPopup(false);
-  }
+  };
 
   return (
     <PageContainer>
@@ -162,14 +184,56 @@ function SignupPage() {
       <SignupText>
         필요한 서비스를 받을 수 있는 <br /> 이메일 주소를 입력하세요.
       </SignupText>
-      <EmailInput label="이메일" placeholder="이메일 주소를 입력하세요." type="email"/>
+      <EmailInput
+        label="이메일"
+        placeholder="이메일 주소를 입력하세요."
+        type="email"
+      />
       <Popup showPopup={showPopup} handleClose={handleClosePopup}>
         <CheckboxContainer>
-          <CheckboxInput type="checkbox" id="agree" checked={agree} onChange={toggleCheckbox} />
-          <CheckboxLabel htmlFor="agree">전체동의</CheckboxLabel>
+          <CheckboxItem border>
+            <CheckboxInput
+              type="checkbox"
+              id="agree"
+              checked={agree}
+              onChange={toggleCheckbox}
+            />
+            <CheckboxLabel htmlFor="agree"> 전체동의</CheckboxLabel>
+          </CheckboxItem>
+          <CheckboxItem>
+            <CheckboxInput
+              type="checkbox"
+              id="terms"
+              checked={agreeTerms}
+              onChange={toggleCheckboxTerms}
+            />
+            <CheckboxLabel htmlFor="terms">서비스 이용 약관</CheckboxLabel>
+          </CheckboxItem>
+          <CheckboxItem>
+            <CheckboxInput
+              type="checkbox"
+              id="privacy"
+              checked={agreePrivacy}
+              onChange={toggleCheckboxPrivacy}
+            />
+            <CheckboxLabel htmlFor="privacy">개인정보 수집 및 이용</CheckboxLabel>
+          </CheckboxItem>
+          <CheckboxItem>
+            <CheckboxInput
+              type="checkbox"
+              id="marketing"
+              checked={agreeMarketing}
+              onChange={toggleCheckboxMarketing}
+            />
+            <CheckboxLabel htmlFor="marketing">
+              혜택 및 마케팅 정보 수신 동의 (선택)
+            </CheckboxLabel>
+          </CheckboxItem>
         </CheckboxContainer>
       </Popup>
-      <BottomBox to="/" onClick={handleNextClick} active={agree ? 1 : 0}>다음</BottomBox>
+      <BottomBox to="/" onClick={handleNextClick} active={agree ? 1 : 0}>
+        다음
+      </BottomBox>
     </PageContainer>
   );
 }
