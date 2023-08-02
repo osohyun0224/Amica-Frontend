@@ -4,13 +4,13 @@ import { styled } from "styled-components";
 const Container = styled.div`
   width: 100%;
   height: 20px;
-  margin: 8px 0;
+  margin: 10px 0;
   display: flex;
   gap: 10px;
   align-items: center;
   justify-content: center;
   color: rgba(102, 112, 128, 1);
-  font-size: 13px;
+  font-size: 15px;
 `;
 
 const Icon = styled.div`

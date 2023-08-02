@@ -13,7 +13,8 @@ const Container = styled.div`
 
 const Text = styled.p`
   color: rgba(21, 21, 21, 0.5);
-  font-size: 13px;
+  font-size: 15px;
+  font-weight: 400;
 `;
 
 const Button = styled.button`

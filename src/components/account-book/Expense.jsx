@@ -13,6 +13,7 @@ const Heading = styled.p`
 `;
 
 const TextContainer = styled.div`
+  margin-top: 4px;
   display: flex;
   align-items: center;
   justify-content: space-between;
