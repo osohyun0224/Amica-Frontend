@@ -71,12 +71,19 @@ const BottomBox = styled(Link)`
 const RequirementsContainer = styled.div`
   display: flex;
   justify-content: flex-start;
+  margin-top: -30px;
 `;
 
 const RequirementText = styled.span`
-  font-size: 10px;
+  font-size: 14px;
   color: ${(props) => (props.$isValid ? "green" : "red")};
   margin-right: 10px;
+`;
+
+const ConfirmationText = styled.span`
+  font-size: 14px;
+  color: ${(props) => (props.$isValid ? "green" : "red")};
+  margin-top: 10px;
 `;
 
 function PasswordPage() {
@@ -87,6 +94,7 @@ function PasswordPage() {
   const [lengthRequirement, setLengthRequirement] = useState(false);
   const [letterRequirement, setLetterRequirement] = useState(false);
   const [numberRequirement, setNumberRequirement] = useState(false);
+  const [isPasswordMatch, setIsPasswordMatch] = useState(false);
 
   const handlePasswordChange = (e) => {
     const passwordValue = e.target.value;
@@ -101,18 +109,20 @@ function PasswordPage() {
   };
 
   useEffect(() => { 
+    const checkPassword = (password, passwordCheck) => {
+      const matchRequirement = password === passwordCheck;
+      setIsValid(
+        lengthRequirement &&
+          letterRequirement &&
+          numberRequirement &&
+          matchRequirement
+      );
+      setIsPasswordMatch(matchRequirement); 
+    };
+    
     checkPassword(password, passwordCheck);
-  }, [password, passwordCheck]); 
-
-  const checkPassword = (password, passwordCheck) => {
-    const matchRequirement = password === passwordCheck;
-    setIsValid(
-      lengthRequirement &&
-        letterRequirement &&
-        numberRequirement &&
-        matchRequirement
-    );
-  };
+  }, [password, passwordCheck, lengthRequirement, letterRequirement, numberRequirement]); 
+ 
 
   return (
     <PageContainer>
@@ -142,6 +152,9 @@ function PasswordPage() {
         onChange={handlePasswordCheckChange}
         value={passwordCheck} 
       />
+      <ConfirmationText $isValid={isPasswordMatch}>
+        비밀번호 확인 {isPasswordMatch ? "✓" : ""}
+      </ConfirmationText>
       <BottomBox to="/complete" $isValid={isValid}>
         다음
       </BottomBox>
