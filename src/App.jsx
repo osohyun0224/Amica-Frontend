@@ -5,7 +5,7 @@ import LoginPage from "./pages/LoginSignup/LoginPage.jsx";
 import SignupPage from "./pages/LoginSignup/SignupPage.jsx";
 import PasswordPage from "./pages/LoginSignup/PasswordPage.jsx";
 import SignCompelete from "./pages/LoginSignup/SignCompelete.jsx";
-import LedgerPage from "./pages/LedgerPage.jsx";
+import AccountBookPage from "./pages/account-book/AccountBookPage.jsx";
 import MyPetPage from "./pages/my-pet/MyPetPage.jsx";
 import HeaderPage from "./pages/HeaderPage.jsx";
 import Main from "./pages/Main.jsx";
@@ -28,7 +28,7 @@ function App() {
           <Route path="/compelete" element={<SignCompelete />} />
           <Route element={<HeaderPage />}>
             <Route path="/main" element={<Main />} />
-            <Route path="/ledger" element={<LedgerPage />} />
+            <Route path="/account-book" element={<AccountBookPage />} />
             <Route path="/my-pet" element={<MyPetPage />} />
           </Route>
         </Routes>
