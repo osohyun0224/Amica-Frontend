@@ -2,7 +2,9 @@ import PropTypes from "prop-types";
 import { styled } from "styled-components";
 
 const Container = styled.button`
+  width: 64px;
   padding-right: 12px;
+  box-sizing: content-box;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,8 +22,12 @@ const Image = styled.img`
 `;
 
 const Text = styled.p`
+  width: 100%;
   margin-top: 4px;
   font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const MyPetListItem = ({ src, name, onClick }) => {

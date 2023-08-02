@@ -83,7 +83,10 @@ function HeaderPage() {
           <MenuButton to="/main" className={getSelected("/main")}>
             HOME
           </MenuButton>
-          <MenuButton to="/ledger" className={getSelected("/ledger")}>
+          <MenuButton
+            to="/account-book"
+            className={getSelected("/account-book")}
+          >
             가계부
           </MenuButton>
           <MenuButton to="/my-pet" className={getSelected("/my-pet")}>

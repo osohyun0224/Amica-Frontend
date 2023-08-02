@@ -5,7 +5,7 @@ import { styled } from "styled-components";
 import { useScrollContainer } from "react-indiana-drag-scroll";
 import "react-indiana-drag-scroll/dist/style.css";
 
-import { Heading, HeadingBold } from "../../components/my-pet/Heading.jsx";
+import { Heading, HeadingBold } from "../../components/Heading.jsx";
 import MyPetList from "../../components/my-pet/MyPetList.jsx";
 import MyPetListItem from "../../components/my-pet/MyPetListItem.jsx";
 
@@ -44,7 +44,7 @@ const MyPetPage = () => {
     {
       id: 5,
       image: "https://placehold.co/64",
-      name: "멍멍이",
+      name: "매우긴이름을가진댕댕이",
     },
     {
       id: 6,
