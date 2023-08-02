@@ -6,7 +6,7 @@ import SignupPage from "./pages/LoginSignup/SignupPage.jsx";
 import PasswordPage from "./pages/LoginSignup/PasswordPage.jsx";
 import SignCompelete from "./pages/LoginSignup/SignCompelete.jsx";
 import LedgerPage from "./pages/LedgerPage.jsx";
-import MyPetPage from "./pages/pet/MyPetPage.jsx";
+import MyPetPage from "./pages/my-pet/MyPetPage.jsx";
 import HeaderPage from "./pages/HeaderPage.jsx";
 import Main from "./pages/Main.jsx";
 import "./App.scss";
