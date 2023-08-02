@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import InputForm from "../../components/InputForm.jsx";
@@ -82,7 +82,8 @@ const RequirementText = styled.span`
 
 const ConfirmationText = styled.span`
   font-size: 14px;
-  color: ${(props) => (props.$isValid ? "green" : "red")};
+  color: ${(props) =>
+    props.$isValid === null ? "red" : props.$isValid ? "green" : "red"};
   margin-top: 10px;
 `;
 
@@ -94,7 +95,7 @@ function PasswordPage() {
   const [lengthRequirement, setLengthRequirement] = useState(false);
   const [letterRequirement, setLetterRequirement] = useState(false);
   const [numberRequirement, setNumberRequirement] = useState(false);
-  const [isPasswordMatch, setIsPasswordMatch] = useState(false);
+  const [isPasswordMatch, setIsPasswordMatch] = useState(null);
 
   const handlePasswordChange = (e) => {
     const passwordValue = e.target.value;
@@ -108,21 +109,26 @@ function PasswordPage() {
     setPasswordCheck(e.target.value);
   };
 
-  useEffect(() => { 
+  useEffect(() => {
     const checkPassword = (password, passwordCheck) => {
       const matchRequirement = password === passwordCheck;
       setIsValid(
         lengthRequirement &&
           letterRequirement &&
           numberRequirement &&
-          matchRequirement
+          matchRequirement,
       );
-      setIsPasswordMatch(matchRequirement); 
+      setIsPasswordMatch(password && passwordCheck ? matchRequirement : null);
     };
-    
+
     checkPassword(password, passwordCheck);
-  }, [password, passwordCheck, lengthRequirement, letterRequirement, numberRequirement]); 
- 
+  }, [
+    password,
+    passwordCheck,
+    lengthRequirement,
+    letterRequirement,
+    numberRequirement,
+  ]);
 
   return (
     <PageContainer>
@@ -141,19 +147,26 @@ function PasswordPage() {
         value={password}
       />
       <RequirementsContainer>
-        <RequirementText $isValid={lengthRequirement}>8자 이상 {lengthRequirement ? "✓" : ""}</RequirementText>
-        <RequirementText $isValid={letterRequirement}>영문 포함 {letterRequirement ? "✓" : ""}</RequirementText>
-        <RequirementText $isValid={numberRequirement}>숫자 포함 {numberRequirement ? "✓" : ""}</RequirementText>
+        <RequirementText $isValid={lengthRequirement}>
+          8자 이상 {lengthRequirement ? "✓" : ""}
+        </RequirementText>
+        <RequirementText $isValid={letterRequirement}>
+          영문 포함 {letterRequirement ? "✓" : ""}
+        </RequirementText>
+        <RequirementText $isValid={numberRequirement}>
+          숫자 포함 {numberRequirement ? "✓" : ""}
+        </RequirementText>
       </RequirementsContainer>
       <PasswordInput
         label="비밀번호 확인"
         placeholder="비밀번호를 입력하세요."
         type="password"
         onChange={handlePasswordCheckChange}
-        value={passwordCheck} 
+        value={passwordCheck}
       />
       <ConfirmationText $isValid={isPasswordMatch}>
-        비밀번호 확인 {isPasswordMatch ? "✓" : ""}
+        비밀번호 확인{" "}
+        {isPasswordMatch !== null ? (isPasswordMatch ? "✓" : "") : ""}
       </ConfirmationText>
       <BottomBox to="/complete" $isValid={isValid}>
         다음
