@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { styled } from "styled-components";
-import { useMemo } from "react";
 
 const Container = styled.button`
   padding-right: 12px;
@@ -26,7 +25,6 @@ const Text = styled.p`
 `;
 
 const MyPetListItem = ({ src, name, onClick }) => {
-  console.log(1);
   return (
     <Container onClick={onClick}>
       <Image src={src} />
