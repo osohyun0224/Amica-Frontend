@@ -176,7 +176,7 @@ function PasswordPage() {
         비밀번호 확인{" "}
         {isPasswordMatch !== null ? (isPasswordMatch ? "✓" : "") : ""}
       </ConfirmationText>
-      <BottomBox to="/complete" $isValid={isValid}>
+      <BottomBox to="/compelete" $isValid={isValid}>
         다음
       </BottomBox>
     </PageContainer>
