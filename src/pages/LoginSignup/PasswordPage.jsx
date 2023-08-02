@@ -69,22 +69,30 @@ const BottomBox = styled(Link)`
 `;
 
 const RequirementsContainer = styled.div`
+  font-family: "Nanum Gothic";
+  font-weight: 500;
   display: flex;
   justify-content: flex-start;
   margin-top: -30px;
 `;
 
 const RequirementText = styled.span`
+  font-family: "Nanum Gothic";
+  font-weight: 500;
   font-size: 14px;
+  font-family: "Nanum Gothic";
   color: ${(props) => (props.$isValid ? "green" : "red")};
   margin-right: 10px;
+  font-weight: 500;
 `;
 
 const ConfirmationText = styled.span`
+  font-family: "Nanum Gothic";
+  font-weight: 500;
   font-size: 14px;
   color: ${(props) =>
     props.$isValid === null ? "red" : props.$isValid ? "green" : "red"};
-  margin-top: 10px;
+  margin-top: -30px;
 `;
 
 function PasswordPage() {
