@@ -43,10 +43,12 @@ const CircularChart = ({ className, data }) => {
 
 CircularChart.propTypes = {
   className: PropTypes.string,
-  data: PropTypes.shape({
-    color: PropTypes.string,
-    value: PropTypes.number,
-  }),
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      color: PropTypes.string,
+      value: PropTypes.number,
+    }),
+  ),
 };
 
 export default CircularChart;

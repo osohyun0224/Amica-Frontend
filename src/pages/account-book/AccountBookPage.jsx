@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { styled } from "styled-components";
+import { Link } from "react-router-dom";
 
+import Button from "../../components/account-book/Button.jsx";
 import Expense from "../../components/account-book/Expense.jsx";
 import ExpenseInfomation from "../../components/account-book/ExpenseInfomation.jsx";
 import MonthlyExpense from "../../components/account-book/MonthlyExpense.jsx";
@@ -10,16 +12,8 @@ const Container = styled.div`
   margin: 8px 32px;
 `;
 
-const Button = styled.button`
-  width: 100%;
-  margin-top: 12px;
-  padding: 8px 0;
-  border: none;
-  border-radius: 6px;
-  background-color: rgba(217, 74, 86, 1);
-  color: #ffffff;
-  font-size: 16px;
-  cursor: pointer;
+const StyledLink = styled(Link)`
+  text-decoration: none;
 `;
 
 const initialExpense = 700000;
@@ -77,7 +71,9 @@ const AccountBookPage = () => {
   return (
     <Container>
       <Expense value={expense} />
-      <Button>이번달 소비 보기</Button>
+      <StyledLink to="/account-book/summary">
+        <Button>이번달 소비 보기</Button>
+      </StyledLink>
       <ExpenseInfomation value={expenseChange} />
       <MonthlyExpense data={monthlyData} />
       <DailyExpense date="8월 7일" data={initialDailyData} />
