@@ -46,11 +46,11 @@ const SignupText = styled.p`
 
 const PasswordInput = styled(InputForm)``;
 
-const ConditionText = styled.p`
-  font-size: 10px;
-  color: ${(props) => (props.$isValid ? "green" : "red")};
-  margin-top: 10px;
-`;
+// const ConditionText = styled.p`
+//   font-size: 10px;
+//   color: ${(props) => (props.$isValid ? "green" : "red")};
+//   margin-top: 10px;
+// `;
 
 const BottomBox = styled(Link)`
   display: flex;
@@ -68,14 +68,32 @@ const BottomBox = styled(Link)`
   pointer-events: ${(props) => (props.$isValid ? "all" : "none")};
 `;
 
+const RequirementsContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+`;
+
+const RequirementText = styled.span`
+  font-size: 10px;
+  color: ${(props) => (props.$isValid ? "green" : "red")};
+  margin-right: 10px;
+`;
+
 function PasswordPage() {
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [isValid, setIsValid] = useState(false);
 
+  const [lengthRequirement, setLengthRequirement] = useState(false);
+  const [letterRequirement, setLetterRequirement] = useState(false);
+  const [numberRequirement, setNumberRequirement] = useState(false);
 
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+    const passwordValue = e.target.value;
+    setPassword(passwordValue);
+    setLengthRequirement(passwordValue.length >= 8);
+    setLetterRequirement(/[a-zA-Z]/.test(passwordValue));
+    setNumberRequirement(/\d/.test(passwordValue));
   };
 
   const handlePasswordCheckChange = (e) => {
@@ -87,15 +105,12 @@ function PasswordPage() {
   }, [password, passwordCheck]); 
 
   const checkPassword = (password, passwordCheck) => {
-    const lengthRequirement = password.length >= 8;
-    const letterRequirement = /[a-zA-Z]/.test(password);
-    const numberRequirement = /\d/.test(password);
     const matchRequirement = password === passwordCheck;
     setIsValid(
       lengthRequirement &&
         letterRequirement &&
         numberRequirement &&
-        matchRequirement,
+        matchRequirement
     );
   };
 
@@ -115,6 +130,11 @@ function PasswordPage() {
         onChange={handlePasswordChange}
         value={password}
       />
+      <RequirementsContainer>
+        <RequirementText $isValid={lengthRequirement}>8자 이상 {lengthRequirement ? "✓" : ""}</RequirementText>
+        <RequirementText $isValid={letterRequirement}>영문 포함 {letterRequirement ? "✓" : ""}</RequirementText>
+        <RequirementText $isValid={numberRequirement}>숫자 포함 {numberRequirement ? "✓" : ""}</RequirementText>
+      </RequirementsContainer>
       <PasswordInput
         label="비밀번호 확인"
         placeholder="비밀번호를 입력하세요."
@@ -122,15 +142,10 @@ function PasswordPage() {
         onChange={handlePasswordCheckChange}
         value={passwordCheck} 
       />
-      <ConditionText $isValid={isValid}>
-        비밀번호는 8자리 이상, 영문, 숫자가 포함되어야 하며, 비밀번호 확인란과
-        일치해야 합니다.
-      </ConditionText>
-      <BottomBox to="/compelete" $isValid={isValid}>
+      <BottomBox to="/complete" $isValid={isValid}>
         다음
       </BottomBox>
     </PageContainer>
   );
 }
-
 export default PasswordPage;
