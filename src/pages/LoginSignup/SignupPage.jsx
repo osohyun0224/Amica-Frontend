@@ -209,6 +209,28 @@ const ConfirmationText = styled.span`
   margin-left: -27px;
 `;
 
+const UsernameLabel = styled.label`
+  font-family: NanumGothic;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #151515;
+  margin-top: 10px;
+  margin-left: -27px;
+`;
+
+const UsernameInputField = styled.input`
+  width: 329px;
+  height: 40px;
+  top: 340px;
+  left: 23px;
+  border-radius: 5px;
+  border: 1px solid #d94a56;
+  margin-left: -27px;
+`;
+
 const BottomBox = styled(Link)`
   display: flex;
   justify-content: center;
@@ -241,6 +263,12 @@ function SignupPage() {
   const [letterRequirement, setLetterRequirement] = useState(false);
   const [numberRequirement, setNumberRequirement] = useState(false);
   const [isPasswordMatch, setIsPasswordMatch] = useState(null);
+  const [username, setUsername] = useState("");
+
+  const handleUsernameChange = (e) => {
+    const usernameInput = e.target.value;
+    setUsername(usernameInput);
+  };
 
   const handlePasswordChange = (e) => {
     const passwordValue = e.target.value;
@@ -419,6 +447,13 @@ function SignupPage() {
         비밀번호 확인{" "}
         {isPasswordMatch !== null ? (isPasswordMatch ? "✓" : "") : ""}
       </ConfirmationText>
+      <UsernameLabel>사용자 이름</UsernameLabel>
+      <UsernameInputField
+        placeholder="사용자 이름을 입력하세요."
+        type="text"
+        onChange={handleUsernameChange}
+        value={username}
+      />
       <BottomBox
         to="/"
         onClick={handleNextClick}
