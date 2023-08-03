@@ -5,14 +5,15 @@ import InputForm from "../../components/InputForm.jsx";
 import BackButton from "../../assets/images/getback.png";
 
 const Header = styled.header`
-  width: 390px;
-  height: 66px;
-  border-bottom: 1px solid;
+  width: 111%;
+  height: 80px;
   background: #EEF1F4;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  margin-top: -31px;
+  margin-left: -50px;
 `;
 
 const HeaderTitle = styled.h1`
@@ -33,10 +34,11 @@ const PageContainer = styled.div`
   position: relative;
   z-index: 1;
 `;
+
 const BackButtonImage = styled.img`
   position: absolute;
-  margin-top: 0px;
-  margin-left: -40px;
+  left: 15px;
+  margin-top: -20px;
   cursor: pointer;
 `;
 
@@ -197,9 +199,12 @@ function SignupPage() {
 
   return (
     <PageContainer>
-      <Link to="/">
-        <BackButtonImage src={BackButton} alt="Back" />
-      </Link>
+      <Header>
+        <Link to="/">
+          <BackButtonImage src={BackButton} alt="Back" />
+        </Link>
+        <HeaderTitle>회원가입</HeaderTitle>
+      </Header>
       <SignupTitle>회원가입</SignupTitle>
       <SignupText>
         필요한 서비스를 받을 수 있는 <br /> 이메일 주소를 입력하세요.
