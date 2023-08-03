@@ -66,21 +66,21 @@ const ConfirmationText = styled.span`
   margin-top: -30px;
 `;
 
-const InputField = styled.input`
-  padding: 10px;
-  margin: 5px 0;
-  width: 100%;
-  border: 1px solid ${props => (props.invalid ? 'red' : '#ccc')};
-`;
+// const InputField = styled.input`
+//   padding: 10px;
+//   margin: 5px 0;
+//   width: 100%;
+//   border: 1px solid ${props => (props.invalid ? 'red' : '#ccc')};
+// `;
 
-const RequirementsList = styled.ul`
-  padding-left: 20px;
-  color: #888;
-`;
+// const RequirementsList = styled.ul`
+//   padding-left: 20px;
+//   color: #888;
+// `;
 
-const RequirementItem = styled.li`
-  color: ${props => (props.valid ? 'green' : '#888')};
-`;
+// const RequirementItem = styled.li`
+//   color: ${props => (props.valid ? 'green' : '#888')};
+// `;
 
 InputForm.propTypes = {
   email: PropTypes.string.isRequired,
@@ -105,46 +105,47 @@ function InputForm({
 
   return (
     <>
-      <EmailLabel>이메일</EmailLabel>
+<EmailLabel>이메일</EmailLabel>
       <EmailInputField
+        placeholder="이메일 주소를 입력하세요."
         type="email"
-        value={email}
         onChange={handleEmailChange}
+        value={email}
         invalidEmail={invalidEmail}
       />
-      {invalidEmail && <InvalidEmailMessage>유효한 이메일</InvalidEmailMessage>}
-
-      <EmailLabel>비밀번호</EmailLabel>
+      {invalidEmail && (
+        <InvalidEmailMessage>
+          이메일 형식을 다시 확인해주세요
+        </InvalidEmailMessage>
+      )}
       <PasswordInput
+        label="비밀번호"
+        placeholder="비밀번호를 입력하세요."
         type="password"
-        value={password}
         onChange={handlePasswordChange}
+        value={password}
       />
-
       <RequirementsContainer>
         <RequirementText $isValid={lengthRequirement}>
-          8자 이상
+          8자 이상 {lengthRequirement ? "✓" : ""}
         </RequirementText>
         <RequirementText $isValid={letterRequirement}>
-          영문 포함
+          영문 포함 {letterRequirement ? "✓" : ""}
         </RequirementText>
         <RequirementText $isValid={numberRequirement}>
-          숫자 포함
+          숫자 포함 {numberRequirement ? "✓" : ""}
         </RequirementText>
       </RequirementsContainer>
-
-      <EmailLabel>비밀번호 확인</EmailLabel>
       <PasswordInput
+        label="비밀번호 확인"
+        placeholder="비밀번호를 입력하세요."
         type="password"
-        value={passwordCheck}
         onChange={handlePasswordCheckChange}
+        value={passwordCheck}
       />
       <ConfirmationText $isValid={isPasswordMatch}>
-        {isPasswordMatch === null
-          ? ''
-          : isPasswordMatch
-          ? '비밀번호 일치'
-          : '비밀번호 일치하지 않음'}
+        비밀번호 확인{" "}
+        {isPasswordMatch !== null ? (isPasswordMatch ? "✓" : "") : ""}
       </ConfirmationText>
     </>
   );

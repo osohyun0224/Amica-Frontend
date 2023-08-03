@@ -3,13 +3,130 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 //import InputForm from "../../components/InputForm.jsx";
 import BackButton from "../../assets/images/getback.png";
-import SignUpHeader from "../../components/HeaderComponent";
-import TermsAgreement from "../../components/TermsAgreement";
 
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: white;
+  min-height: 100vh;
+  margin: 0 auto;
+  max-width: 1000px;
+  padding-top: 30px;
+  padding-left: 50px;
+  position: relative;
+  z-index: 1;
+`;
+
+const Header = styled.header`
+  width: 111%;
+  height: 80px;
+  background: #eef1f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: -31px;
+  margin-left: -50px;
+`;
+
+const HeaderTitle = styled.h1`
+  font-family: NanumGothic;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #151515;
+`;
+
+const BackButtonImage = styled.img`
+  position: absolute;
+  left: 15px;
+  margin-top: -20px;
+  cursor: pointer;
+`;
+
+const TermsAgreeTitle = styled.h3`
+  font-family: NanumGothic;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 30px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  margin-top: 10px;
+  margin-left: -30px;
+`;
 
 // const EmailInput = styled(InputForm)`
 //   //혹시 몰라서 일단 스타일 넣어둠.
 // `;
+
+const CheckboxContainer = styled.div`
+  display: block;
+  position: relative;
+  padding-left: 0px;
+  cursor: pointer;
+  user-select: none;
+  padding-bottom: 15px;
+  margin-top: 10px;
+  margin-left: -27px;
+`;
+
+const CheckboxItem = styled.div`
+  border-bottom: ${(props) =>
+    props.border === true ? "1px solid black" : "none"};
+  padding-bottom: 6px;
+  margin-top: 10px;
+  width: 400px;
+`;
+
+const CheckboxInput = styled.input`
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+`;
+
+const CheckboxLabel = styled.label`
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 10px;
+
+  &:before {
+    content: "";
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: text-top;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #667080;
+    border-radius: 3px;
+  }
+
+  ${CheckboxInput}:checked ~ &:before {
+    background-color: #667080;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  ${CheckboxInput}:checked ~ &:after {
+    display: block;
+    left: 9px;
+    top: 13px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+`;
 
 // 이메일 라벨을 위한 스타일 컴포넌트
 const EmailLabel = styled.label`
@@ -100,24 +217,17 @@ function SignupPage() {
   const [agree, setAgree] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [agreePrivacy, setAgreePrivacy] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordCheck, setPasswordCheck] = useState('')
   const [agreeMarketing, setAgreeMarketing] = useState(false);
+  const [email, setEmail] = useState("");
   const [invalidEmail, setInvalidEmail] = useState(false);
+  const [password, setPassword] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState("");
   const [isValid, setIsValid] = useState(false);
 
   const [lengthRequirement, setLengthRequirement] = useState(false);
   const [letterRequirement, setLetterRequirement] = useState(false);
   const [numberRequirement, setNumberRequirement] = useState(false);
   const [isPasswordMatch, setIsPasswordMatch] = useState(null);
-  
-  const handleToggleAgreeTerms = () => setAgreeTerms(!agreeTerms);
-  const handleToggleAgreePrivacy = () => setAgreePrivacy(!agreePrivacy);
-  const handleEmailChange = (e) => setEmail(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
-  const handlePasswordCheckChange = (e) => setPasswordCheck(e.target.value);
-  const handleNextClick = () => {
 
   const handlePasswordChange = (e) => {
     const passwordValue = e.target.value;
@@ -201,39 +311,97 @@ function SignupPage() {
 
   return (
     <PageContainer>
-      <SignUpHeader />
-      <TermsAgreement
-        agree={agree}
-        agreeTerms={agreeTerms}
-        agreePrivacy={agreePrivacy}
-        agreeMarketing={agreeMarketing}
-        toggleCheckbox={toggleCheckbox}
-        toggleCheckboxTerms={toggleCheckboxTerms}
-        toggleCheckboxPrivacy={toggleCheckboxPrivacy}
-        toggleCheckboxMarketing={toggleCheckboxMarketing}
-      />
-      {/* 이메일 및 비밀번호 입력 부분 추가 */}
-      <EmailLabel>Email Address</EmailLabel>
+      <Header>
+        <Link to="/">
+          <BackButtonImage src={BackButton} alt="Back" />
+        </Link>
+        <HeaderTitle>회원가입</HeaderTitle>
+      </Header>
+      <TermsAgreeTitle>약관 동의</TermsAgreeTitle>
+      <CheckboxContainer>
+        <CheckboxItem border>
+          <CheckboxInput
+            type="checkbox"
+            id="agree"
+            checked={agree}
+            onChange={toggleCheckbox}
+          />
+          <CheckboxLabel htmlFor="agree"> 전체 약관 동의</CheckboxLabel>
+        </CheckboxItem>
+        <CheckboxItem>
+          <CheckboxInput
+            type="checkbox"
+            id="terms"
+            checked={agreeTerms}
+            onChange={toggleCheckboxTerms}
+          />
+          <CheckboxLabel htmlFor="terms">[필수] 서비스 이용 약관</CheckboxLabel>
+        </CheckboxItem>
+        <CheckboxItem>
+          <CheckboxInput
+            type="checkbox"
+            id="privacy"
+            checked={agreePrivacy}
+            onChange={toggleCheckboxPrivacy}
+          />
+          <CheckboxLabel htmlFor="privacy">
+            [필수] 개인정보 수집 및 이용
+          </CheckboxLabel>
+        </CheckboxItem>
+        <CheckboxItem>
+          <CheckboxInput
+            type="checkbox"
+            id="marketing"
+            checked={agreeMarketing}
+            onChange={toggleCheckboxMarketing}
+          />
+          <CheckboxLabel htmlFor="marketing">
+            혜택 및 마케팅 정보 수신 동의
+          </CheckboxLabel>
+        </CheckboxItem>
+      </CheckboxContainer>
+      <EmailLabel>이메일</EmailLabel>
       <EmailInputField
+        placeholder="이메일 주소를 입력하세요."
         type="email"
-        value={email}
         onChange={handleEmailChange}
+        value={email}
         invalidEmail={invalidEmail}
       />
-      {invalidEmail && <InvalidEmailMessage>Invalid Email</InvalidEmailMessage>}
+      {invalidEmail && (
+        <InvalidEmailMessage>
+          이메일 형식을 다시 확인해주세요
+        </InvalidEmailMessage>
+      )}
       <PasswordInput
+        label="비밀번호"
+        placeholder="비밀번호를 입력하세요."
         type="password"
-        value={password}
         onChange={handlePasswordChange}
+        value={password}
       />
-      <EmailAndPasswordComponent 
-        email={email}
-        password={password}
-        passwordCheck={passwordCheck}
-        handleEmailChange={handleEmailChange}
-        handlePasswordChange={handlePasswordChange}
-        handlePasswordCheckChange={handlePasswordCheckChange}
+      <RequirementsContainer>
+        <RequirementText $isValid={lengthRequirement}>
+          8자 이상 {lengthRequirement ? "✓" : ""}
+        </RequirementText>
+        <RequirementText $isValid={letterRequirement}>
+          영문 포함 {letterRequirement ? "✓" : ""}
+        </RequirementText>
+        <RequirementText $isValid={numberRequirement}>
+          숫자 포함 {numberRequirement ? "✓" : ""}
+        </RequirementText>
+      </RequirementsContainer>
+      <PasswordInput
+        label="비밀번호 확인"
+        placeholder="비밀번호를 입력하세요."
+        type="password"
+        onChange={handlePasswordCheckChange}
+        value={passwordCheck}
       />
+      <ConfirmationText $isValid={isPasswordMatch}>
+        비밀번호 확인{" "}
+        {isPasswordMatch !== null ? (isPasswordMatch ? "✓" : "") : ""}
+      </ConfirmationText>
       <BottomBox
         to="/"
         onClick={handleNextClick}
@@ -243,6 +411,5 @@ function SignupPage() {
       </BottomBox>
     </PageContainer>
   );
-}
 }
 export default SignupPage;
