@@ -2,7 +2,7 @@ import styled from "styled-components";
 import PropTypes from 'prop-types';
 
 const EmailLabel = styled.label`
-  font-family: NanumGothic;
+  font-family: "Nanum Gothic";
   font-size: 13px;
   font-weight: 700;
   line-height: 30px;
@@ -18,6 +18,7 @@ const EmailInputField = styled.input`
   height: 30px;
   top: 340px;
   left: 23px;
+  font-family: "Nanum Gothic";
   font-size: 10px;
   border-radius: 5px;
   border: 1px solid
@@ -30,6 +31,7 @@ const EmailInputField = styled.input`
 `;
 
 const InvalidEmailMessage = styled.p`
+  font-family: "Nanum Gothic";
   color: #d94a56;
   margin-top: 5px;
   font-size: 10px;

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import PropTypes from 'prop-types';
 
 const TermsAgreeTitle = styled.h3`
-  font-family: NanumGothic;
+  font-family: "Nanum Gothic";
   font-size: 13px;
   font-weight: 800;
   line-height: 30px;

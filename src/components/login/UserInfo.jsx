@@ -2,7 +2,7 @@ import styled from "styled-components";
 import PropTypes from 'prop-types';
 
 const UsernameLabel = styled.label`
-  font-family: NanumGothic;
+  font-family: "Nanum Gothic";
   font-size: 13px;
   font-weight: 700;
   line-height: 30px;
@@ -19,6 +19,7 @@ const UsernameInputField = styled.input`
   height: 30px;
   font-size: 10px;
   border-radius: 5px;
+  font-family: "Nanum Gothic";
   border: 1px solid transparent;
   margin-left: -27px;
 
@@ -28,7 +29,7 @@ const UsernameInputField = styled.input`
 `;
 
 const PhoneLabel = styled.label`
-  font-family: NanumGothic;
+  font-family: "Nanum Gothic";
   font-size: 13px;
   font-weight: 700;
   line-height: 30px;
@@ -40,6 +41,7 @@ const PhoneLabel = styled.label`
 `;
 
 const PhoneInputField = styled.input`
+  font-family: "Nanum Gothic";
   width: 100%;
   max-width: 329px;
   height: 30px;

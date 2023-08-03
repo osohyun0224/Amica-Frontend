@@ -2,7 +2,7 @@ import styled from "styled-components";
 import PropTypes from 'prop-types';
 
 const PasswordLabel = styled.label`
-  font-family: NanumGothic;
+  font-family: "Nanum Gothic";
   font-size: 13px;
   font-weight: 700;
   line-height: 30px;
@@ -14,6 +14,7 @@ const PasswordLabel = styled.label`
 `;
 
 const PasswordInput = styled.input`
+  font-family: "Nanum Gothic";
   width: 329px;
   height: 30px;
   top: 340px;

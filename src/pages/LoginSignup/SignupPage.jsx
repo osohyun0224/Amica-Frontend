@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import BackButton from "../../assets/images/getback.png";
-import TermsAgreement from "../../components/login/TermsAgreement.jsx";
+import TermsAgreement from '../../components/login/TermsAgreement.jsx';
 import EmailInput from "../../components/login/EmaiInput.jsx";
 import PasswordInputForm from "../../components/login/PasswordInputForm.jsx";
 import UserInfo from "../../components/login/UserInfo.jsx";
@@ -34,7 +34,7 @@ const Header = styled.header`
 `;
 
 const HeaderTitle = styled.h1`
-  font-family: NanumGothic;
+  font-family: "Nanum Gothic";
   font-size: 20px;
   font-weight: 700;
   line-height: 30px;
@@ -50,13 +50,14 @@ const BackButtonImage = styled.img`
   cursor: pointer;
 `;
 
+
 const BottomBox = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 84px;
-  background-color: #667080;
+  background-color: #D94A56;
   color: white;
   text-align: center;
   position: absolute;
@@ -67,7 +68,7 @@ const BottomBox = styled(Link)`
   pointer-events: ${(props) => (props.active ? "auto" : "none")};
 `;
 
-function useSignupForm() {
+function SignupPage() {
   const [agree, setAgree] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [agreePrivacy, setAgreePrivacy] = useState(false);
@@ -84,8 +85,15 @@ function useSignupForm() {
   const [username, setUsername] = useState("");
   const [userphone, setUserPhone] = useState("");
 
-  const handleUserPhoneChange = (e) => setUserPhone(e.target.value);
-  const handleUsernameChange = (e) => setUsername(e.target.value);
+  const handleUserPhoneChange = (e) => {
+    const userphoneInput = e.target.value;
+    setUserPhone(userphoneInput);
+  };
+
+  const handleUsernameChange = (e) => {
+    const usernameInput = e.target.value;
+    setUsername(usernameInput);
+  };
 
   const handlePasswordChange = (e) => {
     const passwordValue = e.target.value;
@@ -95,56 +103,23 @@ function useSignupForm() {
     setNumberRequirement(/\d/.test(passwordValue));
   };
 
-  const handlePasswordCheckChange = (e) => setPasswordCheck(e.target.value);
-
-  const handleEmailChange = (e) => {
-    const emailInput = e.target.value;
-    setEmail(emailInput);
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    setInvalidEmail(!emailRegex.test(emailInput));
-  };
-
-  const toggleCheckboxTerms = () => {
-    const newAgreeTermsState = !agreeTerms;
-    setAgreeTerms(newAgreeTermsState);
-    if (!newAgreeTermsState) setAgree(false);
-  };
-  
-  const toggleCheckboxPrivacy = () => {
-    const newAgreePrivacyState = !agreePrivacy;
-    setAgreePrivacy(newAgreePrivacyState);
-    if (!newAgreePrivacyState) setAgree(false);
-  };
-  
-  const toggleCheckboxMarketing = () => {
-    const newAgreeMarketingState = !agreeMarketing;
-    setAgreeMarketing(newAgreeMarketingState);
-    if (!newAgreeMarketingState) setAgree(false);
-  }
-  
-  const toggleCheckbox = () => {
-    const newAgreeState = !agree;
-    setAgree(newAgreeState);
-    setAgreeTerms(newAgreeState);
-    setAgreePrivacy(newAgreeState);
-    setAgreeMarketing(newAgreeState);
-  };
-
-  const navigate = useNavigate();
-  const handleNextClick = (e) => {
-    e.preventDefault();
-    if (agreeTerms && agreePrivacy) navigate("/compelete");
+  const handlePasswordCheckChange = (e) => {
+    setPasswordCheck(e.target.value);
   };
 
   useEffect(() => {
-    const matchRequirement = password === passwordCheck;
-    setIsValid(
-      lengthRequirement &&
-        letterRequirement &&
-        numberRequirement &&
-        matchRequirement,
-    );
-    setIsPasswordMatch(password && passwordCheck ? matchRequirement : null);
+    const checkPassword = (password, passwordCheck) => {
+      const matchRequirement = password === passwordCheck;
+      setIsValid(
+        lengthRequirement &&
+          letterRequirement &&
+          numberRequirement &&
+          matchRequirement,
+      );
+      setIsPasswordMatch(password && passwordCheck ? matchRequirement : null);
+    };
+
+    checkPassword(password, passwordCheck);
   }, [
     password,
     passwordCheck,
@@ -153,50 +128,52 @@ function useSignupForm() {
     numberRequirement,
   ]);
 
-  useEffect(() => {
-    if (agree) {
-      setAgreeTerms(true);
-      setAgreePrivacy(true);
-      setAgreeMarketing(true);
-    }
-  }, [agree]);
+  const handleEmailChange = (e) => {
+    const emailInput = e.target.value;
+    setEmail(emailInput);
 
-  useEffect(() => {
-    if (agreeTerms && agreePrivacy && agreeMarketing) {
-      setAgree(true);
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(emailInput)) {
+      setInvalidEmail(true);
     } else {
-      setAgree(false);
+      setInvalidEmail(false);
     }
-  }, [agreeTerms, agreePrivacy, agreeMarketing]);
-
-  return {
-    agree,
-    email,
-    invalidEmail,
-    password,
-    passwordCheck,
-    isValid,
-    lengthRequirement,
-    letterRequirement,
-    numberRequirement,
-    isPasswordMatch,
-    username,
-    userphone,
-    handleUserPhoneChange,
-    handleUsernameChange,
-    handlePasswordChange,
-    handlePasswordCheckChange,
-    handleEmailChange,
-    toggleCheckboxTerms,
-    toggleCheckboxPrivacy,
-    toggleCheckboxMarketing,
-    toggleCheckbox,
-    handleNextClick,
   };
-}
 
-function SignupPage() {
-  const formProps = useSignupForm();
+  const toggleCheckboxTerms = () => {
+    const newAgreeTermsState = !agreeTerms;
+    setAgreeTerms(newAgreeTermsState);
+    if (!newAgreeTermsState) setAgree(false);
+  };
+
+  const toggleCheckboxPrivacy = () => {
+    const newAgreePrivacyState = !agreePrivacy;
+    setAgreePrivacy(newAgreePrivacyState);
+    if (!newAgreePrivacyState) setAgree(false);
+  };
+
+  const toggleCheckboxMarketing = () => {
+    const newAgreeMarketingState = !agreeMarketing;
+    setAgreeMarketing(newAgreeMarketingState);
+    if (!newAgreeMarketingState) setAgree(false);
+  };
+
+  const navigate = useNavigate();
+
+  const toggleCheckbox = () => {
+    const newAgreeState = !agree;
+    setAgree(newAgreeState);
+    setAgreeTerms(newAgreeState);
+    setAgreePrivacy(newAgreeState);
+    setAgreeMarketing(newAgreeState);
+  };
+
+  const handleNextClick = (e) => {
+    e.preventDefault();
+    if (agreeTerms && agreePrivacy) {
+      navigate("/compelete");
+    }
+  };
 
   return (
     <PageContainer>
@@ -206,23 +183,29 @@ function SignupPage() {
         </Link>
         <HeaderTitle>회원가입</HeaderTitle>
       </Header>
-      <TermsAgreement {...formProps} />
-      <EmailInput {...formProps} />
-      <PasswordInputForm {...formProps} />
-      <UserInfo {...formProps} />
+
+      <TermsAgreement
+        {...{ agree, agreeTerms, agreePrivacy, agreeMarketing, toggleCheckbox, toggleCheckboxTerms, toggleCheckboxPrivacy, toggleCheckboxMarketing }}
+      />
+      
+      <EmailInput 
+        email={email} 
+        invalidEmail={invalidEmail} 
+        handleEmailChange={handleEmailChange}
+      />
+      <PasswordInputForm
+        {...{ password, passwordCheck, handlePasswordChange, handlePasswordCheckChange, lengthRequirement, letterRequirement, numberRequirement, isPasswordMatch }}
+      />
+      <UserInfo {...{ username, userphone, handleUsernameChange, handleUserPhoneChange }} />
+
       <BottomBox
         to="/compelete"
-        onClick={formProps.handleNextClick}
-        active={
-          formProps.agreeTerms && formProps.agreePrivacy && formProps.isValid
-            ? 1
-            : 0
-        }
+        onClick={handleNextClick}
+        active={agreeTerms && agreePrivacy && isValid ? 1 : 0}
       >
-        다음
+        가입하기
       </BottomBox>
     </PageContainer>
   );
 }
-
 export default SignupPage;
