@@ -165,7 +165,7 @@ const PasswordLabel = styled.label`
   letter-spacing: -0.02em;
   text-align: left;
   color: #151515;
-  margin-top: 0px;
+  margin-top: 10px;
   margin-left: -27px;
 `;
 
@@ -177,6 +177,7 @@ const PasswordInput = styled.input`
   border-radius: 5px;
   border: 1px solid
     ${(props) => (props.invalidEmail ? "#D94A56" : "transparent")};
+  margin-left: -27px;
 `;
 
 const RequirementsContainer = styled.div`
@@ -186,6 +187,7 @@ const RequirementsContainer = styled.div`
   justify-content: flex-start;
   margin-top: 5px;
   margin-bottom: 10px;
+  margin-left: -27px;
 `;
 
 const RequirementText = styled.span`
@@ -203,8 +205,8 @@ const ConfirmationText = styled.span`
   font-size: 14px;
   color: ${(props) =>
     props.$isValid === null ? "red" : props.$isValid ? "green" : "red"};
-  margin-top: -30px;
   margin-top: 5px;
+  margin-left: -27px;
 `;
 
 const BottomBox = styled(Link)`
