@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 //import InputForm from "../../components/InputForm.jsx";
@@ -21,7 +21,7 @@ const PageContainer = styled.div`
 const Header = styled.header`
   width: 111%;
   height: 80px;
-  background: #EEF1F4;
+  background: #eef1f4;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,8 +77,8 @@ const CheckboxItem = styled.div`
   border-bottom: ${(props) =>
     props.border === true ? "1px solid black" : "none"};
   padding-bottom: 6px;
-  margin-top:10px;
-  width: 400px; 
+  margin-top: 10px;
+  width: 400px;
 `;
 
 const CheckboxInput = styled.input`
@@ -140,14 +140,20 @@ const EmailLabel = styled.label`
   margin-top: 20px;
 `;
 
-// 이메일 입력 필드를 위한 스타일 컴포넌트
 const EmailInputField = styled.input`
   width: 329px;
   height: 40px;
   top: 340px;
   left: 23px;
   border-radius: 5px;
-  border: 1px solid #000; // 경계선 색상 설정
+  border: 1px solid
+    ${(props) => (props.invalidEmail ? "#D94A56" : "transparent")}; // 경계선 색상 설정
+`;
+
+const InvalidEmailMessage = styled.p`
+  color: #d94a56;
+  margin-top: 5px;
+  font-size: 14px;
 `;
 
 const BottomBox = styled(Link)`
@@ -163,14 +169,110 @@ const BottomBox = styled(Link)`
   bottom: 0;
   text-decoration: none;
   margin-left: -50px;
+  opacity: ${(props) => (props.active ? "1" : "0.5")};
+  pointer-events: ${(props) => (props.active ? "auto" : "none")};
 `;
 
+/*const SignupContainer = styled.div`
+  // 여기에 필요한 CSS를 추가하세요
+`;*/
+
+const PasswordInput = styled.input`
+  width: 329px;
+  height: 40px;
+  top: 340px;
+  left: 23px;
+  border-radius: 5px;
+  border: 1px solid
+    ${(props) => (props.invalidEmail ? "#D94A56" : "transparent")};
+`;
+
+const RequirementsContainer = styled.div`
+  font-family: "Nanum Gothic";
+  font-weight: 500;
+  display: flex;
+  justify-content: flex-start;
+  margin-top: -30px;
+`;
+
+const RequirementText = styled.span`
+  font-family: "Nanum Gothic";
+  font-weight: 500;
+  font-size: 14px;
+  color: ${(props) => (props.$isValid ? "green" : "red")};
+  margin-right: 10px;
+  font-weight: 500;
+`;
+
+const ConfirmationText = styled.span`
+  font-family: "Nanum Gothic";
+  font-weight: 500;
+  font-size: 14px;
+  color: ${(props) =>
+    props.$isValid === null ? "red" : props.$isValid ? "green" : "red"};
+  margin-top: -30px;
+`;
 
 function SignupPage() {
   const [agree, setAgree] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [agreePrivacy, setAgreePrivacy] = useState(false);
   const [agreeMarketing, setAgreeMarketing] = useState(false);
+  const [email, setEmail] = useState("");
+  const [invalidEmail, setInvalidEmail] = useState(false);
+  const [password, setPassword] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState("");
+  const [isValid, setIsValid] = useState(false);
+
+  const [lengthRequirement, setLengthRequirement] = useState(false);
+  const [letterRequirement, setLetterRequirement] = useState(false);
+  const [numberRequirement, setNumberRequirement] = useState(false);
+  const [isPasswordMatch, setIsPasswordMatch] = useState(null);
+
+  const handlePasswordChange = (e) => {
+    const passwordValue = e.target.value;
+    setPassword(passwordValue);
+    setLengthRequirement(passwordValue.length >= 8);
+    setLetterRequirement(/[a-zA-Z]/.test(passwordValue));
+    setNumberRequirement(/\d/.test(passwordValue));
+  };
+
+  const handlePasswordCheckChange = (e) => {
+    setPasswordCheck(e.target.value);
+  };
+
+  useEffect(() => {
+    const checkPassword = (password, passwordCheck) => {
+      const matchRequirement = password === passwordCheck;
+      setIsValid(
+        lengthRequirement &&
+          letterRequirement &&
+          numberRequirement &&
+          matchRequirement,
+      );
+      setIsPasswordMatch(password && passwordCheck ? matchRequirement : null);
+    };
+
+    checkPassword(password, passwordCheck);
+  }, [
+    password,
+    passwordCheck,
+    lengthRequirement,
+    letterRequirement,
+    numberRequirement,
+  ]);
+
+  const handleEmailChange = (e) => {
+    const emailInput = e.target.value;
+    setEmail(emailInput);
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(emailInput)) {
+      setInvalidEmail(true);
+    } else {
+      setInvalidEmail(false);
+    }
+  };
 
   const toggleCheckboxTerms = () => {
     const newAgreeTermsState = !agreeTerms;
@@ -215,7 +317,7 @@ function SignupPage() {
         </Link>
         <HeaderTitle>회원가입</HeaderTitle>
       </Header>
-      <TermsAgreeTitle>약관 동의</TermsAgreeTitle> 
+      <TermsAgreeTitle>약관 동의</TermsAgreeTitle>
       <CheckboxContainer>
         <CheckboxItem border>
           <CheckboxInput
@@ -243,7 +345,7 @@ function SignupPage() {
             onChange={toggleCheckboxPrivacy}
           />
           <CheckboxLabel htmlFor="privacy">
-          [필수] 개인정보 수집 및 이용
+            [필수] 개인정보 수집 및 이용
           </CheckboxLabel>
         </CheckboxItem>
         <CheckboxItem>
@@ -254,7 +356,7 @@ function SignupPage() {
             onChange={toggleCheckboxMarketing}
           />
           <CheckboxLabel htmlFor="marketing">
-            혜택 및 마케팅 정보 수신 동의 
+            혜택 및 마케팅 정보 수신 동의
           </CheckboxLabel>
         </CheckboxItem>
       </CheckboxContainer>
@@ -262,11 +364,48 @@ function SignupPage() {
       <EmailInputField
         placeholder="이메일 주소를 입력하세요."
         type="email"
+        onChange={handleEmailChange}
+        value={email}
+        invalidEmail={invalidEmail}
       />
+      {invalidEmail && (
+        <InvalidEmailMessage>
+          이메일 형식을 다시 확인해주세요
+        </InvalidEmailMessage>
+      )}
+      <PasswordInput
+        label="비밀번호"
+        placeholder="비밀번호를 입력하세요."
+        type="password"
+        onChange={handlePasswordChange}
+        value={password}
+      />
+      <RequirementsContainer>
+        <RequirementText $isValid={lengthRequirement}>
+          8자 이상 {lengthRequirement ? "✓" : ""}
+        </RequirementText>
+        <RequirementText $isValid={letterRequirement}>
+          영문 포함 {letterRequirement ? "✓" : ""}
+        </RequirementText>
+        <RequirementText $isValid={numberRequirement}>
+          숫자 포함 {numberRequirement ? "✓" : ""}
+        </RequirementText>
+      </RequirementsContainer>
+      <PasswordInput
+        label="비밀번호 확인"
+        placeholder="비밀번호를 입력하세요."
+        type="password"
+        onChange={handlePasswordCheckChange}
+        value={passwordCheck}
+      />
+      <ConfirmationText $isValid={isPasswordMatch}>
+        비밀번호 확인{" "}
+        {isPasswordMatch !== null ? (isPasswordMatch ? "✓" : "") : ""}
+      </ConfirmationText>
       <BottomBox
         to="/"
         onClick={handleNextClick}
-        active={agreeTerms && agreePrivacy ? 1 : 0}
+        active={agreeTerms && agreePrivacy && isValid ? 1 : 0}
       >
         다음
       </BottomBox>
