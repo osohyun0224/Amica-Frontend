@@ -4,6 +4,7 @@ import styled from "styled-components";
 //import InputForm from "../../components/InputForm.jsx";
 import BackButton from "../../assets/images/getback.png";
 import SignUpHeader from "../../components/HeaderComponent";
+import TermsAgreement from "../../components/TermsAgreement";
 
 
 // const EmailInput = styled(InputForm)`
