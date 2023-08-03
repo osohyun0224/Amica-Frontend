@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import LoginPage from "./pages/LoginSignup/LoginPage.jsx";
 import SignupPage from "./pages/LoginSignup/SignupPage.jsx";
-import PasswordPage from "./pages/LoginSignup/PasswordPage.jsx";
 import SignCompelete from "./pages/LoginSignup/SignCompelete.jsx";
 import AccountBookPage from "./pages/account-book/AccountBookPage.jsx";
 import MonthlySummaryPage from "./pages/account-book/MonthlySummaryPage.jsx";
@@ -25,7 +24,6 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
-          <Route path="/password" element={<PasswordPage />} />
           <Route path="/compelete" element={<SignCompelete />} />
           <Route element={<HeaderPage />}>
             <Route path="/main" element={<Main />} />
