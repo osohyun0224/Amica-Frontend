@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import InputForm from "../../components/InputForm.jsx";
 import BackButton from "../../assets/images/getback.png";
-import Popup from "../../components/Popup.jsx";
 
 const PageContainer = styled.div`
   display: flex;
@@ -140,7 +139,6 @@ const CheckboxLabel = styled.label`
 // `;
 
 function SignupPage() {
-  const [showPopup, setShowPopup] = useState(false);
   const [agree, setAgree] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [agreePrivacy, setAgreePrivacy] = useState(false);
@@ -178,13 +176,7 @@ function SignupPage() {
     e.preventDefault();
     if (agreeTerms && agreePrivacy) {
       navigate("/password");
-    } else {
-      setShowPopup(true);
     }
-  };
-
-  const handleClosePopup = () => {
-    setShowPopup(false);
   };
 
   return (
@@ -201,50 +193,48 @@ function SignupPage() {
         placeholder="이메일 주소를 입력하세요."
         type="email"
       />
-      <Popup showPopup={showPopup} handleClose={handleClosePopup}>
-        <CheckboxContainer>
-          <CheckboxItem border>
-            <CheckboxInput
-              type="checkbox"
-              id="agree"
-              checked={agree}
-              onChange={toggleCheckbox}
-            />
-            <CheckboxLabel htmlFor="agree"> 전체동의</CheckboxLabel>
-          </CheckboxItem>
-          <CheckboxItem>
-            <CheckboxInput
-              type="checkbox"
-              id="terms"
-              checked={agreeTerms}
-              onChange={toggleCheckboxTerms}
-            />
-            <CheckboxLabel htmlFor="terms">서비스 이용 약관</CheckboxLabel>
-          </CheckboxItem>
-          <CheckboxItem>
-            <CheckboxInput
-              type="checkbox"
-              id="privacy"
-              checked={agreePrivacy}
-              onChange={toggleCheckboxPrivacy}
-            />
-            <CheckboxLabel htmlFor="privacy">
-              개인정보 수집 및 이용
-            </CheckboxLabel>
-          </CheckboxItem>
-          <CheckboxItem>
-            <CheckboxInput
-              type="checkbox"
-              id="marketing"
-              checked={agreeMarketing}
-              onChange={toggleCheckboxMarketing}
-            />
-            <CheckboxLabel htmlFor="marketing">
-              혜택 및 마케팅 정보 수신 동의 (선택)
-            </CheckboxLabel>
-          </CheckboxItem>
-        </CheckboxContainer>
-      </Popup>
+      <CheckboxContainer>
+        <CheckboxItem border>
+          <CheckboxInput
+            type="checkbox"
+            id="agree"
+            checked={agree}
+            onChange={toggleCheckbox}
+          />
+          <CheckboxLabel htmlFor="agree"> 전체동의</CheckboxLabel>
+        </CheckboxItem>
+        <CheckboxItem>
+          <CheckboxInput
+            type="checkbox"
+            id="terms"
+            checked={agreeTerms}
+            onChange={toggleCheckboxTerms}
+          />
+          <CheckboxLabel htmlFor="terms">서비스 이용 약관</CheckboxLabel>
+        </CheckboxItem>
+        <CheckboxItem>
+          <CheckboxInput
+            type="checkbox"
+            id="privacy"
+            checked={agreePrivacy}
+            onChange={toggleCheckboxPrivacy}
+          />
+          <CheckboxLabel htmlFor="privacy">
+            개인정보 수집 및 이용
+          </CheckboxLabel>
+        </CheckboxItem>
+        <CheckboxItem>
+          <CheckboxInput
+            type="checkbox"
+            id="marketing"
+            checked={agreeMarketing}
+            onChange={toggleCheckboxMarketing}
+          />
+          <CheckboxLabel htmlFor="marketing">
+            혜택 및 마케팅 정보 수신 동의 (선택)
+          </CheckboxLabel>
+        </CheckboxItem>
+      </CheckboxContainer>
       <BottomBox
         to="/"
         onClick={handleNextClick}
@@ -255,5 +245,4 @@ function SignupPage() {
     </PageContainer>
   );
 }
-
 export default SignupPage;
