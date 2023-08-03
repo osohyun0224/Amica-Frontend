@@ -2,6 +2,7 @@ import { Outlet, Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import ProfileImage from "../assets/images/profile.png";
+import Menu from "../assets/images/hamburger.png";
 
 const Header = styled.div`
   position: relative;
@@ -25,10 +26,15 @@ const Title = styled.p`
   font-size: 24px;
   font-weight: 600;
 `;
+const RightImagesWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const Image = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
+  margin-left: 10px; // 두 이미지 사이의 간격을 조정합니다.
 `;
 
 const MenuWrapper = styled.div`
@@ -77,7 +83,10 @@ function HeaderPage() {
       <Header>
         <TitleWrapper>
           <Title>Title</Title>
-          <Image src={ProfileImage} alt="프로필" />
+          <RightImagesWrapper>
+            <Image src={Menu} alt="메뉴" />
+            <Image src={ProfileImage} alt="프로필" />
+          </RightImagesWrapper>
         </TitleWrapper>
         <MenuWrapper>
           <MenuButton to="/main" className={getSelected("/main")}>
@@ -100,5 +109,4 @@ function HeaderPage() {
     </>
   );
 }
-
 export default HeaderPage;
