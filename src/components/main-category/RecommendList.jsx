@@ -1,4 +1,5 @@
-import {styled } from "styled-components";
+import { styled } from "styled-components";
+import { Link } from "react-router-dom";
 
 const Page = styled.div`
     width: 470px;
@@ -63,7 +64,7 @@ const DateContainer = styled.div`
     line-height: 22px;
 `;
 
-const RecommendList= ({ src, name, kind, price, date}) => {
+const RecommendList= ({ to, src, name, kind, price, date}) => {
     return (
         <Page>
             <Image src={src} alt="상품이미지"/>

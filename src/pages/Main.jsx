@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { ScrollContainer } from "react-indiana-drag-scroll";
@@ -11,10 +12,11 @@ import RecommemdProduct from "../components/main-category/RecommendList";
 import arrow from '../assets/images/rightArrow.png';
 import productExample from "../assets/images/productExample.jpeg";
 
-const Page = styled.div`
+const PageContainer = styled.div`
     display: block;
     flex-direction: column;
     justify-content: center;
+    background-color: #FFFFFF;
 `;
 
 const Image = styled.img`
@@ -44,6 +46,7 @@ const DetailMenu = styled.div`
     background-color: white;
     clear: both;
     margin: 70px 0 0 17px;
+    text-decoration : none;
 `;
 
 const DetailMenuTitle = styled.div`
@@ -87,6 +90,10 @@ const MoreBtn = styled.button`
     margin-top: 10px;
     background-color: white;
     cursor: pointer;
+`;
+
+const ProductSelect = styled(Link)`
+    text-decoration : none;
 `;
 
 const Category = [
@@ -135,67 +142,32 @@ const Category = [
         name: 'fish',
         text: "관상어"
     },
-    {
-        id: 10,
-        name: 'bird',
-        text: "조류"
-    },
-    {
-        id: 11,
-        name: 'rabbit',
-        text: "토끼/기니피그"
-    },
-    {
-        id: 12,
-        name: 'reptiles',
-        text: "파충류"
-    },
-    {
-        id: 13,
-        name: 'design',
-        text: "인테리어"
-    },
-    {
-        id: 14,
-        name: 'food',
-        text: "사료"
-    },
-    {
-        id: 15,
-        name: 'insect',
-        text: "곤충"
-    },
-    {
-        id: 16,
-        name: 'dog',
-        text: "기타"
-    },
 ];
 
 const DeadLine = [
     {
-        id: 1,
+        id: 11,
         name: "[가성비 좋은 모래] 벤토나이트 모래",
         percent: "35%",
         price: "56,000원",
         period: "공동구매 마감까지 10:27:21 남음"
     },
     {
-        id: 2,
+        id: 12,
         name: "[가성비 좋은 모래] 벤토나이트 모래",
         percent: "35%",
         price: "56,000원",
         period: "공동구매 마감까지 10:27:21 남음"
     },
     {
-        id: 3,
+        id: 13,
         name: "[가성비 좋은 모래] 벤토나이트 모래",
         percent: "35%",
         price: "56,000원",
         period: "공동구매 마감까지 10:27:21 남음"
     },
     {
-        id: 4,
+        id: 14,
         name: "[가성비 좋은 모래] 벤토나이트 모래",
         percent: "35%",
         price: "56,000원",
@@ -205,21 +177,21 @@ const DeadLine = [
 
 const Recommend = [
     {
-        id: 1,
+        id: 21,
         name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
         kind: "사료",
         price: "56,000원",
         date: "2023.05.09"
     },
     {
-        id: 2,
+        id: 22,
         name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
         kind: "사료",
         price: "56,000원",
         date: "2023.05.09"
     },
     {
-        id: 3,
+        id: 23,
         name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
         kind: "사료",
         price: "56,000원",
@@ -232,10 +204,10 @@ const Main = () => {
     const petName = "달이";
     
     return (
-        <Page>
+        <PageContainer>
             <Image/>
             <CategoryList>
-                {Category.map((cate) => 
+                {Category.map((cate, id) => 
                     <Menu key={cate.name}>
                         {cate.text}
                     </Menu>
@@ -247,16 +219,18 @@ const Main = () => {
                     <NextBtn src={arrow} alt="자세히보기"/>
                 </DetailMenuTitle>
                 <DeadLineList>
-                    {DeadLine.map((items) => 
-                        <DeadlineProduct 
-                            id={items.id}
-                            src={productExample}
-                            name={items.name}
-                            percent={items.percent}
-                            price={items.price}
-                            period={items.period} 
-                        />
-                    )}
+                    {DeadLine.map((items) => (
+                        <ProductSelect to={`/ProductDetail/${items.id}`}>
+                            <DeadlineProduct 
+                                id={items.id}
+                                src={productExample}
+                                name={items.name}
+                                percent={items.percent}
+                                price={items.price}
+                                period={items.period}
+                            />
+                        </ProductSelect>
+                    ))}
                 </DeadLineList>
             </DetailMenu>
             <DetailMenu>
@@ -265,7 +239,8 @@ const Main = () => {
                     <NextBtn src={arrow} alt="자세히보기"/>
                 </DetailMenuTitle>
                 <RecommendList>
-                    {Recommend.map((items) =>
+                    {Recommend.map((items) => (
+                    <ProductSelect to={`/ProductDetail/${items.id}`}>
                         <RecommemdProduct
                             id={items.id}
                             src={productExample}
@@ -274,11 +249,12 @@ const Main = () => {
                             price={items.price}
                             date={items.date}
                         />
-                    )}
+                    </ProductSelect>
+                    ))}
                 </RecommendList>
             </DetailMenu>
             <MoreBtn> 더보기 </MoreBtn>
-        </Page>
+        </PageContainer>
     );
 }
 
