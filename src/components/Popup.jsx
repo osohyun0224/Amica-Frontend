@@ -1,3 +1,4 @@
+//언젠간 쓰겠죠.. 일단 남겨둡니다
 import PropTypes from "prop-types";
 import XButton from "../assets/images/x.png";
 import styled from "styled-components";
