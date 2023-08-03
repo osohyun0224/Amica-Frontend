@@ -166,17 +166,24 @@ function SignupPage() {
   const [agree, setAgree] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [agreePrivacy, setAgreePrivacy] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordCheck, setPasswordCheck] = useState('')
   const [agreeMarketing, setAgreeMarketing] = useState(false);
-  const [email, setEmail] = useState("");
   const [invalidEmail, setInvalidEmail] = useState(false);
-  const [password, setPassword] = useState("");
-  const [passwordCheck, setPasswordCheck] = useState("");
   const [isValid, setIsValid] = useState(false);
 
   const [lengthRequirement, setLengthRequirement] = useState(false);
   const [letterRequirement, setLetterRequirement] = useState(false);
   const [numberRequirement, setNumberRequirement] = useState(false);
   const [isPasswordMatch, setIsPasswordMatch] = useState(null);
+  
+  const handleToggleAgreeTerms = () => setAgreeTerms(!agreeTerms);
+  const handleToggleAgreePrivacy = () => setAgreePrivacy(!agreePrivacy);
+  const handleEmailChange = (e) => setEmail(e.target.value);
+  const handlePasswordChange = (e) => setPassword(e.target.value);
+  const handlePasswordCheckChange = (e) => setPasswordCheck(e.target.value);
+  const handleNextClick = () => {
 
   const handlePasswordChange = (e) => {
     const passwordValue = e.target.value;
@@ -260,97 +267,65 @@ function SignupPage() {
 
   return (
     <PageContainer>
-      <Header>
-        <Link to="/">
-          <BackButtonImage src={BackButton} alt="Back" />
-        </Link>
-        <HeaderTitle>회원가입</HeaderTitle>
-      </Header>
-      <TermsAgreeTitle>약관 동의</TermsAgreeTitle>
-      <CheckboxContainer>
-        <CheckboxItem border>
-          <CheckboxInput
-            type="checkbox"
-            id="agree"
-            checked={agree}
-            onChange={toggleCheckbox}
-          />
-          <CheckboxLabel htmlFor="agree"> 전체 약관 동의</CheckboxLabel>
-        </CheckboxItem>
-        <CheckboxItem>
-          <CheckboxInput
-            type="checkbox"
-            id="terms"
-            checked={agreeTerms}
-            onChange={toggleCheckboxTerms}
-          />
-          <CheckboxLabel htmlFor="terms">[필수] 서비스 이용 약관</CheckboxLabel>
-        </CheckboxItem>
-        <CheckboxItem>
-          <CheckboxInput
-            type="checkbox"
-            id="privacy"
-            checked={agreePrivacy}
-            onChange={toggleCheckboxPrivacy}
-          />
-          <CheckboxLabel htmlFor="privacy">
-            [필수] 개인정보 수집 및 이용
-          </CheckboxLabel>
-        </CheckboxItem>
-        <CheckboxItem>
-          <CheckboxInput
-            type="checkbox"
-            id="marketing"
-            checked={agreeMarketing}
-            onChange={toggleCheckboxMarketing}
-          />
-          <CheckboxLabel htmlFor="marketing">
-            혜택 및 마케팅 정보 수신 동의
-          </CheckboxLabel>
-        </CheckboxItem>
-      </CheckboxContainer>
-      <EmailLabel>이메일</EmailLabel>
+      <HeaderComponent />
+      <TermsAgreement
+        agree={agree}
+        agreeTerms={agreeTerms}
+        agreePrivacy={agreePrivacy}
+        agreeMarketing={agreeMarketing}
+        toggleCheckbox={toggleCheckbox}
+        toggleCheckboxTerms={toggleCheckboxTerms}
+        toggleCheckboxPrivacy={toggleCheckboxPrivacy}
+        toggleCheckboxMarketing={toggleCheckboxMarketing}
+      />
+      
+물론이죠, 코드에서 회원가입 페이지를 구현하는데 필요한 컴포넌트를 정리해 보았습니다. 수정해야 할 주요 부분을 몇 가지 파악했습니다:
+
+TermsAgreementComponent: 이 부분은 TermsAgreement 컴포넌트로 대체해야 할 것 같습니다. 그리고 해당 컴포넌트에 필요한 props도 전달해주어야 합니다.
+EmailAndPasswordComponent: 이 부분에 대한 구현이 누락된 것 같습니다. 실제 이메일과 비밀번호 입력을 위한 코드를 추가해야 할 것 같습니다.
+HeaderComponent: HeaderComponent를 불러오지 않고 있습니다. 여기에서는 SignUpHeader로 불러왔으므로 그에 맞게 수정해주면 됩니다.
+아래는 수정된 부분입니다.
+
+jsx
+Copy code
+function SignupPage() {
+  // ... 이전과 동일한 state 및 로직
+
+  return (
+    <PageContainer>
+      <SignUpHeader />
+      <TermsAgreement
+        agree={agree}
+        agreeTerms={agreeTerms}
+        agreePrivacy={agreePrivacy}
+        agreeMarketing={agreeMarketing}
+        toggleCheckbox={toggleCheckbox}
+        toggleCheckboxTerms={toggleCheckboxTerms}
+        toggleCheckboxPrivacy={toggleCheckboxPrivacy}
+        toggleCheckboxMarketing={toggleCheckboxMarketing}
+      />
+      {/* 이메일 및 비밀번호 입력 부분 추가 */}
+      <EmailLabel>Email Address</EmailLabel>
       <EmailInputField
-        placeholder="이메일 주소를 입력하세요."
         type="email"
-        onChange={handleEmailChange}
         value={email}
+        onChange={handleEmailChange}
         invalidEmail={invalidEmail}
       />
-      {invalidEmail && (
-        <InvalidEmailMessage>
-          이메일 형식을 다시 확인해주세요
-        </InvalidEmailMessage>
-      )}
+      {invalidEmail && <InvalidEmailMessage>Invalid Email</InvalidEmailMessage>}
       <PasswordInput
-        label="비밀번호"
-        placeholder="비밀번호를 입력하세요."
         type="password"
-        onChange={handlePasswordChange}
         value={password}
+        onChange={handlePasswordChange}
       />
-      <RequirementsContainer>
-        <RequirementText $isValid={lengthRequirement}>
-          8자 이상 {lengthRequirement ? "✓" : ""}
-        </RequirementText>
-        <RequirementText $isValid={letterRequirement}>
-          영문 포함 {letterRequirement ? "✓" : ""}
-        </RequirementText>
-        <RequirementText $isValid={numberRequirement}>
-          숫자 포함 {numberRequirement ? "✓" : ""}
-        </RequirementText>
-      </RequirementsContainer>
-      <PasswordInput
-        label="비밀번호 확인"
-        placeholder="비밀번호를 입력하세요."
-        type="password"
-        onChange={handlePasswordCheckChange}
-        value={passwordCheck}
+      <EmailAndPasswordComponent 
+        email={email}
+        password={password}
+        passwordCheck={passwordCheck}
+        handleEmailChange={handleEmailChange}
+        handlePasswordChange={handlePasswordChange}
+        handlePasswordCheckChange={handlePasswordCheckChange}
       />
-      <ConfirmationText $isValid={isPasswordMatch}>
-        비밀번호 확인{" "}
-        {isPasswordMatch !== null ? (isPasswordMatch ? "✓" : "") : ""}
-      </ConfirmationText>
       <BottomBox
         to="/"
         onClick={handleNextClick}

@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import PropTypes from 'prop-types';
+
 
 const CheckboxContainer = styled.div`
   display: block;
@@ -65,6 +67,22 @@ const CheckboxLabel = styled.label`
     transform: rotate(45deg);
   }
 `;
+
+const TermsAgreeTitle = styled.h1`
+  font-size: 18px;
+  margin-bottom: 15px;
+`;
+
+TermsAgreement.propTypes = {
+  agree: PropTypes.bool.isRequired,
+  toggleCheckbox: PropTypes.func.isRequired,
+  agreeTerms: PropTypes.bool.isRequired,
+  toggleCheckboxTerms: PropTypes.func.isRequired,
+  agreePrivacy: PropTypes.bool.isRequired,
+  toggleCheckboxPrivacy: PropTypes.func.isRequired,
+  agreeMarketing: PropTypes.bool.isRequired,
+  toggleCheckboxMarketing: PropTypes.func.isRequired,
+};
 
 function TermsAgreement({ 
     agree, toggleCheckbox, agreeTerms, toggleCheckboxTerms,
