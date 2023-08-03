@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import InputForm from "../../components/InputForm.jsx";
+//import InputForm from "../../components/InputForm.jsx";
 import BackButton from "../../assets/images/getback.png";
 
 const PageContainer = styled.div`
@@ -54,11 +54,13 @@ const TermsAgreeTitle = styled.h3`
   line-height: 30px;
   letter-spacing: -0.02em;
   text-align: left;
+  margin-top: 10px;
+  margin-left: -30px;
 `;
 
-const EmailInput = styled(InputForm)`
-  //혹시 몰라서 일단 스타일 넣어둠.
-`;
+// const EmailInput = styled(InputForm)`
+//   //혹시 몰라서 일단 스타일 넣어둠.
+// `;
 
 const CheckboxContainer = styled.div`
   display: block;
@@ -68,13 +70,15 @@ const CheckboxContainer = styled.div`
   user-select: none;
   padding-bottom: 15px;
   margin-top: 10px;
+  margin-left: -27px;
 `;
 
 const CheckboxItem = styled.div`
   border-bottom: ${(props) =>
     props.border === true ? "1px solid black" : "none"};
-  padding-bottom: 10px;
-  margin-top: 10px;
+  padding-bottom: 6px;
+  margin-top:10px;
+  width: 400px; 
 `;
 
 const CheckboxInput = styled.input`
@@ -122,6 +126,28 @@ const CheckboxLabel = styled.label`
     border-width: 0 3px 3px 0;
     transform: rotate(45deg);
   }
+`;
+
+// 이메일 라벨을 위한 스타일 컴포넌트
+const EmailLabel = styled.label`
+  font-family: NanumGothic;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #151515;
+  margin-top: 20px;
+`;
+
+// 이메일 입력 필드를 위한 스타일 컴포넌트
+const EmailInputField = styled.input`
+  width: 329px;
+  height: 40px;
+  top: 340px;
+  left: 23px;
+  border-radius: 5px;
+  border: 1px solid #000; // 경계선 색상 설정
 `;
 
 const BottomBox = styled(Link)`
@@ -190,11 +216,6 @@ function SignupPage() {
         <HeaderTitle>회원가입</HeaderTitle>
       </Header>
       <TermsAgreeTitle>약관 동의</TermsAgreeTitle> 
-      <EmailInput
-        label="이메일"
-        placeholder="이메일 주소를 입력하세요."
-        type="email"
-      />
       <CheckboxContainer>
         <CheckboxItem border>
           <CheckboxInput
@@ -203,7 +224,7 @@ function SignupPage() {
             checked={agree}
             onChange={toggleCheckbox}
           />
-          <CheckboxLabel htmlFor="agree"> 전체동의</CheckboxLabel>
+          <CheckboxLabel htmlFor="agree"> 전체 약관 동의</CheckboxLabel>
         </CheckboxItem>
         <CheckboxItem>
           <CheckboxInput
@@ -212,7 +233,7 @@ function SignupPage() {
             checked={agreeTerms}
             onChange={toggleCheckboxTerms}
           />
-          <CheckboxLabel htmlFor="terms">서비스 이용 약관</CheckboxLabel>
+          <CheckboxLabel htmlFor="terms">[필수] 서비스 이용 약관</CheckboxLabel>
         </CheckboxItem>
         <CheckboxItem>
           <CheckboxInput
@@ -222,7 +243,7 @@ function SignupPage() {
             onChange={toggleCheckboxPrivacy}
           />
           <CheckboxLabel htmlFor="privacy">
-            개인정보 수집 및 이용
+          [필수] 개인정보 수집 및 이용
           </CheckboxLabel>
         </CheckboxItem>
         <CheckboxItem>
@@ -233,10 +254,15 @@ function SignupPage() {
             onChange={toggleCheckboxMarketing}
           />
           <CheckboxLabel htmlFor="marketing">
-            혜택 및 마케팅 정보 수신 동의 (선택)
+            혜택 및 마케팅 정보 수신 동의 
           </CheckboxLabel>
         </CheckboxItem>
       </CheckboxContainer>
+      <EmailLabel>이메일</EmailLabel>
+      <EmailInputField
+        placeholder="이메일 주소를 입력하세요."
+        type="email"
+      />
       <BottomBox
         to="/"
         onClick={handleNextClick}
