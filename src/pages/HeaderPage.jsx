@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
-
+import SearchBar from "../components/SearchBar.jsx";
 import ProfileImage from "../assets/images/profile.png";
+import Menu from "../assets/images/hamburger.png";
 
 const Header = styled.div`
   position: relative;
@@ -25,10 +27,15 @@ const Title = styled.p`
   font-size: 24px;
   font-weight: 600;
 `;
+const RightImagesWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const Image = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
 `;
 
 const MenuWrapper = styled.div`
@@ -69,34 +76,104 @@ const Content = styled.div`
   overflow: auto;
 `;
 
+const Container = styled.div`
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+`;
+
+const ProfileNav = styled.div`
+  width: 319px;
+  height: 777px;
+  top: 73px;
+  position: fixed;
+  right: calc(50% - 250px);
+  background-color: white;
+  overflow: auto;
+  z-index: 10;
+  display: ${(props) => (props.show ? "block" : "none")};
+`;
+
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #151515b2;
+  z-index: 5;
+  display: ${(props) => (props.show ? "block" : "none")};
+`;
+const PopularTitle = styled.div`
+  font-family: Nanum Gothic;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin-top: 20px;
+  margin-left: 10px;
+`;
+
+const PopularKeyword = styled.div`
+`;
+
 function HeaderPage() {
   const { pathname } = useLocation();
+  const [showProfileNav, setShowProfileNav] = useState(false);
   const getSelected = (value) => (pathname === value ? "selected" : "");
+
+  const toggleProfileNav = () => {
+    setShowProfileNav((prevShowProfileNav) => !prevShowProfileNav);
+  };
+
+  const closeProfileNav = () => {
+    setShowProfileNav(false);
+  };
+  const [searchValue, setSearchValue] = useState();
+
   return (
     <>
-      <Header>
-        <TitleWrapper>
-          <Title>Title</Title>
-          <Image src={ProfileImage} alt="프로필" />
-        </TitleWrapper>
-        <MenuWrapper>
-          <MenuButton to="/main" className={getSelected("/main")}>
-            HOME
-          </MenuButton>
-          <MenuButton
-            to="/account-book"
-            className={getSelected("/account-book")}
-          >
-            가계부
-          </MenuButton>
-          <MenuButton to="/my-pet" className={getSelected("/my-pet")}>
-            My Pet
-          </MenuButton>
-        </MenuWrapper>
-      </Header>
-      <Content>
-        <Outlet />
-      </Content>
+      <Container>
+        <Header>
+          <TitleWrapper>
+            <Title>Title</Title>
+            <RightImagesWrapper>
+              <Image src={Menu} alt="메뉴" />
+              <Image
+                src={ProfileImage}
+                alt="프로필"
+                onClick={toggleProfileNav}
+              />
+            </RightImagesWrapper>
+          </TitleWrapper>
+          <MenuWrapper>
+            <MenuButton to="/main" className={getSelected("/main")}>
+              HOME
+            </MenuButton>
+            <MenuButton
+              to="/account-book"
+              className={getSelected("/account-book")}
+            >
+              가계부
+            </MenuButton>
+            <MenuButton to="/my-pet" className={getSelected("/my-pet")}>
+              My Pet
+            </MenuButton>
+          </MenuWrapper>
+        </Header>
+        <Content>
+          <Outlet />
+        </Content>
+        <ProfileNav show={showProfileNav}>
+          <SearchBar value={searchValue} onChange={setSearchValue} />
+          <PopularTitle>인기 검색어</PopularTitle>
+          <PopularKeyword />
+        </ProfileNav>
+      </Container>
+      {showProfileNav && (
+        <Overlay show={showProfileNav} onClick={closeProfileNav} />
+      )}
     </>
   );
 }
