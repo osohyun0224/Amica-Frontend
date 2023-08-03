@@ -32,7 +32,7 @@ const BackButtonImage = styled.img`
   cursor: pointer;
 `;
 
-function HeaderComponent() {
+function SignUpHeader() {
   return (
     <Header>
       <Link to="/">
@@ -43,4 +43,4 @@ function HeaderComponent() {
   );
 }
 
-export default HeaderComponent;
+export default SignUpHeader;

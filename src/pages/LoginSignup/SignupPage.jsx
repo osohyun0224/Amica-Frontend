@@ -11,72 +11,6 @@ import TermsAgreement from "../../components/TermsAgreement";
 //   //혹시 몰라서 일단 스타일 넣어둠.
 // `;
 
-const CheckboxContainer = styled.div`
-  display: block;
-  position: relative;
-  padding-left: 0px;
-  cursor: pointer;
-  user-select: none;
-  padding-bottom: 15px;
-  margin-top: 10px;
-  margin-left: -27px;
-`;
-
-const CheckboxItem = styled.div`
-  border-bottom: ${(props) =>
-    props.border === true ? "1px solid black" : "none"};
-  padding-bottom: 6px;
-  margin-top: 10px;
-  width: 400px;
-`;
-
-const CheckboxInput = styled.input`
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-`;
-
-const CheckboxLabel = styled.label`
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  margin-bottom: 10px;
-
-  &:before {
-    content: "";
-    margin-right: 10px;
-    display: inline-block;
-    vertical-align: text-top;
-    width: 18px;
-    height: 18px;
-    border: 1px solid #667080;
-    border-radius: 3px;
-  }
-
-  ${CheckboxInput}:checked ~ &:before {
-    background-color: #667080;
-  }
-
-  &:after {
-    content: "";
-    position: absolute;
-    display: none;
-  }
-
-  ${CheckboxInput}:checked ~ &:after {
-    display: block;
-    left: 9px;
-    top: 13px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    transform: rotate(45deg);
-  }
-`;
-
 // 이메일 라벨을 위한 스타일 컴포넌트
 const EmailLabel = styled.label`
   font-family: NanumGothic;
@@ -267,32 +201,6 @@ function SignupPage() {
 
   return (
     <PageContainer>
-      <HeaderComponent />
-      <TermsAgreement
-        agree={agree}
-        agreeTerms={agreeTerms}
-        agreePrivacy={agreePrivacy}
-        agreeMarketing={agreeMarketing}
-        toggleCheckbox={toggleCheckbox}
-        toggleCheckboxTerms={toggleCheckboxTerms}
-        toggleCheckboxPrivacy={toggleCheckboxPrivacy}
-        toggleCheckboxMarketing={toggleCheckboxMarketing}
-      />
-      
-물론이죠, 코드에서 회원가입 페이지를 구현하는데 필요한 컴포넌트를 정리해 보았습니다. 수정해야 할 주요 부분을 몇 가지 파악했습니다:
-
-TermsAgreementComponent: 이 부분은 TermsAgreement 컴포넌트로 대체해야 할 것 같습니다. 그리고 해당 컴포넌트에 필요한 props도 전달해주어야 합니다.
-EmailAndPasswordComponent: 이 부분에 대한 구현이 누락된 것 같습니다. 실제 이메일과 비밀번호 입력을 위한 코드를 추가해야 할 것 같습니다.
-HeaderComponent: HeaderComponent를 불러오지 않고 있습니다. 여기에서는 SignUpHeader로 불러왔으므로 그에 맞게 수정해주면 됩니다.
-아래는 수정된 부분입니다.
-
-jsx
-Copy code
-function SignupPage() {
-  // ... 이전과 동일한 state 및 로직
-
-  return (
-    <PageContainer>
       <SignUpHeader />
       <TermsAgreement
         agree={agree}
@@ -335,5 +243,6 @@ function SignupPage() {
       </BottomBox>
     </PageContainer>
   );
+}
 }
 export default SignupPage;
