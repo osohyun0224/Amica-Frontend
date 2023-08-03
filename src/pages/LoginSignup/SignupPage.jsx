@@ -128,7 +128,6 @@ const CheckboxLabel = styled.label`
   }
 `;
 
-// 이메일 라벨을 위한 스타일 컴포넌트
 const EmailLabel = styled.label`
   font-family: NanumGothic;
   font-size: 16px;
@@ -137,7 +136,8 @@ const EmailLabel = styled.label`
   letter-spacing: -0.02em;
   text-align: left;
   color: #151515;
-  margin-top: 20px;
+  margin-top: 0px;
+  margin-left: -27px;
 `;
 
 const EmailInputField = styled.input`
@@ -147,7 +147,8 @@ const EmailInputField = styled.input`
   left: 23px;
   border-radius: 5px;
   border: 1px solid
-    ${(props) => (props.invalidEmail ? "#D94A56" : "transparent")}; // 경계선 색상 설정
+    ${(props) => (props.invalidEmail ? "#D94A56" : "transparent")};
+  margin-left: -27px;
 `;
 
 const InvalidEmailMessage = styled.p`
@@ -156,26 +157,17 @@ const InvalidEmailMessage = styled.p`
   font-size: 14px;
 `;
 
-const BottomBox = styled(Link)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 84px;
-  background-color: #667080;
-  color: white;
-  text-align: center;
-  position: absolute;
-  bottom: 0;
-  text-decoration: none;
-  margin-left: -50px;
-  opacity: ${(props) => (props.active ? "1" : "0.5")};
-  pointer-events: ${(props) => (props.active ? "auto" : "none")};
+const PasswordLabel = styled.label`
+  font-family: NanumGothic;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #151515;
+  margin-top: 0px;
+  margin-left: -27px;
 `;
-
-/*const SignupContainer = styled.div`
-  // 여기에 필요한 CSS를 추가하세요
-`;*/
 
 const PasswordInput = styled.input`
   width: 329px;
@@ -192,7 +184,8 @@ const RequirementsContainer = styled.div`
   font-weight: 500;
   display: flex;
   justify-content: flex-start;
-  margin-top: -30px;
+  margin-top: 5px;
+  margin-bottom: 10px;
 `;
 
 const RequirementText = styled.span`
@@ -211,6 +204,24 @@ const ConfirmationText = styled.span`
   color: ${(props) =>
     props.$isValid === null ? "red" : props.$isValid ? "green" : "red"};
   margin-top: -30px;
+  margin-top: 5px;
+`;
+
+const BottomBox = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 84px;
+  background-color: #667080;
+  color: white;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  text-decoration: none;
+  margin-left: -50px;
+  opacity: ${(props) => (props.active ? "1" : "0.5")};
+  pointer-events: ${(props) => (props.active ? "auto" : "none")};
 `;
 
 function SignupPage() {
@@ -373,6 +384,7 @@ function SignupPage() {
           이메일 형식을 다시 확인해주세요
         </InvalidEmailMessage>
       )}
+      <PasswordLabel>비밀번호</PasswordLabel>
       <PasswordInput
         label="비밀번호"
         placeholder="비밀번호를 입력하세요."
@@ -380,6 +392,7 @@ function SignupPage() {
         onChange={handlePasswordChange}
         value={password}
       />
+
       <RequirementsContainer>
         <RequirementText $isValid={lengthRequirement}>
           8자 이상 {lengthRequirement ? "✓" : ""}
@@ -391,6 +404,7 @@ function SignupPage() {
           숫자 포함 {numberRequirement ? "✓" : ""}
         </RequirementText>
       </RequirementsContainer>
+
       <PasswordInput
         label="비밀번호 확인"
         placeholder="비밀번호를 입력하세요."
@@ -398,6 +412,7 @@ function SignupPage() {
         onChange={handlePasswordCheckChange}
         value={passwordCheck}
       />
+
       <ConfirmationText $isValid={isPasswordMatch}>
         비밀번호 확인{" "}
         {isPasswordMatch !== null ? (isPasswordMatch ? "✓" : "") : ""}
