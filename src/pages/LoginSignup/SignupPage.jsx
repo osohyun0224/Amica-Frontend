@@ -48,24 +48,6 @@ const BackButtonImage = styled.img`
   cursor: pointer;
 `;
 
-const SignupTitle = styled.h3`
-  font-family: "Nanum Gothic";
-  font-size: 24px;
-  font-weight: 700;
-  margin-top: 80px;
-  margin-left: -20px;
-  color: #667080;
-`;
-
-const SignupText = styled.p`
-  font-family: "Nanum Gothic";
-  font-size: 14px;
-  font-weight: 500;
-  text-align: left;
-  margin-top: 10px;
-  margin-left: -20px;
-  color: #667080;
-`;
 
 const EmailInput = styled(InputForm)`
   //혹시 몰라서 일단 스타일 넣어둠.
@@ -162,6 +144,15 @@ const CheckboxLabel = styled.label`
 //   }
 // `;
 
+const TermsAgreeTitle = styled.h3`
+  font-family: NanumGothic;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 30px;
+  letter-spacing: -0.02em;
+  text-align: left;
+`;
+
 function SignupPage() {
   const [agree, setAgree] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
@@ -211,10 +202,7 @@ function SignupPage() {
         </Link>
         <HeaderTitle>회원가입</HeaderTitle>
       </Header>
-      <SignupTitle>회원가입</SignupTitle>
-      <SignupText>
-        필요한 서비스를 받을 수 있는 <br /> 이메일 주소를 입력하세요.
-      </SignupText>
+      <TermsAgreeTitle>약관 동의</TermsAgreeTitle> 
       <EmailInput
         label="이메일"
         placeholder="이메일 주소를 입력하세요."
