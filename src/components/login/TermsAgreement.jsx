@@ -1,6 +1,16 @@
 import styled from "styled-components";
 import PropTypes from 'prop-types';
 
+const TermsAgreeTitle = styled.h3`
+  font-family: NanumGothic;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 30px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  margin-top: 10px;
+  margin-left: -30px;
+`;
 
 const CheckboxContainer = styled.div`
   display: block;
@@ -8,16 +18,16 @@ const CheckboxContainer = styled.div`
   padding-left: 0px;
   cursor: pointer;
   user-select: none;
-  padding-bottom: 15px;
-  margin-top: 10px;
+  padding-bottom: 0px;
+  margin-top: 0px;
   margin-left: -27px;
 `;
 
 const CheckboxItem = styled.div`
   border-bottom: ${(props) =>
     props.border === true ? "1px solid black" : "none"};
-  padding-bottom: 6px;
-  margin-top: 10px;
+  padding-bottom: 3px;
+  margin-top: 5px;
   width: 400px;
 `;
 
@@ -32,7 +42,7 @@ const CheckboxInput = styled.input`
 const CheckboxLabel = styled.label`
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 10px;
   margin-bottom: 10px;
 
   &:before {
@@ -68,31 +78,20 @@ const CheckboxLabel = styled.label`
   }
 `;
 
-const TermsAgreeTitle = styled.h1`
-  font-size: 18px;
-  margin-bottom: 15px;
-`;
-
-TermsAgreement.propTypes = {
-  agree: PropTypes.bool.isRequired,
-  toggleCheckbox: PropTypes.func.isRequired,
-  agreeTerms: PropTypes.bool.isRequired,
-  toggleCheckboxTerms: PropTypes.func.isRequired,
-  agreePrivacy: PropTypes.bool.isRequired,
-  toggleCheckboxPrivacy: PropTypes.func.isRequired,
-  agreeMarketing: PropTypes.bool.isRequired,
-  toggleCheckboxMarketing: PropTypes.func.isRequired,
-};
-
-function TermsAgreement({ 
-    agree, toggleCheckbox, agreeTerms, toggleCheckboxTerms,
-    agreePrivacy, toggleCheckboxPrivacy, agreeMarketing, toggleCheckboxMarketing
-}) {
-  return (
-    <>
-      <TermsAgreeTitle>약관 동의</TermsAgreeTitle>
-      <CheckboxContainer>
-      <CheckboxItem border>
+const TermsAgreement = ({
+  agree,
+  agreeTerms,
+  agreePrivacy,
+  agreeMarketing,
+  toggleCheckbox,
+  toggleCheckboxTerms,
+  toggleCheckboxPrivacy,
+  toggleCheckboxMarketing,
+}) => (
+  <>
+    <TermsAgreeTitle>약관 동의</TermsAgreeTitle>
+    <CheckboxContainer>
+        <CheckboxItem border>
           <CheckboxInput
             type="checkbox"
             id="agree"
@@ -129,12 +128,22 @@ function TermsAgreement({
             onChange={toggleCheckboxMarketing}
           />
           <CheckboxLabel htmlFor="marketing">
-            혜택 및 마케팅 정보 수신 동의
+            [선택] 혜택 및 마케팅 정보 수신 동의
           </CheckboxLabel>
         </CheckboxItem>
       </CheckboxContainer>
-    </>
-  );
-}
+  </>
+);
+
+TermsAgreement.propTypes = {
+  agree: PropTypes.bool.isRequired,
+  toggleCheckbox: PropTypes.func.isRequired,
+  agreeTerms: PropTypes.bool.isRequired,
+  toggleCheckboxTerms: PropTypes.func.isRequired,
+  agreePrivacy: PropTypes.bool.isRequired,
+  toggleCheckboxPrivacy: PropTypes.func.isRequired,
+  agreeMarketing: PropTypes.bool.isRequired,
+  toggleCheckboxMarketing: PropTypes.func.isRequired,
+};
 
 export default TermsAgreement;
