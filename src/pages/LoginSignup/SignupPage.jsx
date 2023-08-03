@@ -17,9 +17,15 @@ const Header = styled.header`
 `;
 
 const HeaderTitle = styled.h1`
-  font-size: 24px;
-  color: #667080;
+  font-family: NanumGothic;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #151515;
 `;
+
 
 const PageContainer = styled.div`
   display: flex;
