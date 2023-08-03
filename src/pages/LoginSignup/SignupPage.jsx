@@ -227,7 +227,7 @@ const UsernameInputField = styled.input`
   top: 340px;
   left: 23px;
   border-radius: 5px;
-  border: 1px solid #d94a56;
+  border: 1px solid transparent;
   margin-left: -27px;
 `;
 
@@ -249,10 +249,9 @@ const PhoneInputField = styled.input`
   top: 340px;
   left: 23px;
   border-radius: 5px;
-  border: 1px solid #d94a56;
+  border: 1px solid transparent;
   margin-left: -27px;
 `;
-
 
 const BottomBox = styled(Link)`
   display: flex;
@@ -375,7 +374,7 @@ function SignupPage() {
   const handleNextClick = (e) => {
     e.preventDefault();
     if (agreeTerms && agreePrivacy) {
-      navigate("/password");
+      navigate("/compelete");
     }
   };
 
@@ -491,7 +490,7 @@ function SignupPage() {
         value={userphone}
       />
       <BottomBox
-        to="/"
+        to="/compelete"
         onClick={handleNextClick}
         active={agreeTerms && agreePrivacy && isValid ? 1 : 0}
       >
