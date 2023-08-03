@@ -3,60 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 //import InputForm from "../../components/InputForm.jsx";
 import BackButton from "../../assets/images/getback.png";
+import SignUpHeader from "../../components/HeaderComponent";
 
-const PageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  background-color: white;
-  min-height: 100vh;
-  margin: 0 auto;
-  max-width: 1000px;
-  padding-top: 30px;
-  padding-left: 50px;
-  position: relative;
-  z-index: 1;
-`;
-
-const Header = styled.header`
-  width: 111%;
-  height: 80px;
-  background: #eef1f4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  margin-top: -31px;
-  margin-left: -50px;
-`;
-
-const HeaderTitle = styled.h1`
-  font-family: NanumGothic;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 30px;
-  letter-spacing: -0.02em;
-  text-align: center;
-  color: #151515;
-`;
-
-const BackButtonImage = styled.img`
-  position: absolute;
-  left: 15px;
-  margin-top: -20px;
-  cursor: pointer;
-`;
-
-const TermsAgreeTitle = styled.h3`
-  font-family: NanumGothic;
-  font-size: 16px;
-  font-weight: 800;
-  line-height: 30px;
-  letter-spacing: -0.02em;
-  text-align: left;
-  margin-top: 10px;
-  margin-left: -30px;
-`;
 
 // const EmailInput = styled(InputForm)`
 //   //혹시 몰라서 일단 스타일 넣어둠.
