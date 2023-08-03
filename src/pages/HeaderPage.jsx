@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import SearchBar from "../components/searchbar";
+import SearchBar from "../components/Searchbar";
 
 import ProfileImage from "../assets/images/profile.png";
 import Menu from "../assets/images/hamburger.png";
