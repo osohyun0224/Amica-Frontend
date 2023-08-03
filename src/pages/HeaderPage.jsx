@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
@@ -34,7 +35,7 @@ const RightImagesWrapper = styled.div`
 const Image = styled.img`
   width: 30px;
   height: 30px;
-  margin-left: 10px; // 두 이미지 사이의 간격을 조정합니다.
+  margin-left: 10px;
 `;
 
 const MenuWrapper = styled.div`
@@ -75,27 +76,68 @@ const Content = styled.div`
   overflow: auto;
 `;
 
+const Container = styled.div`
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+`;
+
+const ProfileNav = styled.div`
+  width: 319px;
+  height: 777px;
+  top: 73px;
+  position: fixed;
+  right: calc(50% - 250px);
+  background-color: white;
+  overflow: auto;
+  z-index: 10; 
+  display: ${(props) => (props.show ? "block" : "none")};
+`;
+
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #151515B2;
+  z-index: 5; 
+  display: ${(props) => (props.show ? "block" : "none")};
+`;
+
 function HeaderPage() {
   const { pathname } = useLocation();
+  const [showProfileNav, setShowProfileNav] = useState(false);
   const getSelected = (value) => (pathname === value ? "selected" : "");
+
+  const toggleProfileNav = () => {
+    setShowProfileNav((prevShowProfileNav) => !prevShowProfileNav);
+  };
+
+  const closeProfileNav = () => {
+    setShowProfileNav(false);
+  };
+
   return (
     <>
+    <Container >
       <Header>
         <TitleWrapper>
           <Title>Title</Title>
           <RightImagesWrapper>
             <Image src={Menu} alt="메뉴" />
-            <Image src={ProfileImage} alt="프로필" />
+            <Image
+              src={ProfileImage}
+              alt="프로필"
+              onClick={toggleProfileNav}
+            />
           </RightImagesWrapper>
         </TitleWrapper>
         <MenuWrapper>
           <MenuButton to="/main" className={getSelected("/main")}>
             HOME
           </MenuButton>
-          <MenuButton
-            to="/account-book"
-            className={getSelected("/account-book")}
-          >
+          <MenuButton to="/account-book" className={getSelected("/account-book")}>
             가계부
           </MenuButton>
           <MenuButton to="/my-pet" className={getSelected("/my-pet")}>
@@ -106,7 +148,12 @@ function HeaderPage() {
       <Content>
         <Outlet />
       </Content>
+      <ProfileNav show={showProfileNav}>
+      </ProfileNav>
+    </Container>
+    {showProfileNav && <Overlay show={showProfileNav} onClick={closeProfileNav} />} {/* 오버레이에 onClick 추가 */}
     </>
   );
 }
+
 export default HeaderPage;
