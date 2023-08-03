@@ -231,6 +231,29 @@ const UsernameInputField = styled.input`
   margin-left: -27px;
 `;
 
+const PhoneLabel = styled.label`
+  font-family: NanumGothic;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #151515;
+  margin-top: 10px;
+  margin-left: -27px;
+`;
+
+const PhoneInputField = styled.input`
+  width: 329px;
+  height: 40px;
+  top: 340px;
+  left: 23px;
+  border-radius: 5px;
+  border: 1px solid #d94a56;
+  margin-left: -27px;
+`;
+
+
 const BottomBox = styled(Link)`
   display: flex;
   justify-content: center;
@@ -264,6 +287,12 @@ function SignupPage() {
   const [numberRequirement, setNumberRequirement] = useState(false);
   const [isPasswordMatch, setIsPasswordMatch] = useState(null);
   const [username, setUsername] = useState("");
+  const [userphone, setUserPhone] = useState("");
+
+  const handleUserPhoneChange = (e) => {
+    const userphoneInput = e.target.value;
+    setUserPhone(userphoneInput);
+  };
 
   const handleUsernameChange = (e) => {
     const usernameInput = e.target.value;
@@ -449,10 +478,17 @@ function SignupPage() {
       </ConfirmationText>
       <UsernameLabel>사용자 이름</UsernameLabel>
       <UsernameInputField
-        placeholder="사용자 이름을 입력하세요."
+        placeholder="  닉네임"
         type="text"
         onChange={handleUsernameChange}
         value={username}
+      />
+      <PhoneLabel>휴대폰 번호</PhoneLabel>
+      <PhoneInputField
+        placeholder="  휴대폰 번호"
+        type="text"
+        onChange={handleUserPhoneChange}
+        value={userphone}
       />
       <BottomBox
         to="/"
