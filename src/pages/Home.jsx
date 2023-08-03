@@ -26,16 +26,16 @@ const StyledButton = styled(Button)`
 `;
 
 const StyledLoginButton = styled(StyledButton)`
-  background: #667080;
+  background: #D94A56;
   color: white;
   box-shadow: 0px 4px 4px 0px #00000040;
+  border: 1px solid #D94A56;
 `;
 
 const StyledSignupButton = styled(StyledButton)`
-  background: linear-gradient(0deg, #eef1f4, #eef1f4),
-    linear-gradient(0deg, #667080, #667080);
-  color: #667080;
-  border: 1px solid #667080;
+  background: white;
+  color: #D94A56;
+  border: 1px solid #D94A56;
 `;
 
 const Title = styled.h1`
@@ -63,7 +63,7 @@ function Home() {
   return (
     <PageContainer>
       <Title>대충 깔쌈한 슬로건?</Title>
-      <SubTitle>너도 한번 Join 해라 어쩌고</SubTitle>
+      <SubTitle>서비스명 나오면 <br/> 그에 따른 ... 이쁜... 말 예정</SubTitle>
       <ButtonContainer>
         <Link to="/login">
           <StyledLoginButton>로그인</StyledLoginButton>
