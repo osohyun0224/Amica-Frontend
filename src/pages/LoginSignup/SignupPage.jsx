@@ -4,6 +4,22 @@ import styled from "styled-components";
 import InputForm from "../../components/InputForm.jsx";
 import BackButton from "../../assets/images/getback.png";
 
+const Header = styled.header`
+  width: 390px;
+  height: 66px;
+  border-bottom: 1px solid;
+  background: #EEF1F4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+`;
+
+const HeaderTitle = styled.h1`
+  font-size: 24px;
+  color: #667080;
+`;
+
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
