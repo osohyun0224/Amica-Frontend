@@ -4,6 +4,20 @@ import styled from "styled-components";
 import InputForm from "../../components/InputForm.jsx";
 import BackButton from "../../assets/images/getback.png";
 
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: white;
+  min-height: 100vh;
+  margin: 0 auto;
+  max-width: 1000px;
+  padding-top: 30px;
+  padding-left: 50px;
+  position: relative;
+  z-index: 1;
+`;
+
 const Header = styled.header`
   width: 111%;
   height: 80px;
@@ -26,21 +40,6 @@ const HeaderTitle = styled.h1`
   color: #151515;
 `;
 
-
-const PageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  background-color: white;
-  min-height: 100vh;
-  margin: 0 auto;
-  max-width: 1000px;
-  padding-top: 30px;
-  padding-left: 50px;
-  position: relative;
-  z-index: 1;
-`;
-
 const BackButtonImage = styled.img`
   position: absolute;
   left: 15px;
@@ -48,33 +47,19 @@ const BackButtonImage = styled.img`
   cursor: pointer;
 `;
 
+const TermsAgreeTitle = styled.h3`
+  font-family: NanumGothic;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 30px;
+  letter-spacing: -0.02em;
+  text-align: left;
+`;
 
 const EmailInput = styled(InputForm)`
   //혹시 몰라서 일단 스타일 넣어둠.
 `;
 
-const BottomBox = styled(Link)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 84px;
-  background-color: #667080;
-  color: white;
-  text-align: center;
-  position: absolute;
-  bottom: 0;
-  text-decoration: none;
-  margin-left: -50px;
-`;
-
-const CheckboxInput = styled.input`
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-`;
 const CheckboxContainer = styled.div`
   display: block;
   position: relative;
@@ -90,6 +75,14 @@ const CheckboxItem = styled.div`
     props.border === true ? "1px solid black" : "none"};
   padding-bottom: 10px;
   margin-top: 10px;
+`;
+
+const CheckboxInput = styled.input`
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
 `;
 
 const CheckboxLabel = styled.label`
@@ -131,27 +124,21 @@ const CheckboxLabel = styled.label`
   }
 `;
 
-
-// const Checkbox = styled.input`
-//   position: absolute;
-//   opacity: 0;
-//   cursor: pointer;
-//   height: 0;
-//   width: 0;
-
-//   &:checked ~ ${CheckboxLabel}:after {
-//     display: block;
-//   }
-// `;
-
-const TermsAgreeTitle = styled.h3`
-  font-family: NanumGothic;
-  font-size: 16px;
-  font-weight: 800;
-  line-height: 30px;
-  letter-spacing: -0.02em;
-  text-align: left;
+const BottomBox = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 84px;
+  background-color: #667080;
+  color: white;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  text-decoration: none;
+  margin-left: -50px;
 `;
+
 
 function SignupPage() {
   const [agree, setAgree] = useState(false);
