@@ -15,12 +15,14 @@ const Header = styled.div`
 `;
 
 const TitleWrapper = styled.div`
+padding: 8px 16px;
   width: 100%;
   height: 64px;
   padding: 8px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
 `;
 
 const Title = styled.p`
@@ -93,6 +95,10 @@ const ProfileNav = styled.div`
   overflow: auto;
   z-index: 10;
   display: ${(props) => (props.show ? "block" : "none")};
+
+  @media (max-width: 768px) {
+    width: 100%; 
+  }
 `;
 
 const Overlay = styled.div`
@@ -114,9 +120,35 @@ const PopularTitle = styled.div`
   text-align: left;
   margin-top: 20px;
   margin-left: 10px;
+  margin-bottom: 10px;
 `;
 
-const PopularKeyword = styled.div`
+const PopularKeywordWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-left: 12px;
+`;
+
+
+const Keyword = styled.div`
+  font-family: "Nanum Gothic";
+  min-width: 75px;
+  max-width: 100px; 
+  height: 26px;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: #FCECD9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+`;
+
+const SearchContainer = styled.div`
+  margin-left: -60px;
 `;
 
 function HeaderPage() {
@@ -132,6 +164,7 @@ function HeaderPage() {
     setShowProfileNav(false);
   };
   const [searchValue, setSearchValue] = useState();
+  const popularKeywords = ['#강아지용품', '#수제츄르', '#영양제' ];
 
   return (
     <>
@@ -167,10 +200,16 @@ function HeaderPage() {
           <Outlet />
         </Content>
         <ProfileNav show={showProfileNav}>
-          <SearchBar value={searchValue} onChange={setSearchValue} />
-          <PopularTitle>인기 검색어</PopularTitle>
-          <PopularKeyword />
-        </ProfileNav>
+        <SearchContainer>
+        <SearchBar value={searchValue} onChange={setSearchValue} />
+        </SearchContainer>
+        <PopularTitle>인기 검색어</PopularTitle>
+        <PopularKeywordWrapper>
+          {popularKeywords.map((keyword, index) => (
+            <Keyword key={index}>{keyword}</Keyword>
+          ))}
+        </PopularKeywordWrapper>
+      </ProfileNav>
       </Container>
       {showProfileNav && (
         <Overlay show={showProfileNav} onClick={closeProfileNav} />
