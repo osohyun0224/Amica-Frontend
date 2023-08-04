@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import InputForm from "../../components/InputForm.jsx";
+import SmallInputForm from "../SmallInputForm.jsx";
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -49,7 +50,7 @@ const ImageBox = styled.label`
   gap: 10px;
   background: #ffffff;
   cursor: pointer;
-  margin-top: 30px; // 위치 조정을 위한 마진
+  margin-top: 30px;
 `;
 
 const ImageInput = styled.input`
@@ -73,11 +74,38 @@ const NameHeader = styled.div`
   font-weight: 700;
   line-height: 30px;
   letter-spacing: -0.02em;
-  text-align: left; 
+  text-align: left;
   margin-top: 20px;
-  margin-left: -250px; 
+  margin-left: -250px;
 `;
 
+const LabelHeader = styled.div`
+  font-family: NanumGothic;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  margin-top: 20px;
+  margin-left: -0px;
+`;
+
+const InputField = styled.div`
+  display: flex;
+  flex-direction: column; 
+  margin-right: 5px;
+`;
+
+const InputRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  margin-top: -10px;
+  flex-direction: row; 
+  &:last-child ${InputField} {
+    margin-right: 5px;
+  }
+`;
 
 const MyPetInputModal = ({ show, onClose }) => {
   if (!show) return null;
@@ -94,6 +122,26 @@ const MyPetInputModal = ({ show, onClose }) => {
         </ImageBox>
         <NameHeader>이름 *</NameHeader>
         <InputForm placeholder="이름" />
+        <InputRow>
+          <InputField>
+            <LabelHeader>종 *</LabelHeader>
+            <SmallInputForm placeholder="종" />
+          </InputField>
+          <InputField>
+            <LabelHeader>품종 </LabelHeader>
+            <SmallInputForm placeholder="품종" />
+          </InputField>
+        </InputRow>
+        <InputRow>
+          <InputField>
+            <LabelHeader>나이 </LabelHeader>
+            <SmallInputForm placeholder="나이" />
+          </InputField>
+          <InputField>
+            <LabelHeader>성별 *</LabelHeader>
+            <SmallInputForm placeholder="성별" />
+          </InputField>
+        </InputRow>
       </ModalWrapper>
     </ModalOverlay>
   );
