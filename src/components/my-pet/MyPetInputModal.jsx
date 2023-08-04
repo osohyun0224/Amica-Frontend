@@ -107,6 +107,30 @@ const InputRow = styled.div`
   }
 `;
 
+const ConfirmButton = styled.div`
+  width:100%;
+  height: 60px;
+  padding: 12px 16px 12px 24px;
+  border-radius: 0px 0px 5px 5px;
+  gap: 10px;
+  background: #D94A56;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer; 
+`;
+
+const ConfirmText = styled.p`
+  font-family: Nanum Gothic;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  margin: 0;
+  color: #ffffff; 
+`;
+
 const MyPetInputModal = ({ show, onClose }) => {
   if (!show) return null;
 
@@ -142,6 +166,9 @@ const MyPetInputModal = ({ show, onClose }) => {
             <SmallInputForm placeholder="성별" />
           </InputField>
         </InputRow>
+        <ConfirmButton onClick={onClose}>
+          <ConfirmText>확인</ConfirmText>
+        </ConfirmButton>
       </ModalWrapper>
     </ModalOverlay>
   );
