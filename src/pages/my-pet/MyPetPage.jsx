@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { styled } from "styled-components";
 
-// 부드러운 스크롤 라이브러리
 import { useScrollContainer } from "react-indiana-drag-scroll";
 import "react-indiana-drag-scroll/dist/style.css";
 
@@ -10,6 +9,7 @@ import MyPetList from "../../components/my-pet/MyPetList.jsx";
 import MyPetListItem from "../../components/my-pet/MyPetListItem.jsx";
 
 import AddPetImage from "../../assets/images/addPet.png";
+import MyPetAddModal from "../../components/my-pet/MyPetInputModal.jsx";
 
 const Container = styled.div`
   margin: 12px 16px;
@@ -53,22 +53,17 @@ const MyPetPage = () => {
     },
   ];
 
-  // const [petList, setPetList] = useState([]);
-  const [petList, setPetList] = useState(samplePetListData);
+    const [petList] = useState(samplePetListData);
   const [pet, setPet] = useState(samplePetListData[0]);
+  const [showModal, setShowModal] = useState(false);
 
-  function AddPet() {
-    const name = prompt("이름을 지어주세요!");
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
 
-    setPetList([
-      ...petList,
-      {
-        id: petList[petList.length - 1] ?? 1,
-        image: "https://placehold.co/64",
-        name,
-      },
-    ]);
-  }
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <Container>
@@ -86,11 +81,12 @@ const MyPetPage = () => {
             }}
           />
         ))}
-        <MyPetListItem src={AddPetImage} name="추가하기" onClick={AddPet} />
+        <MyPetListItem src={AddPetImage} name="추가하기" onClick={handleOpenModal} />
       </MyPetList>
       <Heading>
         <HeadingBold>{pet.name}</HeadingBold>의 정보
       </Heading>
+      <MyPetAddModal show={showModal} onClose={handleCloseModal} />
     </Container>
   );
 };
