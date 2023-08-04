@@ -9,16 +9,22 @@ const Container = styled.div`
   border-radius: 22px;
   display: flex;
   align-items: center;
-  margin-top : 10px;
-  margin-left: 10px;
-  width: 300px;
-  height:43px;
+  margin-top: 10px;
+  margin-left: -10px;
+  width: 90%;
+  max-width: 300px; 
+  height: 43px;
+  @media (max-width: 768px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
 `;
+
 
 const SearchImage = styled.img`
   width: 20px;
   margin-right: 8px;
-  margin-left: -20px;
+  margin-left: -30px;
 `;
 
 const SearchInputField = styled.input`

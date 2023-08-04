@@ -15,12 +15,14 @@ const Header = styled.div`
 `;
 
 const TitleWrapper = styled.div`
+padding: 8px 16px;
   width: 100%;
   height: 64px;
   padding: 8px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
 `;
 
 const Title = styled.p`
@@ -93,6 +95,10 @@ const ProfileNav = styled.div`
   overflow: auto;
   z-index: 10;
   display: ${(props) => (props.show ? "block" : "none")};
+
+  @media (max-width: 768px) {
+    width: 100%; 
+  }
 `;
 
 const Overlay = styled.div`
@@ -141,9 +147,9 @@ const Keyword = styled.div`
   text-overflow: ellipsis; 
 `;
 
-
-// const PopularKeyword = styled.div`
-// `;
+const SearchContainer = styled.div`
+  margin-left: -60px;
+`;
 
 function HeaderPage() {
   const { pathname } = useLocation();
@@ -158,7 +164,7 @@ function HeaderPage() {
     setShowProfileNav(false);
   };
   const [searchValue, setSearchValue] = useState();
-  const popularKeywords = ['#강아지용품', '#수제츄르', '#영양제', '#캣타워' ];
+  const popularKeywords = ['#강아지용품', '#수제츄르', '#영양제' ];
 
   return (
     <>
@@ -194,7 +200,9 @@ function HeaderPage() {
           <Outlet />
         </Content>
         <ProfileNav show={showProfileNav}>
+        <SearchContainer>
         <SearchBar value={searchValue} onChange={setSearchValue} />
+        </SearchContainer>
         <PopularTitle>인기 검색어</PopularTitle>
         <PopularKeywordWrapper>
           {popularKeywords.map((keyword, index) => (
