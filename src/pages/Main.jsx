@@ -32,7 +32,7 @@ const Menu = styled.div`
     height: 60px;
     font-size: 11px;
     color: #667080;
-    background-color: #EEF1F4;
+    background-color: #FFFFFF;
     margin: 15px 15px 0 0;
     padding-bottom: 8px;
     justify-content: center;
@@ -76,7 +76,7 @@ const RecommendList = styled(ScrollContainer)`
 const Title = styled.div`
     font-size: 16px;
     font-weight: bold;
-    color: #667080;
+    color: #151515;
 `;
 
 const MoreBtn = styled.button`
