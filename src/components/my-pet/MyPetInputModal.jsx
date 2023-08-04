@@ -34,7 +34,7 @@ const ModalHeader = styled.div`
   margin-top: 20px;
 `;
 
-const ImageBox = styled.div`
+const ImageBox = styled.label`
   width: 118px;
   height: 118px;
   position: absolute;
@@ -47,6 +47,23 @@ const ImageBox = styled.div`
   align-items: center;
   justify-content: center;
   gap: 10px;
+  background: #FFFFFF;
+  cursor: pointer;
+`;
+
+const ImageInput = styled.input`
+  display: none;
+`;
+
+const ImageText = styled.p`
+  font-family: Nanum Gothic;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  margin: 0; 
+  color: #F2D335;
 `;
 
 
@@ -58,8 +75,9 @@ const MyPetInputModal = ({ show, onClose }) => {
     <ModalOverlay onClick={onClose}>
       <ModalWrapper onClick={e => e.stopPropagation()}>
         <ModalHeader>추가하기</ModalHeader>
-        <ImageBox>
-          <input type="file" accept="image/*" />
+        <ImageBox htmlFor="fileInput">
+          <ImageInput type="file" accept="image/*" id="fileInput" />
+          <ImageText>이미지를 <br/> 추가해주세요</ImageText>
         </ImageBox>
       </ModalWrapper>
     </ModalOverlay>

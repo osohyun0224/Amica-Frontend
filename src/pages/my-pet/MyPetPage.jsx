@@ -53,16 +53,24 @@ const MyPetPage = () => {
     },
   ];
 
-    const [petList] = useState(samplePetListData);
+  const [petList] = useState(samplePetListData);
   const [pet, setPet] = useState(samplePetListData[0]);
   const [showModal, setShowModal] = useState(false);
 
+  const handleModalToggle = (isOpen) => {
+    if (ref.current) {
+      ref.current.style.overflow = isOpen ? 'hidden' : 'auto';
+    }
+  };
+  
   const handleOpenModal = () => {
     setShowModal(true);
+    handleModalToggle(true);
   };
-
+  
   const handleCloseModal = () => {
     setShowModal(false);
+    handleModalToggle(false);
   };
 
   return (
