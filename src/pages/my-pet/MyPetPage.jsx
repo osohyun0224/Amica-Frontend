@@ -11,6 +11,8 @@ import MyPetListItem from "../../components/my-pet/MyPetListItem.jsx";
 import AddPetImage from "../../assets/images/addPet.png";
 import MyPetAddModal from "../../components/my-pet/MyPetInputModal.jsx";
 
+
+
 const Container = styled.div`
   margin: 12px 16px;
 `;
