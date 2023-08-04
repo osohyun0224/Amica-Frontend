@@ -13,6 +13,7 @@ const ModalOverlay = styled.div`
   justify-content: center;
   background: rgba(0, 0, 0, 0.4);
   box-shadow: 0px 2px 4px 0px #00000040;
+  z-index: 99;
 `;
 
 const ModalWrapper = styled.div`
@@ -21,6 +22,9 @@ const ModalWrapper = styled.div`
   position: relative;
   border-radius: 5px;
   background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const ModalHeader = styled.div`
@@ -36,9 +40,6 @@ const ModalHeader = styled.div`
 const ImageBox = styled.label`
   width: 118px;
   height: 118px;
-  position: absolute;
-  top: 222px;
-  left: 135px;
   padding: 2px 6px 2px 6px;
   border-radius: 5px;
   border: 1px solid #f2d335;
@@ -48,6 +49,7 @@ const ImageBox = styled.label`
   gap: 10px;
   background: #ffffff;
   cursor: pointer;
+  margin-top: 30px; // 위치 조정을 위한 마진
 `;
 
 const ImageInput = styled.input`
@@ -71,15 +73,11 @@ const NameHeader = styled.div`
   font-weight: 700;
   line-height: 30px;
   letter-spacing: -0.02em;
-  text-align: left;
-
-  font-family: NanumGothic;
-  font-size: 14px;
-  font-weight: 800;
-  line-height: 30px;
-  letter-spacing: -0.02em;
-  text-align: left;
+  text-align: left; 
+  margin-top: 20px;
+  margin-left: -250px; 
 `;
+
 
 const MyPetInputModal = ({ show, onClose }) => {
   if (!show) return null;
@@ -94,7 +92,7 @@ const MyPetInputModal = ({ show, onClose }) => {
             이미지를 <br /> 추가해주세요
           </ImageText>
         </ImageBox>
-        <NameHeader>이름 * </NameHeader> 
+        <NameHeader>이름 *</NameHeader>
         <InputForm placeholder="이름" />
       </ModalWrapper>
     </ModalOverlay>
