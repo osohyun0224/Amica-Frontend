@@ -1,8 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useState } from "react";
 import styled from "styled-components";
 import Button from "../components/Button";
+
 import MoreBtn from "../assets/images/rightArrow.png";
-import { useState } from "react";
 
 const PageContainer = styled.div`
     width: 100%;
@@ -37,7 +37,7 @@ const PerPrice = styled.div`
 const Percent = styled.p`
     font-size: 22px;
     font-weight: 700;
-    color: #667080;
+    color: #D94A56;
     line-height: 34.57px;
 `;
 
@@ -74,7 +74,7 @@ const GPTitle = styled.p`
 const GPTime = styled.p`
     font-size: 12px;
     font-weight: 400;
-    color: #667080;
+    color: #D94A56;
     line-height: 22px;
     letter-spacing: -0.02em;
 `;
@@ -88,15 +88,53 @@ const PurchaseBtn = styled(Button)`
     line-height: 22px;
     letter-spacing: -0.02em;
     text-align: center;
-    background-color: #667080;
+    background-color: #D94A56;
     border: none;
     box-shadow: none;
     margin-top: 5px;
 `;
 
+const SelectionContainer = styled.div`
+    width: 100%;
+    margin-top: 30px;
+`;
+
+const SelectionButton = styled.div`
+    width: 50%;
+    height: 48px;
+    border: none;
+    border-bottom: 1px solid rgba(102, 112, 128, 0.3);
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    float: left;
+    
+    &:hover {
+    background-color: #efefef;
+    }
+
+    &.select {
+        color: #D94A56;
+        border-bottom: 2px solid #D94A56;
+        font-weight: 600;
+    }
+`;
+
 const PromotionalImage = styled(Image)`
     height: 876px;
-    margin-top: 30px;
+    margin: 0;
+`;
+
+const Notice = styled.div`
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    margin-top: 50px;
 `;
 
 const SellerInfo = styled.div`
@@ -112,10 +150,22 @@ const SellerDetailInfo = styled.div`
     color: #667080;
     line-height: 22px;
     letter-spacing: -0.02em;
-    border: 1px solid #EEF1F4;
-    padding: 30px 20px;
     display: flex;
+    flex-direction: column;
+`;
+
+const SellerInfoTitle = styled.div`
+    display: flex;
+    flex-direction: row;
     justify-content: space-between;
+    padding: 30px 20px;
+    border: 1px solid #EEF1F4;
+`;
+
+const SellerInfoContent = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 15px 0 20px 20px;
 `;
 
 const SellerPhone = styled(SellerDetailInfo)`
@@ -126,17 +176,21 @@ const SellerPhone = styled(SellerDetailInfo)`
 `;
 
 const More = styled.img`
-    width: 12px;
-    height: 18px;
+    width: 9px;
+    height: 16px;
     transform: rotate(90deg);
     cursor: pointer;
+
+    &.clicked {
+        transform: rotate(270deg);
+    }
 `;
 
 const SellerInfoList = [
     {
         id: 1,
         name: '문의사항',
-        content: "0000-0000"
+        // content: "0000-0000"
     },
     {
         id: 2,
@@ -156,16 +210,22 @@ const SellerInfoList = [
     {
         id: 5,
         name: '판매자 정보',
-        content: {
-            sellerName: "곽두팔",
-            sellerNum: "000-00-00000",
-            sellerAddress: "강원특별자치도 어쩌고 저쩌고 빌딩 7층"
-        }
+        // content: [
+        //     { sellerNameTitle: "사업자명", sellerName: "곽두팔" },
+        //     { sellerNumTitle: "사업자 등록번호", sellerNum: "000-00-00000" },
+        //     { sellerAddressTitle: "사업자 주소", sellerAddressTitle: "강원특별자치도 어쩌고 저쩌고 빌딩 7층" },
+        // ]
     },
 ];
 
 const ProductDetail = () => {
-    // const { id } = useParams();
+    const [selected, setSelected] = useState(false);
+    const [openMenu, setOpenMenu] = useState("");
+
+    const onClickMenu = (value) => {
+        setOpenMenu((value === openmenu) ? "" : value);
+    }
+
     return (
         <PageContainer>
             <Image alt="상품 이미지"/>
@@ -189,18 +249,43 @@ const ProductDetail = () => {
                 </GroupPurchaseContainer>
                 <PurchaseBtn> 구매하기 </PurchaseBtn>
             </ProductInfoContainer>
-            <PromotionalImage/>
+
+            <SelectionContainer>
+                <SelectionButton
+                    className={`${selected === false ? "select" : ""}`}
+                    onClick={() => setSelected(false)}
+                > 정보 
+                </SelectionButton>
+                <SelectionButton 
+                    className={`${selected === true ? "select" : ""}`}
+                    onClick={() => setSelected(true)}
+                > 공지사항 
+                </SelectionButton>
+                    {selected ? 
+                        <Notice>
+                            공지사항 예시입니다
+                            <br/>
+                            [내용] 우왕
+                        </Notice> : <PromotionalImage/>
+                    }
+            </SelectionContainer>
             <SellerInfo>
-                {SellerInfoList.map(info => (
-                     <SellerDetailInfo> 
-                     {info.name}
-                     {(info.id === 1) ? (
-                        <SellerPhone> 0000-0000 </SellerPhone>
-                     ) : (
-                        <More src={MoreBtn}/>
-                     )}
+                    <SellerDetailInfo> 
+                    {SellerInfoList.map(info => (
+                        <SellerInfoTitle>
+                            {info.name} 
+                            {(info.id === 1) ? (
+                                <SellerPhone> 0000-0000 </SellerPhone>
+                            ) : (
+                                <More 
+                                    className={`${openMenu === info ? "clicked" : ""}`}
+                                    src={MoreBtn}
+                                    onClick={() => onClickMenu(info)}
+                                />
+                            )}
+                        </SellerInfoTitle>
+                    ))}
                     </SellerDetailInfo>
-                ))}
             </SellerInfo>
         </PageContainer>
     )

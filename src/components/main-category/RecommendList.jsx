@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { Link } from "react-router-dom";
+import ProductType from "../../components/ProductType";
 
 const Page = styled.div`
     width: 470px;
@@ -15,7 +15,6 @@ const Page = styled.div`
 const Image = styled.img`
     width: 105px;
     height: 105px;
-    border: 3px solid #667080;
     border-radius: 10px;
 `;
 
@@ -33,48 +32,24 @@ const Title = styled.p`
     color: #151515;
 `;
 
-const Kind = styled.p`
-    width: 35px;
-    height: 26px;
-    font-size: 12px;
-    color: #F2B366;
-    line-height: 22px;
-    text-align: center;
-    background-color: #FCECD9;
-    gap: 10px;
-    padding: 2px 6px;
-    margin: 3px 0 9px 0;
-    border-radius: 5px;
-`;
-
 const Price = styled.p`
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
     line-height: 22px;
     color: #151515;
-    margin: 5px 0 0 0;
+    margin: 20px 0 0 0;
 `;
 
-const DateContainer = styled.div`
-    display: flex;
-    flexDirection: row;
-    alignItems: center;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 22px;
-`;
-
-const RecommendList= ({ src, name, kind, price, date }) => {
+const RecommendList= ({ src, name, kind, price }) => {
     return (
         <Page>
             <Image src={src} alt="상품이미지"/>
             <Detail>
                 <Title> {name} </Title>
-                <Kind> {kind} </Kind>
+                <ProductType 
+                    type={kind} 
+                    style={{ marginLeft: 0, bottom: 0}}/>
                 <Price> {price} </Price>
-                <DateContainer> 구매날짜: 
-                    <> {date} </>
-                </DateContainer>
             </Detail>
         </Page>
     )
