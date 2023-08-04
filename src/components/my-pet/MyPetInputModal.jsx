@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import InputForm from "../../components/InputForm.jsx";
+import SmallInputForm from "../SmallInputForm.jsx";
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -13,6 +14,7 @@ const ModalOverlay = styled.div`
   justify-content: center;
   background: rgba(0, 0, 0, 0.4);
   box-shadow: 0px 2px 4px 0px #00000040;
+  z-index: 99;
 `;
 
 const ModalWrapper = styled.div`
@@ -21,6 +23,9 @@ const ModalWrapper = styled.div`
   position: relative;
   border-radius: 5px;
   background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const ModalHeader = styled.div`
@@ -36,9 +41,6 @@ const ModalHeader = styled.div`
 const ImageBox = styled.label`
   width: 118px;
   height: 118px;
-  position: absolute;
-  top: 222px;
-  left: 135px;
   padding: 2px 6px 2px 6px;
   border-radius: 5px;
   border: 1px solid #f2d335;
@@ -48,6 +50,7 @@ const ImageBox = styled.label`
   gap: 10px;
   background: #ffffff;
   cursor: pointer;
+  margin-top: 30px;
 `;
 
 const ImageInput = styled.input`
@@ -72,13 +75,60 @@ const NameHeader = styled.div`
   line-height: 30px;
   letter-spacing: -0.02em;
   text-align: left;
+  margin-top: 20px;
+  margin-left: -250px;
+`;
 
+const LabelHeader = styled.div`
   font-family: NanumGothic;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 30px;
   letter-spacing: -0.02em;
   text-align: left;
+  margin-top: 20px;
+  margin-left: -0px;
+`;
+
+const InputField = styled.div`
+  display: flex;
+  flex-direction: column; 
+  margin-right: 5px;
+`;
+
+const InputRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  margin-top: -10px;
+  flex-direction: row; 
+  &:last-child ${InputField} {
+    margin-right: 5px;
+  }
+`;
+
+const ConfirmButton = styled.div`
+  width:100%;
+  height: 60px;
+  padding: 12px 16px 12px 24px;
+  border-radius: 0px 0px 5px 5px;
+  gap: 10px;
+  background: #D94A56;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer; 
+`;
+
+const ConfirmText = styled.p`
+  font-family: Nanum Gothic;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  margin: 0;
+  color: #ffffff; 
 `;
 
 const MyPetInputModal = ({ show, onClose }) => {
@@ -94,8 +144,31 @@ const MyPetInputModal = ({ show, onClose }) => {
             이미지를 <br /> 추가해주세요
           </ImageText>
         </ImageBox>
-        <NameHeader>이름 * </NameHeader> 
+        <NameHeader>이름 *</NameHeader>
         <InputForm placeholder="이름" />
+        <InputRow>
+          <InputField>
+            <LabelHeader>종 *</LabelHeader>
+            <SmallInputForm placeholder="종" />
+          </InputField>
+          <InputField>
+            <LabelHeader>품종 </LabelHeader>
+            <SmallInputForm placeholder="품종" />
+          </InputField>
+        </InputRow>
+        <InputRow>
+          <InputField>
+            <LabelHeader>나이 </LabelHeader>
+            <SmallInputForm placeholder="나이" />
+          </InputField>
+          <InputField>
+            <LabelHeader>성별 *</LabelHeader>
+            <SmallInputForm placeholder="성별" />
+          </InputField>
+        </InputRow>
+        <ConfirmButton onClick={onClose}>
+          <ConfirmText>확인</ConfirmText>
+        </ConfirmButton>
       </ModalWrapper>
     </ModalOverlay>
   );

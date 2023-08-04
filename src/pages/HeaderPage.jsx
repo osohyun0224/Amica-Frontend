@@ -148,7 +148,7 @@ const Keyword = styled.div`
 `;
 
 const SearchContainer = styled.div`
-  margin-left: -60px;
+  margin-left: -50px;
 `;
 
 function HeaderPage() {
