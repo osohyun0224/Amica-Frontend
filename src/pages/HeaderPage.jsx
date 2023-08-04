@@ -9,7 +9,7 @@ const Header = styled.div`
   position: relative;
   width: 100%;
   background-color: #ffffff;
-  color: rgba(102, 112, 128, 1);
+  color: #151515;
   display: flex;
   flex-direction: column;
 `;
@@ -25,7 +25,7 @@ const TitleWrapper = styled.div`
 
 const Title = styled.p`
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 700;
 `;
 const RightImagesWrapper = styled.div`
   display: flex;
@@ -65,7 +65,8 @@ const MenuButton = styled(Link)`
   }
 
   &.selected {
-    border-bottom: 2px solid rgba(102, 112, 128, 1);
+    color: rgba(217, 74, 86, 1);
+    border-bottom: 2px solid rgba(217, 74, 86, 1);
     font-weight: 600;
   }
 `;

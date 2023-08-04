@@ -64,7 +64,7 @@ const DateContainer = styled.div`
     line-height: 22px;
 `;
 
-const RecommendList= ({ to, src, name, kind, price, date}) => {
+const RecommendList= ({ src, name, kind, price, date }) => {
     return (
         <Page>
             <Image src={src} alt="상품이미지"/>

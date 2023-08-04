@@ -26,7 +26,7 @@ const CategoryList = styled(ScrollBar)`
         right: 0;
         bottom: 0;
         left: 0;
-        background-color: #667080;
+        background-color: rgba(217, 74, 86, 1);
         border-radius: 0;
         opacity: 1;
     }
