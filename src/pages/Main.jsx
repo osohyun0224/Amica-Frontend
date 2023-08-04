@@ -5,12 +5,14 @@ import styled from "styled-components";
 import { ScrollContainer } from "react-indiana-drag-scroll";
 import "react-indiana-drag-scroll/dist/style.css";
 
+import ProductType from "../components/ProductType";
 import CategoryList from "../components/main-category/CategoryList";
 import DeadlineProduct from "../components/main-category/DeadlineList";
 import RecommemdProduct from "../components/main-category/RecommendList";
 
-import arrow from '../assets/images/rightArrow.png';
-import productExample from "../assets/images/productExample.jpeg";
+import Arrow from '../assets/images/rightArrow.png';
+import ProductExample from "../assets/images/productExample.jpeg";
+import AddPet from "../assets/images/add.png";
 
 const PageContainer = styled.div`
     display: block;
@@ -25,6 +27,38 @@ const Image = styled.img`
     background: #EEF1F4;
     margin-top: 10px;
     border: none;
+`;
+
+const PetRecommend = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 10vh;
+    padding-left: 20px;
+    align-items: center;
+`;
+
+const PetImage = styled.img`
+    width: 44px;
+    height: 44px;
+    background-color: #D9D9D9;
+    border: 1px solid #D9D9D9;
+    border-radius: 32px;
+`;
+
+const PetName = styled.p`
+    font-size: 16px;
+    font-weight: 700;
+    color: #151515;
+    line-height: 22px;
+    letter-spacing: -0.02em;
+    margin-left: 10px;
+`;
+
+const PetAddBtn = styled.img`
+    width: 24px;
+    height: 24px;
+    margin-left: 240px;
 `;
 
 const Menu = styled.div`
@@ -45,7 +79,7 @@ const Menu = styled.div`
 const DetailMenu = styled.div`
     background-color: white;
     clear: both;
-    margin: 70px 0 0 17px;
+    margin: 30px 0 0 17px;
     text-decoration : none;
 `;
 
@@ -75,8 +109,10 @@ const RecommendList = styled(ScrollContainer)`
 
 const Title = styled.div`
     font-size: 16px;
-    font-weight: bold;
-    color: #151515;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: -0.02em;
+    margin-left: 5px;
 `;
 
 const MoreBtn = styled.button`
@@ -147,7 +183,7 @@ const Category = [
 const DeadLine = [
     {
         id: 11,
-        name: "[가성비 좋은 모래] 벤토나이트 모래",
+        name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
         percent: "35%",
         price: "56,000원",
         period: "공동구매 마감까지 10:27:21 남음"
@@ -201,11 +237,15 @@ const Recommend = [
 
 const Main = () => {
     const [category, setCategory] = useState(Category);
-    const petName = "달이";
     
     return (
         <PageContainer>
             <Image/>
+            <PetRecommend>
+                <PetImage/>
+                <PetName> 누굴 위해 준비하니? </PetName>
+                <PetAddBtn src={AddPet}/>
+            </PetRecommend>
             <CategoryList>
                 {Category.map((cate, id) => 
                     <Menu key={cate.name}>
@@ -216,14 +256,13 @@ const Main = () => {
             <DetailMenu>
                 <DetailMenuTitle>
                     <Title> 마감 임박! </Title>
-                    <NextBtn src={arrow} alt="자세히보기"/>
                 </DetailMenuTitle>
                 <DeadLineList>
                     {DeadLine.map((items) => (
                         <ProductSelect to={`/ProductDetail/${items.id}`}>
                             <DeadlineProduct 
                                 id={items.id}
-                                src={productExample}
+                                src={ProductExample}
                                 name={items.name}
                                 percent={items.percent}
                                 price={items.price}
@@ -235,23 +274,41 @@ const Main = () => {
             </DetailMenu>
             <DetailMenu>
                 <DetailMenuTitle>
-                    <Title> {petName} </Title>를 위해 준비했어요
-                    <NextBtn src={arrow} alt="자세히보기"/>
+                    <Title> 최근 등록된 상품 </Title>
+                    <NextBtn src={Arrow} alt="자세히보기"/>
                 </DetailMenuTitle>
                 <RecommendList>
                     {Recommend.map((items) => (
-                    <ProductSelect to={`/ProductDetail/${items.id}`}>
-                        <RecommemdProduct
-                            id={items.id}
-                            src={productExample}
-                            name={items.name}
-                            kind={items.kind}
-                            price={items.price}
-                            date={items.date}
-                        />
-                    </ProductSelect>
+                        <ProductSelect to={`/ProductDetail/${items.id}`}>
+                            <RecommemdProduct
+                                id={items.id}
+                                src={ProductExample}
+                                name={items.name}
+                                kind={items.kind}
+                                price={items.price}
+                            />
+                        </ProductSelect>
                     ))}
                 </RecommendList>
+            </DetailMenu>
+            <DetailMenu>
+                <DetailMenuTitle>
+                    <Title> 요즘 집사들 필수 아이템! 인기만점 </Title>
+                </DetailMenuTitle>
+                <DeadLineList>
+                    {DeadLine.map((items) => (
+                        <ProductSelect to={`/ProductDetail/${items.id}`}>
+                            <DeadlineProduct 
+                                id={items.id}
+                                src={ProductExample}
+                                name={items.name}
+                                percent={items.percent}
+                                price={items.price}
+                                period={items.period}
+                            />
+                        </ProductSelect>
+                    ))}
+                </DeadLineList>
             </DetailMenu>
             <MoreBtn> 더보기 </MoreBtn>
         </PageContainer>
