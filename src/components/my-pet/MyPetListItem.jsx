@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { styled } from "styled-components";
 
 const Container = styled.button`
-  width: 64px;
+  width: 70px;
   padding-right: 12px;
   box-sizing: content-box;
   display: flex;
@@ -12,6 +12,13 @@ const Container = styled.button`
   background: none;
   border: none;
   cursor: pointer;
+`;
+
+const ImageWrapper = styled.div`
+  width: 69px;
+  height: 69px;
+  border-radius: 50%;
+  border: ${props => props.selected ? '2.6px solid #D94A56' : 'none'};
 `;
 
 const Image = styled.img`
@@ -30,16 +37,20 @@ const Text = styled.p`
   white-space: nowrap;
 `;
 
-const MyPetListItem = ({ src, name, onClick }) => {
+const MyPetListItem = ({ id, selectedId, src, name, onClick }) => {
   return (
     <Container onClick={onClick}>
-      <Image src={src} />
+      <ImageWrapper selected={id === selectedId}>
+        <Image src={src} />
+      </ImageWrapper>
       <Text>{name}</Text>
     </Container>
   );
 };
 
 MyPetListItem.propTypes = {
+  id: PropTypes.number,
+  selectedId: PropTypes.number,
   src: PropTypes.string,
   name: PropTypes.string,
   onClick: PropTypes.func,

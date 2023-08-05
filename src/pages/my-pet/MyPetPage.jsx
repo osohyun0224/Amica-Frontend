@@ -1,17 +1,12 @@
 import { useState } from "react";
 import { styled } from "styled-components";
-
 import { useScrollContainer } from "react-indiana-drag-scroll";
 import "react-indiana-drag-scroll/dist/style.css";
-
 import { Heading, HeadingBold } from "../../components/Heading.jsx";
 import MyPetList from "../../components/my-pet/MyPetList.jsx";
 import MyPetListItem from "../../components/my-pet/MyPetListItem.jsx";
-
 import AddPetImage from "../../assets/images/addPet.png";
 import MyPetAddModal from "../../components/my-pet/MyPetInputModal.jsx";
-
-
 
 const Container = styled.div`
   margin: 12px 16px;
@@ -20,7 +15,7 @@ const Container = styled.div`
 const MyPetPage = () => {
   const { ref } = useScrollContainer();
 
-  const userName = "멋사";
+  //const userName = "멋사";
 
   const samplePetListData = [
     {
@@ -58,6 +53,7 @@ const MyPetPage = () => {
   const [petList] = useState(samplePetListData);
   const [pet, setPet] = useState(samplePetListData[0]);
   const [showModal, setShowModal] = useState(false);
+  const [selectedPetId, setSelectedPetId] = useState(samplePetListData[0].id);
 
   const handleModalToggle = (isOpen) => {
     if (ref.current) {
@@ -77,17 +73,21 @@ const MyPetPage = () => {
 
   return (
     <Container>
-      <Heading>
+      {/* <Heading>
         <HeadingBold>{userName}님</HeadingBold>의 아이들
-      </Heading>
-      <MyPetList scrollableNodeProps={{ ref }} autoHide={false}>
+      </Heading> */}
+
+<MyPetList scrollableNodeProps={{ ref }} autoHide={false}>
         {petList.map((item) => (
           <MyPetListItem
             key={item.id}
+            id={item.id}
+            selectedId={selectedPetId}
             src={item.image}
             name={item.name}
             onClick={() => {
               setPet(item);
+              setSelectedPetId(item.id);
             }}
           />
         ))}
