@@ -58,7 +58,9 @@ const PetName = styled.p`
 const PetAddBtn = styled.img`
     width: 24px;
     height: 24px;
-    margin-left: 240px;
+    margin: auto;
+    margin-right: 20px;
+    cursor: pointer;
 `;
 
 const Menu = styled.div`
@@ -129,7 +131,7 @@ const MoreBtn = styled.button`
 `;
 
 const ProductSelect = styled(Link)`
-    text-decoration : none;
+    text-decoration : none; 
 `;
 
 const Category = [
@@ -184,29 +186,29 @@ const DeadLine = [
     {
         id: 11,
         name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
-        percent: "35%",
-        price: "56,000원",
+        percent: "35",
+        price: "56,000",
         period: "공동구매 마감까지 10:27:21 남음"
     },
     {
         id: 12,
         name: "[가성비 좋은 모래] 벤토나이트 모래",
-        percent: "35%",
-        price: "56,000원",
+        percent: "36",
+        price: "57,000",
         period: "공동구매 마감까지 10:27:21 남음"
     },
     {
         id: 13,
         name: "[가성비 좋은 모래] 벤토나이트 모래",
-        percent: "35%",
-        price: "56,000원",
+        percent: "37",
+        price: "58,000",
         period: "공동구매 마감까지 10:27:21 남음"
     },
     {
         id: 14,
         name: "[가성비 좋은 모래] 벤토나이트 모래",
-        percent: "35%",
-        price: "56,000원",
+        percent: "38",
+        price: "59,000",
         period: "공동구매 마감까지 10:27:21 남음"
     }
 ];
@@ -216,21 +218,21 @@ const Recommend = [
         id: 21,
         name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
         kind: "사료",
-        price: "56,000원",
+        price: "56,000",
         date: "2023.05.09"
     },
     {
         id: 22,
         name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
         kind: "사료",
-        price: "56,000원",
+        price: "57,000",
         date: "2023.05.09"
     },
     {
         id: 23,
         name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
         kind: "사료",
-        price: "56,000원",
+        price: "58,000",
         date: "2023.05.09"
     },
 ];
@@ -259,7 +261,16 @@ const Main = () => {
                 </DetailMenuTitle>
                 <DeadLineList>
                     {DeadLine.map((items) => (
-                        <ProductSelect to={`/ProductDetail/${items.id}`}>
+                        <ProductSelect 
+                            to={`/ProductDetail/${items.id}`}
+                            state={{
+                                src: `${ProductExample}`,
+                                name: `${items.name}`,
+                                percent: `${items.percent}`,
+                                price: `${items.price}`,
+                                period: `${items.period}`
+                            }}
+                        >
                             <DeadlineProduct 
                                 id={items.id}
                                 src={ProductExample}
@@ -279,7 +290,16 @@ const Main = () => {
                 </DetailMenuTitle>
                 <RecommendList>
                     {Recommend.map((items) => (
-                        <ProductSelect to={`/ProductDetail/${items.id}`}>
+                        <ProductSelect 
+                            to={`/ProductDetail/${items.id}`}
+                            state={{
+                                src: {ProductExample},
+                                name: `${items.name}`,
+                                percent: `${items.percent}`,
+                                price: `${items.price}`,
+                                period: `${items.period}`
+                             }}
+                        >
                             <RecommemdProduct
                                 id={items.id}
                                 src={ProductExample}
@@ -297,7 +317,16 @@ const Main = () => {
                 </DetailMenuTitle>
                 <DeadLineList>
                     {DeadLine.map((items) => (
-                        <ProductSelect to={`/ProductDetail/${items.id}`}>
+                        <ProductSelect 
+                            to={`/ProductDetail/${items.id}`}
+                            state={{
+                                src: {ProductExample},
+                                name: `${items.name}`,
+                                percent: `${items.percent}`,
+                                price: `${items.price}`,
+                                period: `${items.period}`
+                            }}
+                        >    
                             <DeadlineProduct 
                                 id={items.id}
                                 src={ProductExample}

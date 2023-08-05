@@ -2,11 +2,12 @@ import { styled } from "styled-components";
 import ProductType from "../../components/ProductType";
 
 const Page = styled.div`
-    width: 470px;
+    /* width: 470px; */
     height: 125px;
     display: flex;
     flex-direction: row;
     border-top: 1px solid #EEF1F4;
+    border-bottom: 1px solid #EEF1F4;
     margin-right: 10px;
     padding-top: 10px;
     cursor: pointer;
@@ -49,7 +50,7 @@ const RecommendList= ({ src, name, kind, price }) => {
                 <ProductType 
                     type={kind} 
                     style={{ marginLeft: 0, bottom: 0}}/>
-                <Price> {price} </Price>
+                <Price> {`${price}원`} </Price>
             </Detail>
         </Page>
     )
