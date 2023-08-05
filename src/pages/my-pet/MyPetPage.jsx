@@ -40,6 +40,17 @@ const ScrollContainer = styled(SimpleBar)`
   }
 `;
 
+const StyledRectangle = styled.div`
+  width: 320px;
+  height: 114px;
+  position: relative;
+  margin-top: -80px;
+  margin-left: 80px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px 0px #00000040;
+  background: #FFFFFF;
+`;
+
 const StyledMyPetList = styled.div`
   width: 103.4%;
   height: 206px;
@@ -95,15 +106,15 @@ const MyPetPage = () => {
 
   const handleModalToggle = (isOpen) => {
     if (ref.current) {
-      ref.current.style.overflow = isOpen ? "hidden" : "auto";
+      ref.current.style.overflow = isOpen ? 'hidden' : 'auto';
     }
   };
-
+  
   const handleOpenModal = () => {
     setShowModal(true);
     handleModalToggle(true);
   };
-
+  
   const handleCloseModal = () => {
     setShowModal(false);
     handleModalToggle(false);
@@ -130,13 +141,10 @@ const MyPetPage = () => {
               }}
             />
           ))}
-          <MyPetListItem
-            src={AddPetImage}
-            name="추가하기"
-            onClick={handleOpenModal}
-          />
+          <MyPetListItem src={AddPetImage} name="추가하기" onClick={handleOpenModal} />
         </ScrollContainer>
       </StyledMyPetList>
+      <StyledRectangle />
 
       <Heading>
         <HeadingBold>{pet.name}</HeadingBold>의 정보
