@@ -4,7 +4,7 @@ import ReactPaginate from 'react-paginate';
 import styled from 'styled-components';
 import leftArrow from '../assets/images/Page-left.png';
 import rightArrow from '../assets/images/Page-right.png';
-import './Pagination.css';
+import './Pagination.scss';
 
 const StyledPaginateContainer = styled.div`
   display: flex;
