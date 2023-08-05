@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { styled } from "styled-components";
+import styled from "styled-components";
 import { useScrollContainer } from "react-indiana-drag-scroll";
 import "react-indiana-drag-scroll/dist/style.css";
 import SimpleBar from "simplebar-react";
@@ -45,21 +45,61 @@ const StyledRectangle = styled.div`
   height: 114px;
   position: relative;
   margin-top: -80px;
-  margin-left: 80px;
+  margin-left: 10px;
   border-radius: 5px;
   box-shadow: 0px 2px 4px 0px #00000040;
   background: #FFFFFF;
+  padding: 10px;
+  padding-top: -50px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const PetNameText = styled.span`
+  font-family: 'Nanum Gothic';
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #151515;
+  margin-top: -60px;
+  margin-left: -200px;
+
+`;
+
+const InfoText = styled.span`
+  margin-left: 0px;
+  font-family: 'Nanum Gothic';
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  margin-top: -60px;
+  color: #1515154D;
+`;
+
+const StyledLine = styled.span`
+  width: 1px;
+  height: 18px;
+  background-color: #BAC0CA;
+  margin: 0 10px;
+  margin-top: -60px;
 `;
 
 const StyledMyPetList = styled.div`
   width: 103.4%;
   height: 206px;
   margin-top: -13px;
-  margin-left: -16px;
+  margin-left: 0px;
   border-radius: 0px 0px 90px 90px;
   background: #f2d335;
   overflow: auto;
 `;
+
 
 const MyPetPage = () => {
   const { ref } = useScrollContainer();
@@ -144,7 +184,12 @@ const MyPetPage = () => {
           <MyPetListItem src={AddPetImage} name="추가하기" onClick={handleOpenModal} />
         </ScrollContainer>
       </StyledMyPetList>
-      <StyledRectangle />
+      
+      <StyledRectangle>
+        <PetNameText>{pet.name}</PetNameText>
+        <StyledLine />
+        <InfoText>정보</InfoText>
+      </StyledRectangle>
 
       <Heading>
         <HeadingBold>{pet.name}</HeadingBold>의 정보
