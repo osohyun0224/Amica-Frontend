@@ -10,6 +10,7 @@ import AddPetImage from "../../assets/images/addPet.png";
 import MyPetAddModal from "../../components/my-pet/MyPetInputModal.jsx";
 import MyPetKeyword from "../../assets/images/Keyword.png";
 import KeywordInputModal from "../../components/my-pet/KeywordInputModal.jsx";
+import Pagination from "../../components/Pagination.jsx";
 
 const Container = styled.div`
   margin: 12px 16px;
@@ -147,8 +148,6 @@ const MyPetPage = () => {
   const [showKeywordModal, setShowKeywordModal] = useState(false);
   const [keywords, setKeywords] = useState({});
 
-  //const userName = "멋사";
-
   const samplePetListData = [
     {
       id: 1,
@@ -206,13 +205,26 @@ const MyPetPage = () => {
   useEffect(() => {
     console.log(keywords);
   }, [keywords]);
+/*페이지네이션 구현 영역 */
+  const totalItems = 20;
+  const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(0);
+  
+  const handlePageChange = (selectedPage) => {
+    //페이지네이션 추후에 적용하는 방법
+    // 페이지 변경 시 수행할 동작을 작성해주세요.
+    // 여기서는 단순히 현재 페이지 상태값을 업데이트 합니다.
+    setCurrentPage(selectedPage);
+  };
+
+  useEffect(() => {
+    // 페이지가 바뀔 때마다 수행할 동작을 작성해주세요.
+    // 예를 들어, 새로운 페이지의 데이터를 로드하는 등의 작업이 수행될 수 있습니다.
+  }, [currentPage]);
+
 
   return (
     <Container>
-      {/* <Heading>
-        <HeadingBold>{userName}님</HeadingBold>의 아이들
-      </Heading> */}
-
       <StyledMyPetList>
         <ScrollContainer scrollableNodeProps={{ ref }} autoHide={false}>
           {petList.map((item) => (
@@ -263,6 +275,11 @@ const MyPetPage = () => {
         onClose={() => setShowKeywordModal(false)}
         setKeywords={setKeywords}
         selectedPetId={selectedPetId}
+      />
+      <Pagination
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+        onChange={handlePageChange}
       />
     </Container>
   );
