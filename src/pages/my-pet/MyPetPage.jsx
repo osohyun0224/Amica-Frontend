@@ -8,6 +8,7 @@ import { Heading, HeadingBold } from "../../components/Heading.jsx";
 import MyPetListItem from "../../components/my-pet/MyPetListItem.jsx";
 import AddPetImage from "../../assets/images/addPet.png";
 import MyPetAddModal from "../../components/my-pet/MyPetInputModal.jsx";
+import MyPetKeyword from "../../assets/images/Keyword.png";
 
 const Container = styled.div`
   margin: 12px 16px;
@@ -100,6 +101,27 @@ const StyledMyPetList = styled.div`
   overflow: auto;
 `;
 
+const KeywordContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+`;
+
+const Keyword = styled.div`
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: #F2D33526;
+  width: 46px;
+  height: 26px;
+  font-family: 'Nanum Gothic';
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #151515;
+`;
 
 const MyPetPage = () => {
   const { ref } = useScrollContainer();
@@ -143,6 +165,7 @@ const MyPetPage = () => {
   const [pet, setPet] = useState(samplePetListData[0]);
   const [showModal, setShowModal] = useState(false);
   const [selectedPetId, setSelectedPetId] = useState(samplePetListData[0].id);
+  const [keywords, setKeywords] = useState({});
 
   const handleModalToggle = (isOpen) => {
     if (ref.current) {
@@ -158,6 +181,21 @@ const MyPetPage = () => {
   const handleCloseModal = () => {
     setShowModal(false);
     handleModalToggle(false);
+  };
+
+  const addKeyword = () => {
+    const keyword = prompt("키워드를 입력하세요:");
+    if (keyword) {
+      setKeywords(prevKeywords => {
+        const newKeywords = { ...prevKeywords };
+        if (newKeywords[selectedPetId]) {
+          newKeywords[selectedPetId].push(keyword);
+        } else {
+          newKeywords[selectedPetId] = [keyword];
+        }
+        return newKeywords;
+      });
+    }
   };
 
   return (
@@ -189,6 +227,14 @@ const MyPetPage = () => {
         <PetNameText>{pet.name}</PetNameText>
         <StyledLine />
         <InfoText>정보</InfoText>
+        <button onClick={addKeyword}>
+          <img src={MyPetKeyword} alt="키워드 추가" />
+        </button>
+        <KeywordContainer>
+          {keywords[selectedPetId]?.map((keyword, index) => (
+            <Keyword key={index}>{keyword}</Keyword>
+          ))}
+        </KeywordContainer>
       </StyledRectangle>
 
       <Heading>
