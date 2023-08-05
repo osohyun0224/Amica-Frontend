@@ -1,30 +1,18 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useScrollContainer } from "react-indiana-drag-scroll";
-import SimpleBar from "simplebar-react";
 import "react-indiana-drag-scroll/dist/style.css";
+import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
-
 import { Heading, HeadingBold } from "../../components/Heading.jsx";
 import MyPetListItem from "../../components/my-pet/MyPetListItem.jsx";
-import MyPetAddModal from "../../components/my-pet/MyPetInputModal.jsx";
-import KeywordInputModal from "../../components/my-pet/KeywordInputModal.jsx";
-
 import AddPetImage from "../../assets/images/addPet.png";
+import MyPetAddModal from "../../components/my-pet/MyPetInputModal.jsx";
 import MyPetKeyword from "../../assets/images/Keyword.png";
+import KeywordInputModal from "../../components/my-pet/KeywordInputModal.jsx";
 
 const Container = styled.div`
   margin: 12px 16px;
-`;
-
-const StyledMyPetList = styled.div`
-  width: 103.4%;
-  height: 206px;
-  margin-top: -13px;
-  margin-left: 0px;
-  border-radius: 0px 0px 90px 90px;
-  background: #f2d335;
-  overflow: auto;
 `;
 
 const ScrollContainer = styled(SimpleBar)`
@@ -84,14 +72,6 @@ const PetNameText = styled.span`
   margin-left: -200px;
 `;
 
-const StyledLine = styled.span`
-  width: 1px;
-  height: 18px;
-  background-color: #bac0ca;
-  margin: 0 10px;
-  margin-top: -60px;
-`;
-
 const InfoText = styled.span`
   margin-left: 0px;
   font-family: "Nanum Gothic";
@@ -104,11 +84,30 @@ const InfoText = styled.span`
   color: #1515154d;
 `;
 
+const StyledLine = styled.span`
+  width: 1px;
+  height: 18px;
+  background-color: #bac0ca;
+  margin: 0 10px;
+  margin-top: -60px;
+`;
+
+const StyledMyPetList = styled.div`
+  width: 103.4%;
+  height: 206px;
+  margin-top: -13px;
+  margin-left: 0px;
+  border-radius: 0px 0px 90px 90px;
+  background: #f2d335;
+  overflow: auto;
+`;
+
 const KeywordContainer = styled.div`
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 10px;
+  align-items: center;
+  margin-top: -100px;
 `;
 
 const Keyword = styled.div`
@@ -124,17 +123,32 @@ const Keyword = styled.div`
   letter-spacing: -0.02em;
   text-align: center;
   color: #151515;
+  margin-right: 5px;
+`;
+
+
+const KeywordSection = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`;
+
+const KeywordButton = styled.img`
+  order: 1;
+  padding-left: 10px;
 `;
 
 const MyPetPage = () => {
+  const { ref } = useScrollContainer();
   const [showKeywordModal, setShowKeywordModal] = useState(false);
   const [keywords, setKeywords] = useState({});
-  const [petList] = useState(samplePetListData);
-  const [pet, setPet] = useState(samplePetListData[0]);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedPetId, setSelectedPetId] = useState(samplePetListData[0].id);
 
-  const { ref } = useScrollContainer();
+  //const userName = "멋사";
+
   const samplePetListData = [
     {
       id: 1,
@@ -168,6 +182,11 @@ const MyPetPage = () => {
     },
   ];
 
+  const [petList] = useState(samplePetListData);
+  const [pet, setPet] = useState(samplePetListData[0]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedPetId, setSelectedPetId] = useState(samplePetListData[0].id);
+
   const handleModalToggle = (isOpen) => {
     if (ref.current) {
       ref.current.style.overflow = isOpen ? "hidden" : "auto";
@@ -187,7 +206,6 @@ const MyPetPage = () => {
   useEffect(() => {
     console.log(keywords);
   }, [keywords]);
-
 
   return (
     <Container>
@@ -222,16 +240,18 @@ const MyPetPage = () => {
         <PetNameText>{pet.name}</PetNameText>
         <StyledLine />
         <InfoText>정보</InfoText>
-        <img
-          src={MyPetKeyword}
-          alt="키워드 추가"
-          onClick={() => setShowKeywordModal(true)}
-        />
-        <KeywordContainer>
-          {keywords[selectedPetId]?.map((keyword, index) => (
-            <Keyword key={index}>{keyword}</Keyword>
-          ))}
-        </KeywordContainer>
+        <KeywordSection>
+          <KeywordContainer>
+            {keywords[selectedPetId]?.map((keyword, index) => (
+              <Keyword key={index}>{keyword}</Keyword>
+            ))}
+            <KeywordButton
+              src={MyPetKeyword}
+              alt="키워드 추가"
+              onClick={() => setShowKeywordModal(true)}
+            />
+          </KeywordContainer>
+        </KeywordSection>
       </StyledRectangle>
 
       <Heading>
