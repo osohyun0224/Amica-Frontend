@@ -26,6 +26,13 @@ const ModalWrapper = styled.div`
   background: #ffffff;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
   align-items: center;
 `;
 
@@ -57,7 +64,7 @@ const AddButton = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 5px;
-  border: 1px solid #D94A56;
+  border: 1px solid #d94a56;
   background: #ffffff;
   cursor: pointer;
 `;
@@ -65,7 +72,7 @@ const AddButton = styled.div`
 const AddButtonText = styled.span`
   font-family: Nanum Gothic;
   font-size: 16px;
-  color: #D94A56;
+  color: #d94a56;
 `;
 
 const ConfirmButton = styled.div`
@@ -99,22 +106,35 @@ const ModalSubtext = styled.p`
   line-height: 20px;
   letter-spacing: -0.02em;
   text-align: left;
-  color: #D94A56;
+  color: #d94a56;
 `;
 
 const KeywordInputModal = ({ show, onClose, setKeywords, selectedPetId }) => {
-  const [inputKeyword, setInputKeyword] = useState(""); // 입력받은 키워드를 저장하는 state
+  //const [inputKeyword, setInputKeyword] = useState("");
+  const [keywords, setLocalKeywords] = useState([]);
 
-  const handleInputChange = (event) => { // 키워드 입력 처리 함수
-    setInputKeyword(event.target.value);
+  const handleInputChange = (event, index) => {
+    setLocalKeywords((prevState) =>
+      prevState.map((item, i) => (i === index ? event.target.value : item)),
+    );
   };
 
-  const handleAddKeyword = () => { // 키워드 추가 처리 함수
-    setKeywords(prevState => ({
+  const handleAddKeyword = () => {
+    if (keywords.length < 5) {
+      setLocalKeywords((prevState) => [...prevState, ""]);
+    }
+  };
+
+  const handleDeleteKeyword = (index) => {
+    setLocalKeywords((prevState) => prevState.filter((_, i) => i !== index));
+  };
+
+  const handleClose = () => {
+    setKeywords((prevState) => ({
       ...prevState,
-      [selectedPetId]: [...(prevState[selectedPetId] || []), inputKeyword]
+      [selectedPetId]: keywords,
     }));
-    setInputKeyword(""); // 입력칸을 비웁니다.
+    onClose();
   };
 
   if (!show) return null;
@@ -122,16 +142,28 @@ const KeywordInputModal = ({ show, onClose, setKeywords, selectedPetId }) => {
   return (
     <ModalOverlay onClick={onClose}>
       <ModalWrapper onClick={(e) => e.stopPropagation()}>
-        <ModalHeader>메모</ModalHeader>
-        <ModalSubtext>최대 5키워드, 한 키워드 당 8자까지 가능합니다.</ModalSubtext>
-        <KeywordContainer>
-          <StyledDeleteButton src={DeleteImage} />
-          <InputForm value={inputKeyword} onChange={handleInputChange} /> {/* InputForm에 value와 onChange prop을 추가 */}
-        </KeywordContainer>
-        <AddButton onClick={handleAddKeyword}> {/* AddButton에 onClick 이벤트 핸들러를 추가 */}
-          <AddButtonText>추가하기</AddButtonText>
-        </AddButton>
-        <ConfirmButton onClick={onClose}>
+        <ModalContent>
+          <ModalHeader>메모</ModalHeader>
+          <ModalSubtext>
+            최대 5키워드, 한 키워드 당 8자까지 가능합니다.
+          </ModalSubtext>
+          {keywords.map((keyword, index) => (
+            <KeywordContainer key={index}>
+              <StyledDeleteButton
+                src={DeleteImage}
+                onClick={() => handleDeleteKeyword(index)}
+              />
+              <InputForm
+                value={keyword}
+                onChange={(e) => handleInputChange(e, index)}
+              />
+            </KeywordContainer>
+          ))}
+          <AddButton onClick={handleAddKeyword}>
+            <AddButtonText>추가하기</AddButtonText>
+          </AddButton>
+        </ModalContent>
+        <ConfirmButton onClick={handleClose}>
           <ConfirmText>확인</ConfirmText>
         </ConfirmButton>
       </ModalWrapper>
@@ -140,11 +172,10 @@ const KeywordInputModal = ({ show, onClose, setKeywords, selectedPetId }) => {
 };
 
 KeywordInputModal.propTypes = {
-  show: PropTypes.bool.isRequired, // 'show' prop이 다시 사용되므로 유형 검증을 유지
+  show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   setKeywords: PropTypes.func.isRequired,
   selectedPetId: PropTypes.string.isRequired,
 };
-
 
 export default KeywordInputModal;
