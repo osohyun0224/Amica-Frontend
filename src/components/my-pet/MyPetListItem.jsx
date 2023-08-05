@@ -18,6 +18,8 @@ const ImageWrapper = styled.div`
   width: 69px;
   height: 69px;
   border-radius: 50%;
+  margin-top:10px;
+  margin-left:10px;
   border: ${props => props.selected ? '2.6px solid #D94A56' : 'none'};
 `;
 
