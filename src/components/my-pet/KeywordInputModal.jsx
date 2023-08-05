@@ -46,6 +46,16 @@ const ModalHeader = styled.div`
   margin-top: 20px;
 `;
 
+const ModalSubtext = styled.p`
+  font-family: Nanum Gothic;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #d94a56;
+`;
+
 const KeywordContainer = styled.div`
   display: flex;
   align-items: center;
@@ -99,23 +109,12 @@ const ConfirmText = styled.p`
   color: #ffffff;
 `;
 
-const ModalSubtext = styled.p`
-  font-family: Nanum Gothic;
-  font-size: 10px;
-  font-weight: 400;
-  line-height: 20px;
-  letter-spacing: -0.02em;
-  text-align: left;
-  color: #d94a56;
-`;
-
 const KeywordInputModal = ({ show, onClose, setKeywords, selectedPetId }) => {
-  //const [inputKeyword, setInputKeyword] = useState("");
   const [keywords, setLocalKeywords] = useState([]);
 
   const handleInputChange = (event, index) => {
     setLocalKeywords((prevState) =>
-      prevState.map((item, i) => (i === index ? event.target.value : item)),
+      prevState.map((item, i) => (i === index ? event.target.value : item))
     );
   };
 
@@ -130,14 +129,12 @@ const KeywordInputModal = ({ show, onClose, setKeywords, selectedPetId }) => {
   };
 
   const handleClose = () => {
-    setKeywords(prevKeywords => ({
+    setKeywords((prevKeywords) => ({
       ...prevKeywords,
       [selectedPetId]: keywords,
     }));
     onClose();
   };
-
-
 
   if (!show) return null;
 

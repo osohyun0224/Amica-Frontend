@@ -1,18 +1,30 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useScrollContainer } from "react-indiana-drag-scroll";
-import "react-indiana-drag-scroll/dist/style.css";
 import SimpleBar from "simplebar-react";
+import "react-indiana-drag-scroll/dist/style.css";
 import "simplebar-react/dist/simplebar.min.css";
+
 import { Heading, HeadingBold } from "../../components/Heading.jsx";
 import MyPetListItem from "../../components/my-pet/MyPetListItem.jsx";
-import AddPetImage from "../../assets/images/addPet.png";
 import MyPetAddModal from "../../components/my-pet/MyPetInputModal.jsx";
-import MyPetKeyword from "../../assets/images/Keyword.png";
 import KeywordInputModal from "../../components/my-pet/KeywordInputModal.jsx";
+
+import AddPetImage from "../../assets/images/addPet.png";
+import MyPetKeyword from "../../assets/images/Keyword.png";
 
 const Container = styled.div`
   margin: 12px 16px;
+`;
+
+const StyledMyPetList = styled.div`
+  width: 103.4%;
+  height: 206px;
+  margin-top: -13px;
+  margin-left: 0px;
+  border-radius: 0px 0px 90px 90px;
+  background: #f2d335;
+  overflow: auto;
 `;
 
 const ScrollContainer = styled(SimpleBar)`
@@ -48,6 +60,7 @@ const StyledRectangle = styled.div`
   position: relative;
   margin-top: -80px;
   margin-left: 10px;
+  margin-bottom: 20px;
   border-radius: 5px;
   box-shadow: 0px 2px 4px 0px #00000040;
   background: #ffffff;
@@ -71,6 +84,14 @@ const PetNameText = styled.span`
   margin-left: -200px;
 `;
 
+const StyledLine = styled.span`
+  width: 1px;
+  height: 18px;
+  background-color: #bac0ca;
+  margin: 0 10px;
+  margin-top: -60px;
+`;
+
 const InfoText = styled.span`
   margin-left: 0px;
   font-family: "Nanum Gothic";
@@ -81,24 +102,6 @@ const InfoText = styled.span`
   text-align: left;
   margin-top: -60px;
   color: #1515154d;
-`;
-
-const StyledLine = styled.span`
-  width: 1px;
-  height: 18px;
-  background-color: #bac0ca;
-  margin: 0 10px;
-  margin-top: -60px;
-`;
-
-const StyledMyPetList = styled.div`
-  width: 103.4%;
-  height: 206px;
-  margin-top: -13px;
-  margin-left: 0px;
-  border-radius: 0px 0px 90px 90px;
-  background: #f2d335;
-  overflow: auto;
 `;
 
 const KeywordContainer = styled.div`
@@ -124,12 +127,14 @@ const Keyword = styled.div`
 `;
 
 const MyPetPage = () => {
-  const { ref } = useScrollContainer();
   const [showKeywordModal, setShowKeywordModal] = useState(false);
   const [keywords, setKeywords] = useState({});
+  const [petList] = useState(samplePetListData);
+  const [pet, setPet] = useState(samplePetListData[0]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedPetId, setSelectedPetId] = useState(samplePetListData[0].id);
 
-  //const userName = "멋사";
-
+  const { ref } = useScrollContainer();
   const samplePetListData = [
     {
       id: 1,
@@ -162,11 +167,6 @@ const MyPetPage = () => {
       name: "왈왈이",
     },
   ];
-
-  const [petList] = useState(samplePetListData);
-  const [pet, setPet] = useState(samplePetListData[0]);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedPetId, setSelectedPetId] = useState(samplePetListData[0].id);
 
   const handleModalToggle = (isOpen) => {
     if (ref.current) {
@@ -235,7 +235,7 @@ const MyPetPage = () => {
       </StyledRectangle>
 
       <Heading>
-        <HeadingBold>{pet.name}</HeadingBold>의 정보
+        <HeadingBold>{pet.name} 최근 구매한 제품</HeadingBold>
       </Heading>
       <MyPetAddModal show={showModal} onClose={handleCloseModal} />
       <KeywordInputModal
