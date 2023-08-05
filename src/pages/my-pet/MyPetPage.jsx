@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import styled from "styled-components";
 import { useScrollContainer } from "react-indiana-drag-scroll";
 import "react-indiana-drag-scroll/dist/style.css";
@@ -183,6 +183,10 @@ const MyPetPage = () => {
     setShowModal(false);
     handleModalToggle(false);
   };
+
+  useEffect(() => {
+    console.log(keywords);
+  }, [keywords]);
 
 
   return (

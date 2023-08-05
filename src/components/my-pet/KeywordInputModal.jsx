@@ -130,12 +130,14 @@ const KeywordInputModal = ({ show, onClose, setKeywords, selectedPetId }) => {
   };
 
   const handleClose = () => {
-    setKeywords((prevState) => ({
-      ...prevState,
+    setKeywords(prevKeywords => ({
+      ...prevKeywords,
       [selectedPetId]: keywords,
     }));
     onClose();
   };
+
+
 
   if (!show) return null;
 
