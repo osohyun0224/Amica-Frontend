@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import Button from "../components/Button";
+import Button from "../Button";
 
-import MoreBtn from "../assets/images/rightArrow.png";
+import MoreBtn from "../../assets/images/rightArrow.png";
 
 const PageContainer = styled.div`
     width: 100%;

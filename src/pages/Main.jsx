@@ -5,10 +5,10 @@ import styled from "styled-components";
 import { ScrollContainer } from "react-indiana-drag-scroll";
 import "react-indiana-drag-scroll/dist/style.css";
 
-import ProductType from "../components/ProductType";
-import CategoryList from "../components/main-category/CategoryList";
-import DeadlineProduct from "../components/main-category/DeadlineList";
-import RecommemdProduct from "../components/main-category/RecommendList";
+import ProductType from "../components/main/ProductType";
+import CategoryList from "../components/main/CategoryList";
+import DeadlineProduct from "../components/main/DeadlineList";
+import RecommemdProduct from "../components/main/RecommendList";
 
 import Arrow from '../assets/images/rightArrow.png';
 import ProductExample from "../assets/images/productExample.jpeg";
@@ -262,7 +262,7 @@ const Main = () => {
                 <DeadLineList>
                     {DeadLine.map((items) => (
                         <ProductSelect 
-                            to={`/ProductDetail/${items.id}`}
+                            to={`/productDetail/${items.id}`}
                             state={{
                                 src: `${ProductExample}`,
                                 name: `${items.name}`,
@@ -291,9 +291,9 @@ const Main = () => {
                 <RecommendList>
                     {Recommend.map((items) => (
                         <ProductSelect 
-                            to={`/ProductDetail/${items.id}`}
+                            to={`/productDetail/${items.id}`}
                             state={{
-                                src: {ProductExample},
+                                src: `${ProductExample}`,
                                 name: `${items.name}`,
                                 percent: `${items.percent}`,
                                 price: `${items.price}`,
@@ -318,9 +318,9 @@ const Main = () => {
                 <DeadLineList>
                     {DeadLine.map((items) => (
                         <ProductSelect 
-                            to={`/ProductDetail/${items.id}`}
+                            to={`/productDetail/${items.id}`}
                             state={{
-                                src: {ProductExample},
+                                src: `${ProductExample}`,
                                 name: `${items.name}`,
                                 percent: `${items.percent}`,
                                 price: `${items.price}`,
