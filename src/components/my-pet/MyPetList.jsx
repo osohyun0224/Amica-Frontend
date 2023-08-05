@@ -6,6 +6,8 @@ import "simplebar-react/dist/simplebar.min.css";
 const MyPetList = styled(SimpleBar)`
   padding-bottom: 6px;
   margin-bottom: 16px;
+  margin-top: 0px;
+
 
   & .simplebar-content {
     display: flex;
@@ -18,6 +20,7 @@ const MyPetList = styled(SimpleBar)`
     width: 70px;
     height: 3px;
     background: rgba(238, 241, 244, 1);
+    margin-top: -100px;
   }
 
   & .simplebar-scrollbar:before {
