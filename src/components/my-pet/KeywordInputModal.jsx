@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import DeleteImage from "../../assets/images/x-circle.png";
@@ -101,7 +102,21 @@ const ModalSubtext = styled.p`
   color: #D94A56;
 `;
 
-const KeywordInputModal = ({ show, onClose }) => {
+const KeywordInputModal = ({ show, onClose, setKeywords, selectedPetId }) => {
+  const [inputKeyword, setInputKeyword] = useState(""); // 입력받은 키워드를 저장하는 state
+
+  const handleInputChange = (event) => { // 키워드 입력 처리 함수
+    setInputKeyword(event.target.value);
+  };
+
+  const handleAddKeyword = () => { // 키워드 추가 처리 함수
+    setKeywords(prevState => ({
+      ...prevState,
+      [selectedPetId]: [...(prevState[selectedPetId] || []), inputKeyword]
+    }));
+    setInputKeyword(""); // 입력칸을 비웁니다.
+  };
+
   if (!show) return null;
 
   return (
@@ -111,9 +126,9 @@ const KeywordInputModal = ({ show, onClose }) => {
         <ModalSubtext>최대 5키워드, 한 키워드 당 8자까지 가능합니다.</ModalSubtext>
         <KeywordContainer>
           <StyledDeleteButton src={DeleteImage} />
-          <InputForm />
+          <InputForm value={inputKeyword} onChange={handleInputChange} /> {/* InputForm에 value와 onChange prop을 추가 */}
         </KeywordContainer>
-        <AddButton>
+        <AddButton onClick={handleAddKeyword}> {/* AddButton에 onClick 이벤트 핸들러를 추가 */}
           <AddButtonText>추가하기</AddButtonText>
         </AddButton>
         <ConfirmButton onClick={onClose}>
@@ -125,8 +140,11 @@ const KeywordInputModal = ({ show, onClose }) => {
 };
 
 KeywordInputModal.propTypes = {
-  show: PropTypes.bool.isRequired,
+  show: PropTypes.bool.isRequired, // 'show' prop이 다시 사용되므로 유형 검증을 유지
   onClose: PropTypes.func.isRequired,
+  setKeywords: PropTypes.func.isRequired,
+  selectedPetId: PropTypes.string.isRequired,
 };
+
 
 export default KeywordInputModal;

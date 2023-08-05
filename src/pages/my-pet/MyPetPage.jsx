@@ -9,6 +9,7 @@ import MyPetListItem from "../../components/my-pet/MyPetListItem.jsx";
 import AddPetImage from "../../assets/images/addPet.png";
 import MyPetAddModal from "../../components/my-pet/MyPetInputModal.jsx";
 import MyPetKeyword from "../../assets/images/Keyword.png";
+import KeywordInputModal from "../../components/my-pet/KeywordInputModal.jsx";
 
 const Container = styled.div`
   margin: 12px 16px;
@@ -49,7 +50,7 @@ const StyledRectangle = styled.div`
   margin-left: 10px;
   border-radius: 5px;
   box-shadow: 0px 2px 4px 0px #00000040;
-  background: #FFFFFF;
+  background: #ffffff;
   padding: 10px;
   padding-top: -50px;
   box-sizing: border-box;
@@ -59,7 +60,7 @@ const StyledRectangle = styled.div`
 `;
 
 const PetNameText = styled.span`
-  font-family: 'Nanum Gothic';
+  font-family: "Nanum Gothic";
   font-size: 16px;
   font-weight: 600;
   line-height: 22px;
@@ -68,25 +69,24 @@ const PetNameText = styled.span`
   color: #151515;
   margin-top: -60px;
   margin-left: -200px;
-
 `;
 
 const InfoText = styled.span`
   margin-left: 0px;
-  font-family: 'Nanum Gothic';
+  font-family: "Nanum Gothic";
   font-size: 11px;
   font-weight: 400;
   line-height: 22px;
   letter-spacing: -0.02em;
   text-align: left;
   margin-top: -60px;
-  color: #1515154D;
+  color: #1515154d;
 `;
 
 const StyledLine = styled.span`
   width: 1px;
   height: 18px;
-  background-color: #BAC0CA;
+  background-color: #bac0ca;
   margin: 0 10px;
   margin-top: -60px;
 `;
@@ -111,10 +111,10 @@ const KeywordContainer = styled.div`
 const Keyword = styled.div`
   padding: 2px 6px;
   border-radius: 5px;
-  background: #F2D33526;
+  background: #f2d33526;
   width: 46px;
   height: 26px;
-  font-family: 'Nanum Gothic';
+  font-family: "Nanum Gothic";
   font-size: 11px;
   font-weight: 400;
   line-height: 22px;
@@ -125,6 +125,8 @@ const Keyword = styled.div`
 
 const MyPetPage = () => {
   const { ref } = useScrollContainer();
+  const [showKeywordModal, setShowKeywordModal] = useState(false);
+  const [keywords, setKeywords] = useState({});
 
   //const userName = "멋사";
 
@@ -165,38 +167,23 @@ const MyPetPage = () => {
   const [pet, setPet] = useState(samplePetListData[0]);
   const [showModal, setShowModal] = useState(false);
   const [selectedPetId, setSelectedPetId] = useState(samplePetListData[0].id);
-  const [keywords, setKeywords] = useState({});
 
   const handleModalToggle = (isOpen) => {
     if (ref.current) {
-      ref.current.style.overflow = isOpen ? 'hidden' : 'auto';
+      ref.current.style.overflow = isOpen ? "hidden" : "auto";
     }
   };
-  
+
   const handleOpenModal = () => {
     setShowModal(true);
     handleModalToggle(true);
   };
-  
+
   const handleCloseModal = () => {
     setShowModal(false);
     handleModalToggle(false);
   };
 
-  const addKeyword = () => {
-    const keyword = prompt("키워드를 입력하세요:");
-    if (keyword) {
-      setKeywords(prevKeywords => {
-        const newKeywords = { ...prevKeywords };
-        if (newKeywords[selectedPetId]) {
-          newKeywords[selectedPetId].push(keyword);
-        } else {
-          newKeywords[selectedPetId] = [keyword];
-        }
-        return newKeywords;
-      });
-    }
-  };
 
   return (
     <Container>
@@ -219,17 +206,23 @@ const MyPetPage = () => {
               }}
             />
           ))}
-          <MyPetListItem src={AddPetImage} name="추가하기" onClick={handleOpenModal} />
+          <MyPetListItem
+            src={AddPetImage}
+            name="추가하기"
+            onClick={handleOpenModal}
+          />
         </ScrollContainer>
       </StyledMyPetList>
-      
+
       <StyledRectangle>
         <PetNameText>{pet.name}</PetNameText>
         <StyledLine />
         <InfoText>정보</InfoText>
-        <button onClick={addKeyword}>
-          <img src={MyPetKeyword} alt="키워드 추가" />
-        </button>
+        <img
+          src={MyPetKeyword}
+          alt="키워드 추가"
+          onClick={() => setShowKeywordModal(true)}
+        />
         <KeywordContainer>
           {keywords[selectedPetId]?.map((keyword, index) => (
             <Keyword key={index}>{keyword}</Keyword>
@@ -241,6 +234,12 @@ const MyPetPage = () => {
         <HeadingBold>{pet.name}</HeadingBold>의 정보
       </Heading>
       <MyPetAddModal show={showModal} onClose={handleCloseModal} />
+      <KeywordInputModal
+        show={showKeywordModal}
+        onClose={() => setShowKeywordModal(false)}
+        setKeywords={setKeywords}
+        selectedPetId={selectedPetId}
+      />
     </Container>
   );
 };
