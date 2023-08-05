@@ -4,7 +4,7 @@ import ReactPaginate from 'react-paginate';
 import styled from 'styled-components';
 import leftArrow from '../assets/images/Page-left.png';
 import rightArrow from '../assets/images/Page-right.png';
-
+import './Pagination.css';
 
 const StyledPaginateContainer = styled.div`
   display: flex;
@@ -17,6 +17,35 @@ const StyledArrow = styled.img`
   vertical-align: middle;
 `;
 
+const StyledReactPaginate = styled(ReactPaginate)`
+  display: flex;
+  justify-content: center;
+  list-style: none; // add this line
+
+  .page-link {
+    font-family: 'Nanum Gothic';
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 19px;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: black;
+    margin: 0 3px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #5c859b;
+
+    &:hover {
+      background-color: #5c859b55;
+    }
+  }
+
+  .active-link {
+    color: #D94A56;
+  }
+`;
+
+
 function Pagination({ totalItems, itemsPerPage, onChange }) {
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -24,7 +53,6 @@ function Pagination({ totalItems, itemsPerPage, onChange }) {
     let selected = data.selected;
     setCurrentPage(selected);
 
-   
     if (onChange) {
       onChange(selected);
     }
@@ -32,10 +60,10 @@ function Pagination({ totalItems, itemsPerPage, onChange }) {
 
   return (
     <StyledPaginateContainer>
-      <ReactPaginate
+      <StyledReactPaginate
         previousLabel={<StyledArrow src={leftArrow} alt="Prev" />}
         nextLabel={<StyledArrow src={rightArrow} alt="Next" />}
-        breakLabel={"..."}
+        breakLabel="..."
         pageCount={totalItems / itemsPerPage}
         marginPagesDisplayed={2}
         pageRangeDisplayed={5}
@@ -57,7 +85,7 @@ function Pagination({ totalItems, itemsPerPage, onChange }) {
 Pagination.propTypes = {
   totalItems: PropTypes.number.isRequired,
   itemsPerPage: PropTypes.number.isRequired,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 export default Pagination;
