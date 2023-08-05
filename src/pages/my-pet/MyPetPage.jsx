@@ -104,9 +104,9 @@ const StyledMyPetList = styled.div`
 
 const KeywordContainer = styled.div`
   display: flex;
+  flex-grow: 1;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 10px;
 `;
 
 const Keyword = styled.div`
@@ -125,10 +125,18 @@ const Keyword = styled.div`
 `;
 
 const KeywordSection = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
+`;
+
+const KeywordButton = styled.img`
+  order: 1;
+  padding-left: 10px;
 `;
 
 const MyPetPage = () => {
@@ -230,16 +238,16 @@ const MyPetPage = () => {
         <StyledLine />
         <InfoText>정보</InfoText>
         <KeywordSection>
-          <img
-            src={MyPetKeyword}
-            alt="키워드 추가"
-            onClick={() => setShowKeywordModal(true)}
-          />
           <KeywordContainer>
             {keywords[selectedPetId]?.map((keyword, index) => (
               <Keyword key={index}>{keyword}</Keyword>
             ))}
           </KeywordContainer>
+          <KeywordButton
+            src={MyPetKeyword}
+            alt="키워드 추가"
+            onClick={() => setShowKeywordModal(true)}
+          />
         </KeywordSection>
       </StyledRectangle>
 
