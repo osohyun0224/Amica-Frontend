@@ -59,7 +59,7 @@ const Period = styled.p`
     color: rgba(21, 21, 21, 0.25);
 `;
 
-const DetailProductList = ({ src, name, percent, price, period, onClick }) => {
+const DetailProductList = ({ src, name, percent, price, period }) => {
     return (
         <Page>
             <Image src={src} alt="상품이미지"/>
@@ -70,8 +70,8 @@ const DetailProductList = ({ src, name, percent, price, period, onClick }) => {
             <Detail>
                 <Title> {name} </Title>
                     <InfoContainer> 
-                        <Info style={{ color: "#D94A56" }}> {percent} </Info>
-                        <Info style={{ marginLeft: "7px" }}> {price} </Info>
+                        <Info style={{ color: "#D94A56" }}> {`${percent}%`} </Info>
+                        <Info style={{ marginLeft: "7px" }}> {`${price}원`} </Info>
                     </InfoContainer>
                 <Period> {period} </Period>
             </Detail>

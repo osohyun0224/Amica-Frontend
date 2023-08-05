@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../components/Button";
 
@@ -20,7 +21,7 @@ const Image = styled.img`
 
 const ProductInfoContainer = styled.div`
     width: 100%;
-    padding: 25px 25px 0 25px;
+    padding: 20px 25px 0 25px;
 `;
 
 const ProductName = styled.p`
@@ -46,7 +47,7 @@ const Price = styled.p`
     font-weight: 700;
     color: #151515;
     line-height: 34.57px;
-    margin-left: 13px;
+    margin-left: 11px;
 `;
 
 const GroupPurchaseContainer = styled.div`
@@ -221,6 +222,11 @@ const SellerInfoList = [
 const ProductDetail = () => {
     const [selected, setSelected] = useState(false);
     const [openMenu, setOpenMenu] = useState("");
+    const location = useLocation();
+    
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const onClickMenu = (value) => {
         setOpenMenu((value === openmenu) ? "" : value);
@@ -228,18 +234,18 @@ const ProductDetail = () => {
 
     return (
         <PageContainer>
-            <Image alt="상품 이미지"/>
+            <Image src={location.state.src} alt="상품 이미지"/>
             <ProductInfoContainer>
-                <ProductName> [가성비 좋은 모래] 벤토나이트 모래 </ProductName>
+                <ProductName> {location.state.name} </ProductName>
                 <PerPrice>
-                    <Percent> 35% </Percent>
-                    <Price> 56,000원</Price>
+                    <Percent> {`${location.state.percent}%`} </Percent>
+                    <Price> {`${location.state.price}원`} </Price>
                 </PerPrice>
                 <GroupPurchaseContainer>
                     <GPRate> 
                         <GPTitle> 공동구매 달성률 </GPTitle>
                         <GPTime>
-                            공동구매 마감까지 10:27:21 남음
+                            {location.state.period}
                         </GPTime>
                     </GPRate>
                     <GPRate>
