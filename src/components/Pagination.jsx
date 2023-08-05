@@ -15,12 +15,14 @@ const StyledPaginateContainer = styled.div`
 const StyledArrow = styled.img`
   height: 12px;
   vertical-align: middle;
+  border: none; // Add this line
+  outline: none; // Add this line
 `;
 
 const StyledReactPaginate = styled(ReactPaginate)`
   display: flex;
   justify-content: center;
-  list-style: none; // add this line
+  list-style: none;
 
   .page-link {
     font-family: 'Nanum Gothic';
@@ -33,7 +35,8 @@ const StyledReactPaginate = styled(ReactPaginate)`
     margin: 0 3px;
     padding: 5px 10px;
     border-radius: 5px;
-    border: 1px solid #5c859b;
+    border: none; // Change this line
+    outline: none; // Add this line
 
     &:hover {
       background-color: #5c859b55;
@@ -44,7 +47,6 @@ const StyledReactPaginate = styled(ReactPaginate)`
     color: #D94A56;
   }
 `;
-
 
 function Pagination({ totalItems, itemsPerPage, onChange }) {
   const [currentPage, setCurrentPage] = useState(0);

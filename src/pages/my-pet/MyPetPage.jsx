@@ -205,12 +205,13 @@ const MyPetPage = () => {
   useEffect(() => {
     console.log(keywords);
   }, [keywords]);
-
+/*페이지네이션 구현 영역 */
   const totalItems = 20;
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(0);
   
   const handlePageChange = (selectedPage) => {
+    //페이지네이션 추후에 적용하는 방법
     // 페이지 변경 시 수행할 동작을 작성해주세요.
     // 여기서는 단순히 현재 페이지 상태값을 업데이트 합니다.
     setCurrentPage(selectedPage);
@@ -224,10 +225,6 @@ const MyPetPage = () => {
 
   return (
     <Container>
-      {/* <Heading>
-        <HeadingBold>{userName}님</HeadingBold>의 아이들
-      </Heading> */}
-
       <StyledMyPetList>
         <ScrollContainer scrollableNodeProps={{ ref }} autoHide={false}>
           {petList.map((item) => (
