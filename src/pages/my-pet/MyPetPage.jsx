@@ -104,9 +104,10 @@ const StyledMyPetList = styled.div`
 
 const KeywordContainer = styled.div`
   display: flex;
-  flex-grow: 1;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;
+  align-items: center;
+  margin-top: -100px;
 `;
 
 const Keyword = styled.div`
@@ -122,11 +123,13 @@ const Keyword = styled.div`
   letter-spacing: -0.02em;
   text-align: center;
   color: #151515;
+  margin-right: 5px;
 `;
+
 
 const KeywordSection = styled.div`
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   flex-wrap: wrap;
   position: absolute;
   bottom: 0;
@@ -242,12 +245,12 @@ const MyPetPage = () => {
             {keywords[selectedPetId]?.map((keyword, index) => (
               <Keyword key={index}>{keyword}</Keyword>
             ))}
+            <KeywordButton
+              src={MyPetKeyword}
+              alt="키워드 추가"
+              onClick={() => setShowKeywordModal(true)}
+            />
           </KeywordContainer>
-          <KeywordButton
-            src={MyPetKeyword}
-            alt="키워드 추가"
-            onClick={() => setShowKeywordModal(true)}
-          />
         </KeywordSection>
       </StyledRectangle>
 
