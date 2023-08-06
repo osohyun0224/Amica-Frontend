@@ -138,7 +138,7 @@ const PurchaseBtn = styled(Button)`
 `;
 
 const DropDownItem = styled.div`
-    width: 360px;
+    width: 100%;
     height: 47px;
     margin-top: 7px;
     background-color: #FFFFFF;
@@ -281,7 +281,7 @@ const SellerInfoList = [
 ];
 
 const ProductDetail = () => {
-    const [selected, setSelected] = useState(false);
+    const [clickMenu, setClickMenu] = useState(false);
     const [openOrder, setOpenOrder] = useState(false);
     const [openMenu, setOpenMenu] = useState("");
     const location = useLocation();
@@ -290,10 +290,12 @@ const ProductDetail = () => {
         window.scrollTo(0, 0);
     }, []);
 
+    // 구매하기 버튼 클릭 시
     const onClickOrder = () => {
         setOpenOrder(prev => !prev);
     };
 
+    //
     const onClickMenu = (value) => {
         setOpenMenu((value === openmenu) ? "" : value);
     };
@@ -334,16 +336,16 @@ const ProductDetail = () => {
             </ProductInfoContainer>
             <SelectionContainer>
                 <SelectionButton
-                    className={`${selected === false ? "select" : ""}`}
-                    onClick={() => setSelected(false)}
+                    className={`${clickMenu === false ? "select" : ""}`}
+                    onClick={() => setClickMenu(false)}
                 > 정보 
                 </SelectionButton>
                 <SelectionButton 
-                    className={`${selected === true ? "select" : ""}`}
-                    onClick={() => setSelected(true)}
+                    className={`${clickMenu === true ? "select" : ""}`}
+                    onClick={() => setClickMenu(true)}
                 > 공지사항 
                 </SelectionButton>
-                    {selected ? 
+                    {clickMenu ? 
                         <Notice>
                             공지사항 예시입니다
                             <br/>

@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import ProductType from "./ProductType";
+import ProductType from "../ProductType";
 
 const Page = styled.div`
     /* width: 470px; */

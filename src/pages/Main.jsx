@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { ScrollContainer } from "react-indiana-drag-scroll";
 import "react-indiana-drag-scroll/dist/style.css";
 
-import ProductType from "../components/main/ProductType";
+import ProductType from "../components/ProductType";
 import CategoryList from "../components/main/CategoryList";
 import DeadlineProduct from "../components/main/DeadlineList";
 import RecommemdProduct from "../components/main/RecommendList";
