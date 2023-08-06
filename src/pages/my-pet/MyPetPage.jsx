@@ -291,7 +291,9 @@ const MyPetPage = () => {
       </StyledRectangle>
 
       <Heading>
-        <HeadingBold>{pet.name} 최근 구매한 제품</HeadingBold>
+        <HeadingBold style={{ marginLeft: "20px" }}>
+          {pet.name} 최근 구매한 제품
+        </HeadingBold>
       </Heading>
       {currentRecentItems.map((item) => (
         <PurchasedList
