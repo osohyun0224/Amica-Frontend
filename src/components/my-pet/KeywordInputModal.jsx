@@ -174,7 +174,7 @@ KeywordInputModal.propTypes = {
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   setKeywords: PropTypes.func.isRequired,
-  selectedPetId: PropTypes.string.isRequired,
+  selectedPetId: PropTypes.number,
 };
 
 export default KeywordInputModal;
