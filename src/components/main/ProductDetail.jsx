@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import Button from "../Button";
-import DropDown from "../Dropdown";
+import DropDown from "../product-detail/Dropdown";
+
 import MoreBtn from "../../assets/images/rightArrow.png";
+import ProductOrder from "../product-detail/ProductOrder";
 
 const PageContainer = styled.div`
     width: 100%;
@@ -98,23 +100,6 @@ const OrderBtn = styled(Button)`
     margin-top: 5px;
 `;
 
-const ProductOrder = styled.div`
-    max-width: 500px;
-    width: 100%;
-    height: 323px;
-    background-color: #FFFFFF;
-    position: fixed;
-    border-radius: 5px 5px 0 0;
-    box-shadow: 0px -2px 8px 0px rgba(0, 0, 0, 0.25);
-    display: ${(props) => (props.show ? "block" : "none")};
-    text-align: left;
-    justify-content: center;
-    align-items: center;
-    margin-left: -25px;
-    bottom: 0;
-    z-index: 3;
-`;
-
 const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -123,61 +108,6 @@ const Overlay = styled.div`
   bottom: 0;
   z-index: 2;
   display: ${(props) => (props.show ? "block" : "none")};
-`;
-
-const ProductOrderItem = styled.div`
-    padding: 20px 15px;
-    gap: 4px;
-`;
-
-const PurchaseBtn = styled(Button)`
-    display: flex;
-    position: absolute;
-    width: 100%;
-    height: 80px;
-    gap: 10px;
-    bottom: 0;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    background-color: #D94A56;
-
-    color: #FFFFFF;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 22px;
-    letter-spacing: -0.02em;
-`;
-
-const DropDownContainer = styled.ul`
-    width: 100%;
-    height: 47px;
-    background-color: #FFFFFF;
-    border: 1px solid rgba(0, 0, 0, 0.25);
-    border-radius: 6px;
-    margin-top: 7px;
-`;
-
-const DropDownOption = styled.div`
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 17px 0 12px;
-
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 22px;
-    letter-spacing: -0.02em;
-    text-align: left;
-`;
-
-const OrderList = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
 `;
 
 const SelectionContainer = styled.div`
@@ -311,7 +241,8 @@ const SellerInfoList = [
 const ProductDetail = () => {
     const [clickMenu, setClickMenu] = useState(false);      // 정보/공지사항 전환
     const [openOrder, setOpenOrder] = useState(false);      // 구매하기 버튼 클릭
-    const [viewProduct, setViewProduct] = useState(false);  // dropdownItem 클릭
+    // const [viewProduct, setViewProduct] = useState(false);  // dropdownItem 클릭
+    // const [orderList, setOrderList] = useState([]);
     const [openMenu, setOpenMenu] = useState("");           // 하단 구매자 정보
     const location = useLocation();
     
@@ -319,15 +250,11 @@ const ProductDetail = () => {
         window.scrollTo(0, 0);
     }, []);
 
-    const onClickOrder = () => {
-        setOpenOrder(prev => !prev);
-    };
-
     const onClickMenu = (value) => {
         setOpenMenu((value === openmenu) ? "" : value);
     };
 
-    const item = 2;
+    const onClickOrder = () => setOpenOrder(prev => !prev);
 
     return (
         <>
@@ -350,31 +277,9 @@ const ProductDetail = () => {
                         </GPSubContainer>
                     </GroupPurchaseContainer>
                     <OrderBtn onClick={onClickOrder}> 구매하기 </OrderBtn>
-                    <ProductOrder show={openOrder}>
-                        <ProductOrderItem>
-                            상품
-                            <DropDownContainer onClick={() => setViewProduct(!viewProduct)}>
-                                <DropDownOption>
-                                    Option
-                                    <More 
-                                        className={(viewProduct) ? "clicked" : ""}
-                                        src={MoreBtn} 
-                                    />
-                                </DropDownOption>
-                                { viewProduct ? 
-                                    <DropDown/> : (
-                                    <OrderList>
-                                        <Line/>
-                                        <div> 선택창 </div>
-                                        <div> 총 상품 금액 ({item}개) </div>
-                                    </OrderList>
-                                )
-                                }
-                            </DropDownContainer>
-                        </ProductOrderItem>
-                        <PurchaseBtn> 구매하기 </PurchaseBtn>
-                    </ProductOrder>
+                    {openOrder && <ProductOrder show={openOrder}/>}
                 </ProductInfoContainer>
+
                 <SelectionContainer>
                     <SelectionButton
                         className={`${clickMenu === false ? "select" : ""}`}
@@ -386,16 +291,16 @@ const ProductDetail = () => {
                         onClick={() => setClickMenu(true)}
                     > 공지사항 
                     </SelectionButton>
-                        {clickMenu ? 
-                            <Notice>
-                                공지사항 예시입니다
-                                <br/>
-                                [내용] 우왕
-                            </Notice> : <PromotionalImage/>
-                        }
+                    {clickMenu ? 
+                        <Notice>
+                            공지사항 예시입니다
+                            <br/>
+                            [내용] 우왕
+                        </Notice> : <PromotionalImage/>
+                    }
                 </SelectionContainer>
                 <SellerInfo>
-                        <SellerDetailInfo> 
+                    <SellerDetailInfo> 
                         {SellerInfoList.map(info => (
                             <SellerInfoTitle>
                                 {info.name} 
@@ -410,7 +315,7 @@ const ProductDetail = () => {
                                 )}
                             </SellerInfoTitle>
                         ))}
-                        </SellerDetailInfo>
+                    </SellerDetailInfo>
                 </SellerInfo>
             </PageContainer>
             {openOrder && (

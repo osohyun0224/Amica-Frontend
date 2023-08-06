@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 const DropdownContainer = styled.div`
@@ -22,15 +23,17 @@ const ProductOptions = [
     { id: 2, productName: "모래 8kg" },
     { id: 3, productName: "모래 9kg" },
 ];
-const Dropdown = () => {
-    const optionClick = () => {
+const Dropdown = (...props) => {
+    const [orderList, setOrderList] = useState(props);
 
+    const optionClick = (product) => {
+        setOrderList([product]);
     }
 
     return (
         <DropdownContainer>
             {(ProductOptions.map((option) => (
-                <DropdownList> { option.productName } </DropdownList>
+                <DropdownList onClick={() => optionClick(option.name)}> { option.productName } </DropdownList>
             )))}
         </DropdownContainer>
     )
