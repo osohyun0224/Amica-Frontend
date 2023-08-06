@@ -10,10 +10,15 @@ import AddPetImage from "../../assets/images/addPet.png";
 import MyPetAddModal from "../../components/my-pet/MyPetInputModal.jsx";
 import MyPetKeyword from "../../assets/images/Keyword.png";
 import KeywordInputModal from "../../components/my-pet/KeywordInputModal.jsx";
+import PurchasedList from "../../components/my-pet/PurchasedList.jsx";
+import ProductExample from "../../assets/images/RecentImage.png";
 import Pagination from "../../components/Pagination.jsx";
 
 const Container = styled.div`
-  margin: 12px 16px;
+  display: block;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #ffffff;
 `;
 
 const ScrollContainer = styled(SimpleBar)`
@@ -96,7 +101,7 @@ const StyledLine = styled.span`
 const StyledMyPetList = styled.div`
   width: 103.4%;
   height: 206px;
-  margin-top: -13px;
+  margin-top: 0px;
   margin-left: 0px;
   border-radius: 0px 0px 90px 90px;
   background: #f2d335;
@@ -126,7 +131,6 @@ const Keyword = styled.div`
   color: #151515;
   margin-right: 5px;
 `;
-
 
 const KeywordSection = styled.div`
   display: flex;
@@ -181,10 +185,47 @@ const MyPetPage = () => {
     },
   ];
 
+  const RecentList = [
+    {
+      id: 21,
+      name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
+      kind: "사료",
+      price: "56,000",
+      date: "2023.05.09",
+    },
+    {
+      id: 22,
+      name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
+      kind: "사료",
+      price: "56,000",
+      date: "2023.05.09",
+    },
+    {
+      id: 23,
+      name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
+      kind: "사료",
+      price: "56,000",
+      date: "2023.05.09",
+    },
+  ];
+
   const [petList] = useState(samplePetListData);
   const [pet, setPet] = useState(samplePetListData[0]);
   const [showModal, setShowModal] = useState(false);
   const [selectedPetId, setSelectedPetId] = useState(samplePetListData[0].id);
+  // 페이지네이션을 위한 변수
+  const recentItemsPerPage = 3;
+  const [recentCurrentPage, setRecentCurrentPage] = useState(0);
+
+  // 페이지네이션에 따른 아이템 리스트
+  const currentRecentItems = RecentList.slice(
+    recentCurrentPage * recentItemsPerPage,
+    (recentCurrentPage + 1) * recentItemsPerPage,
+  );
+
+  const handleRecentPageChange = (selectedPage) => {
+    setRecentCurrentPage(selectedPage);
+  };
 
   const handleModalToggle = (isOpen) => {
     if (ref.current) {
@@ -205,23 +246,6 @@ const MyPetPage = () => {
   useEffect(() => {
     console.log(keywords);
   }, [keywords]);
-/*페이지네이션 구현 영역 */
-  const totalItems = 20;
-  const itemsPerPage = 10;
-  const [currentPage, setCurrentPage] = useState(0);
-  
-  const handlePageChange = (selectedPage) => {
-    //페이지네이션 추후에 적용하는 방법
-    // 페이지 변경 시 수행할 동작을 작성해주세요.
-    // 여기서는 단순히 현재 페이지 상태값을 업데이트 합니다.
-    setCurrentPage(selectedPage);
-  };
-
-  useEffect(() => {
-    // 페이지가 바뀔 때마다 수행할 동작을 작성해주세요.
-    // 예를 들어, 새로운 페이지의 데이터를 로드하는 등의 작업이 수행될 수 있습니다.
-  }, [currentPage]);
-
 
   return (
     <Container>
@@ -269,17 +293,27 @@ const MyPetPage = () => {
       <Heading>
         <HeadingBold>{pet.name} 최근 구매한 제품</HeadingBold>
       </Heading>
+      {currentRecentItems.map((item) => (
+        <PurchasedList
+          key={item.id}
+          src={ProductExample}
+          name={item.name}
+          kind={item.kind}
+          price={item.price}
+        />
+      ))}
+
+      <Pagination
+        totalItems={RecentList.length}
+        itemsPerPage={recentItemsPerPage}
+        onChange={handleRecentPageChange}
+      />
       <MyPetAddModal show={showModal} onClose={handleCloseModal} />
       <KeywordInputModal
         show={showKeywordModal}
         onClose={() => setShowKeywordModal(false)}
         setKeywords={setKeywords}
         selectedPetId={selectedPetId}
-      />
-      <Pagination
-        totalItems={totalItems}
-        itemsPerPage={itemsPerPage}
-        onChange={handlePageChange}
       />
     </Container>
   );
