@@ -5,12 +5,15 @@ import "react-indiana-drag-scroll/dist/style.css";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import { Heading, HeadingBold } from "../../components/Heading.jsx";
+import { Link } from "react-router-dom";
 import MyPetListItem from "../../components/my-pet/MyPetListItem.jsx";
 import AddPetImage from "../../assets/images/addPet.png";
 import MyPetAddModal from "../../components/my-pet/MyPetInputModal.jsx";
 import MyPetKeyword from "../../assets/images/Keyword.png";
 import KeywordInputModal from "../../components/my-pet/KeywordInputModal.jsx";
 import Pagination from "../../components/Pagination.jsx";
+import RecentBuy from "../../components/my-pet/PurchasedList.jsx";
+import ProductExample from "../../assets/images/productExample.jpeg";
 
 const Container = styled.div`
   margin: 12px 16px;
@@ -142,6 +145,39 @@ const KeywordButton = styled.img`
   order: 1;
   padding-left: 10px;
 `;
+
+const RecentBuyList = styled(useScrollContainer)`
+    display: flex;
+    flex-direction: column;
+`;
+
+const ProductSelect = styled(Link)`
+    text-decoration : none; 
+`;
+
+const Recent = [
+  {
+      id: 21,
+      name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
+      kind: "사료",
+      price: "56,000",
+      date: "2023.05.09"
+  },
+  {
+      id: 22,
+      name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
+      kind: "사료",
+      price: "57,000",
+      date: "2023.05.09"
+  },
+  {
+      id: 23,
+      name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
+      kind: "사료",
+      price: "58,000",
+      date: "2023.05.09"
+  },
+];
 
 const MyPetPage = () => {
   const { ref } = useScrollContainer();
@@ -276,6 +312,29 @@ const MyPetPage = () => {
         setKeywords={setKeywords}
         selectedPetId={selectedPetId}
       />
+      <RecentBuyList>
+                    {Recent.map((items) => (
+                        <ProductSelect 
+                            key={items.id}
+                            to={`/ProductDetail/${items.id}`}
+                            state={{
+                                src: {ProductExample},
+                                name: `${items.name}`,
+                                percent: `${items.percent}`,
+                                price: `${items.price}`,
+                                period: `${items.period}`
+                             }}
+                        >
+                            <RecentBuy
+                                id={items.id}
+                                src={ProductExample}
+                                name={items.name}
+                                kind={items.kind}
+                                price={items.price}
+                            />
+                        </ProductSelect>
+                    ))}
+                </RecentBuyList>
       <Pagination
         totalItems={totalItems}
         itemsPerPage={itemsPerPage}
