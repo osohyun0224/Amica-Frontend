@@ -14,6 +14,7 @@ const Btn = styled.button`
   cursor: pointer;
 
   &.outline {
+    padding: 6px 0;
     background-color: #ffffff;
     border: 2px solid rgba(217, 74, 86, 1);
     color: rgba(217, 74, 86, 1);

@@ -8,5 +8,4 @@ export const Heading = styled.p`
 
 export const HeadingBold = styled.span`
   font-weight: 600;
-  margin-left:20px;
 `;

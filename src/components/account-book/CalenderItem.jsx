@@ -4,13 +4,12 @@ import { styled } from "styled-components";
 
 const Container = styled.div`
   width: 100%;
-  height: 50px;
+  aspect-ratio: 1;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   cursor: pointer;
 
   &:hover {
@@ -21,30 +20,50 @@ const Container = styled.div`
 const Text = styled.p`
   font-size: 16px;
   font-weight: 700;
+
+  &.disable {
+    color: rgba(21, 21, 21, 0.25);
+  }
+
+  &.select {
+    color: rgba(242, 211, 53, 1);
+  }
+
+  &.saturday {
+    color: rgba(54, 162, 235, 1);
+  }
+
+  &.sunday {
+    color: rgba(217, 74, 86, 1);
+  }
 `;
 
 const Price = styled.p`
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 400;
+
+  @media screen and (max-width: 500px) {
+    font-size: 8px;
+  }
 `;
 
-const CalenderItem = ({ date, value, color }) => {
+const CalenderItem = ({ id, date, value = 0, type, onClick }) => {
   return (
-    <Container>
-      <Text style={{ color }}>{date}</Text>
+    <Container onClick={type === "disable" ? null : () => onClick(date)}>
+      <Text className={type}>{date}</Text>
       <Price style={{ visibility: value > 0 ? "visible" : "hidden" }}>
-        {value >= 10000000
-          ? value.toLocaleString("ko-KR", { notation: "compact" })
-          : value.toLocaleString()}
+        {value.toLocaleString()}
       </Price>
     </Container>
   );
 };
 
 CalenderItem.propTypes = {
+  id: PropTypes.string,
   date: PropTypes.string,
   value: PropTypes.number,
-  color: PropTypes.string,
+  type: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 export default CalenderItem;
