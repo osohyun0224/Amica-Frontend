@@ -134,52 +134,16 @@ const ProductSelect = styled(Link)`
     text-decoration : none; 
 `;
 
-const Category = [
-    {
-        id: 1,
-        name: 'snack',
-        text: "간식"
-    },
-    {
-        id: 2,
-        name: 'beauty',
-        text: "미용"
-    },
-    {
-        id: 3,
-        name: 'accessories',
-        text: "의류/악세사리"
-    },
-    {
-        id: 4,
-        name: 'nutritional',
-        text: "영양제"
-    },
-    {
-        id: 5,
-        name: 'toys',
-        text: "장난감"
-    },
-    {
-        id: 6,
-        name: 'toilet',
-        text: "배변용품"
-    },
-    {
-        id: 7,
-        name: 'cat',
-        text: "고양이"
-    },
-    {
-        id: 8,
-        name: 'dog',
-        text: "강아지"
-    },
-    {
-        id: 9,
-        name: 'fish',
-        text: "관상어"
-    },
+const Categories = [
+    { id: 0, name: 'snack', text: "간식", },
+    { id: 1, name: 'beauty', text: "미용", },
+    { id: 2, name: 'accessories', text: "의류/악세사리", },
+    { id: 3, name: 'nutritional', text: "영양제", },
+    { id: 4, name: 'toys', text: "장난감", },
+    { id: 5, name: 'toilet', text: "배변용품", },
+    { id: 6, name: 'cat', text: "고양이", },
+    { id: 7, name: 'dog', text: "강아지", },
+    { id: 8, name: 'fish', text: "관상어", },
 ];
 
 const DeadLine = [
@@ -238,8 +202,8 @@ const Recommend = [
 ];
 
 const Main = () => {
-    const [category, setCategory] = useState(Category);
-    
+    const [categoryId, setCategoryId] = useState();
+
     return (
         <PageContainer>
             <Image/>
@@ -249,7 +213,7 @@ const Main = () => {
                 <PetAddBtn src={AddPet}/>
             </PetRecommend>
             <CategoryList>
-                {Category.map((cate, id) => 
+                {Categories.map((cate) => 
                     <Menu key={cate.name}>
                         {cate.text}
                     </Menu>

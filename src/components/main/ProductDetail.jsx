@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../Button";
-
 import MoreBtn from "../../assets/images/rightArrow.png";
 
 const PageContainer = styled.div`
@@ -10,18 +9,19 @@ const PageContainer = styled.div`
     display: flex;
     flex-direction: column;
     background-color: #FFFFFF;
+    color: #667080;
 `;
 
 const Image = styled.img`
     width: 100%;
-    height: 400px;
+    height: 390px;
     margin-top: 60px;
     background-color: #EEF1F4;
 `;
 
 const ProductInfoContainer = styled.div`
     width: 100%;
-    padding: 20px 25px 0 25px;
+    padding: 18px 25px 0 25px;
 `;
 
 const ProductName = styled.p`
@@ -53,10 +53,10 @@ const Price = styled.p`
 const GroupPurchaseContainer = styled.div`
     display: flex;
     flex-direction: column;
-    margin: 15px 0 20px 0;
+    margin: 10px 0 20px 0;
 `;
 
-const GPRate = styled.div`
+const GPSubContainer = styled.div`
     width: auto;
     display: flex;
     flex-direction: row;
@@ -80,9 +80,8 @@ const GPTime = styled.p`
     letter-spacing: -0.02em;
 `;
 
-const PurchaseBtn = styled(Button)`
+const OrderBtn = styled(Button)`
     width: 100%;
-    height: 48px;
     color: #FFFFFF;
     font-size: 16px;
     font-weight: 700;
@@ -95,9 +94,71 @@ const PurchaseBtn = styled(Button)`
     margin-top: 5px;
 `;
 
-const SelectionContainer = styled.div`
+const ProductOrder = styled.div`
+    max-width: 500px;
     width: 100%;
-    margin-top: 30px;
+    height: 323px;
+    background-color: #FFFFFF;
+    position: fixed;
+    border-radius: 5px 5px 0 0;
+    box-shadow: 0px -2px 8px 0px rgba(0, 0, 0, 0.25);
+    display: ${(props) => (props.show ? "block" : "none")};
+    text-align: left;
+    justify-content: center;
+    align-items: center;
+    margin-left: -25px;
+    bottom: 0;
+    z-index: 2;
+`;
+
+const ProductOrderItem = styled.div`
+    padding: 20px 15px;
+    gap: 4px;
+`;
+
+const PurchaseBtn = styled(Button)`
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 80px;
+    gap: 10px;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: #D94A56;
+
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: -0.02em;
+`;
+
+const DropDownItem = styled.div`
+    width: 360px;
+    height: 47px;
+    margin-top: 7px;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: -0.02em;
+    text-align: left;
+    padding: 12px;
+`;
+
+const OrderList = styled.div`
+    width: 100%;
+`;
+
+const SelectionContainer = styled.div`
+    margin-top: 20px;
 `;
 
 const SelectionButton = styled.div`
@@ -221,6 +282,7 @@ const SellerInfoList = [
 
 const ProductDetail = () => {
     const [selected, setSelected] = useState(false);
+    const [openOrder, setOpenOrder] = useState(false);
     const [openMenu, setOpenMenu] = useState("");
     const location = useLocation();
     
@@ -228,12 +290,18 @@ const ProductDetail = () => {
         window.scrollTo(0, 0);
     }, []);
 
+    const onClickOrder = () => {
+        setOpenOrder(prev => !prev);
+    };
+
     const onClickMenu = (value) => {
         setOpenMenu((value === openmenu) ? "" : value);
-    }
+    };
 
     return (
-        <PageContainer>
+        <PageContainer 
+            onClick={() => openOrder ? setOpenOrder(false) : null}
+        >
             <Image src={location.state.src} alt="상품 이미지"/>
             <ProductInfoContainer>
                 <ProductName> {location.state.name} </ProductName>
@@ -242,20 +310,28 @@ const ProductDetail = () => {
                     <Price> {`${location.state.price}원`} </Price>
                 </PerPrice>
                 <GroupPurchaseContainer>
-                    <GPRate> 
+                    <GPSubContainer> 
                         <GPTitle> 공동구매 달성률 </GPTitle>
-                        <GPTime>
-                            {location.state.period}
-                        </GPTime>
-                    </GPRate>
-                    <GPRate>
+                        <GPTime> {location.state.period} </GPTime>
+                    </GPSubContainer>
+                    <GPSubContainer>
                         <Percent> 702% </Percent>
                         <GPTitle> 867명이 참가했어요 </GPTitle>
-                    </GPRate>
+                    </GPSubContainer>
                 </GroupPurchaseContainer>
-                <PurchaseBtn> 구매하기 </PurchaseBtn>
+                <OrderBtn onClick={onClickOrder}> 구매하기 </OrderBtn>
+                <ProductOrder show={openOrder}>
+                    <ProductOrderItem>
+                        상품
+                        <DropDownItem>
+                            DropDownItem
+                        </DropDownItem>
+                        <OrderList>
+                        </OrderList>
+                    </ProductOrderItem>
+                    <PurchaseBtn> 구매하기 </PurchaseBtn>
+                </ProductOrder>
             </ProductInfoContainer>
-
             <SelectionContainer>
                 <SelectionButton
                     className={`${selected === false ? "select" : ""}`}
