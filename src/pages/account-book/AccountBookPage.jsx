@@ -71,7 +71,7 @@ const AccountBookPage = () => {
   return (
     <Container>
       <Expense value={expense} />
-      <StyledLink to="/account-book/summary">
+      <StyledLink to="/account-book/calender">
         <Button>이번달 소비 보기</Button>
       </StyledLink>
       <ExpenseInfomation value={expenseChange} />

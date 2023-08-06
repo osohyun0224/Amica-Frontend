@@ -29,7 +29,7 @@ const DailyExpense = ({ date, data }) => {
           price={item.value}
         />
       ))}
-      <ExpenseTotal color={null} name="total" price={totalExpense} />
+      <ExpenseTotal color={null} name="Total" price={totalExpense} />
     </>
   );
 };

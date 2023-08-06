@@ -47,7 +47,7 @@ const ListContainer = styled.div`
 `;
 
 const ListItem = styled.p`
-  padding: 8px 0;
+  padding: 8px;
   font-size: 20px;
   transition: background-color 0.1s;
   cursor: pointer;
@@ -67,11 +67,6 @@ const ListItem = styled.p`
 //     select: false
 // }
 
-/**
- *
- * @param {*} param0
- * @returns
- */
 const Select = ({ list = [], onSelect }) => {
   const initialItem = list?.find((item) => item.default === true) || null;
   const [selectedItem, setItem] = useState(initialItem);
@@ -91,17 +86,21 @@ const Select = ({ list = [], onSelect }) => {
     };
   }, []);
 
+  useEffect(() => {
+    setItem(initialItem);
+  }, [initialItem]);
+
   return (
     <>
       <Container ref={container} onClick={() => setVisible(!isVisible)}>
-        <Label>{selectedItem.name}</Label>
+        <Label>{selectedItem?.name}</Label>
         <Icon src={downArrowImage} />
       </Container>
       <ListContainer className={isVisible ? "visible" : ""}>
         {list.map((item) => (
           <ListItem
             key={item.id}
-            className={item.id === selectedItem.id ? "select" : ""}
+            className={item.id === selectedItem?.id ? "select" : ""}
             onClick={() => (setItem(item), onSelect(item))}
           >
             {item.name}
@@ -117,7 +116,7 @@ Select.propTypes = {
   list: PropTypes.arrayOf(
     PropTypes.shape({
       /** 항목의 id 입니다. id는 항목마다 고유한 값이어야만 합니다. */
-      id: PropTypes.string.isRequired,
+      id: PropTypes.any.isRequired,
       /** 항목의 이름입니다. 이 값이 화면에 표시되게 됩니다. */
       name: PropTypes.string,
       /** 항목의 기본 값입니다. 이 값이 true면 맨 처음에 선택되어집니다. */
