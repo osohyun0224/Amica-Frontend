@@ -7,7 +7,7 @@ import SignCompelete from "./pages/LoginSignup/SignCompelete.jsx";
 import AccountBookPage from "./pages/account-book/AccountBookPage.jsx";
 import MonthlySummaryPage from "./pages/account-book/MonthlySummaryPage.jsx";
 import MyPetPage from "./pages/my-pet/MyPetPage.jsx";
-import ProductDetail from "./components/ProductDetail.jsx";
+import ProductDetail from "./components/main/ProductDetail.jsx";
 import HeaderPage from "./pages/HeaderPage.jsx";
 import Main from "./pages/Main.jsx";
 import "./App.scss";
@@ -26,7 +26,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/compelete" element={<SignCompelete />} />
-          <Route path="/ProductDetail/:id" element={<ProductDetail/>} />
+          <Route path="/productDetail/:id" element={<ProductDetail/>} />
           <Route element={<HeaderPage />}>
             <Route path="/main" element={<Main />} />
             <Route path="/account-book" element={<AccountBookPage />} />

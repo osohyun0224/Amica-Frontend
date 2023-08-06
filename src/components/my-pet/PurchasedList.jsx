@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import ProductType from "../../components/ProductType";
+import ProductType from "../ProductType"
 import PropTypes from "prop-types";
 
 const Page = styled.div`
