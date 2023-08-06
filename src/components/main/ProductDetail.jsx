@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
+
 import Button from "../Button";
+import DropDown from "../Dropdown";
 import MoreBtn from "../../assets/images/rightArrow.png";
 
 const PageContainer = styled.div`
@@ -25,6 +27,7 @@ const ProductInfoContainer = styled.div`
 `;
 
 const ProductName = styled.p`
+    color: #151515;
     font-size: 17.29px;
     font-weight: 400;
     line-height: 34.57px;
@@ -70,6 +73,7 @@ const GPTitle = styled.p`
     font-weight: 400;
     line-height: 35px;
     letter-spacing: -0.02em;
+    color: #151515;
 `;
 
 const GPTime = styled.p`
@@ -108,7 +112,17 @@ const ProductOrder = styled.div`
     align-items: center;
     margin-left: -25px;
     bottom: 0;
-    z-index: 2;
+    z-index: 3;
+`;
+
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: ${(props) => (props.show ? "block" : "none")};
 `;
 
 const ProductOrderItem = styled.div`
@@ -137,24 +151,33 @@ const PurchaseBtn = styled(Button)`
     letter-spacing: -0.02em;
 `;
 
-const DropDownItem = styled.div`
+const DropDownContainer = styled.ul`
     width: 100%;
     height: 47px;
-    margin-top: 7px;
     background-color: #FFFFFF;
     border: 1px solid rgba(0, 0, 0, 0.25);
     border-radius: 6px;
+    margin-top: 7px;
+`;
+
+const DropDownOption = styled.div`
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 17px 0 12px;
 
     font-size: 16px;
     font-weight: 400;
     line-height: 22px;
     letter-spacing: -0.02em;
     text-align: left;
-    padding: 12px;
 `;
 
 const OrderList = styled.div`
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
 `;
 
 const SelectionContainer = styled.div`
@@ -237,6 +260,11 @@ const SellerPhone = styled(SellerDetailInfo)`
     border-bottom: 1px solid #667080;
 `;
 
+const Line = styled.hr`
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.25);
+`;
+
 const More = styled.img`
     width: 9px;
     height: 16px;
@@ -281,97 +309,114 @@ const SellerInfoList = [
 ];
 
 const ProductDetail = () => {
-    const [clickMenu, setClickMenu] = useState(false);
-    const [openOrder, setOpenOrder] = useState(false);
-    const [openMenu, setOpenMenu] = useState("");
+    const [clickMenu, setClickMenu] = useState(false);      // 정보/공지사항 전환
+    const [openOrder, setOpenOrder] = useState(false);      // 구매하기 버튼 클릭
+    const [viewProduct, setViewProduct] = useState(false);  // dropdownItem 클릭
+    const [openMenu, setOpenMenu] = useState("");           // 하단 구매자 정보
     const location = useLocation();
     
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
-    // 구매하기 버튼 클릭 시
     const onClickOrder = () => {
         setOpenOrder(prev => !prev);
     };
 
-    //
     const onClickMenu = (value) => {
         setOpenMenu((value === openmenu) ? "" : value);
     };
 
+    const item = 2;
+
     return (
-        <PageContainer 
-            onClick={() => openOrder ? setOpenOrder(false) : null}
-        >
-            <Image src={location.state.src} alt="상품 이미지"/>
-            <ProductInfoContainer>
-                <ProductName> {location.state.name} </ProductName>
-                <PerPrice>
-                    <Percent> {`${location.state.percent}%`} </Percent>
-                    <Price> {`${location.state.price}원`} </Price>
-                </PerPrice>
-                <GroupPurchaseContainer>
-                    <GPSubContainer> 
-                        <GPTitle> 공동구매 달성률 </GPTitle>
-                        <GPTime> {location.state.period} </GPTime>
-                    </GPSubContainer>
-                    <GPSubContainer>
-                        <Percent> 702% </Percent>
-                        <GPTitle> 867명이 참가했어요 </GPTitle>
-                    </GPSubContainer>
-                </GroupPurchaseContainer>
-                <OrderBtn onClick={onClickOrder}> 구매하기 </OrderBtn>
-                <ProductOrder show={openOrder}>
-                    <ProductOrderItem>
-                        상품
-                        <DropDownItem>
-                            DropDownItem
-                        </DropDownItem>
-                        <OrderList>
-                        </OrderList>
-                    </ProductOrderItem>
-                    <PurchaseBtn> 구매하기 </PurchaseBtn>
-                </ProductOrder>
-            </ProductInfoContainer>
-            <SelectionContainer>
-                <SelectionButton
-                    className={`${clickMenu === false ? "select" : ""}`}
-                    onClick={() => setClickMenu(false)}
-                > 정보 
-                </SelectionButton>
-                <SelectionButton 
-                    className={`${clickMenu === true ? "select" : ""}`}
-                    onClick={() => setClickMenu(true)}
-                > 공지사항 
-                </SelectionButton>
-                    {clickMenu ? 
-                        <Notice>
-                            공지사항 예시입니다
-                            <br/>
-                            [내용] 우왕
-                        </Notice> : <PromotionalImage/>
-                    }
-            </SelectionContainer>
-            <SellerInfo>
-                    <SellerDetailInfo> 
-                    {SellerInfoList.map(info => (
-                        <SellerInfoTitle>
-                            {info.name} 
-                            {(info.id === 1) ? (
-                                <SellerPhone> 0000-0000 </SellerPhone>
-                            ) : (
-                                <More 
-                                    className={`${openMenu === info ? "clicked" : ""}`}
-                                    src={MoreBtn}
-                                    onClick={() => onClickMenu(info)}
-                                />
-                            )}
-                        </SellerInfoTitle>
-                    ))}
-                    </SellerDetailInfo>
-            </SellerInfo>
-        </PageContainer>
+        <>
+            <PageContainer>
+                <Image src={location.state.src} alt="상품 이미지"/>
+                <ProductInfoContainer>
+                    <ProductName> {location.state.name} </ProductName>
+                    <PerPrice>
+                        <Percent> {`${location.state.percent}%`} </Percent>
+                        <Price> {`${location.state.price}원`} </Price>
+                    </PerPrice>
+                    <GroupPurchaseContainer>
+                        <GPSubContainer> 
+                            <GPTitle> 공동구매 달성률 </GPTitle>
+                            <GPTime> {location.state.period} </GPTime>
+                        </GPSubContainer>
+                        <GPSubContainer>
+                            <Percent> 702% </Percent>
+                            <GPTitle> 867명이 참가했어요 </GPTitle>
+                        </GPSubContainer>
+                    </GroupPurchaseContainer>
+                    <OrderBtn onClick={onClickOrder}> 구매하기 </OrderBtn>
+                    <ProductOrder show={openOrder}>
+                        <ProductOrderItem>
+                            상품
+                            <DropDownContainer onClick={() => setViewProduct(!viewProduct)}>
+                                <DropDownOption>
+                                    Option
+                                    <More 
+                                        className={(viewProduct) ? "clicked" : ""}
+                                        src={MoreBtn} 
+                                    />
+                                </DropDownOption>
+                                { viewProduct ? 
+                                    <DropDown/> : (
+                                    <OrderList>
+                                        <Line/>
+                                        <div> 선택창 </div>
+                                        <div> 총 상품 금액 ({item}개) </div>
+                                    </OrderList>
+                                )
+                                }
+                            </DropDownContainer>
+                        </ProductOrderItem>
+                        <PurchaseBtn> 구매하기 </PurchaseBtn>
+                    </ProductOrder>
+                </ProductInfoContainer>
+                <SelectionContainer>
+                    <SelectionButton
+                        className={`${clickMenu === false ? "select" : ""}`}
+                        onClick={() => setClickMenu(false)}
+                    > 정보 
+                    </SelectionButton>
+                    <SelectionButton 
+                        className={`${clickMenu === true ? "select" : ""}`}
+                        onClick={() => setClickMenu(true)}
+                    > 공지사항 
+                    </SelectionButton>
+                        {clickMenu ? 
+                            <Notice>
+                                공지사항 예시입니다
+                                <br/>
+                                [내용] 우왕
+                            </Notice> : <PromotionalImage/>
+                        }
+                </SelectionContainer>
+                <SellerInfo>
+                        <SellerDetailInfo> 
+                        {SellerInfoList.map(info => (
+                            <SellerInfoTitle>
+                                {info.name} 
+                                {(info.id === 1) ? (
+                                    <SellerPhone> 0000-0000 </SellerPhone>
+                                ) : (
+                                    <More 
+                                        className={`${openMenu === info ? "clicked" : ""}`}
+                                        src={MoreBtn}
+                                        onClick={() => onClickMenu(info)}
+                                    />
+                                )}
+                            </SellerInfoTitle>
+                        ))}
+                        </SellerDetailInfo>
+                </SellerInfo>
+            </PageContainer>
+            {openOrder && (
+                <Overlay show={openOrder} onClick={() => setOpenOrder(false)} />
+            )}
+        </>
     )
 }
 
