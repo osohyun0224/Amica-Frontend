@@ -8,12 +8,11 @@ const MyPetList = styled(SimpleBar)`
   margin-bottom: 16px;
   margin-top: 0px;
 
-
-  & .simplebar-content {
+  & > .simplebar-content {
     display: flex;
   }
 
-  & .simplebar-track.simplebar-horizontal {
+  & > .simplebar-track.simplebar-horizontal {
     margin: auto;
     margin-bottom: -8px;
     padding: 0;
@@ -23,7 +22,7 @@ const MyPetList = styled(SimpleBar)`
     margin-top: -100px;
   }
 
-  & .simplebar-scrollbar:before {
+  & > .simplebar-scrollbar:before {
     top: 0;
     right: 0;
     bottom: 0;
