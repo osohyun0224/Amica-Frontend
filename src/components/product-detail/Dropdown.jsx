@@ -3,12 +3,14 @@ import styled from "styled-components";
 
 const DropdownContainer = styled.div`
     width: 100%;
+    max-height: 140px;
+    height: auto;
     background-color: #FFFFFF;
     border: 1px solid rgba(0, 0, 0, 0.25);
     border-radius: 6px;
     list-style-type: none;
     padding: 10px 0;
-    overflow: scroll;
+    overflow-y: scroll;
 `;
 
 const DropdownList = styled.li`
@@ -17,23 +19,18 @@ const DropdownList = styled.li`
     cursor: pointer;
 `;
 
-const ProductOptions = [
-    { id: 0, productName: "모래 6kg" },
-    { id: 1, productName: "모래 7kg" },
-    { id: 2, productName: "모래 8kg" },
-    { id: 3, productName: "모래 9kg" },
-];
-const Dropdown = (...props) => {
-    const [orderList, setOrderList] = useState(props);
-
+const Dropdown = ({orderList, setOrderList, productOption}) => {
     const optionClick = (product) => {
         setOrderList([product]);
     }
 
     return (
         <DropdownContainer>
-            {(ProductOptions.map((option) => (
-                <DropdownList onClick={() => optionClick(option.name)}> { option.productName } </DropdownList>
+            {(productOption.map((option) => (
+                <DropdownList 
+                    onClick={() => optionClick(option.productName)}
+                > { option.productName } 
+                </DropdownList>
             )))}
         </DropdownContainer>
     )

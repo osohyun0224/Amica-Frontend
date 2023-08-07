@@ -1,14 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { styled } from "styled-components";
 
 import Button from "../Button";
 import DropDown from "../product-detail/Dropdown";
 
 import MoreBtn from "../../assets/images/rightArrow.png";
+import cancel from "../../assets/images/x.png";
+import plus from "../../assets/images/plus.png";
+import minus from "../../assets/images/minus.png";
 
 const ProductOrderContainer = styled.div`
     max-width: 500px;
     width: 100%;
+    max-height: 500px;
     height: 323px;
     background-color: #FFFFFF;
     position: fixed;
@@ -66,23 +70,73 @@ const OrderList = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 10px;
+    height: 100px;
+    overflow-y: scroll;
 `;
 
 const Line = styled.hr`
     width: 100%;
+    height: 1px;
     background-color: rgba(0, 0, 0, 0.25);
+`;
+
+const SelectOption = styled.div`
+    display: flex;
+    flex-direction: column;
+    color: #667080;
+    padding: 0 5px 10px 5px;
+`;
+
+const SelectOptionTitle = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+`;
+
+const SelectOptionName = styled.div`
+    margin-top: 5px;
+`;
+
+const SelectOptionDetail = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+`;
+
+const SelectOptionNumber = styled.div`
+    display: flex;
+    margin: 0 20px;
+`;
+
+const BtnImg = styled.img`
+    width: 13px;
+    height: 13px;
+    cursor: pointer;
 `;
 
 const TotalAmountContainer = styled.div`
     width: 100%;
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    justify-content: space-between; 
 `;
 
 const TATitle = styled.div`
-
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 35px;
+    letter-spacing: -0.02em;
+    color: #667080;
 `;
 
 const TotalAmount = styled.div`
-
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 35px;
+    letter-spacing: -0.02em;
+    color: #151515;
 `;
 
 const PurchaseBtn = styled(Button)`
@@ -116,17 +170,45 @@ const Overlay = styled.div`
   display: ${(props) => (props.show ? "block" : "none")};
 `;
 
+const ProductOptions = [
+    { id: 0, productName: "모래 6kg", price: 57000 },
+    { id: 1, productName: "모래 7kg (+1000)", price: 58000 },
+    { id: 2, productName: "모래 8kg (+2000)", price: 59000 },
+    { id: 3, productName: "모래 9kg (+3000)", price: 60000 },
+    { id: 4, productName: "모래 10kg (+4000)", price: 61000 },
+    { id: 5, productName: "모래 11kg (+5000)", price: 62000 },
+    { id: 6, productName: "모래 12kg (+6000)", price: 63000 },
+];
+
 const ProductOrder = (props) => {
     const [openOrder, setOpenOrder] = useState(false);      // 구매하기 버튼 클릭
     const [viewProduct, setViewProduct] = useState(false);  // dropdownItem 클릭
     const [orderList, setOrderList] = useState([]);
-    
-    const item = 0;
-    const Amount = 0;
-    const list = [];
 
+    const [number, setNumber] = useState(0);
+    const [amount, setAmount] = useState(0);
+    const [totalNum, setTotalNum] = useState(0);
+    const [totalAmount, setTotalAmount] = useState(0);
+
+    const totalAmountComma = totalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+    
     const onClickOrderList = (value) => {
         setOrderList([...orderList, value]);
+    };
+
+    const OrderPlus = () => {
+        setNumber(number + 1);
+    };
+
+    const OrderMiuns = () => {
+        (number !== 0) ? (
+            setNumber(number - 1),
+            setTotalNum(totalNum - 1)
+         ) : setNumber(0);
     };
 
     return (
@@ -146,18 +228,38 @@ const ProductOrder = (props) => {
                         <DropDown 
                             orderList={orderList}
                             setOrderList={onClickOrderList} 
+                            productOption={ProductOptions}
                         />
                     ) : (
-                        <OrderList>
+                        <>
                             <Line/>
-                            {orderList.map((item) => (
-                                <div> {item} </div>
-                            ))}
+                            <OrderList>
+                                {orderList.map((item) => (
+                                    <SelectOption>
+                                        <SelectOptionTitle>
+                                            <SelectOptionName> {item} </SelectOptionName>
+                                            <BtnImg 
+                                                src={cancel}
+                                                style={{ width: "20px", height: "20px" }}
+                                            />
+                                        </SelectOptionTitle>
+                                        <SelectOptionTitle style={{ marginTop: "10px" }}>
+                                            <SelectOptionDetail>
+                                                <BtnImg src={minus} onClick={OrderMiuns}/>
+                                                <SelectOptionNumber> {number} </SelectOptionNumber>
+                                                <BtnImg src={plus} onClick={OrderPlus}/>
+                                            </SelectOptionDetail>
+                                            {amount}원
+                                        </SelectOptionTitle>
+                                    </SelectOption>
+                                ))}
+                            </OrderList>
+                            <Line/>
                             <TotalAmountContainer>
-                                <TATitle> 총 상품 금액 ({item}개) </TATitle>
-                                <TotalAmount> {Amount}원 </TotalAmount>
+                                <TATitle> 총 상품 금액 ({totalNum}개) </TATitle>
+                                <TotalAmount> {totalAmountComma}원 </TotalAmount>
                             </TotalAmountContainer>
-                        </OrderList>
+                        </>
                     )}
                 </DropDownContainer>
             </ProductOrderItem>

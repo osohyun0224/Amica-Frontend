@@ -169,7 +169,7 @@ const SellerDetailInfo = styled.div`
     flex-direction: column;
 `;
 
-const SellerInfoTitle = styled.div`
+const SellerInfoTitle = styled.ul`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -188,6 +188,12 @@ const SellerPhone = styled(SellerDetailInfo)`
     border: none;
     padding: 0;
     border-bottom: 1px solid #667080;
+`;
+
+const DropdownList = styled.li`
+    display: flex;
+    padding: 6px 16px;
+    cursor: pointer;
 `;
 
 const Line = styled.hr`
@@ -241,8 +247,7 @@ const SellerInfoList = [
 const ProductDetail = () => {
     const [clickMenu, setClickMenu] = useState(false);      // 정보/공지사항 전환
     const [openOrder, setOpenOrder] = useState(false);      // 구매하기 버튼 클릭
-    // const [viewProduct, setViewProduct] = useState(false);  // dropdownItem 클릭
-    // const [orderList, setOrderList] = useState([]);
+    const [selectInfo, setSelectInfo] = useState(false);
     const [openMenu, setOpenMenu] = useState("");           // 하단 구매자 정보
     const location = useLocation();
     
@@ -302,18 +307,28 @@ const ProductDetail = () => {
                 <SellerInfo>
                     <SellerDetailInfo> 
                         {SellerInfoList.map(info => (
-                            <SellerInfoTitle>
-                                {info.name} 
-                                {(info.id === 1) ? (
-                                    <SellerPhone> 0000-0000 </SellerPhone>
-                                ) : (
-                                    <More 
-                                        className={`${openMenu === info ? "clicked" : ""}`}
-                                        src={MoreBtn}
-                                        onClick={() => onClickMenu(info)}
-                                    />
-                                )}
-                            </SellerInfoTitle>
+                            <>
+                                <SellerInfoTitle>
+                                    {info.name} 
+                                    {(info.id === 1) ? (
+                                        <SellerPhone> 0000-0000 </SellerPhone>
+                                    ) : (
+                                        <More 
+                                            key={info.id}
+                                            className={(selectInfo) ? "clicked" : ""}
+                                            src={MoreBtn}
+                                            onClick={() => setSelectInfo(!selectInfo)}
+                                        />
+                                    )}
+                                </SellerInfoTitle>
+                                { selectInfo && 
+                                    <div>
+                                        {(SellerInfoList.map((list => 
+                                            <DropdownList> {list.content} </DropdownList>
+                                        )))}
+                                    </div>
+                                }
+                            </>
                         ))}
                     </SellerDetailInfo>
                 </SellerInfo>
