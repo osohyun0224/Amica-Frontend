@@ -105,6 +105,7 @@ const InputRow = styled.div`
   margin: 10px 0;
   margin-top: -10px;
   flex-direction: row;
+  align-items: stretch;
   &:last-child ${InputField} {
     margin-right: 5px;
   }
@@ -135,7 +136,7 @@ const ConfirmText = styled.p`
 `;
 
 const DropDownContainer = styled.div`
-  width: 100%;
+  width: 135px;
   max-width: 100%; 
   height: 40px;
   background-color: #ffffff;
@@ -143,6 +144,7 @@ const DropDownContainer = styled.div`
   border-radius: 6px;
   margin-top: 3px;
   position: relative;
+  font-size: 12px;
 `;
 
 const DropdownWrapper = styled.div`
@@ -163,7 +165,7 @@ const DropDownOption = styled.div`
   align-items: center;
   padding: 0 17px 0 12px;
 
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 400;
   line-height: 22px;
   letter-spacing: -0.02em;
@@ -175,6 +177,7 @@ const More = styled.img`
   height: 16px;
   transform: rotate(90deg);
   cursor: pointer;
+  margin-left:10px;
 
   &.clicked {
     transform: rotate(270deg);

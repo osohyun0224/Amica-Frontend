@@ -8,17 +8,18 @@ const DropdownContainer = styled.div`
   border-radius: 6px;
   list-style-type: none;
   padding: 10px 0;
-  overflow: scroll;
+  font-size: 12px;
 `;
 
 const DropdownList = styled.li`
   display: flex;
   padding: 6px 16px;
   cursor: pointer;
-  width: 100%; // 부모 요소의 너비에 맞춤
-  white-space: nowrap; // 내용이 너무 길어도 줄바꿈을 하지 않음
-  overflow: hidden; // 내용이 너무 길면 숨김
-  text-overflow: ellipsis; // 내용이 너무 길면 말줄임표 사용
+  width: 100%;
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
 `;
 
 const SpeciesOptions = [
