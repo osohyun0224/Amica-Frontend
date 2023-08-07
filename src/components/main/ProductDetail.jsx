@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import styled from "styled-components";
 
 import Button from "../Button";
 import DropDown from "../product-detail/Dropdown";
+import ProductOrder from "../product-detail/ProductOrder";
 
 import MoreBtn from "../../assets/images/rightArrow.png";
-import ProductOrder from "../product-detail/ProductOrder";
+import back from "../../assets/images/getBack.png"
 
 const PageContainer = styled.div`
     width: 100%;
@@ -16,10 +17,16 @@ const PageContainer = styled.div`
     color: #667080;
 `;
 
+const Back = styled.img`
+    width: 35px;
+    height: 35px;
+    margin: 10px;
+    cursor: pointer;
+`;
+
 const Image = styled.img`
     width: 100%;
     height: 390px;
-    margin-top: 60px;
     background-color: #EEF1F4;
 `;
 
@@ -216,7 +223,7 @@ const SellerInfoList = [
     {
         id: 1,
         name: '문의사항',
-        // content: "0000-0000"
+        content: "0000-0000"
     },
     {
         id: 2,
@@ -261,9 +268,16 @@ const ProductDetail = () => {
 
     const onClickOrder = () => setOpenOrder(prev => !prev);
 
+    const onClickInfo = (id) => {
+        setSelectInfo(!selectInfo);
+    };
+
     return (
         <>
             <PageContainer>
+                <Link to={'/main'}> 
+                    <Back src={back}/> 
+                </Link>
                 <Image src={location.state.src} alt="상품 이미지"/>
                 <ProductInfoContainer>
                     <ProductName> {location.state.name} </ProductName>
@@ -306,30 +320,27 @@ const ProductDetail = () => {
                 </SelectionContainer>
                 <SellerInfo>
                     <SellerDetailInfo> 
-                        {SellerInfoList.map(info => (
-                            <>
-                                <SellerInfoTitle>
-                                    {info.name} 
-                                    {(info.id === 1) ? (
-                                        <SellerPhone> 0000-0000 </SellerPhone>
-                                    ) : (
-                                        <More 
-                                            key={info.id}
-                                            className={(selectInfo) ? "clicked" : ""}
-                                            src={MoreBtn}
-                                            onClick={() => setSelectInfo(!selectInfo)}
-                                        />
-                                    )}
-                                </SellerInfoTitle>
-                                { selectInfo && 
-                                    <div>
-                                        {(SellerInfoList.map((list => 
-                                            <DropdownList> {list.content} </DropdownList>
-                                        )))}
-                                    </div>
-                                }
-                            </>
+                        {SellerInfoList.map((info) => (
+                            <SellerInfoTitle>
+                                {info.name} 
+                                {(info.id === 1) ? (
+                                    <SellerPhone> {info.content} </SellerPhone>
+                                ) : (
+                                    <More 
+                                        key={info.id}
+                                        className={(selectInfo) ? "clicked" : ""}                                            src={MoreBtn}
+                                        onClick={() => setSelectInfo(!selectInfo)}
+                                    />
+                                )}
+                            </SellerInfoTitle>
                         ))}
+                        { selectInfo && 
+                            <div>
+                                {(SellerInfoList.map(((list) => 
+                                    <DropdownList key={list.id}> {list.content} </DropdownList>
+                                )))}
+                            </div>
+                        }
                     </SellerDetailInfo>
                 </SellerInfo>
             </PageContainer>

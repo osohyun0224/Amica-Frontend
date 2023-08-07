@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { styled } from "styled-components";
 
 import Button from "../Button";
-import DropDown from "../product-detail/Dropdown";
+import DropDown from "./Dropdown";
+// import SelectOption from "./SelectOption";
 
 import MoreBtn from "../../assets/images/rightArrow.png";
 import cancel from "../../assets/images/x.png";
@@ -47,37 +48,13 @@ const DropDownOption = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 17px 0 12px;
+    margin-bottom: 8px;
 
     font-size: 16px;
     font-weight: 400;
     line-height: 22px;
     letter-spacing: -0.02em;
     text-align: left;
-`;
-
-const More = styled.img`
-    width: 9px;
-    height: 16px;
-    transform: rotate(90deg);
-    cursor: pointer;
-
-    &.clicked {
-        transform: rotate(270deg);
-    }
-`;
-
-const OrderList = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-    height: 100px;
-    overflow-y: scroll;
-`;
-
-const Line = styled.hr`
-    width: 100%;
-    height: 1px;
-    background-color: rgba(0, 0, 0, 0.25);
 `;
 
 const SelectOption = styled.div`
@@ -113,6 +90,31 @@ const BtnImg = styled.img`
     width: 13px;
     height: 13px;
     cursor: pointer;
+`;
+
+const More = styled.img`
+    width: 9px;
+    height: 16px;
+    transform: rotate(90deg);
+    cursor: pointer;
+
+    &.clicked {
+        transform: rotate(270deg);
+    }
+`;
+
+const OrderList = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    height: 100px;
+    overflow-y: scroll;
+`;
+
+const Line = styled.hr`
+    width: 100%;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.25);
 `;
 
 const TotalAmountContainer = styled.div`
@@ -171,13 +173,13 @@ const Overlay = styled.div`
 `;
 
 const ProductOptions = [
-    { id: 0, productName: "모래 6kg", price: 57000 },
-    { id: 1, productName: "모래 7kg (+1000)", price: 58000 },
-    { id: 2, productName: "모래 8kg (+2000)", price: 59000 },
-    { id: 3, productName: "모래 9kg (+3000)", price: 60000 },
-    { id: 4, productName: "모래 10kg (+4000)", price: 61000 },
-    { id: 5, productName: "모래 11kg (+5000)", price: 62000 },
-    { id: 6, productName: "모래 12kg (+6000)", price: 63000 },
+    { id: 1, productName: "모래 6kg", price: 57000 },
+    { id: 2, productName: "모래 7kg (+1000)", price: 58000 },
+    { id: 3, productName: "모래 8kg (+2000)", price: 59000 },
+    { id: 4, productName: "모래 9kg (+3000)", price: 60000 },
+    { id: 5, productName: "모래 10kg (+4000)", price: 61000 },
+    { id: 6, productName: "모래 11kg (+5000)", price: 62000 },
+    { id: 7, productName: "모래 12kg (+6000)", price: 63000 },
 ];
 
 const ProductOrder = (props) => {
@@ -185,7 +187,7 @@ const ProductOrder = (props) => {
     const [viewProduct, setViewProduct] = useState(false);  // dropdownItem 클릭
     const [orderList, setOrderList] = useState([]);
 
-    const [number, setNumber] = useState(0);
+    const [number, setNumber] = useState(1);
     const [amount, setAmount] = useState(0);
     const [totalNum, setTotalNum] = useState(0);
     const [totalAmount, setTotalAmount] = useState(0);
@@ -196,19 +198,26 @@ const ProductOrder = (props) => {
         window.scrollTo(0, 0);
     }, []);
     
-    const onClickOrderList = (value) => {
-        setOrderList([...orderList, value]);
-    };
+    const onClickOrderList = (value) => setOrderList([...orderList, value]);
+    const onClickOrderPrice = (value) => setAmount(value);
 
-    const OrderPlus = () => {
+    const onOrderPlus = () => {
         setNumber(number + 1);
+        setTotalNum(totalNum + 1);
     };
 
-    const OrderMiuns = () => {
+    const onOrderMiuns = () => {
         (number !== 0) ? (
             setNumber(number - 1),
             setTotalNum(totalNum - 1)
          ) : setNumber(0);
+    };
+
+    const onRemove = (id) => {
+        const list = orderList.filter(product => {
+            product.id !== id;
+        })
+        return setOrderList(list);
     };
 
     return (
@@ -228,6 +237,7 @@ const ProductOrder = (props) => {
                         <DropDown 
                             orderList={orderList}
                             setOrderList={onClickOrderList} 
+                            setAmount={onClickOrderPrice} 
                             productOption={ProductOptions}
                         />
                     ) : (
@@ -235,19 +245,20 @@ const ProductOrder = (props) => {
                             <Line/>
                             <OrderList>
                                 {orderList.map((item) => (
-                                    <SelectOption>
+                                    <SelectOption key={item.id}>
                                         <SelectOptionTitle>
                                             <SelectOptionName> {item} </SelectOptionName>
                                             <BtnImg 
                                                 src={cancel}
                                                 style={{ width: "20px", height: "20px" }}
+                                                onClick={() => onRemove(item.id)}
                                             />
                                         </SelectOptionTitle>
                                         <SelectOptionTitle style={{ marginTop: "10px" }}>
                                             <SelectOptionDetail>
-                                                <BtnImg src={minus} onClick={OrderMiuns}/>
+                                                <BtnImg src={minus} onClick={onOrderMiuns}/>
                                                 <SelectOptionNumber> {number} </SelectOptionNumber>
-                                                <BtnImg src={plus} onClick={OrderPlus}/>
+                                                <BtnImg src={plus} onClick={onOrderPlus}/>
                                             </SelectOptionDetail>
                                             {amount}원
                                         </SelectOptionTitle>

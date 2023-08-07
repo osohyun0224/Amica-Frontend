@@ -19,16 +19,17 @@ const DropdownList = styled.li`
     cursor: pointer;
 `;
 
-const Dropdown = ({orderList, setOrderList, productOption}) => {
+const Dropdown = ({orderList, setOrderList, setAmount, productOption}) => {
     const optionClick = (product) => {
-        setOrderList([product]);
+        setOrderList([product.productName]);
+        setAmount(product.price);
     }
 
     return (
         <DropdownContainer>
             {(productOption.map((option) => (
-                <DropdownList 
-                    onClick={() => optionClick(option.productName)}
+                <DropdownList key={option.id} 
+                    onClick={() => optionClick(option)}
                 > { option.productName } 
                 </DropdownList>
             )))}
