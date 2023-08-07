@@ -85,7 +85,8 @@ const MenuButton = styled(Link)`
 
 const Content = styled(SimpleBar)`
   width: 100%;
-  height: calc(100% - 112px);
+  height: 100%;
+  flex-shrink: 1;
   overflow: auto;
 
   & > .simplebar-track.simplebar-horizontal {
@@ -99,9 +100,11 @@ const Content = styled(SimpleBar)`
 
 const Container = styled.div`
   max-width: 500px;
-  height: 100vh;
+  height: calc(var(--vh) * 100);
   margin: 0 auto;
   position: relative;
+  display: flex;
+  flex-direction: column;
 `;
 
 function HeaderPage() {
