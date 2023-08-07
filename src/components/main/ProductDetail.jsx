@@ -7,7 +7,7 @@ import DropDown from "../product-detail/Dropdown";
 import ProductOrder from "../product-detail/ProductOrder";
 
 import MoreBtn from "../../assets/images/rightArrow.png";
-import back from "../../assets/images/getBack.png"
+import back from "../../assets/images/getback.png"
 
 const PageContainer = styled.div`
     width: 100%;
