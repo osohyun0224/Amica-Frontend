@@ -55,10 +55,14 @@ const PetName = styled.p`
     margin-left: 10px;
 `;
 
+const MovePetPage = styled(Link)`
+    margin: auto;
+    margin-right: 0;
+`;
+
 const PetAddBtn = styled.img`
     width: 24px;
     height: 24px;
-    margin: auto;
     margin-right: 20px;
     cursor: pointer;
 `;
@@ -210,7 +214,9 @@ const Main = () => {
             <PetRecommend>
                 <PetImage/>
                 <PetName> 누굴 위해 준비하니? </PetName>
-                <PetAddBtn src={AddPet}/>
+                <MovePetPage to={"/my-pet"}>
+                    <PetAddBtn src={AddPet}/>
+                </MovePetPage>
             </PetRecommend>
             <CategoryList>
                 {Categories.map((cate) => 
