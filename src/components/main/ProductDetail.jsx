@@ -255,16 +255,12 @@ const ProductDetail = () => {
     const [clickMenu, setClickMenu] = useState(false);      // 정보/공지사항 전환
     const [openOrder, setOpenOrder] = useState(false);      // 구매하기 버튼 클릭
     const [selectInfo, setSelectInfo] = useState(false);
-    const [openMenu, setOpenMenu] = useState("");           // 하단 구매자 정보
+    const [openMenu, setOpenMenu] = useState("");           // 하단 판매자 정보
     const location = useLocation();
     
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
-
-    const onClickMenu = (value) => {
-        setOpenMenu((value === openmenu) ? "" : value);
-    };
 
     const onClickOrder = () => setOpenOrder(prev => !prev);
 
@@ -296,7 +292,7 @@ const ProductDetail = () => {
                         </GPSubContainer>
                     </GroupPurchaseContainer>
                     <OrderBtn onClick={onClickOrder}> 구매하기 </OrderBtn>
-                    {openOrder && <ProductOrder show={openOrder}/>}
+                    {openOrder && <ProductOrder show={openOrder} />}
                 </ProductInfoContainer>
 
                 <SelectionContainer>
@@ -328,7 +324,8 @@ const ProductDetail = () => {
                                 ) : (
                                     <More 
                                         key={info.id}
-                                        className={(selectInfo) ? "clicked" : ""}                                            src={MoreBtn}
+                                        className={(selectInfo) ? "clicked" : ""}                                            
+                                        src={MoreBtn}
                                         onClick={() => setSelectInfo(!selectInfo)}
                                     />
                                 )}
