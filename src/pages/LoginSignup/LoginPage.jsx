@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import styled from "styled-components";
 import BackButton from "../../assets/images/getback.png";
 import EmailInput from "../../components/login/EmaiInput.jsx";
@@ -71,6 +76,8 @@ function LoginPage() {
   const [email, setEmail] = useState("likelion1@example.com");
   const [password, setPassword] = useState("qwerty123");
   const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const redirect = searchParams.get("redirect");
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -94,7 +101,12 @@ function LoginPage() {
     }
 
     dispatch(login(account));
-    navigate("/compelete");
+
+    if (redirect) {
+      navigate(redirect);
+    } else {
+      navigate("/main");
+    }
   };
 
   return (
