@@ -3,57 +3,61 @@ import PropTypes from "prop-types";
 import searchImage from "../assets/images/search.png";
 
 const Container = styled.div`
-  padding: 8px 12px;
-  border: 1px solid #D94A56;
+  margin: 8px;
+  padding: 8px 16px;
+  border: 1px solid #d94a56;
+  border-radius: 24px;
   background-color: white;
-  border-radius: 22px;
   display: flex;
   align-items: center;
-  margin-top: 10px;
-  margin-left: -10px;
-  width: 65%;
-  max-width: 300px; 
-  height: 43px;
-  @media (max-width: 768px) {
-    margin-left: auto;
-    margin-right: auto;
-  }
+  gap: 10px;
 `;
-
 
 const SearchImage = styled.img`
   width: 20px;
-  margin-right: 8px;
-  margin-left: -30px;
+  cursor: pointer;
 `;
 
 const SearchInputField = styled.input`
   width: 100%;
+  flex-grow: 1;
+  flex-shrink: 1;
   background-color: white;
   border: none;
   outline: none;
-  font-family: 'Nanum Gothic';
 `;
 
-const SearchBar = ({ value, onChange }) => {
+const SearchBar = ({
+  className,
+  value = "",
+  onChange = () => {},
+  onSubmit = () => {},
+}) => {
+  const onKeyDown = (e) => {
+    if (e.key === "Enter") {
+      onSubmit(value);
+    }
+  };
+
   return (
-    <Container>
+    <Container className={className}>
       <SearchInputField
         type="text"
-        name=""
-        id=""
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        maxLength="30"
+        onKeyDown={onKeyDown}
+        placeholder="Search..."
       />
-      <SearchImage src={searchImage} alt="" />
+      <SearchImage src={searchImage} alt="" onClick={() => onSubmit(value)} />
     </Container>
   );
 };
 
 SearchBar.propTypes = {
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 export default SearchBar;

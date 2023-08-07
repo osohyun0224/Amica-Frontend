@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
-import ProtectedRoute from "./pages/ProtectedRoute.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import CoverMenu from "./components/CoverMenu.jsx";
 import LoginPage from "./pages/LoginSignup/LoginPage.jsx";
 import SignupPage from "./pages/LoginSignup/SignupPage.jsx";
 import SignCompelete from "./pages/LoginSignup/SignCompelete.jsx";
@@ -9,6 +10,7 @@ import AccountBookPage from "./pages/account-book/AccountBookPage.jsx";
 import CalenderPage from "./pages/account-book/CalenderPage.jsx";
 import MyPetPage from "./pages/my-pet/MyPetPage.jsx";
 import ProductDetail from "./components/main/ProductDetail.jsx";
+import SearchPage from "./pages/store/SearchPage.jsx";
 import HeaderPage from "./pages/HeaderPage.jsx";
 import Main from "./pages/Main.jsx";
 import "./App.scss";
@@ -22,6 +24,7 @@ function App() {
   return (
     <Container>
       <Router>
+        <CoverMenu />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
@@ -41,6 +44,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Main />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/search"
+              element={
+                <ProtectedRoute>
+                  <SearchPage />
                 </ProtectedRoute>
               }
             />
