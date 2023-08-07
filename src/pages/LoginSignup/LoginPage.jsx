@@ -5,6 +5,10 @@ import BackButton from "../../assets/images/getback.png";
 import EmailInput from "../../components/login/EmaiInput.jsx";
 import LoginPassword from "../../components/login/LoginPassword.jsx";
 
+import { userLogin } from "../../librarys/login-api.js";
+import { login, selectName } from "../../redux/userSlice.js";
+import { useDispatch } from "react-redux";
+
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -54,7 +58,7 @@ const BottomBox = styled(Link)`
   align-items: center;
   width: 100%;
   height: 84px;
-  background-color: #D94A56;
+  background-color: #d94a56;
   color: white;
   text-align: center;
   position: absolute;
@@ -64,8 +68,9 @@ const BottomBox = styled(Link)`
 `;
 
 function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("likelion1@example.com");
+  const [password, setPassword] = useState("qwerty123");
+  const dispatch = useDispatch();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -77,8 +82,18 @@ function LoginPage() {
 
   const navigate = useNavigate();
 
-  const handleLoginClick = (e) => {
+  const handleLoginClick = async (e) => {
     e.preventDefault();
+    const account = await userLogin(email, password);
+
+    if (!account) {
+      alert(
+        "로그인을 다시 시도하여주세요.\nid: likelion1@example.com\npw: qwerty123",
+      );
+      return;
+    }
+
+    dispatch(login(account));
     navigate("/compelete");
   };
 
@@ -91,10 +106,11 @@ function LoginPage() {
         <HeaderTitle>로그인</HeaderTitle>
       </Header>
       <EmailInput email={email} handleEmailChange={handleEmailChange} />
-      <LoginPassword password={password} handlePasswordChange={handlePasswordChange} />
-      <BottomBox onClick={handleLoginClick}>
-        로그인
-      </BottomBox>
+      <LoginPassword
+        password={password}
+        handlePasswordChange={handlePasswordChange}
+      />
+      <BottomBox onClick={handleLoginClick}>로그인</BottomBox>
     </PageContainer>
   );
 }
