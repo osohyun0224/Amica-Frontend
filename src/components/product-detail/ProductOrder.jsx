@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { styled } from "styled-components";
+import { Link } from "react-router-dom";
 
 import Button from "../Button";
 import DropDown from "./Dropdown";
-// import SelectOption from "./SelectOption";
+import OrderInfo from "./OrderInfo";
 
 import MoreBtn from "../../assets/images/rightArrow.png";
 import cancel from "../../assets/images/x.png";
@@ -141,7 +142,7 @@ const TotalAmount = styled.div`
     color: #151515;
 `;
 
-const PurchaseBtn = styled(Button)`
+const PurchaseBtn = styled(Link)`
     display: flex;
     position: absolute;
     width: 100%;
@@ -160,6 +161,7 @@ const PurchaseBtn = styled(Button)`
     font-weight: 700;
     line-height: 22px;
     letter-spacing: -0.02em;
+    text-decoration: none;
 `;
 
 const Overlay = styled.div`
@@ -183,7 +185,6 @@ const ProductOptions = [
 ];
 
 const ProductOrder = (props) => {
-    const [openOrder, setOpenOrder] = useState(false);      // 구매하기 버튼 클릭
     const [viewProduct, setViewProduct] = useState(false);  // dropdownItem 클릭
     const [orderList, setOrderList] = useState([]);
 
@@ -193,7 +194,7 @@ const ProductOrder = (props) => {
     const [totalAmount, setTotalAmount] = useState(0);
 
     const totalAmountComma = totalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
+    
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -203,19 +204,17 @@ const ProductOrder = (props) => {
 
     const onOrderPlus = () => {
         setNumber(number + 1);
-        setTotalNum(totalNum + 1);
     };
 
     const onOrderMiuns = () => {
         (number !== 0) ? (
-            setNumber(number - 1),
-            setTotalNum(totalNum - 1)
+            setNumber(number - 1)
          ) : setNumber(0);
     };
 
     const onRemove = (id) => {
         const list = orderList.filter(product => {
-            product.id !== id;
+            product !== id;
         })
         return setOrderList(list);
     };
@@ -273,8 +272,8 @@ const ProductOrder = (props) => {
                         </>
                     )}
                 </DropDownContainer>
-            </ProductOrderItem>
-            <PurchaseBtn> 구매하기 </PurchaseBtn>
+            </ProductOrderItem> 
+            <PurchaseBtn to={"/productDetail/orderInfo"}> 구매하기 </PurchaseBtn>
         </ProductOrderContainer>
     )
 }
