@@ -134,13 +134,26 @@ const ConfirmText = styled.p`
   color: #ffffff;
 `;
 
-const DropDownContainer = styled.ul`
+const DropDownContainer = styled.div`
   width: 100%;
-  height: 47px;
+  max-width: 100%; 
+  height: 40px;
   background-color: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.25);
   border-radius: 6px;
-  margin-top: 7px;
+  margin-top: 3px;
+  position: relative;
+`;
+
+const DropdownWrapper = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%; 
+  z-index: 2;
+  background-color: #ffffff; 
+  overflow-y: auto; 
+  max-height: 150px; 
 `;
 
 const DropDownOption = styled.div`
@@ -169,17 +182,18 @@ const More = styled.img`
 `;
 
 const MyPetInputModal = ({ show, onClose }) => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("선택하기");
+
   if (!show) return null;
-  const [viewProduct, setViewProduct] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("Option");
 
   const handleDropdownClick = () => {
-    setViewProduct(!viewProduct);
+    setDropdownOpen(!dropdownOpen); // setViewProduct 대신 setDropdownOpen 사용
   };
-
+  
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
-    setViewProduct(false);
+    setDropdownOpen(false); // setViewProduct 대신 setDropdownOpen 사용
   };
 
 
@@ -196,21 +210,25 @@ const MyPetInputModal = ({ show, onClose }) => {
         <NameHeader>이름 *</NameHeader>
         <InputForm placeholder="이름" />
         <InputRow>
-          <InputField>
-            <LabelHeader>종 *</LabelHeader>
-            <DropDownContainer onClick={handleDropdownClick}>
-              <DropDownOption>
-                {selectedOption}
-                <More className={viewProduct ? "clicked" : ""} src={MoreBtn} />
-              </DropDownOption>
-              {viewProduct && <DropdownSpecies onSelect={handleOptionSelect} />} 
-            </DropDownContainer>
-          </InputField>
-          <InputField>
-            <LabelHeader>품종 </LabelHeader>
-            <SmallInputForm placeholder="품종" />
-          </InputField>
-        </InputRow>
+      <InputField>
+        <LabelHeader>종 *</LabelHeader>
+        <DropDownContainer onClick={handleDropdownClick}>
+        <DropDownOption>
+          {selectedOption}
+          <More className={dropdownOpen ? "clicked" : ""} src={MoreBtn} />
+        </DropDownOption>
+        {dropdownOpen && (
+          <DropdownWrapper>
+            <DropdownSpecies onSelect={handleOptionSelect} />
+          </DropdownWrapper>
+        )}
+      </DropDownContainer>
+      </InputField>
+      <InputField>
+        <LabelHeader>품종 </LabelHeader>
+        <SmallInputForm placeholder="품종" />
+      </InputField>
+    </InputRow>
         <InputRow>
           <InputField>
             <LabelHeader>나이 </LabelHeader>
