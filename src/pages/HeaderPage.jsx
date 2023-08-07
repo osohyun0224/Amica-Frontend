@@ -27,6 +27,7 @@ const Header = styled.div`
   &.hidden {
     transform: translateY(-15%);
     opacity: 0;
+    pointer-events: none;
   }
 `;
 
