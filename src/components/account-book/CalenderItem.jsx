@@ -2,6 +2,9 @@ import PropTypes from "prop-types";
 
 import { styled } from "styled-components";
 
+import { DispatchContext } from "../../librarys/context.js";
+import { useContext } from "react";
+
 const Container = styled.div`
   width: 100%;
   aspect-ratio: 1;
@@ -47,9 +50,16 @@ const Price = styled.p`
   }
 `;
 
-const CalenderItem = ({ id, date, value = 0, type, onClick }) => {
+const CalenderItem = ({ date, value = 0, type }) => {
+  const dispatch = useContext(DispatchContext);
   return (
-    <Container onClick={type === "disable" ? null : () => onClick(date)}>
+    <Container
+      onClick={
+        type === "disable"
+          ? null
+          : () => dispatch({ type: "selectDate", payload: date })
+      }
+    >
       <Text className={type}>{date}</Text>
       <Price style={{ visibility: value > 0 ? "visible" : "hidden" }}>
         {value.toLocaleString()}
@@ -59,11 +69,9 @@ const CalenderItem = ({ id, date, value = 0, type, onClick }) => {
 };
 
 CalenderItem.propTypes = {
-  id: PropTypes.string,
   date: PropTypes.string,
   value: PropTypes.number,
   type: PropTypes.string,
-  onClick: PropTypes.func,
 };
 
 export default CalenderItem;

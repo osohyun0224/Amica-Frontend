@@ -1,11 +1,11 @@
-import PropTypes from "prop-types";
-import { useState } from "react";
-
+import { useContext } from "react";
 import { styled } from "styled-components";
 
 import { Heading, HeadingBold } from "../Heading.jsx";
 import Button from "./Button.jsx";
 import ExpenseItem from "./ExpenseItem.jsx";
+
+import { StateContext, DispatchContext } from "../../librarys/context.js";
 
 const ExpenseTotal = styled(ExpenseItem)`
   color: rgba(21, 21, 21, 1);
@@ -22,12 +22,15 @@ const Container = styled.div`
 
 const categoryName = ["악세서리", "간식", "사료", "생활용품", "영양제"];
 
-const DailySummary = ({ data, date }) => {
+const DailySummary = () => {
+  const { expenseList, selectedDate } = useContext(StateContext);
+  const dispatch = useContext(DispatchContext);
+
   let filteredList = [];
   let totalPrice = 0;
 
-  if (date && data) {
-    filteredList = data.list.filter((item) => item.date === date);
+  if (selectedDate) {
+    filteredList = expenseList.filter((item) => item.date === selectedDate);
     totalPrice = filteredList.reduce((result, item) => result + item.value, 0);
   }
 
@@ -48,11 +51,6 @@ const DailySummary = ({ data, date }) => {
       <Button onClick={() => alert("TODO")}>소비내역 추가하기</Button>
     </Container>
   );
-};
-
-DailySummary.propTypes = {
-  data: PropTypes.object,
-  date: PropTypes.number,
 };
 
 export default DailySummary;

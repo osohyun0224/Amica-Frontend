@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useReducer } from "react";
 import { styled } from "styled-components";
 
 import Button from "../../components/account-book/Button.jsx";
@@ -7,64 +7,54 @@ import Calender from "../../components/account-book/Calender.jsx";
 import Divider from "../../components/account-book/Divider.jsx";
 import DailySummary from "../../components/account-book/DailySummary.jsx";
 
+import { intialExpenseState, expenseReducer } from "../../reducer/expense.js";
+import { StateContext, DispatchContext } from "../../librarys/context.js";
+
 import {
   GetExpenseMonthlyList,
   GetExpenseMonthly,
-} from "../../librarys/dummyAPI.js";
+} from "../../librarys/accountBook-api.js";
 
 const Container = styled.div`
   margin: 8px 32px;
 `;
 
 const CalenderPage = () => {
-  const [list, setList] = useState([]);
-  const [month, setMonth] = useState([]);
-  const [date, setDate] = useState(null);
-  const [data, setData] = useState(null);
-
-  const totalPrice = useMemo(
-    () =>
-      data ? data.list.reduce((result, item) => result + item.value, 0) : 0,
-    [data],
-  );
+  const [state, dispatch] = useReducer(expenseReducer, intialExpenseState);
+  const { calenderlist, selectedYear, selectedMonth } = state;
 
   useEffect(() => {
     (async () => {
-      const list = await GetExpenseMonthlyList();
-      const latest = list[list.length - 1];
-      setList(list);
-      setMonth([latest.year, latest.month]);
+      const data = await GetExpenseMonthlyList();
+      data.sort((a, b) => b.year - a.year || b.month - a.month);
+      dispatch({
+        type: "loadCalenders",
+        payload: data,
+      });
     })();
   }, []);
 
   useEffect(() => {
     (async () => {
-      const data = await GetExpenseMonthly(...month);
-      setData(data);
-      setDate(null);
+      const data = await GetExpenseMonthly(selectedYear, selectedMonth);
+      dispatch({
+        type: "loadExpenses",
+        payload: data,
+      });
     })();
-  }, [month]);
-
-  useEffect(() => {
-    console.log(list, month, data);
-  }, [list, month, data]);
+  }, [calenderlist, selectedYear, selectedMonth]);
 
   return (
-    <Container>
-      <CalenderStatus
-        list={list}
-        price={totalPrice}
-        onSelect={(item) => setMonth([item.year, item.month])}
-      />
-      <Calender
-        month={month}
-        date={date}
-        data={data}
-        onSelect={(item) => setDate(item)}
-      />
-      <Divider style={{ margin: "24px auto" }} />
-      <DailySummary data={data} date={date} />
-    </Container>
+    <StateContext.Provider value={state}>
+      <DispatchContext.Provider value={dispatch}>
+        <Container>
+          <CalenderStatus />
+          <Calender />
+          <Divider style={{ margin: "24px auto" }} />
+          <DailySummary />
+        </Container>
+      </DispatchContext.Provider>
+    </StateContext.Provider>
   );
 };
 
