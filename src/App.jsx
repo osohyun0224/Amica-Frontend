@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
+import ProtectedRoute from "./pages/ProtectedRoute.jsx";
 import LoginPage from "./pages/LoginSignup/LoginPage.jsx";
 import SignupPage from "./pages/LoginSignup/SignupPage.jsx";
 import SignCompelete from "./pages/LoginSignup/SignCompelete.jsx";
@@ -26,12 +27,47 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/compelete" element={<SignCompelete />} />
-          <Route path="/productDetail/:id" element={<ProductDetail />} />
+          <Route
+            path="/productDetail/:id"
+            element={
+              <ProtectedRoute>
+                <ProductDetail />
+              </ProtectedRoute>
+            }
+          />
           <Route element={<HeaderPage />}>
-            <Route path="/main" element={<Main />} />
-            <Route path="/account-book" element={<AccountBookPage />} />
-            <Route path="/account-book/calender" element={<CalenderPage />} />
-            <Route path="/my-pet" element={<MyPetPage />} />
+            <Route
+              path="/main"
+              element={
+                <ProtectedRoute>
+                  <Main />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/account-book"
+              element={
+                <ProtectedRoute>
+                  <AccountBookPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/account-book/calender"
+              element={
+                <ProtectedRoute>
+                  <CalenderPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/my-pet"
+              element={
+                <ProtectedRoute>
+                  <MyPetPage />
+                </ProtectedRoute>
+              }
+            />
           </Route>
         </Routes>
       </Router>

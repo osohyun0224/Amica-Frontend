@@ -1,8 +1,8 @@
-import SearchBar from '../components/SearchBar/jsx';
+import SearchBar from "../components/SearchBar.jsx";
+import { useState } from "react";
 
 function MySearch() {
-  // eslint-disable-next-line no-undef
-  const [searchValue, setSearchValue] = React.useState('');
+  const [searchValue, setSearchValue] = useState("");
 
   return (
     <div>
