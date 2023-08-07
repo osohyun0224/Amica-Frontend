@@ -202,19 +202,21 @@ const ProductOrder = (props) => {
     const onClickOrderList = (value) => setOrderList([...orderList, value]);
     const onClickOrderPrice = (value) => setAmount(value);
 
-    const onOrderPlus = () => {
+    const onOrderPlus = (num) => {
         setNumber(number + 1);
+        setAmount(num);
     };
 
-    const onOrderMiuns = () => {
+    const onOrderMiuns = (num) => {
         (number !== 0) ? (
             setNumber(number - 1)
          ) : setNumber(0);
     };
 
-    const onRemove = (id) => {
+    // 고칠 점 1. 전체 다 지워짐..
+    const onRemove = (value) => {
         const list = orderList.filter(product => {
-            product !== id;
+            product !== value;
         })
         return setOrderList(list);
     };
@@ -250,14 +252,14 @@ const ProductOrder = (props) => {
                                             <BtnImg 
                                                 src={cancel}
                                                 style={{ width: "20px", height: "20px" }}
-                                                onClick={() => onRemove(item.id)}
+                                                onClick={() => onRemove(item)}
                                             />
                                         </SelectOptionTitle>
                                         <SelectOptionTitle style={{ marginTop: "10px" }}>
                                             <SelectOptionDetail>
-                                                <BtnImg src={minus} onClick={onOrderMiuns}/>
+                                                <BtnImg src={minus} onClick={() => onOrderMiuns(number)}/>
                                                 <SelectOptionNumber> {number} </SelectOptionNumber>
-                                                <BtnImg src={plus} onClick={onOrderPlus}/>
+                                                <BtnImg src={plus} onClick={() => onOrderPlus(number)}/>
                                             </SelectOptionDetail>
                                             {amount}원
                                         </SelectOptionTitle>
@@ -273,7 +275,17 @@ const ProductOrder = (props) => {
                     )}
                 </DropDownContainer>
             </ProductOrderItem> 
-            <PurchaseBtn to={"/productDetail/orderInfo"}> 구매하기 </PurchaseBtn>
+            <PurchaseBtn 
+                to={"/productDetail/orderInfo"}
+                state={{
+                    ProductName: `${orderList}`,
+                    number: `${number}`,
+                    amount: `${amount}`,
+                    totalNum: `${totalNum}`,
+                    totalAmount: `${totalAmount}`
+                }}
+            > 구매하기 
+            </PurchaseBtn>
         </ProductOrderContainer>
     )
 }

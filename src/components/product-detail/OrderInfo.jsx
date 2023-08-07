@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import profileImg from "../../assets/images/RecentImage.png"
@@ -28,11 +29,6 @@ const TopTitle = styled.div`
 `;
 
 // 주문내역 Container
-const BuyerInfo = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
-
 const OrderDetailContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -89,7 +85,6 @@ const OrderDetails = styled.div`
     min-width: 70%;
     display: flex;
     flex-direction: column;
-
 `;
 
 const OrderPrice = styled.p`
@@ -100,6 +95,29 @@ const OrderPrice = styled.p`
     line-height: 35px;
     letter-spacing: -0.02em;
     color: #667080;
+`;
+
+const TotalAmountInfo = styled.div` 
+    display: flex;
+    margin: 0 32px;
+    justify-content: space-between;
+`;
+
+const TotalAmountTitle = styled.p`
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 35px;
+    letter-spacing: -0.02em;
+    color: #667080;
+`;
+
+const TotalAmount = styled.p`
+    text-align: right;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 35px;
+    letter-spacing: -0.02em;
+    color: #151515;
 `;
 
 // 구매자 정보 Container (받는 이, 전화번호 ...)
@@ -149,26 +167,29 @@ const PurchaseBtn = styled.button`
 `;
 
 const OrderInfo = () => {
-    const OrderName = useState("제품명");
-    const OrderNumber = useState(1);
-    const OrderAmount = 56000;
+    const location = useLocation();
+
     return (
         <Container>
             <TopTitle> 배송정보 </TopTitle>
 
-            <BuyerInfo>
+            <OrderDetailContainer>
                 <OrderDetailContainer>
                     <SubTitle> 주문내역 </SubTitle>
                     <Line/>
                     <ProductDetailInfo>
                         <OrderProfileImg src={profileImg} alt="상품 이미지"/>
                         <OrderDetails>
-                            <ProductName> {OrderName} </ProductName>
-                            <ProductNumber> {OrderNumber}개 </ProductNumber>
+                            <ProductName> {`${location.state.ProductName}`} </ProductName>
+                            <ProductNumber> {`${location.state.number}`}개 </ProductNumber>
                         </OrderDetails>
-                        <OrderPrice> {OrderAmount}원 </OrderPrice>
+                        <OrderPrice> {`${location.state.amount}`}원 </OrderPrice>
                     </ProductDetailInfo>
                     <Line/>
+                    <TotalAmountInfo> 
+                        <TotalAmountTitle> 총 상품 금액 ({`${location.state.totalNum}`}개) </TotalAmountTitle>
+                        <TotalAmount> {`${location.state.totalAmount}`}원 </TotalAmount> 
+                    </TotalAmountInfo>
                 </OrderDetailContainer>
                 <BuyerInfoContainer>
                     <BuyerInfoTitle> 받는 이 </BuyerInfoTitle>
@@ -182,7 +203,7 @@ const OrderInfo = () => {
                     <BuyerInfoTitle> 요청사항 </BuyerInfoTitle>
                     <BuyerInputForm placeholder={"배송 후 연락주세요."}/>
                 </BuyerInfoContainer>
-            </BuyerInfo>
+            </OrderDetailContainer>
             <PurchaseBtn> 결제하기 </PurchaseBtn>
         </Container>
     )
