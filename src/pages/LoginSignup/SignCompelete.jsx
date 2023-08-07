@@ -6,7 +6,7 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   background-color: white;
-  min-height: 100vh;
+  min-height: calc(var(--vh) * 100);
   margin: 0 auto;
   max-width: 1000px;
   padding-top: 30px;

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import BackButton from "../../assets/images/getback.png";
-import TermsAgreement from '../../components/login/TermsAgreement.jsx';
+import TermsAgreement from "../../components/login/TermsAgreement.jsx";
 import EmailInput from "../../components/login/EmaiInput.jsx";
 import PasswordInputForm from "../../components/login/PasswordInputForm.jsx";
 import UserInfo from "../../components/login/UserInfo.jsx";
@@ -12,7 +12,7 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   background-color: white;
-  min-height: 100vh;
+  min-height: calc(var(--vh) * 100);
   margin: 0 auto;
   max-width: 1000px;
   padding-top: 30px;
@@ -50,14 +50,13 @@ const BackButtonImage = styled.img`
   cursor: pointer;
 `;
 
-
 const BottomBox = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 84px;
-  background-color: #D94A56;
+  background-color: #d94a56;
   color: white;
   text-align: center;
   position: absolute;
@@ -185,18 +184,43 @@ function SignupPage() {
       </Header>
 
       <TermsAgreement
-        {...{ agree, agreeTerms, agreePrivacy, agreeMarketing, toggleCheckbox, toggleCheckboxTerms, toggleCheckboxPrivacy, toggleCheckboxMarketing }}
+        {...{
+          agree,
+          agreeTerms,
+          agreePrivacy,
+          agreeMarketing,
+          toggleCheckbox,
+          toggleCheckboxTerms,
+          toggleCheckboxPrivacy,
+          toggleCheckboxMarketing,
+        }}
       />
-      
-      <EmailInput 
-        email={email} 
-        invalidEmail={invalidEmail} 
+
+      <EmailInput
+        email={email}
+        invalidEmail={invalidEmail}
         handleEmailChange={handleEmailChange}
       />
       <PasswordInputForm
-        {...{ password, passwordCheck, handlePasswordChange, handlePasswordCheckChange, lengthRequirement, letterRequirement, numberRequirement, isPasswordMatch }}
+        {...{
+          password,
+          passwordCheck,
+          handlePasswordChange,
+          handlePasswordCheckChange,
+          lengthRequirement,
+          letterRequirement,
+          numberRequirement,
+          isPasswordMatch,
+        }}
       />
-      <UserInfo {...{ username, userphone, handleUsernameChange, handleUserPhoneChange }} />
+      <UserInfo
+        {...{
+          username,
+          userphone,
+          handleUsernameChange,
+          handleUserPhoneChange,
+        }}
+      />
 
       <BottomBox
         to="/compelete"

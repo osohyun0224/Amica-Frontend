@@ -8,14 +8,26 @@ import "simplebar-react/dist/simplebar.min.css";
 import { show } from "../redux/menuSlice.js";
 
 import { useDispatch } from "react-redux";
+import { useEffect, useRef, useState } from "react";
 
 const Header = styled.div`
-  position: relative;
+  position: fixed;
+  max-width: 500px;
   width: 100%;
   background-color: #ffffff;
   color: #151515;
   display: flex;
   flex-direction: column;
+  z-index: 2;
+
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
+
+  &.hidden {
+    transform: translateY(-15%);
+    opacity: 0;
+  }
 `;
 
 const TitleWrapper = styled.div`
@@ -85,7 +97,8 @@ const MenuButton = styled(Link)`
 
 const Content = styled(SimpleBar)`
   width: 100%;
-  height: calc(100% - 112px);
+  height: 100%;
+  flex-shrink: 1;
   overflow: auto;
 
   & > .simplebar-track.simplebar-horizontal {
@@ -99,19 +112,37 @@ const Content = styled(SimpleBar)`
 
 const Container = styled.div`
   max-width: 500px;
-  height: 100vh;
+  height: calc(var(--vh) * 100);
   margin: 0 auto;
   position: relative;
+  display: flex;
+  flex-direction: column;
 `;
 
 function HeaderPage() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const getSelected = (value) => (pathname === value ? "selected" : "");
+  const scrollElement = useRef();
+  const headerElement = useRef();
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    setHeaderHeight(headerElement.current.offsetHeight);
+    const element = scrollElement.current;
+    element.addEventListener("scroll", (e) =>
+      setVisible(e.target.scrollTop <= headerHeight * 0.5),
+    );
+    return () =>
+      element.removeEventListener("scroll", (e) =>
+        setVisible(e.target.scrollTop <= headerHeight * 0.5),
+      );
+  }, [headerHeight]);
 
   return (
     <Container>
-      <Header>
+      <Header className={visible ? "" : "hidden"} ref={headerElement}>
         <TitleWrapper>
           <Title>Title</Title>
           <RightImagesWrapper>
@@ -138,7 +169,10 @@ function HeaderPage() {
           </MenuButton>
         </MenuWrapper>
       </Header>
-      <Content>
+      <Content
+        style={{ paddingTop: headerHeight + "px" }}
+        scrollableNodeProps={{ ref: scrollElement }}
+      >
         <Outlet />
       </Content>
     </Container>
