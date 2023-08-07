@@ -1,10 +1,13 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, Link } from "react-router-dom";
 import styled from "styled-components";
 
 import Button from "../Button";
-import DropDown from "../Dropdown";
+import DropDown from "../product-detail/Dropdown";
+import ProductOrder from "../product-detail/ProductOrder";
+
 import MoreBtn from "../../assets/images/rightArrow.png";
+import back from "../../assets/images/getBack.png"
 
 const PageContainer = styled.div`
     width: 100%;
@@ -14,10 +17,16 @@ const PageContainer = styled.div`
     color: #667080;
 `;
 
+const Back = styled.img`
+    width: 35px;
+    height: 35px;
+    margin: 10px;
+    cursor: pointer;
+`;
+
 const Image = styled.img`
     width: 100%;
     height: 390px;
-    margin-top: 60px;
     background-color: #EEF1F4;
 `;
 
@@ -98,23 +107,6 @@ const OrderBtn = styled(Button)`
     margin-top: 5px;
 `;
 
-const ProductOrder = styled.div`
-    max-width: 500px;
-    width: 100%;
-    height: 323px;
-    background-color: #FFFFFF;
-    position: fixed;
-    border-radius: 5px 5px 0 0;
-    box-shadow: 0px -2px 8px 0px rgba(0, 0, 0, 0.25);
-    display: ${(props) => (props.show ? "block" : "none")};
-    text-align: left;
-    justify-content: center;
-    align-items: center;
-    margin-left: -25px;
-    bottom: 0;
-    z-index: 3;
-`;
-
 const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -123,61 +115,6 @@ const Overlay = styled.div`
   bottom: 0;
   z-index: 2;
   display: ${(props) => (props.show ? "block" : "none")};
-`;
-
-const ProductOrderItem = styled.div`
-    padding: 20px 15px;
-    gap: 4px;
-`;
-
-const PurchaseBtn = styled(Button)`
-    display: flex;
-    position: absolute;
-    width: 100%;
-    height: 80px;
-    gap: 10px;
-    bottom: 0;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    background-color: #D94A56;
-
-    color: #FFFFFF;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 22px;
-    letter-spacing: -0.02em;
-`;
-
-const DropDownContainer = styled.ul`
-    width: 100%;
-    height: 47px;
-    background-color: #FFFFFF;
-    border: 1px solid rgba(0, 0, 0, 0.25);
-    border-radius: 6px;
-    margin-top: 7px;
-`;
-
-const DropDownOption = styled.div`
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 17px 0 12px;
-
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 22px;
-    letter-spacing: -0.02em;
-    text-align: left;
-`;
-
-const OrderList = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
 `;
 
 const SelectionContainer = styled.div`
@@ -239,7 +176,7 @@ const SellerDetailInfo = styled.div`
     flex-direction: column;
 `;
 
-const SellerInfoTitle = styled.div`
+const SellerInfoTitle = styled.ul`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -258,6 +195,12 @@ const SellerPhone = styled(SellerDetailInfo)`
     border: none;
     padding: 0;
     border-bottom: 1px solid #667080;
+`;
+
+const DropdownList = styled.li`
+    display: flex;
+    padding: 6px 16px;
+    cursor: pointer;
 `;
 
 const Line = styled.hr`
@@ -280,7 +223,7 @@ const SellerInfoList = [
     {
         id: 1,
         name: '문의사항',
-        // content: "0000-0000"
+        content: "0000-0000"
     },
     {
         id: 2,
@@ -311,7 +254,7 @@ const SellerInfoList = [
 const ProductDetail = () => {
     const [clickMenu, setClickMenu] = useState(false);      // 정보/공지사항 전환
     const [openOrder, setOpenOrder] = useState(false);      // 구매하기 버튼 클릭
-    const [viewProduct, setViewProduct] = useState(false);  // dropdownItem 클릭
+    const [selectInfo, setSelectInfo] = useState(false);
     const [openMenu, setOpenMenu] = useState("");           // 하단 구매자 정보
     const location = useLocation();
     
@@ -319,19 +262,22 @@ const ProductDetail = () => {
         window.scrollTo(0, 0);
     }, []);
 
-    const onClickOrder = () => {
-        setOpenOrder(prev => !prev);
-    };
-
     const onClickMenu = (value) => {
         setOpenMenu((value === openmenu) ? "" : value);
     };
 
-    const item = 2;
+    const onClickOrder = () => setOpenOrder(prev => !prev);
+
+    const onClickInfo = (id) => {
+        setSelectInfo(!selectInfo);
+    };
 
     return (
         <>
             <PageContainer>
+                <Link to={'/main'}> 
+                    <Back src={back}/> 
+                </Link>
                 <Image src={location.state.src} alt="상품 이미지"/>
                 <ProductInfoContainer>
                     <ProductName> {location.state.name} </ProductName>
@@ -350,31 +296,9 @@ const ProductDetail = () => {
                         </GPSubContainer>
                     </GroupPurchaseContainer>
                     <OrderBtn onClick={onClickOrder}> 구매하기 </OrderBtn>
-                    <ProductOrder show={openOrder}>
-                        <ProductOrderItem>
-                            상품
-                            <DropDownContainer onClick={() => setViewProduct(!viewProduct)}>
-                                <DropDownOption>
-                                    Option
-                                    <More 
-                                        className={(viewProduct) ? "clicked" : ""}
-                                        src={MoreBtn} 
-                                    />
-                                </DropDownOption>
-                                { viewProduct ? 
-                                    <DropDown/> : (
-                                    <OrderList>
-                                        <Line/>
-                                        <div> 선택창 </div>
-                                        <div> 총 상품 금액 ({item}개) </div>
-                                    </OrderList>
-                                )
-                                }
-                            </DropDownContainer>
-                        </ProductOrderItem>
-                        <PurchaseBtn> 구매하기 </PurchaseBtn>
-                    </ProductOrder>
+                    {openOrder && <ProductOrder show={openOrder}/>}
                 </ProductInfoContainer>
+
                 <SelectionContainer>
                     <SelectionButton
                         className={`${clickMenu === false ? "select" : ""}`}
@@ -386,31 +310,38 @@ const ProductDetail = () => {
                         onClick={() => setClickMenu(true)}
                     > 공지사항 
                     </SelectionButton>
-                        {clickMenu ? 
-                            <Notice>
-                                공지사항 예시입니다
-                                <br/>
-                                [내용] 우왕
-                            </Notice> : <PromotionalImage/>
-                        }
+                    {clickMenu ? 
+                        <Notice>
+                            공지사항 예시입니다
+                            <br/>
+                            [내용] 우왕
+                        </Notice> : <PromotionalImage/>
+                    }
                 </SelectionContainer>
                 <SellerInfo>
-                        <SellerDetailInfo> 
-                        {SellerInfoList.map(info => (
+                    <SellerDetailInfo> 
+                        {SellerInfoList.map((info) => (
                             <SellerInfoTitle>
                                 {info.name} 
                                 {(info.id === 1) ? (
-                                    <SellerPhone> 0000-0000 </SellerPhone>
+                                    <SellerPhone> {info.content} </SellerPhone>
                                 ) : (
                                     <More 
-                                        className={`${openMenu === info ? "clicked" : ""}`}
-                                        src={MoreBtn}
-                                        onClick={() => onClickMenu(info)}
+                                        key={info.id}
+                                        className={(selectInfo) ? "clicked" : ""}                                            src={MoreBtn}
+                                        onClick={() => setSelectInfo(!selectInfo)}
                                     />
                                 )}
                             </SellerInfoTitle>
                         ))}
-                        </SellerDetailInfo>
+                        { selectInfo && 
+                            <div>
+                                {(SellerInfoList.map(((list) => 
+                                    <DropdownList key={list.id}> {list.content} </DropdownList>
+                                )))}
+                            </div>
+                        }
+                    </SellerDetailInfo>
                 </SellerInfo>
             </PageContainer>
             {openOrder && (

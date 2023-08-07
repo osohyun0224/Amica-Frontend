@@ -2,6 +2,9 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import InputForm from "../../components/InputForm.jsx";
 import SmallInputForm from "../SmallInputForm.jsx";
+import DropdownSpecies from "./DropdownSpecies.jsx";
+import MoreBtn from "../../assets/images/rightArrow.png";
+import { useState } from "react";
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -92,7 +95,7 @@ const LabelHeader = styled.div`
 
 const InputField = styled.div`
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   margin-right: 5px;
 `;
 
@@ -101,23 +104,24 @@ const InputRow = styled.div`
   justify-content: space-between;
   margin: 10px 0;
   margin-top: -10px;
-  flex-direction: row; 
+  flex-direction: row;
+  align-items: stretch;
   &:last-child ${InputField} {
     margin-right: 5px;
   }
 `;
 
 const ConfirmButton = styled.div`
-  width:100%;
+  width: 100%;
   height: 60px;
   padding: 12px 16px 12px 24px;
   border-radius: 0px 0px 5px 5px;
   gap: 10px;
-  background: #D94A56;
+  background: #d94a56;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer; 
+  cursor: pointer;
 `;
 
 const ConfirmText = styled.p`
@@ -128,11 +132,73 @@ const ConfirmText = styled.p`
   letter-spacing: -0.02em;
   text-align: left;
   margin: 0;
-  color: #ffffff; 
+  color: #ffffff;
+`;
+
+const DropDownContainer = styled.div`
+  width: 135px;
+  max-width: 100%; 
+  height: 40px;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  margin-top: 3px;
+  position: relative;
+  font-size: 12px;
+`;
+
+const DropdownWrapper = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%; 
+  z-index: 2;
+  background-color: #ffffff; 
+  overflow-y: auto; 
+  max-height: 150px; 
+`;
+
+const DropDownOption = styled.div`
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 17px 0 12px;
+
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  text-align: left;
+`;
+
+const More = styled.img`
+  width: 9px;
+  height: 16px;
+  transform: rotate(90deg);
+  cursor: pointer;
+  margin-left:10px;
+
+  &.clicked {
+    transform: rotate(270deg);
+  }
 `;
 
 const MyPetInputModal = ({ show, onClose }) => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("선택하기");
+
   if (!show) return null;
+
+  const handleDropdownClick = () => {
+    setDropdownOpen(!dropdownOpen); // setViewProduct 대신 setDropdownOpen 사용
+  };
+  
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+    setDropdownOpen(false); // setViewProduct 대신 setDropdownOpen 사용
+  };
+
 
   return (
     <ModalOverlay onClick={onClose}>
@@ -147,15 +213,25 @@ const MyPetInputModal = ({ show, onClose }) => {
         <NameHeader>이름 *</NameHeader>
         <InputForm placeholder="이름" />
         <InputRow>
-          <InputField>
-            <LabelHeader>종 *</LabelHeader>
-            <SmallInputForm placeholder="종" />
-          </InputField>
-          <InputField>
-            <LabelHeader>품종 </LabelHeader>
-            <SmallInputForm placeholder="품종" />
-          </InputField>
-        </InputRow>
+      <InputField>
+        <LabelHeader>종 *</LabelHeader>
+        <DropDownContainer onClick={handleDropdownClick}>
+        <DropDownOption>
+          {selectedOption}
+          <More className={dropdownOpen ? "clicked" : ""} src={MoreBtn} />
+        </DropDownOption>
+        {dropdownOpen && (
+          <DropdownWrapper>
+            <DropdownSpecies onSelect={handleOptionSelect} />
+          </DropdownWrapper>
+        )}
+      </DropDownContainer>
+      </InputField>
+      <InputField>
+        <LabelHeader>품종 </LabelHeader>
+        <SmallInputForm placeholder="품종" />
+      </InputField>
+    </InputRow>
         <InputRow>
           <InputField>
             <LabelHeader>나이 </LabelHeader>
