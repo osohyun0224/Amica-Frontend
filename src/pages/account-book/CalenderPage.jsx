@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo, useReducer } from "react";
 import { styled } from "styled-components";
 
+import AddExpenseModal from "../../components/account-book/AddExpenseModal.jsx";
 import Button from "../../components/account-book/Button.jsx";
 import CalenderStatus from "../../components/account-book/CalenderStatus.jsx";
 import Calender from "../../components/account-book/Calender.jsx";
@@ -47,11 +48,21 @@ const CalenderPage = () => {
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
+        <AddExpenseModal />
         <Container>
           <CalenderStatus />
           <Calender />
           <Divider style={{ margin: "24px auto" }} />
           <DailySummary />
+          <div
+            style={{
+              width: "100%",
+              height: "800px",
+              border: "1px solid red",
+            }}
+          >
+            테스트 여백입니다.
+          </div>
         </Container>
       </DispatchContext.Provider>
     </StateContext.Provider>

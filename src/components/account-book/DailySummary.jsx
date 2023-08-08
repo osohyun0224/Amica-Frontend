@@ -7,6 +7,9 @@ import ExpenseItem from "./ExpenseItem.jsx";
 
 import { StateContext, DispatchContext } from "../../librarys/context.js";
 
+import { show } from "../../redux/modalSlice.js";
+import { useDispatch } from "react-redux";
+
 const ExpenseTotal = styled(ExpenseItem)`
   color: rgba(21, 21, 21, 1);
   font-weight: 700;
@@ -25,6 +28,7 @@ const categoryName = ["악세서리", "간식", "사료", "생활용품", "영�
 const DailySummary = () => {
   const { expenseList, selectedDate } = useContext(StateContext);
   const dispatch = useContext(DispatchContext);
+  const modalDispatch = useDispatch();
 
   let filteredList = [];
   let totalPrice = 0;
@@ -48,7 +52,7 @@ const DailySummary = () => {
           price={item.value}
         />
       ))}
-      <Button onClick={() => alert("TODO")}>소비내역 추가하기</Button>
+      <Button onClick={() => modalDispatch(show())}>소비내역 추가하기</Button>
     </Container>
   );
 };
