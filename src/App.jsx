@@ -11,6 +11,7 @@ import AccountBookPage from "./pages/account-book/AccountBookPage.jsx";
 import CalenderPage from "./pages/account-book/CalenderPage.jsx";
 import MyPetPage from "./pages/my-pet/MyPetPage.jsx";
 import ProductDetail from "./components/main/ProductDetail.jsx";
+import OrderInfo from "./components/product-detail/OrderInfo.jsx";
 import SearchPage from "./pages/store/SearchPage.jsx";
 import HeaderPage from "./pages/HeaderPage.jsx";
 import Main from "./pages/Main.jsx";
@@ -51,6 +52,14 @@ function App() {
                 <ProductDetail />
               </ProtectedRoute>
             }
+          />
+          <Route 
+            path="/productDetail/orderInfo" 
+            element={
+              <ProtectedRoute>
+                <OrderInfo />
+              </ProtectedRoute>
+            } 
           />
           <Route element={<HeaderPage />}>
             <Route

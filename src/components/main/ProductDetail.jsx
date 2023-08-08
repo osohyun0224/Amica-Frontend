@@ -309,10 +309,6 @@ const ProductDetail = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const onClickMenu = (value) => {
-    setOpenMenu(value === openmenu ? "" : value);
-  };
-
   const onClickOrder = () => setOpenOrder((prev) => !prev);
 
   const onClickInfo = (id) => {

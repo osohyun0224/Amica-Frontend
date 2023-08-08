@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { styled } from "styled-components";
+import { Link } from "react-router-dom";
 
 import Button from "../Button";
 import DropDown from "./Dropdown";
-// import SelectOption from "./SelectOption";
+import OrderInfo from "./OrderInfo";
 
 import MoreBtn from "../../assets/images/rightArrow.png";
 import cancel from "../../assets/images/x.png";
@@ -141,7 +142,7 @@ const TotalAmount = styled.div`
     color: #151515;
 `;
 
-const PurchaseBtn = styled(Button)`
+const PurchaseBtn = styled(Link)`
     display: flex;
     position: absolute;
     width: 100%;
@@ -160,6 +161,7 @@ const PurchaseBtn = styled(Button)`
     font-weight: 700;
     line-height: 22px;
     letter-spacing: -0.02em;
+    text-decoration: none;
 `;
 
 const Overlay = styled.div`
@@ -183,7 +185,6 @@ const ProductOptions = [
 ];
 
 const ProductOrder = (props) => {
-    const [openOrder, setOpenOrder] = useState(false);      // 구매하기 버튼 클릭
     const [viewProduct, setViewProduct] = useState(false);  // dropdownItem 클릭
     const [orderList, setOrderList] = useState([]);
 
@@ -193,7 +194,7 @@ const ProductOrder = (props) => {
     const [totalAmount, setTotalAmount] = useState(0);
 
     const totalAmountComma = totalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
+    
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -201,21 +202,21 @@ const ProductOrder = (props) => {
     const onClickOrderList = (value) => setOrderList([...orderList, value]);
     const onClickOrderPrice = (value) => setAmount(value);
 
-    const onOrderPlus = () => {
+    const onOrderPlus = (num) => {
         setNumber(number + 1);
-        setTotalNum(totalNum + 1);
+        setAmount(num);
     };
 
-    const onOrderMiuns = () => {
+    const onOrderMiuns = (num) => {
         (number !== 0) ? (
-            setNumber(number - 1),
-            setTotalNum(totalNum - 1)
+            setNumber(number - 1)
          ) : setNumber(0);
     };
 
-    const onRemove = (id) => {
+    // 고칠 점 1. 전체 다 지워짐..
+    const onRemove = (value) => {
         const list = orderList.filter(product => {
-            product.id !== id;
+            product !== value;
         })
         return setOrderList(list);
     };
@@ -251,14 +252,14 @@ const ProductOrder = (props) => {
                                             <BtnImg 
                                                 src={cancel}
                                                 style={{ width: "20px", height: "20px" }}
-                                                onClick={() => onRemove(item.id)}
+                                                onClick={() => onRemove(item)}
                                             />
                                         </SelectOptionTitle>
                                         <SelectOptionTitle style={{ marginTop: "10px" }}>
                                             <SelectOptionDetail>
-                                                <BtnImg src={minus} onClick={onOrderMiuns}/>
+                                                <BtnImg src={minus} onClick={() => onOrderMiuns(number)}/>
                                                 <SelectOptionNumber> {number} </SelectOptionNumber>
-                                                <BtnImg src={plus} onClick={onOrderPlus}/>
+                                                <BtnImg src={plus} onClick={() => onOrderPlus(number)}/>
                                             </SelectOptionDetail>
                                             {amount}원
                                         </SelectOptionTitle>
@@ -273,8 +274,18 @@ const ProductOrder = (props) => {
                         </>
                     )}
                 </DropDownContainer>
-            </ProductOrderItem>
-            <PurchaseBtn> 구매하기 </PurchaseBtn>
+            </ProductOrderItem> 
+            <PurchaseBtn 
+                to={"/productDetail/orderInfo"}
+                state={{
+                    ProductName: `${orderList}`,
+                    number: `${number}`,
+                    amount: `${amount}`,
+                    totalNum: `${totalNum}`,
+                    totalAmount: `${totalAmount}`
+                }}
+            > 구매하기 
+            </PurchaseBtn>
         </ProductOrderContainer>
     )
 }
