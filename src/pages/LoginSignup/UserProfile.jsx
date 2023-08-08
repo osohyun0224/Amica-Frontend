@@ -140,7 +140,7 @@ function UserProfile() {
         <MenuText>비밀번호 변경</MenuText>
         <GoButtonImage src={GoButton} alt="Go" />
       </MenuLink>
-      <MenuLink to="/changename" bottomBorder={true}>
+      <MenuLink to="/checkdelivery" bottomBorder={true}>
         <MenuText>주문배송조회</MenuText>
         <GoButtonImage src={GoButton} alt="Go" />
       </MenuLink>
