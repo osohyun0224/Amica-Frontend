@@ -26,39 +26,39 @@ const BackButtonImage = styled.img`
 `;
 
 const HeaderTitle = styled.h1`
-  font-family: "Nanum Gothic";
-  font-size: 20px;
+  font-family: Nanum Gothic;
+  font-size: 24px;
   font-weight: 700;
   line-height: 30px;
   letter-spacing: -0.02em;
-  text-align: center;
+  text-align: left;
   color: #151515;
 `;
 
 const HeaderName = styled.h1`
-  font-family: "Nanum Gothic";
-  font-size: 20px;
+  font-family: Nanum Gothic;
+  font-size: 24px;
   font-weight: 700;
   line-height: 30px;
   letter-spacing: -0.02em;
-  text-align: center;
+  text-align: left;
   color: #151515;
 `;
 
 const HeaderEmail = styled.h1`
-  font-family: "Nanum Gothic";
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 30px;
+  font-family: Nanum Gothic;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
   letter-spacing: -0.02em;
-  text-align: center;
+  text-align: left;
   color: #151515;
 `;
 
 const Header = styled.header`
   width: 111%;
   height: 50px;
-  background: #eef1f4;
+  background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,7 +82,7 @@ function UserProfile() {
   return (
     <PageContainer>
       <Header>
-        <Link to="/">
+        <Link to="/my-pet">
           <BackButtonImage src={BackButton} alt="Back" />
         </Link>
         <HeaderTitle>안녕하세요</HeaderTitle>
