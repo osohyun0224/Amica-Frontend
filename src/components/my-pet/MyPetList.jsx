@@ -1,7 +1,6 @@
 import { styled } from "styled-components";
 
 import SimpleBar from "simplebar-react";
-import "simplebar-react/dist/simplebar.min.css";
 
 const MyPetList = styled(SimpleBar)`
   padding-bottom: 6px;
