@@ -3,12 +3,36 @@ import styled from "styled-components";
 import ProfileImage from "../assets/images/profile.png";
 import Search from "../assets/images/search.png";
 import SimpleBar from "simplebar-react";
-import "simplebar-react/dist/simplebar.min.css";
 
 import { show } from "../redux/menuSlice.js";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
+
+import { selectVisible } from "../redux/modalSlice.js";
+
+const Content = styled(SimpleBar)`
+  width: 100%;
+  height: 100%;
+  flex-shrink: 1;
+  overflow: auto;
+
+  &.freeze > .simplebar-track {
+    display: none;
+  }
+
+  & > .simplebar-track.simplebar-horizontal {
+    height: 7px;
+  }
+
+  & > .simplebar-track.simplebar-vertical {
+    width: 7px;
+  }
+
+  & .simplebar-mask {
+    z-index: auto;
+  }
+`;
 
 const Header = styled.div`
   position: fixed;
@@ -96,21 +120,6 @@ const MenuButton = styled(Link)`
   }
 `;
 
-const Content = styled(SimpleBar)`
-  width: 100%;
-  height: 100%;
-  flex-shrink: 1;
-  overflow: auto;
-
-  & > .simplebar-track.simplebar-horizontal {
-    height: 7px;
-  }
-
-  & > .simplebar-track.simplebar-vertical {
-    width: 7px;
-  }
-`;
-
 const Container = styled.div`
   max-width: 500px;
   height: calc(var(--vh) * 100);
@@ -124,6 +133,7 @@ function HeaderPage() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const getSelected = (value) => (pathname === value ? "selected" : "");
+  const modalStatus = useSelector(selectVisible);
   const scrollElement = useRef();
   const headerElement = useRef();
   const [headerHeight, setHeaderHeight] = useState(0);
@@ -147,7 +157,7 @@ function HeaderPage() {
         <TitleWrapper>
           <Title>Title</Title>
           <RightImagesWrapper>
-            <Image src={Search} alt="메뉴" />
+            <Image src={Search} alt="메뉴" onClick={() => dispatch(show())} />
             <Link to="/profile">
               <Image src={ProfileImage} alt="프로필" />
             </Link>
@@ -169,6 +179,7 @@ function HeaderPage() {
         </MenuWrapper>
       </Header>
       <Content
+        className={modalStatus ? "freeze" : null}
         style={{ paddingTop: headerHeight + "px" }}
         scrollableNodeProps={{ ref: scrollElement }}
       >
