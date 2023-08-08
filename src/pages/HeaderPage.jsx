@@ -1,7 +1,7 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import ProfileImage from "../assets/images/profile.png";
-import Menu from "../assets/images/hamburger.png";
+import Search from "../assets/images/search.png";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 
@@ -147,12 +147,10 @@ function HeaderPage() {
         <TitleWrapper>
           <Title>Title</Title>
           <RightImagesWrapper>
-            <Image src={Menu} alt="메뉴" />
-            <Image
-              src={ProfileImage}
-              alt="프로필"
-              onClick={() => dispatch(show())}
-            />
+            <Image src={Search} alt="메뉴" />
+            <Link to="/profile">
+              <Image src={ProfileImage} alt="프로필" />
+            </Link>
           </RightImagesWrapper>
         </TitleWrapper>
         <MenuWrapper>
