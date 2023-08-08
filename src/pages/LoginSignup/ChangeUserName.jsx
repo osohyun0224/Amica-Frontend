@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import BackButton from "../../assets/images/getback.png";
 import { Link } from "react-router-dom";
+import InputForm from "../../components/InputForm";
 
 const PageContainer = styled.div`
   display: flex;
@@ -25,19 +26,18 @@ const BackButtonImage = styled.img`
 
 const HeaderTitle = styled.h1`
   font-family: Nanum Gothic;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
-  line-height: 30px;
+  line-height: 22px;
   letter-spacing: -0.02em;
-  text-align: left;
-  color: #151515;
-  margin-top: 60px;
-  margin-left: -20px; 
+  text-align: center;
+  margin-top: 5px;
+  margin-left: 30px;
 `;
 
 const Header = styled.header`
   width: 100%;
-  height: 180px;
+  height: 150px;
   background: #ffffff;
   display: flex;
   align-items: center;
@@ -47,17 +47,54 @@ const Header = styled.header`
   margin-left: -50px;
 `;
 
-function ChangeUserName() {
+const NowName = styled.div`
+  font-family: NanumGothic;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  margin-bottom: 10px;
+  margin-left: -20px;
+`;
 
+const FutureName = styled.div`
+  font-family: NanumGothic;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  margin-bottom: 10px;
+  margin-left: -20px;
+`;
+
+const Inputdiv = styled.div`
+  margin-left: -20px;
+  margin-bottom: 10px;
+  width: 200%;
+`;
+
+
+function ChangeUserName() {
   return (
     <PageContainer>
       <Header>
         <Link to="/profile">
           <BackButtonImage src={BackButton} alt="Back" />
         </Link>
-        
-        <HeaderTitle></HeaderTitle>
-        </Header>
+        <HeaderTitle>사용자 이름 변경</HeaderTitle>
+      </Header>
+
+        <NowName>현재 사용자 이름</NowName>
+        <Inputdiv>
+          <InputForm type="text" placeholder="null 사랑하지 않아" />
+        </Inputdiv>
+        <FutureName>변경할 사용자 이름</FutureName>
+        <Inputdiv>
+          <InputForm type="text" placeholder="Java칩푸라푸치노" />
+        </Inputdiv>
+
     </PageContainer>
   );
 }
