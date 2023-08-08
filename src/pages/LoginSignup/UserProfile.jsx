@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import BackButton from "../../assets/images/getback.png";
+import GoButton from "../../assets/images/Page-right.png";
 import { Link } from "react-router-dom";
 import { userLogin } from "../../librarys/login-api";
 
@@ -34,7 +35,7 @@ const HeaderTitle = styled.h1`
   text-align: left;
   color: #151515;
   margin-top: 60px;
-  margin-left: -20px; 
+  margin-left: -20px;
 `;
 
 const HeaderName = styled.h1`
@@ -46,7 +47,7 @@ const HeaderName = styled.h1`
   text-align: left;
   color: #151515;
   margin-top: 10px;
-  margin-left: -20px; 
+  margin-left: -20px;
 `;
 
 const HeaderEmail = styled.h1`
@@ -56,9 +57,10 @@ const HeaderEmail = styled.h1`
   line-height: 20px;
   letter-spacing: -0.02em;
   text-align: left;
-  margin-top:20px;
-  margin-left:-20px;
+  margin-top: 20px;
+  margin-left: -20px;
   color: #151515;
+  margin-bottom: 20px;
 `;
 
 const Header = styled.header`
@@ -71,6 +73,34 @@ const Header = styled.header`
   position: relative;
   margin-top: -80px;
   margin-left: -50px;
+`;
+
+const MenuLink = styled(Link)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px solid #eef1f4;
+  border-bottom: ${(props) =>
+    props.bottomBorder ? "2px solid #EEF1F4" : "none"};
+  padding: 40px 50px;
+  text-decoration: none;
+  color: #151515;
+  width: 110%;
+  margin-left: -48px;
+`;
+
+const MenuText = styled.span`
+  font-family: Nanum Gothic;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #667080;
+`;
+
+const GoButtonImage = styled.img`
+  cursor: pointer;
 `;
 
 function UserProfile() {
@@ -91,16 +121,29 @@ function UserProfile() {
         <Link to="/my-pet">
           <BackButtonImage src={BackButton} alt="Back" />
         </Link>
-        </Header>
-        <HeaderTitle>안녕하세요</HeaderTitle>
-        {user ? (
-          <>
-            <HeaderName>{user.name} 님,</HeaderName>
-            <HeaderEmail>{user.email}</HeaderEmail>
-          </>
-        ) : (
-          <HeaderName>Loading...</HeaderName>
-        )}
+      </Header>
+      <HeaderTitle>안녕하세요</HeaderTitle>
+      {user ? (
+        <>
+          <HeaderName>{user.name} 님,</HeaderName>
+          <HeaderEmail>{user.email}</HeaderEmail>
+        </>
+      ) : (
+        <HeaderName>Loading...</HeaderName>
+      )}
+
+      <MenuLink to="/changename">
+        <MenuText>사용자 이름 변경</MenuText>
+        <GoButtonImage src={GoButton} alt="Go" />
+      </MenuLink>
+      <MenuLink to="/changepw">
+        <MenuText>비밀번호 변경</MenuText>
+        <GoButtonImage src={GoButton} alt="Go" />
+      </MenuLink>
+      <MenuLink to="/changename" bottomBorder={true}>
+        <MenuText>주문배송조회</MenuText>
+        <GoButtonImage src={GoButton} alt="Go" />
+      </MenuLink>
     </PageContainer>
   );
 }
