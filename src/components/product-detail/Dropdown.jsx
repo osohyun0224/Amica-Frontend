@@ -19,10 +19,9 @@ const DropdownList = styled.li`
     cursor: pointer;
 `;
 
-const Dropdown = ({orderList, setOrderList, setAmount, productOption}) => {
-    const optionClick = (product) => {
-        setOrderList([product.productName]);
-        setAmount(product.price);
+const Dropdown = ({orderList, setOrderList, productOption}) => {
+    const optionClick = (option) => {
+        setOrderList(option);
     }
 
     return (

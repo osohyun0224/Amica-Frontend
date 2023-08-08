@@ -265,8 +265,9 @@ const ProductDetail = () => {
 
   const [clickMenu, setClickMenu] = useState(false); // 정보/공지사항 전환
   const [openOrder, setOpenOrder] = useState(false); // 구매하기 버튼 클릭
-  const [selectInfo, setSelectInfo] = useState(false);
-  const [openMenu, setOpenMenu] = useState(""); // 하단 구매자 정보
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenID, setIsOpenID] = useState(0);
+
   const { id } = useParams();
 
   useEffect(() => {
@@ -311,10 +312,11 @@ const ProductDetail = () => {
 
   const onClickOrder = () => setOpenOrder((prev) => !prev);
 
-  const onClickInfo = (id) => {
-    setSelectInfo(!selectInfo);
+  const handleToggle = (id) => {
+    setIsOpen(!isOpen);
+    setIsOpenID(id);
   };
-
+  
   return (
     <>
       <PageContainer>
@@ -376,27 +378,29 @@ const ProductDetail = () => {
         <SellerInfo>
           <SellerDetailInfo>
             {SellerInfoList.map((info) => (
-              <SellerInfoTitle key={info.id}>
-                {info.name}
-                {info.id === 1 ? (
-                  <SellerPhone> {info.content} </SellerPhone>
-                ) : (
-                  <More
-                    key={info.id}
-                    className={selectInfo ? "clicked" : ""}
-                    src={MoreBtn}
-                    onClick={() => setSelectInfo(!selectInfo)}
-                  />
-                )}
-              </SellerInfoTitle>
+              <>
+                <SellerInfoTitle key={info.id}>
+                  {info.name}
+                  {info.id === 1 ? (
+                    <SellerPhone> {info.content} </SellerPhone>
+                  ) : (
+                    <More
+                      key={info.id}
+                      className= {(isOpen && isOpenID === info.id) ? "clicked" : ""}
+                      src={MoreBtn}
+                      onClick={()=> handleToggle(info.id)}
+                    />
+                  )}
+                </SellerInfoTitle>
+                {(isOpen && isOpenID === info.id) ? (
+                  <div>
+                    {SellerInfoList.map((list, idx) => (
+                      <DropdownList key={list.id}> {list.content} </DropdownList>
+                    ))}
+                  </div>
+                ) : ("")}
+              </>
             ))}
-            {selectInfo && (
-              <div>
-                {SellerInfoList.map((list) => (
-                  <DropdownList key={list.id}> {list.content} </DropdownList>
-                ))}
-              </div>
-            )}
           </SellerDetailInfo>
         </SellerInfo>
       </PageContainer>
@@ -408,3 +412,4 @@ const ProductDetail = () => {
 };
 
 export default ProductDetail;
+

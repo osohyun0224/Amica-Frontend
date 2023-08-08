@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { styled } from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -175,21 +175,22 @@ const Overlay = styled.div`
 `;
 
 const ProductOptions = [
-    { id: 1, productName: "모래 6kg", price: 57000 },
-    { id: 2, productName: "모래 7kg (+1000)", price: 58000 },
-    { id: 3, productName: "모래 8kg (+2000)", price: 59000 },
-    { id: 4, productName: "모래 9kg (+3000)", price: 60000 },
-    { id: 5, productName: "모래 10kg (+4000)", price: 61000 },
-    { id: 6, productName: "모래 11kg (+5000)", price: 62000 },
-    { id: 7, productName: "모래 12kg (+6000)", price: 63000 },
+    { id: 1, productName: "모래 6kg", price: 57000, quantity: 1 },
+    { id: 2, productName: "모래 7kg (+1000)", price: 58000, quantity: 1 },
+    { id: 3, productName: "모래 8kg (+2000)", price: 59000, quantity: 1 },
+    { id: 4, productName: "모래 9kg (+3000)", price: 60000, quantity: 1 },
+    { id: 5, productName: "모래 10kg (+4000)", price: 61000, quantity: 1 },
+    { id: 6, productName: "모래 11kg (+5000)", price: 62000, quantity: 1 },
+    { id: 7, productName: "모래 12kg (+6000)", price: 63000, quantity: 1 },
 ];
 
 const ProductOrder = (props) => {
     const [viewProduct, setViewProduct] = useState(false);  // dropdownItem 클릭
     const [orderList, setOrderList] = useState([]);
+    const [isOpenID, setIsOpenID] = useState(0);
 
-    const [number, setNumber] = useState(1);
-    const [amount, setAmount] = useState(0);
+    // const [quantity, setNumber] = useState(1);
+    // const [amount, setAmount] = useState(0);
     const [totalNum, setTotalNum] = useState(0);
     const [totalAmount, setTotalAmount] = useState(0);
 
@@ -200,33 +201,31 @@ const ProductOrder = (props) => {
     }, []);
     
     const onClickOrderList = (value) => setOrderList([...orderList, value]);
-    const onClickOrderPrice = (value) => setAmount(value);
 
-    const onOrderPlus = (num) => {
-        setNumber(number + 1);
-        setAmount(num);
+    const onOrderPlus = (item) => {  
+        item.quantity++;
+        item.price *= item.quantity;
     };
 
-    const onOrderMiuns = (num) => {
-        (number !== 0) ? (
-            setNumber(number - 1)
-         ) : setNumber(0);
+    const onOrderMiuns = (item) => {
+        (item.quantity !== 0) ? (
+            item.quantity--,
+            item.price -= item.quantity
+         ) : item.quantity = 0;
     };
 
-    // 고칠 점 1. 전체 다 지워짐..
-    const onRemove = (value) => {
-        const list = orderList.filter(product => {
-            product !== value;
-        })
-        return setOrderList(list);
-    };
+    const onRemove = useCallback(
+        id => {
+            setOrderList(orderList.filter(item => item.id !== id));
+        }, [orderList]
+    );
 
     return (
        <ProductOrderContainer>
             <ProductOrderItem>
                 상품
-                 <DropDownContainer onClick={() => setViewProduct(!viewProduct)}>
-                    <DropDownOption>
+                 <DropDownContainer>
+                    <DropDownOption onClick={() => setViewProduct(!viewProduct)}>
                         Option
                         <More 
                             className={(viewProduct) ? "clicked" : ""}
@@ -237,8 +236,7 @@ const ProductOrder = (props) => {
                     { viewProduct ? (
                         <DropDown 
                             orderList={orderList}
-                            setOrderList={onClickOrderList} 
-                            setAmount={onClickOrderPrice} 
+                            setOrderList={onClickOrderList}
                             productOption={ProductOptions}
                         />
                     ) : (
@@ -246,22 +244,28 @@ const ProductOrder = (props) => {
                             <Line/>
                             <OrderList>
                                 {orderList.map((item) => (
-                                    <SelectOption key={item.id}>
+                                    <SelectOption>
                                         <SelectOptionTitle>
-                                            <SelectOptionName> {item} </SelectOptionName>
+                                            <SelectOptionName> {item.productName} </SelectOptionName>
                                             <BtnImg 
                                                 src={cancel}
                                                 style={{ width: "20px", height: "20px" }}
-                                                onClick={() => onRemove(item)}
+                                                onClick={() => onRemove(item.id)}
                                             />
                                         </SelectOptionTitle>
                                         <SelectOptionTitle style={{ marginTop: "10px" }}>
                                             <SelectOptionDetail>
-                                                <BtnImg src={minus} onClick={() => onOrderMiuns(number)}/>
-                                                <SelectOptionNumber> {number} </SelectOptionNumber>
-                                                <BtnImg src={plus} onClick={() => onOrderPlus(number)}/>
+                                                <BtnImg 
+                                                    src={minus} 
+                                                    onClick={() => onOrderMiuns(item)}
+                                                />
+                                                <SelectOptionNumber> {item.quantity} </SelectOptionNumber>
+                                                <BtnImg 
+                                                    src={plus} 
+                                                    onClick={() => onOrderPlus(item)}
+                                                />
                                             </SelectOptionDetail>
-                                            {amount}원
+                                            {item.price}원
                                         </SelectOptionTitle>
                                     </SelectOption>
                                 ))}
@@ -279,8 +283,6 @@ const ProductOrder = (props) => {
                 to={"/productDetail/orderInfo"}
                 state={{
                     ProductName: `${orderList}`,
-                    number: `${number}`,
-                    amount: `${amount}`,
                     totalNum: `${totalNum}`,
                     totalAmount: `${totalAmount}`
                 }}
