@@ -14,7 +14,7 @@ import Arrow from "../assets/images/rightArrow.png";
 //import ProductExample from "../assets/images/productExample.jpeg";
 import AddPet from "../assets/images/add.png";
 
-import { getFeaturedProduct, getProductListByCategory } from '../librarys/store-api';
+import { getFeaturedProduct } from '../librarys/store-api';
 import { useEffect } from "react";
 
 const PageContainer = styled.div`
@@ -178,7 +178,7 @@ const Main = () => {
   useEffect(() => {
     if (categoryId !== undefined) {
       (async () => {
-        const products = await getProductListByCategory(categoryId);
+        const products = await getFeaturedProduct(categoryId);
         setProductList(products);
       })();
     }
