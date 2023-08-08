@@ -14,7 +14,7 @@ import Arrow from "../assets/images/rightArrow.png";
 //import ProductExample from "../assets/images/productExample.jpeg";
 import AddPet from "../assets/images/add.png";
 
-import { getFeaturedProduct } from '../librarys/store-api';
+import { getFeaturedProduct } from "../librarys/store-api";
 import { useEffect } from "react";
 
 const PageContainer = styled.div`
@@ -115,9 +115,9 @@ const RecommendList = styled(ScrollContainer)`
   display: flex;
   flex-direction: column;
 `;
-const ProductItem  = styled(ScrollContainer)`
-display: flex;
-flex-direction: column;
+const ProductItem = styled(ScrollContainer)`
+  display: flex;
+  flex-direction: column;
 `;
 
 const Title = styled.div`
@@ -151,7 +151,7 @@ const Categories = [
   { id: 1003, name: "accessories", text: "의류/악세사리" },
   { id: 1004, name: "nutritional", text: "영양제" },
   { id: 1005, name: "toys", text: "장난감" },
-  { id: 1006, name: "toilet", text: "배변용품" }
+  { id: 1006, name: "toilet", text: "배변용품" },
 ];
 
 const Main = () => {
@@ -203,7 +203,7 @@ const Main = () => {
       </CategoryList>
       <productList>
         {filteredProducts.map((product, index) => (
-          <ProductItem key={index} product={product} /> 
+          <ProductItem key={index} product={product} />
         ))}
       </productList>
       <DetailMenu>
