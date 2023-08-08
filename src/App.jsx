@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import CoverMenu from "./components/CoverMenu.jsx";
+import ChangeUserName from "./pages/LoginSignup/ChangeUserName.jsx";
 import UserProfile from "./pages/LoginSignup/UserProfile.jsx";
 import LoginPage from "./pages/LoginSignup/LoginPage.jsx";
 import SignupPage from "./pages/LoginSignup/SignupPage.jsx";
@@ -46,6 +47,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/changename" element={<ChangeUserName />} />
           <Route path="/compelete" element={<SignCompelete />} />
           <Route
             path="/productDetail/:id"
