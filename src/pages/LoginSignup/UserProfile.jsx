@@ -33,6 +33,8 @@ const HeaderTitle = styled.h1`
   letter-spacing: -0.02em;
   text-align: left;
   color: #151515;
+  margin-top: 60px;
+  margin-left: -20px; 
 `;
 
 const HeaderName = styled.h1`
@@ -43,6 +45,8 @@ const HeaderName = styled.h1`
   letter-spacing: -0.02em;
   text-align: left;
   color: #151515;
+  margin-top: 10px;
+  margin-left: -20px; 
 `;
 
 const HeaderEmail = styled.h1`
@@ -52,18 +56,20 @@ const HeaderEmail = styled.h1`
   line-height: 20px;
   letter-spacing: -0.02em;
   text-align: left;
+  margin-top:20px;
+  margin-left:-20px;
   color: #151515;
 `;
 
 const Header = styled.header`
-  width: 111%;
-  height: 50px;
+  width: 100%;
+  height: 180px;
   background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  margin-top: -31px;
+  margin-top: -80px;
   margin-left: -50px;
 `;
 
@@ -85,6 +91,7 @@ function UserProfile() {
         <Link to="/my-pet">
           <BackButtonImage src={BackButton} alt="Back" />
         </Link>
+        </Header>
         <HeaderTitle>안녕하세요</HeaderTitle>
         {user ? (
           <>
@@ -94,7 +101,6 @@ function UserProfile() {
         ) : (
           <HeaderName>Loading...</HeaderName>
         )}
-      </Header>
     </PageContainer>
   );
 }
