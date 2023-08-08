@@ -5,16 +5,16 @@ import styled from "styled-components";
 import { ScrollContainer } from "react-indiana-drag-scroll";
 import "react-indiana-drag-scroll/dist/style.css";
 
-import ProductType from "../components/ProductType";
+//import ProductType from "../components/ProductType";
 import CategoryList from "../components/main/CategoryList";
 import DeadlineProduct from "../components/main/DeadlineList";
 import RecommemdProduct from "../components/main/RecommendList";
 
 import Arrow from "../assets/images/rightArrow.png";
-import ProductExample from "../assets/images/productExample.jpeg";
+//import ProductExample from "../assets/images/productExample.jpeg";
 import AddPet from "../assets/images/add.png";
 
-import { getFeaturedProduct } from "../librarys/store-api.js";
+import { getFeaturedProduct } from '../librarys/store-api';
 import { useEffect } from "react";
 
 const PageContainer = styled.div`
@@ -115,6 +115,10 @@ const RecommendList = styled(ScrollContainer)`
   display: flex;
   flex-direction: column;
 `;
+const ProductItem  = styled(ScrollContainer)`
+display: flex;
+flex-direction: column;
+`;
 
 const Title = styled.div`
   font-size: 16px;
@@ -142,21 +146,25 @@ const ProductSelect = styled(Link)`
 `;
 
 const Categories = [
-  { id: 0, name: "snack", text: "간식" },
-  { id: 1, name: "beauty", text: "미용" },
-  { id: 2, name: "accessories", text: "의류/악세사리" },
-  { id: 3, name: "nutritional", text: "영양제" },
-  { id: 4, name: "toys", text: "장난감" },
-  { id: 5, name: "toilet", text: "배변용품" },
-  { id: 6, name: "cat", text: "고양이" },
-  { id: 7, name: "dog", text: "강아지" },
-  { id: 8, name: "fish", text: "관상어" },
+  { id: 1001, name: "snack", text: "간식" },
+  { id: 1002, name: "beauty", text: "미용" },
+  { id: 1003, name: "accessories", text: "의류/악세사리" },
+  { id: 1004, name: "nutritional", text: "영양제" },
+  { id: 1005, name: "toys", text: "장난감" },
+  { id: 1006, name: "toilet", text: "배변용품" }
 ];
 
 const Main = () => {
+  const [productList, setProductList] = useState([]);
   const [deadlineItems, setDeadlineItems] = useState([]);
   const [recentItems, setRecentItems] = useState([]);
   const [popularItems, setPopularItems] = useState([]);
+  const [categoryId, setCategoryId] = useState();
+
+  const filteredProducts =
+    categoryId !== undefined
+      ? productList.filter((product) => product.categoryId === categoryId)
+      : productList;
 
   useEffect(() => {
     (async () => {
@@ -166,6 +174,15 @@ const Main = () => {
       setPopularItems(data.popularItems);
     })();
   }, []);
+
+  useEffect(() => {
+    if (categoryId !== undefined) {
+      (async () => {
+        const products = await getFeaturedProduct(categoryId);
+        setProductList(products);
+      })();
+    }
+  }, [categoryId]);
 
   return (
     <PageContainer>
@@ -179,9 +196,16 @@ const Main = () => {
       </PetRecommend>
       <CategoryList>
         {Categories.map((cate) => (
-          <Menu key={cate.name}>{cate.text}</Menu>
+          <Menu key={cate.id} onClick={() => setCategoryId(cate.id)}>
+            {cate.text}
+          </Menu>
         ))}
       </CategoryList>
+      <productList>
+        {filteredProducts.map((product, index) => (
+          <ProductItem key={index} product={product} /> 
+        ))}
+      </productList>
       <DetailMenu>
         <DetailMenuTitle>
           <Title> 마감 임박! </Title>
