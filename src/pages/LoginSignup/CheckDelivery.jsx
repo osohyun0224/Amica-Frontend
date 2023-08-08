@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import BackButton from "../../assets/images/getback.png";
 import { Link } from "react-router-dom";
+import DeliveryList from "../../components/delivery/DeliveryList";
+import ProductExample from "../../assets/images/RecentImage.png";
 
 const PageContainer = styled.div`
   display: flex;
@@ -46,7 +48,45 @@ const Header = styled.header`
   margin-left: -50px;
 `;
 
-function ChangeUserName() {
+const DateTitle = styled.div`
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  margin-left: -30px;
+  margin-bottom: 10px;
+`;
+
+const BaeList1 = [
+  {
+    id: 21,
+    name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
+    kind: "사료",
+    price: "56,000",
+    deliverId: "운송장번호: 293-19-192891 (CJ대한통운)",
+    date: "2023.05.09",
+  },
+  {
+    id: 22,
+    name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
+    kind: "사료",
+    price: "56,000",
+    deliverId: "운송장번호: ...",
+    date: "2023.05.09",
+  },
+  {
+    id: 23,
+    name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
+    kind: "사료",
+    price: "56,000",
+    deliverId: "운송장번호: ...",
+    date: "2023.05.09",
+  },
+];
+
+function ChangeDelivery() {
   return (
     <PageContainer>
       <Header>
@@ -55,9 +95,19 @@ function ChangeUserName() {
         </Link>
         <HeaderTitle>배송 조회 하기</HeaderTitle>
       </Header>
-
+      <DateTitle>2023년 9월 3일 구매</DateTitle>
+      {BaeList1.map((item) => (
+        <DeliveryList
+          key={item.id}
+          src={ProductExample}
+          name={item.name}
+          kind={item.kind}
+          deliverId={item.deliverId}
+          price={item.price}
+        />
+      ))}
     </PageContainer>
   );
 }
 
-export default ChangeUserName;
+export default ChangeDelivery;
