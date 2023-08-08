@@ -6,6 +6,7 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import CoverMenu from "./components/CoverMenu.jsx";
 import ChangeUserName from "./pages/LoginSignup/ChangeUserName.jsx";
 import ChangeUserPW from "./pages/LoginSignup/ChangeUserPW.jsx";
+import CheckDelivery from "./pages/LoginSignup/CheckDelivery.jsx"
 import UserProfile from "./pages/LoginSignup/UserProfile.jsx";
 import LoginPage from "./pages/LoginSignup/LoginPage.jsx";
 import SignupPage from "./pages/LoginSignup/SignupPage.jsx";
@@ -50,6 +51,7 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/changename" element={<ChangeUserName />} />
           <Route path="/changepw" element={<ChangeUserPW />} />
+          <Route path="/checkdelivery" element={<CheckDelivery />} />
           <Route path="/compelete" element={<SignCompelete />} />
           <Route
             path="/productDetail/:id"
