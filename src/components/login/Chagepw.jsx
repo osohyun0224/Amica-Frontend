@@ -126,6 +126,8 @@ const Chagepw = ({
   </>
 );
 Chagepw.propTypes = {
+  currentPassword: PropTypes.string.isRequired,
+  handleCurrentPasswordChange: PropTypes.func.isRequired,
   password: PropTypes.string.isRequired,
   passwordCheck: PropTypes.string.isRequired,
   handlePasswordChange: PropTypes.func.isRequired,
@@ -135,5 +137,6 @@ Chagepw.propTypes = {
   numberRequirement: PropTypes.bool.isRequired,
   isPasswordMatch: PropTypes.bool,
 };
+
 
 export default Chagepw;
