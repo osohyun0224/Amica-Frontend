@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import InputForm from "../../components/InputForm.jsx";
 import SmallInputForm from "../SmallInputForm.jsx";
 import DropdownSpecies from "./DropdownSpecies.jsx";
+import DropdownSize from "./DropdownSize.jsx";
 import MoreBtn from "../../assets/images/rightArrow.png";
 import { useState } from "react";
 
@@ -185,18 +186,29 @@ const More = styled.img`
 `;
 
 const MyPetInputModal = ({ show, onClose }) => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("선택하기");
+  const [speciesDropdownOpen, setSpeciesDropdownOpen] = useState(false);
+  const [sizeDropdownOpen, setSizeDropdownOpen] = useState(false);
+  const [selectedSpeciesOption, setSelectedSpeciesOption] = useState("선택하기");
+  const [selectedSizeOption, setSelectedSizeOption] = useState("선택하기");
 
   if (!show) return null;
 
-  const handleDropdownClick = () => {
-    setDropdownOpen(!dropdownOpen); // setViewProduct 대신 setDropdownOpen 사용
+  const handleSpeciesDropdownClick = () => {
+    setSpeciesDropdownOpen(!speciesDropdownOpen);
   };
-  
-  const handleOptionSelect = (option) => {
-    setSelectedOption(option);
-    setDropdownOpen(false); // setViewProduct 대신 setDropdownOpen 사용
+
+  const handleSizeDropdownClick = () => {
+    setSizeDropdownOpen(!sizeDropdownOpen);
+  };
+
+  const handleSpeciesOptionSelect = (option) => {
+    setSelectedSpeciesOption(option);
+    setSpeciesDropdownOpen(false);
+  };
+
+  const handleSizeOptionSelect = (option) => {
+    setSelectedSizeOption(option);
+    setSizeDropdownOpen(false);
   };
 
 
@@ -213,24 +225,34 @@ const MyPetInputModal = ({ show, onClose }) => {
         <NameHeader>이름 *</NameHeader>
         <InputForm placeholder="이름" />
         <InputRow>
-      <InputField>
-        <LabelHeader>종 *</LabelHeader>
-        <DropDownContainer onClick={handleDropdownClick}>
-        <DropDownOption>
-          {selectedOption}
-          <More className={dropdownOpen ? "clicked" : ""} src={MoreBtn} />
-        </DropDownOption>
-        {dropdownOpen && (
-          <DropdownWrapper>
-            <DropdownSpecies onSelect={handleOptionSelect} />
-          </DropdownWrapper>
-        )}
-      </DropDownContainer>
-      </InputField>
-      <InputField>
-        <LabelHeader>품종 </LabelHeader>
-        <SmallInputForm placeholder="품종" />
-      </InputField>
+        <InputField>
+          <LabelHeader>종 *</LabelHeader>
+          <DropDownContainer onClick={handleSpeciesDropdownClick}>
+          <DropDownOption>
+            {selectedSpeciesOption}
+            <More className={speciesDropdownOpen ? "clicked" : ""} src={MoreBtn} />
+          </DropDownOption>
+          {speciesDropdownOpen && (
+            <DropdownWrapper>
+              <DropdownSpecies onSelect={handleSpeciesOptionSelect} />
+            </DropdownWrapper>
+          )}
+        </DropDownContainer>
+        </InputField>
+        <InputField>
+          <LabelHeader>크기 *</LabelHeader>
+          <DropDownContainer onClick={handleSizeDropdownClick}>
+          <DropDownOption>
+            {selectedSizeOption}
+            <More className={sizeDropdownOpen ? "clicked" : ""} src={MoreBtn} />
+          </DropDownOption>
+          {sizeDropdownOpen && (
+            <DropdownWrapper>
+              <DropdownSize onSelect={handleSizeOptionSelect} />
+            </DropdownWrapper>
+          )}
+        </DropDownContainer>
+        </InputField>
     </InputRow>
         <InputRow>
           <InputField>
@@ -238,7 +260,7 @@ const MyPetInputModal = ({ show, onClose }) => {
             <SmallInputForm placeholder="나이" />
           </InputField>
           <InputField>
-            <LabelHeader>성별 *</LabelHeader>
+            <LabelHeader>성별 </LabelHeader>
             <SmallInputForm placeholder="성별" />
           </InputField>
         </InputRow>
