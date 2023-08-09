@@ -144,7 +144,6 @@ const BuyerInputForm = styled.input`
 `;
 
 const PurchaseBtn = styled.button`
-    position: absolute;
     max-width: 500px;
     width: 100%;
     height: 80px;
