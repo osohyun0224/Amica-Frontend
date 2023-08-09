@@ -245,7 +245,7 @@ const ProductOrder = (props) => {
                                                 <BtnImg 
                                                     src={minus} 
                                                     onClick={() => dispatch({ 
-                                                        type: "miunsQuantity", 
+                                                        type: "minusQuantity", 
                                                         payload: item,
                                                     })}
                                                 />

@@ -31,44 +31,53 @@ export function cartReducer(state, action) {
 
         case "plusQuantity": {
             const plusItem = state.orderList.find((item) => item.id === action.payload.id);
-            
             if (plusItem) {
                 const plusQuantity = 1;
-                const plusPrice = plusItem.price / plusItem.quantity;
-        
-                plusItem.quantity += plusQuantity;
-                plusItem.price += plusPrice;
+                const plusPricePerUnit = plusItem.price / plusItem.quantity;
         
                 return {
-                    ...state, 
-                    orderList: [...state.orderList],
+                    ...state,
+                    orderList: state.orderList.map(item => {
+                        if (item.id === action.payload.id) {
+                            return {
+                                ...item,
+                                quantity: item.quantity + plusQuantity,
+                                price: item.price + plusPricePerUnit,
+                            };
+                        }
+                        return item;
+                    }),
                     totalQuantity: state.totalQuantity + plusQuantity,
-                    totalAmount: state.totalAmount + plusPrice,
+                    totalAmount: state.totalAmount + plusPricePerUnit,
                 };
             }
         }
 
-        case "miunsQuantity": {
-            const miunsItem = state.orderList.find((item) => item.id === action.payload.id);
-            
-            if (miunsItem && miunsItem.quantity > 1) {
-                const miunsQuantity = 1;
-                const miunsPrice = miunsItem.price / miunsItem.quantity;
-
-                miunsItem.quantity -= miunsQuantity;
-                miunsItem.price -= miunsPrice;
-
+        case "minusQuantity": {
+            const minusItem = state.orderList.find((item) => item.id === action.payload.id);
+            if (minusItem && minusItem.quantity > 1) {
+                const minusQuantity = 1;
+                const minusPricePerUnit = minusItem.price / minusItem.quantity;
+        
                 return {
                     ...state,
-                    orderList: [...state.orderList],
-                    totalQuantity: state.totalQuantity - miunsQuantity,
-                    totalAmount: state.totalAmount - miunsPrice,
+                    orderList: state.orderList.map(item => {
+                        if (item.id === action.payload.id) {
+                            return {
+                                ...item,
+                                quantity: item.quantity - minusQuantity,
+                                price: item.price - minusPricePerUnit,
+                            };
+                        }
+                        return item;
+                    }),
+                    totalQuantity: state.totalQuantity - minusQuantity,
+                    totalAmount: state.totalAmount - minusPricePerUnit,
                 };
-
-            } else if (miunsItem) {
-                miunsItem.quantity = 1;
-                miunsItem.price = action.payload.price;
-
+            } else if (minusItem) {
+                minusItem.quantity = 1;
+                minusItem.price = action.payload.price;
+        
                 return {
                     ...state,
                     orderList: [...state.orderList],
