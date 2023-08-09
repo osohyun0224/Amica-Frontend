@@ -31,7 +31,6 @@ const PageContainer = styled.div`
 const Header = styled.header`
   width: 111%;
   height: 50px;
-  background: #eef1f4;
   display: flex;
   align-items: center;
   justify-content: center;
