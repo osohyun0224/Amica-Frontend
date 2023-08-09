@@ -12,6 +12,8 @@ import cancel from "../../assets/images/x.png";
 import plus from "../../assets/images/plus.png";
 import minus from "../../assets/images/minus.png";
 
+import { getProduct } from "../../librarys/store-api";
+
 const ProductOrderContainer = styled.div`
     max-width: 500px;
     width: 100%;
@@ -175,17 +177,19 @@ const Overlay = styled.div`
   display: ${(props) => (props.show ? "block" : "none")};
 `;
 
-const ProductOptions = [
-    { id: 1, productName: "모래 6kg", price: 57000, },
-    { id: 2, productName: "모래 7kg (+1000)", price: 58000,},
-    { id: 3, productName: "모래 8kg (+2000)", price: 59000,  },
-    { id: 4, productName: "모래 9kg (+3000)", price: 60000, },
-    { id: 5, productName: "모래 10kg (+4000)", price: 61000, },
-    { id: 6, productName: "모래 11kg (+5000)", price: 62000, },
-    { id: 7, productName: "모래 12kg (+6000)", price: 63000,  },
-];
+// const ProductOptions = [
+//     { id: 1, productName: "모래 6kg", price: 57000, },
+//     { id: 2, productName: "모래 7kg (+1000)", price: 58000,},
+//     { id: 3, productName: "모래 8kg (+2000)", price: 59000,  },
+//     { id: 4, productName: "모래 9kg (+3000)", price: 60000, },
+//     { id: 5, productName: "모래 10kg (+4000)", price: 61000, },
+//     { id: 6, productName: "모래 11kg (+5000)", price: 62000, },
+//     { id: 7, productName: "모래 12kg (+6000)", price: 63000,  },
+// ];
 
 const ProductOrder = (props) => {
+    const [data, setData] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
     const [viewProduct, setViewProduct] = useState(false);  // dropdownItem 클릭
     const [isOpenID, setIsOpenID] = useState(0);
 
@@ -196,7 +200,15 @@ const ProductOrder = (props) => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
-    
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await getProduct(id);
+            setData(response);
+        };
+        fetchData();
+    }, [id]);
+
     const onClickOrderList = (value) => {
         dispatch({
             type: "addOrderProduct",
@@ -217,11 +229,11 @@ const ProductOrder = (props) => {
                         />
                     </DropDownOption>
 
-                    { viewProduct ? (
+                    {(viewProduct) ? (
                         <DropDown 
                             orderList={state.orderList}
                             setOrderList={onClickOrderList}
-                            productOption={ProductOptions}
+                            productOption={data.options}
                         />
                     ) : (
                         <>
@@ -230,7 +242,7 @@ const ProductOrder = (props) => {
                                 {state.orderList.map(item => (
                                     <SelectOption>
                                         <SelectOptionTitle>
-                                            <SelectOptionName> {item.productName} </SelectOptionName>
+                                            <SelectOptionName> {item.name} </SelectOptionName>
                                             <BtnImg 
                                                 src={cancel}
                                                 style={{ width: "20px", height: "20px" }}
@@ -275,9 +287,9 @@ const ProductOrder = (props) => {
             <PurchaseBtn 
                 to={"/productDetail/orderInfo"}
                 state={{
-                    // ProductName: `${orderList}`,
-                    // totalNum: `${state.totalQuantity}`,
-                    // totalAmount: `${state.totalAmount}`
+                    ProductName: `${state.orderList}`,
+                    totalNum: `${state.totalQuantity}`,
+                    totalAmount: `${state.totalAmount}`
                 }}
             > 구매하기 
             </PurchaseBtn>

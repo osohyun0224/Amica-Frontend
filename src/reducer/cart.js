@@ -15,7 +15,7 @@ export function cartReducer(state, action) {
             else {
                 const addList = {
                     id: action.payload.id,
-                    productName: action.payload.productName,
+                    name: action.payload.name,
                     price: action.payload.price,
                     quantity: 1,
                 }
