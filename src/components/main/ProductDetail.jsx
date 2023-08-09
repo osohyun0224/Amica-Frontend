@@ -162,8 +162,37 @@ const PromotionalImage = styled(Image)`
 const Notice = styled.div`
   width: 100%;
   height: auto;
-  padding: 20px;
+  padding: 20px 20px 0 25px;
   margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const NoticeTitle = styled.p`
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 50px;
+  letter-spacing: -0.02em;
+  color: #000000;
+`;
+
+const NoticeContent = styled.p`
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 30px;
+  letter-spacing: -0.02em;
+  color: #000000;
+`;
+
+const NoticeModifiedDate = styled.p`
+  display: flex;
+  justify-content: end;
+  margin-top: 30px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 40px;
+  letter-spacing: -0.02em;
+  color: #667080;
 `;
 
 const SellerInfo = styled.div`
@@ -306,6 +335,7 @@ const ProductDetail = () => {
       }
     })();
   }, [id]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -367,9 +397,9 @@ const ProductDetail = () => {
           </SelectionButton>
           {clickMenu ? (
             <Notice>
-              공지사항 예시입니다
-              <br />
-              [내용] 우왕
+              <NoticeTitle> {data.notice.title} </NoticeTitle>
+              <NoticeContent> {data.notice.content} </NoticeContent>
+              <NoticeModifiedDate> {data.notice.modifiedDate} </NoticeModifiedDate>
             </Notice>
           ) : (
             <PromotionalImage />
