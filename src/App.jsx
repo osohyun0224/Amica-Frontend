@@ -6,7 +6,7 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import CoverMenu from "./components/CoverMenu.jsx";
 import ChangeUserName from "./pages/LoginSignup/ChangeUserName.jsx";
 import ChangeUserPW from "./pages/LoginSignup/ChangeUserPW.jsx";
-import CheckDelivery from "./pages/LoginSignup/CheckDelivery.jsx"
+import CheckDelivery from "./pages/LoginSignup/CheckDelivery.jsx";
 import UserProfile from "./pages/LoginSignup/UserProfile.jsx";
 import LoginPage from "./pages/LoginSignup/LoginPage.jsx";
 import SignupPage from "./pages/LoginSignup/SignupPage.jsx";
@@ -16,6 +16,7 @@ import CalenderPage from "./pages/account-book/CalenderPage.jsx";
 import MyPetPage from "./pages/my-pet/MyPetPage.jsx";
 import ProductDetail from "./components/main/ProductDetail.jsx";
 import OrderInfo from "./components/product-detail/OrderInfo.jsx";
+import OrderCompletePage from "./pages/store/OrderCompletePage.jsx";
 import SearchPage from "./pages/store/SearchPage.jsx";
 import HeaderPage from "./pages/HeaderPage.jsx";
 import Main from "./pages/Main.jsx";
@@ -53,6 +54,7 @@ function App() {
           <Route path="/changepw" element={<ChangeUserPW />} />
           <Route path="/checkdelivery" element={<CheckDelivery />} />
           <Route path="/compelete" element={<SignCompelete />} />
+
           <Route
             path="/productDetail/:id"
             element={
@@ -61,14 +63,23 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route 
-            path="/productDetail/orderInfo" 
+          <Route
+            path="/productDetail/orderInfo"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute to="/main">
                 <OrderInfo />
               </ProtectedRoute>
-            } 
+            }
           />
+          <Route
+            path="/orderComplete"
+            element={
+              <ProtectedRoute to="/main">
+                <OrderCompletePage />
+              </ProtectedRoute>
+            }
+          />
+
           <Route element={<HeaderPage />}>
             <Route
               path="/main"

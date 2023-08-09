@@ -97,14 +97,14 @@ const productList = [
         enabled: true,
       },
       {
-        id: 1,
+        id: 2,
         name: "닭",
         price: 15000,
         discount: 0,
         enabled: false,
       },
       {
-        id: 1,
+        id: 3,
         name: "양",
         price: 15000,
         discount: 0,
