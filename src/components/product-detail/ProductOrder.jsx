@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useReducer } from "react";
 import { styled } from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import Button from "../Button";
 import DropDown from "./Dropdown";
 import OrderInfo from "./OrderInfo";
+import { cartReducer, initalState } from "../../reducer/cart.js";
 
 import MoreBtn from "../../assets/images/rightArrow.png";
 import cancel from "../../assets/images/x.png";
@@ -175,51 +176,34 @@ const Overlay = styled.div`
 `;
 
 const ProductOptions = [
-    { id: 1, productName: "모래 6kg", price: 57000, quantity: 1 },
-    { id: 2, productName: "모래 7kg (+1000)", price: 58000, quantity: 1 },
-    { id: 3, productName: "모래 8kg (+2000)", price: 59000, quantity: 1 },
-    { id: 4, productName: "모래 9kg (+3000)", price: 60000, quantity: 1 },
-    { id: 5, productName: "모래 10kg (+4000)", price: 61000, quantity: 1 },
-    { id: 6, productName: "모래 11kg (+5000)", price: 62000, quantity: 1 },
-    { id: 7, productName: "모래 12kg (+6000)", price: 63000, quantity: 1 },
+    { id: 1, productName: "모래 6kg", price: 57000, },
+    { id: 2, productName: "모래 7kg (+1000)", price: 58000,},
+    { id: 3, productName: "모래 8kg (+2000)", price: 59000,  },
+    { id: 4, productName: "모래 9kg (+3000)", price: 60000, },
+    { id: 5, productName: "모래 10kg (+4000)", price: 61000, },
+    { id: 6, productName: "모래 11kg (+5000)", price: 62000, },
+    { id: 7, productName: "모래 12kg (+6000)", price: 63000,  },
 ];
 
 const ProductOrder = (props) => {
     const [viewProduct, setViewProduct] = useState(false);  // dropdownItem 클릭
-    const [orderList, setOrderList] = useState([]);
     const [isOpenID, setIsOpenID] = useState(0);
 
-    // const [quantity, setNumber] = useState(1);
-    // const [amount, setAmount] = useState(0);
-    const [totalNum, setTotalNum] = useState(0);
-    const [totalAmount, setTotalAmount] = useState(0);
+    const { id } = useParams();
 
-    const totalAmountComma = totalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    
+    const [state, dispatch] = useReducer(cartReducer, initalState);
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
     
-    const onClickOrderList = (value) => setOrderList([...orderList, value]);
-
-    const onOrderPlus = (item) => {  
-        item.quantity++;
-        item.price *= item.quantity;
+    const onClickOrderList = (value) => {
+        dispatch({
+            type: "addOrderProduct",
+            payload: value,
+        })
     };
-
-    const onOrderMiuns = (item) => {
-        (item.quantity !== 0) ? (
-            item.quantity--,
-            item.price -= item.quantity
-         ) : item.quantity = 0;
-    };
-
-    const onRemove = useCallback(
-        id => {
-            setOrderList(orderList.filter(item => item.id !== id));
-        }, [orderList]
-    );
-
+    
     return (
        <ProductOrderContainer>
             <ProductOrderItem>
@@ -235,7 +219,7 @@ const ProductOrder = (props) => {
 
                     { viewProduct ? (
                         <DropDown 
-                            orderList={orderList}
+                            orderList={state.orderList}
                             setOrderList={onClickOrderList}
                             productOption={ProductOptions}
                         />
@@ -243,26 +227,35 @@ const ProductOrder = (props) => {
                         <>
                             <Line/>
                             <OrderList>
-                                {orderList.map((item) => (
+                                {state.orderList.map(item => (
                                     <SelectOption>
                                         <SelectOptionTitle>
                                             <SelectOptionName> {item.productName} </SelectOptionName>
                                             <BtnImg 
                                                 src={cancel}
                                                 style={{ width: "20px", height: "20px" }}
-                                                onClick={() => onRemove(item.id)}
+                                                onClick={() => dispatch({
+                                                    type: "onRemove",
+                                                    payload: item,
+                                                })}
                                             />
                                         </SelectOptionTitle>
                                         <SelectOptionTitle style={{ marginTop: "10px" }}>
                                             <SelectOptionDetail>
                                                 <BtnImg 
                                                     src={minus} 
-                                                    onClick={() => onOrderMiuns(item)}
+                                                    onClick={() => dispatch({ 
+                                                        type: "miunsQuantity", 
+                                                        payload: item,
+                                                    })}
                                                 />
                                                 <SelectOptionNumber> {item.quantity} </SelectOptionNumber>
                                                 <BtnImg 
                                                     src={plus} 
-                                                    onClick={() => onOrderPlus(item)}
+                                                    onClick={() => dispatch({ 
+                                                        type: "plusQuantity", 
+                                                        payload: item,
+                                                    })}
                                                 />
                                             </SelectOptionDetail>
                                             {item.price}원
@@ -272,8 +265,8 @@ const ProductOrder = (props) => {
                             </OrderList>
                             <Line/>
                             <TotalAmountContainer>
-                                <TATitle> 총 상품 금액 ({totalNum}개) </TATitle>
-                                <TotalAmount> {totalAmountComma}원 </TotalAmount>
+                                <TATitle> 총 상품 금액 ({state.totalQuantity}개) </TATitle>
+                                <TotalAmount> {state.totalAmount}원 </TotalAmount>
                             </TotalAmountContainer>
                         </>
                     )}
@@ -282,9 +275,9 @@ const ProductOrder = (props) => {
             <PurchaseBtn 
                 to={"/productDetail/orderInfo"}
                 state={{
-                    ProductName: `${orderList}`,
-                    totalNum: `${totalNum}`,
-                    totalAmount: `${totalAmount}`
+                    // ProductName: `${orderList}`,
+                    // totalNum: `${state.totalQuantity}`,
+                    // totalAmount: `${state.totalAmount}`
                 }}
             > 구매하기 
             </PurchaseBtn>
