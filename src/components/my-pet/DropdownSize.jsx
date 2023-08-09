@@ -10,6 +10,7 @@ const DropdownContainer = styled.div`
   padding: 10px 0;
   font-size: 12px;
   margin-right:10px;
+  font-family: Nanum Gothic;
 `;
 
 const DropdownList = styled.li`
@@ -20,7 +21,8 @@ const DropdownList = styled.li`
   white-space: nowrap; 
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 12px;
+  font-size: 16px;
+  font-family: Nanum Gothic;
 `;
 
 const SizeOptions = [

@@ -1,8 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import DeleteImage from "../../assets/images/x-circle.png";
-import InputForm from "../InputForm.jsx";
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -56,33 +54,32 @@ const ModalSubtext = styled.p`
   color: #d94a56;
 `;
 
-const KeywordContainer = styled.div`
+const Keywords = styled.div`
   display: flex;
-  align-items: center;
-  margin: 10px 0;
-`;
-
-const StyledDeleteButton = styled.img`
-  margin-right: 5px;
-`;
-
-const AddButton = styled.div`
-  width: 274px;
-  height: 27px;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-top: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 5px;
-  border: 1px solid #d94a56;
-  background: #ffffff;
-  cursor: pointer;
+  margin-left: 10px;
 `;
 
-const AddButtonText = styled.span`
+const Keyword = styled.div`
   font-family: Nanum Gothic;
-  font-size: 16px;
-  color: #d94a56;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  width: fit-content;
+  height: 26px;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: ${(props) =>
+    props.selected
+      ? "linear-gradient(0deg, #F2D335, #F2D335), linear-gradient(0deg, rgba(242, 211, 53, 0.15), rgba(242, 211, 53, 0.15))"
+      : "#15151526"};
+  border: ${(props) => (props.selected ? "1px solid #F2D335" : "none")};
+  cursor: pointer;
+  color: black;
 `;
 
 const ConfirmButton = styled.div`
@@ -110,28 +107,32 @@ const ConfirmText = styled.p`
 `;
 
 const KeywordInputModal = ({ show, onClose, setKeywords, selectedPetId }) => {
-  const [keywords, setLocalKeywords] = useState([]);
+  const [selectedKeywords, setSelectedKeywords] = useState([]);
+  const keywordsList = [
+    "뚱냥이",
+    "코리안 숏헤어",
+    "잇몸이 약함",
+    "구토 자주함",
+    "골골송 많이 함",
+    "장난감 좋아함",
+    "식탐이 많음",
+    "온순함",
+  ];
 
-  const handleInputChange = (event, index) => {
-    setLocalKeywords((prevState) =>
-      prevState.map((item, i) => (i === index ? event.target.value : item))
-    );
-  };
-
-  const handleAddKeyword = () => {
-    if (keywords.length < 5) {
-      setLocalKeywords((prevState) => [...prevState, ""]);
+  const toggleKeywordSelection = (keyword) => {
+    if (selectedKeywords.includes(keyword)) {
+      setSelectedKeywords(selectedKeywords.filter((kw) => kw !== keyword));
+    } else {
+      if (selectedKeywords.length < 5) {
+        setSelectedKeywords([...selectedKeywords, keyword]);
+      }
     }
-  };
-
-  const handleDeleteKeyword = (index) => {
-    setLocalKeywords((prevState) => prevState.filter((_, i) => i !== index));
   };
 
   const handleClose = () => {
     setKeywords((prevKeywords) => ({
       ...prevKeywords,
-      [selectedPetId]: keywords,
+      [selectedPetId]: selectedKeywords,
     }));
     onClose();
   };
@@ -143,24 +144,18 @@ const KeywordInputModal = ({ show, onClose, setKeywords, selectedPetId }) => {
       <ModalWrapper onClick={(e) => e.stopPropagation()}>
         <ModalContent>
           <ModalHeader>메모</ModalHeader>
-          <ModalSubtext>
-            최대 5키워드, 한 키워드 당 8자까지 가능합니다.
-          </ModalSubtext>
-          {keywords.map((keyword, index) => (
-            <KeywordContainer key={index}>
-              <StyledDeleteButton
-                src={DeleteImage}
-                onClick={() => handleDeleteKeyword(index)}
-              />
-              <InputForm
-                value={keyword}
-                onChange={(e) => handleInputChange(e, index)}
-              />
-            </KeywordContainer>
-          ))}
-          <AddButton onClick={handleAddKeyword}>
-            <AddButtonText>추가하기</AddButtonText>
-          </AddButton>
+          <ModalSubtext>최대 5키워드까지 가능합니다.</ModalSubtext>
+          <Keywords>
+            {keywordsList.map((keyword, index) => (
+              <Keyword
+                key={index}
+                selected={selectedKeywords.includes(keyword)}
+                onClick={() => toggleKeywordSelection(keyword)}
+              >
+                {keyword}
+              </Keyword>
+            ))}
+          </Keywords>
         </ModalContent>
         <ConfirmButton onClick={handleClose}>
           <ConfirmText>확인</ConfirmText>
