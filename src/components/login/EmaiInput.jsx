@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 
 const EmailLabel = styled.label`
   font-family: "Nanum Gothic";
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 700;
   line-height: 30px;
   letter-spacing: -0.02em;
   text-align: left;
   color: #151515;
-  margin-top: 0px;
+  margin-top: 20px;
   margin-left: -27px;
 `;
 
@@ -19,7 +19,7 @@ const EmailInputField = styled.input`
   top: 340px;
   left: 23px;
   font-family: "Nanum Gothic";
-  font-size: 10px;
+  font-size: 14px;
   border-radius: 5px;
   border: 1px solid
     ${(props) => (props.invalidEmail ? "#D94A56" : "transparent")};

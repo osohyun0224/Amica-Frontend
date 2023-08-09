@@ -109,9 +109,9 @@ const StyledMyPetList = styled.div`
 
 const KeywordContainer = styled.div`
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
   align-items: center;
+  width: 100%;
   margin-top: -100px;
 `;
 
@@ -119,16 +119,15 @@ const Keyword = styled.div`
   padding: 2px 6px;
   border-radius: 5px;
   background: #f2d33526;
-  width: 46px;
-  height: 26px;
   font-family: "Nanum Gothic";
-  font-size: 11px;
+  font-size: 9px;
   font-weight: 400;
   line-height: 22px;
   letter-spacing: -0.02em;
   text-align: center;
-  color: #151515;
+  color: #E0BD09;
   margin-right: 5px;
+  white-space: nowrap;
 `;
 
 const KeywordSection = styled.div`
@@ -139,6 +138,7 @@ const KeywordSection = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
+  margin-left:10px;
 `;
 
 const KeywordButton = styled.img`
@@ -278,7 +278,9 @@ const MyPetPage = () => {
         <KeywordSection>
           <KeywordContainer>
             {keywords[selectedPetId]?.map((keyword, index) => (
-              <Keyword key={index}>{keyword}</Keyword>
+              <Keyword key={index} length={keyword.length}>
+                {keyword}
+              </Keyword>
             ))}
             <KeywordButton
               src={MyPetKeyword}
