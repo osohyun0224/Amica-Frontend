@@ -29,7 +29,7 @@ const Dropdown = ({orderList, setOrderList, productOption}) => {
             {(productOption.map((option) => (
                 <DropdownList key={option.id} 
                     onClick={() => optionClick(option)}
-                > { option.productName } 
+                > { option.name } 
                 </DropdownList>
             )))}
         </DropdownContainer>

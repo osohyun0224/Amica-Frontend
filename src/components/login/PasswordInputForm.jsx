@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const PasswordLabel = styled.label`
   font-family: "Nanum Gothic";
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 700;
   line-height: 30px;
   letter-spacing: -0.02em;
@@ -11,6 +11,8 @@ const PasswordLabel = styled.label`
   color: #151515;
   margin-top: 10px;
   margin-left: -27px;
+  font-family: NanumGothic;
+
 `;
 
 const PasswordInput = styled.input`
@@ -19,7 +21,7 @@ const PasswordInput = styled.input`
   height: 30px;
   top: 340px;
   left: 23px;
-  font-size: 10px;
+  font-size: 16px;
   border-radius: 5px;
   border: 1px solid
     ${(props) => (props.invalidEmail ? "#D94A56" : "transparent")};

@@ -190,6 +190,7 @@ const MyPetInputModal = ({ show, onClose }) => {
   const [sizeDropdownOpen, setSizeDropdownOpen] = useState(false);
   const [selectedSpeciesOption, setSelectedSpeciesOption] = useState("선택하기");
   const [selectedSizeOption, setSelectedSizeOption] = useState("선택하기");
+  const [previewImage, setPreviewImage] = useState(null);
 
   if (!show) return null;
 
@@ -211,16 +212,31 @@ const MyPetInputModal = ({ show, onClose }) => {
     setSizeDropdownOpen(false);
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result); // 미리보기 URL 설정
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
 
   return (
     <ModalOverlay onClick={onClose}>
       <ModalWrapper onClick={(e) => e.stopPropagation()}>
         <ModalHeader>추가하기</ModalHeader>
         <ImageBox htmlFor="fileInput">
-          <ImageInput type="file" accept="image/*" id="fileInput" />
-          <ImageText>
-            이미지를 <br /> 추가해주세요
-          </ImageText>
+          <ImageInput type="file" accept="image/*" id="fileInput" onChange={handleImageChange} />
+          {previewImage ? (
+            <img src={previewImage} alt="Preview" style={{ width: '100%', height: '100%' }} />
+          ) : (
+            <ImageText>
+              이미지를 <br /> 추가해주세요
+            </ImageText>
+          )}
         </ImageBox>
         <NameHeader>이름 *</NameHeader>
         <InputForm placeholder="이름" />

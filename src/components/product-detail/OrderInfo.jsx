@@ -2,8 +2,6 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
-import profileImg from "../../assets/images/RecentImage.png";
-
 import { getProduct } from "../../librarys/store-api";
 
 import {
@@ -321,7 +319,7 @@ const OrderInfo = () => {
           <SubTitle>주문내역</SubTitle>
           <Line />
           <ProductDetailInfo>
-            <OrderProfileImg src={profileImg} alt="상품 이미지" />
+            <OrderProfileImg src={product.coverImage} alt="상품 이미지" />
             <OrderDetails>
               <ProductName> {product.name} </ProductName>
               <ProductNumber> {quality}개 </ProductNumber>
