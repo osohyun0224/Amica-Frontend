@@ -235,8 +235,22 @@ const SellerPhone = styled(SellerDetailInfo)`
 
 const DropdownList = styled.li`
   display: flex;
-  padding: 6px 16px;
+  flex-direction: column;
+  padding: 6px 25px;
+  margin: 10px 0;
   cursor: pointer;
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  color: #667080;
+`;
+
+const DropDownItem = styled.ul`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const Line = styled.hr`
@@ -264,26 +278,26 @@ const SellerInfoList = [
   {
     id: 2,
     name: "상품필수정보",
-    content: "어쩌고 저쩌고",
+    content: "본 제품에 항균물질 등의 의약품을 추가로 급여하고자 할 경우 수의사 처방에 따르십시오.",
   },
   {
     id: 3,
     name: "교환 및 반품 정보",
-    content: "알아서 하세요",
+    content: "상품 택 제거 또는 개봉으로 상품 가치 훼손 시에는 상품 수령 후 7일 이내라도 교환 및 반품이 불가능합니다.",
   },
   {
     id: 4,
     name: "배송정보",
-    content: "1년 내 배송됨",
+    content: "상품 평균 배송일은 1~3일이며, 배송사의 사정에 따라 유동적일 수 있습니다.",
   },
   {
     id: 5,
     name: "판매자 정보",
-    // content: [
-    //     { sellerNameTitle: "사업자명", sellerName: "곽두팔" },
-    //     { sellerNumTitle: "사업자 등록번호", sellerNum: "000-00-00000" },
-    //     { sellerAddressTitle: "사업자 주소", sellerAddressTitle: "강원특별자치도 어쩌고 저쩌고 빌딩 7층" },
-    // ]
+    content: [
+        { sellerNameTitle: "사업자명", sellerName: "곽두팔" },
+        { sellerNumTitle: "사업자 등록번호", sellerNum: "000-00-00000" },
+        { sellerAddressTitle: "사업자 주소", sellerAddress: "강원특별자치도 어쩌고 저쩌고 빌딩 7층" },
+    ]
   },
 ];
 
@@ -343,8 +357,12 @@ const ProductDetail = () => {
   const onClickOrder = () => setOpenOrder((prev) => !prev);
 
   const handleToggle = (id) => {
-    setIsOpen(!isOpen);
-    setIsOpenID(id);
+    const ItemIndex = SellerInfoList.find(item => item.id === id);
+
+    if (ItemIndex) {
+      setIsOpen(!isOpen);
+      setIsOpenID(id);
+    }
   };
   
   return (
@@ -422,13 +440,27 @@ const ProductDetail = () => {
                     />
                   )}
                 </SellerInfoTitle>
-                {(isOpen && isOpenID === info.id) ? (
-                  <div>
-                    {SellerInfoList.map((list, idx) => (
-                      <DropdownList key={list.id}> {list.content} </DropdownList>
-                    ))}
-                  </div>
-                ) : ("")}
+                {isOpen && info.id === isOpenID ? (
+                  Array.isArray(info.content) ? (
+                  info.content.map((item, index) => (
+                    <DropdownList key={index}>
+                      <DropDownItem>
+                        <div> {item.sellerNameTitle} </div> 
+                        <div> {item.sellerName} </div>
+                      </DropDownItem>
+                      <DropDownItem>
+                        <div> {item.sellerNumTitle} </div>
+                        <div> {item.sellerNum} </div>
+                      </DropDownItem>
+                      <DropDownItem>
+                        <div> {item.sellerAddressTitle} </div>
+                        <div>{item.sellerAddress} </div>
+                      </DropDownItem>
+                    </DropdownList>
+                  ))
+                ) : (
+                  <DropdownList> {info.content} </DropdownList>
+                )) : ("")}
               </>
             ))}
           </SellerDetailInfo>
