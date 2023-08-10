@@ -49,13 +49,14 @@ const ProductName = styled.p`
   line-height: 34.57px;
 `;
 
-const PerPrice = styled.div`
+const SubProductInfo = styled.div`
   display: flex;
   flex-direction: row;
+  margin-top: -2px;
 `;
 
 const Percent = styled.p`
-  margin-right: 11px;
+  margin-right: 7px;
   font-size: 22px;
   font-weight: 700;
   color: #d94a56;
@@ -67,6 +68,22 @@ const Price = styled.p`
   font-weight: 700;
   color: #151515;
   line-height: 34.57px;
+`;
+
+const CostPrice = styled.p`
+  font-size: 13px;
+  font-weight: 400;
+  text-decoration: line-through;
+  letter-spacing: -0.02em;
+  color: rgba(21, 21, 21, 0.3);
+`;
+
+const DiscountAmount = styled.p`
+  margin-left: 7px;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: #F2B366;
 `;
 
 const GroupPurchaseContainer = styled.div`
@@ -81,7 +98,7 @@ const GPSubContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: -10px;
+  margin-bottom: -13px;
 `;
 
 const GPTitle = styled.p`
@@ -216,6 +233,7 @@ const SellerInfoTitle = styled.ul`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+align-items: center;
   padding: 30px 20px;
   border: 1px solid #eef1f4;
 `;
@@ -306,8 +324,8 @@ const ProductDetail = () => {
   const [percent, setPercent] = useState(0);
   const [period, setPeriod] = useState("");
 
-  const [clickMenu, setClickMenu] = useState(false); // 정보/공지사항 전환
-  const [openOrder, setOpenOrder] = useState(false); // 구매하기 버튼 클릭
+  const [clickMenu, setClickMenu] = useState(false); 
+  const [openOrder, setOpenOrder] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenID, setIsOpenID] = useState(0);
 
@@ -358,12 +376,18 @@ const ProductDetail = () => {
 
   const handleToggle = (id) => {
     const ItemIndex = SellerInfoList.find(item => item.id === id);
-
     if (ItemIndex) {
       setIsOpen(!isOpen);
       setIsOpenID(id);
     }
   };
+
+  const date = new Date();
+  const ModifyDate = date.toLocaleDateString('en-GB', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).split('/').reverse().join('-');
   
   return (
     <>
@@ -374,7 +398,7 @@ const ProductDetail = () => {
         <Image src={data.coverImage} alt="상품 이미지" />
         <ProductInfoContainer>
           <ProductName> {data.name} </ProductName>
-          <PerPrice>
+          <SubProductInfo>
             <Percent style={{ display: percent > 0 ? null : "none" }}>
               {percent}%
             </Percent>
@@ -382,7 +406,15 @@ const ProductDetail = () => {
               {" "}
               {(data.discount || data.price || 0).toLocaleString()}원{" "}
             </Price>
-          </PerPrice>
+          </SubProductInfo>
+          <SubProductInfo>
+            <CostPrice style={{ display: percent > 0 ? null : "none" }}> 
+              {(data.price || 0).toLocaleString()}원 
+            </CostPrice>
+            <DiscountAmount style={{ display: percent > 0 ? null : "none" }}> 
+              할인금액 {(data.price - data.discount).toLocaleString()}원 
+            </DiscountAmount>
+          </SubProductInfo>
           <GroupPurchaseContainer>
             <GPSubContainer>
               <GPTitle> 공동구매 달성률 </GPTitle>
@@ -417,7 +449,7 @@ const ProductDetail = () => {
             <Notice>
               <NoticeTitle> {data.notice.title} </NoticeTitle>
               <NoticeContent> {data.notice.content} </NoticeContent>
-              <NoticeModifiedDate> {data.notice.modifiedDate} </NoticeModifiedDate>
+              <NoticeModifiedDate> 최근 수정일: {ModifyDate} </NoticeModifiedDate>
             </Notice>
           ) : (
             <PromotionalImage />
