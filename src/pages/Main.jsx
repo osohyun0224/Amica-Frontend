@@ -140,19 +140,6 @@ const Title = styled.div`
   margin-left: 5px;
 `;
 
-const MoreBtn = styled.button`
-  width: 100%;
-  height: 80px;
-  border: none;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 22px;
-  text-align: center;
-  margin-top: 10px;
-  background-color: white;
-  cursor: pointer;
-`;
-
 const ProductSelect = styled(Link)`
   text-decoration: none;
 `;
@@ -310,7 +297,6 @@ const Main = () => {
           ))}
         </DeadLineList>
       </DetailMenu>
-      <MoreBtn> 더보기 </MoreBtn>
     </PageContainer>
   );
 };
