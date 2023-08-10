@@ -48,7 +48,6 @@ const PetRecommend = styled.div`
   align-items: center;
 `;
 
-
 const PetImage = styled.img`
   width: 44px;
   height: 44px;
@@ -86,7 +85,7 @@ const Menu = styled.div`
   background-image: ${(props) => `url(${props.image})`};
   background-size: 50%;
   background-repeat: no-repeat;
-  background-position: 15px top; 
+  background-position: 15px top;
   background-color: #ffffff;
   margin: 15px 15px 0 0;
   padding-bottom: 8px;
@@ -96,7 +95,6 @@ const Menu = styled.div`
   float: left;
   cursor: pointer;
 `;
-
 
 const DetailMenu = styled.div`
   background-color: white;
@@ -179,6 +177,11 @@ const Main = () => {
       ? productList.filter((product) => product.categoryId === categoryId)
       : productList;
 
+  const recentFilteredProducts =
+    categoryId !== undefined
+      ? recentItems.filter((product) => product.categoryId === categoryId)
+      : recentItems;
+
   useEffect(() => {
     (async () => {
       const data = await getFeaturedProduct();
@@ -249,7 +252,7 @@ const Main = () => {
           <NextBtn src={Arrow} alt="자세히보기" />
         </DetailMenuTitle>
         <RecommendList>
-          {recentItems.map((item) => (
+          {recentFilteredProducts.map((item) => (
             <ProductSelect key={item.id} to={`/productDetail/${item.id}`}>
               <RecommemdProduct
                 name={item.name}
