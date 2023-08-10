@@ -125,6 +125,7 @@ const TotalAmountContainer = styled.div`
     width: 100%;
     display: flex;
     position: relative;
+    margin-bottom: 10px;
     flex-direction: row;
     justify-content: space-between; 
 `;
