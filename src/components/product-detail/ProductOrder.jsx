@@ -260,7 +260,7 @@ const ProductOrder = (props) => {
                                                     })}
                                                 />
                                             </SelectOptionDetail>
-                                            {(item.price)}원
+                                            {(item.price).toLocaleString()}원
                                         </SelectOptionTitle>
                                     </SelectOption>
                                 ))}

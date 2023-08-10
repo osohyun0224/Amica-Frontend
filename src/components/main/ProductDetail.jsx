@@ -306,8 +306,8 @@ const ProductDetail = () => {
   const [percent, setPercent] = useState(0);
   const [period, setPeriod] = useState("");
 
-  const [clickMenu, setClickMenu] = useState(false); // 정보/공지사항 전환
-  const [openOrder, setOpenOrder] = useState(false); // 구매하기 버튼 클릭
+  const [clickMenu, setClickMenu] = useState(false); 
+  const [openOrder, setOpenOrder] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenID, setIsOpenID] = useState(0);
 
@@ -358,12 +358,18 @@ const ProductDetail = () => {
 
   const handleToggle = (id) => {
     const ItemIndex = SellerInfoList.find(item => item.id === id);
-
     if (ItemIndex) {
       setIsOpen(!isOpen);
       setIsOpenID(id);
     }
   };
+
+  const date = new Date();
+  const ModifyDate = date.toLocaleDateString('en-GB', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).split('/').reverse().join('-');
   
   return (
     <>
@@ -417,7 +423,7 @@ const ProductDetail = () => {
             <Notice>
               <NoticeTitle> {data.notice.title} </NoticeTitle>
               <NoticeContent> {data.notice.content} </NoticeContent>
-              <NoticeModifiedDate> {data.notice.modifiedDate} </NoticeModifiedDate>
+              <NoticeModifiedDate> 최근 수정일: {ModifyDate} </NoticeModifiedDate>
             </Notice>
           ) : (
             <PromotionalImage />
