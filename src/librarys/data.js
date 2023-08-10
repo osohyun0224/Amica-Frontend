@@ -1,7 +1,7 @@
 export const categorys = [
   {
     id: 1001,
-    title: "사료",
+    title: "간식",
   },
   {
     id: 1002,
@@ -9,11 +9,11 @@ export const categorys = [
   },
   {
     id: 1003,
-    title: "의류 / 악세서리",
+    title: "의류",
   },
   {
     id: 1004,
-    title: "영양제",
+    title: "의약품",
   },
   {
     id: 1005,
@@ -21,6 +21,7 @@ export const categorys = [
   },
   {
     id: 1006,
-    title: "배변용품",
+    title: "생활용품",
   },
 ];
+

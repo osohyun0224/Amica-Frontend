@@ -569,6 +569,7 @@ function shuffleArray(array) {
   }
 }
 
+
 export async function getFeaturedProduct(categoryId) {
   let list = [...productList];
 
