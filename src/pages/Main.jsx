@@ -94,6 +94,7 @@ const Menu = styled.div`
   display: flex;
   float: left;
   cursor: pointer;
+  border: ${(props) => (props.selected ? "2px solid #667080" : "none")};
 `;
 
 const DetailMenu = styled.div`
@@ -195,10 +196,11 @@ const Main = () => {
     if (categoryId !== undefined) {
       (async () => {
         const products = await getFeaturedProduct(categoryId);
-        setProductList(products);
+        setProductList(Array.isArray(products) ? products : []);
       })();
     }
   }, [categoryId]);
+  
 
   return (
     <PageContainer>
@@ -216,6 +218,7 @@ const Main = () => {
             key={cate.id}
             onClick={() => setCategoryId(cate.id)}
             image={cate.image}
+            selected={cate.id === categoryId}
           >
             {cate.text}
           </Menu>
