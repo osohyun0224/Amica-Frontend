@@ -5,7 +5,7 @@ import "react-indiana-drag-scroll/dist/style.css";
 import SimpleBar from "simplebar-react";
 import { Heading, HeadingBold } from "../../components/Heading.jsx";
 import MyPetListItem from "../../components/my-pet/MyPetListItem.jsx";
-import AddPetImage from "../../assets/images/addPet.png";
+import AddPetImage from "../../assets/images/AddPetB.png";
 import MyPetAddModal from "../../components/my-pet/MyPetInputModal.jsx";
 import MyPetKeyword from "../../assets/images/Keyword.png";
 import KeywordInputModal from "../../components/my-pet/KeywordInputModal.jsx";
