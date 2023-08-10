@@ -48,7 +48,6 @@ const PetRecommend = styled.div`
   align-items: center;
 `;
 
-
 const PetImage = styled.img`
   width: 44px;
   height: 44px;
@@ -86,7 +85,7 @@ const Menu = styled.div`
   background-image: ${(props) => `url(${props.image})`};
   background-size: 50%;
   background-repeat: no-repeat;
-  background-position: 15px top; 
+  background-position: 15px top;
   background-color: #ffffff;
   margin: 15px 15px 0 0;
   padding-bottom: 8px;
@@ -95,8 +94,8 @@ const Menu = styled.div`
   display: flex;
   float: left;
   cursor: pointer;
+  border: ${(props) => (props.selected ? "2px solid #667080" : "none")};
 `;
-
 
 const DetailMenu = styled.div`
   background-color: white;
@@ -160,11 +159,11 @@ const ProductSelect = styled(Link)`
 
 const Categories = [
   { id: 1001, name: "snack", text: "간식", image: Snack },
-  { id: 1002, name: "daliy", text: "생활용품", image: Daily },
+  { id: 1006, name: "daliy", text: "생활용품", image: Daily },
   { id: 1003, name: "clothes", text: "의류", image: Clothes },
   { id: 1004, name: "medicine", text: "의약품", image: Medicine },
-  { id: 1005, name: "beauty", text: "미용", image: Beauty },
-  { id: 1006, name: "toy", text: "장난감", image: Toy },
+  { id: 1002, name: "beauty", text: "미용", image: Beauty },
+  { id: 1005, name: "toy", text: "장난감", image: Toy },
 ];
 
 const Main = () => {
@@ -176,26 +175,54 @@ const Main = () => {
 
   const filteredProducts =
     categoryId !== undefined
-      ? productList.filter((product) => product.categoryId === categoryId)
+      ? productList.filter((product) => product.category === categoryId)
       : productList;
+
+  const recentFilteredProducts =
+    categoryId !== undefined
+      ? recentItems.filter((product) => product.category === categoryId)
+      : recentItems;
 
   useEffect(() => {
     (async () => {
-      const data = await getFeaturedProduct();
+      const data = await getFeaturedProduct(categoryId);
       setDeadlineItems(data.deadlineItems);
       setRecentItems(data.recentItems);
       setPopularItems(data.popularItems);
     })();
-  }, []);
+  }, [categoryId]);
 
   useEffect(() => {
     if (categoryId !== undefined) {
       (async () => {
         const products = await getFeaturedProduct(categoryId);
-        setProductList(products);
+        setProductList(Array.isArray(products) ? products : []);
+      })();
+    } else {
+      // 카테고리가 선택되지 않았다면 전체 상품 목록을 불러오도록 해놓은 함수임
+      (async () => {
+        const products = await getFeaturedProduct();
+        setProductList(Array.isArray(products) ? products : []);
       })();
     }
   }, [categoryId]);
+
+  // 카테고리 ID와 상품 목록의 현재 상태를 찍어볼려고 한 콘솔창
+  useEffect(() => {
+    console.log("Current category ID:", categoryId);
+    console.log("Recent items:", recentItems);
+    console.log("Filtered recent items:", recentFilteredProducts);
+  }, [categoryId, recentItems, recentFilteredProducts]);
+
+  // 카테고리 선택시 로깅찍어보는 것
+  const handleCategoryClick = (id) => {
+    console.log("Category clicked:", id);
+    setCategoryId(id);
+  };
+  ///
+  useEffect(() => {
+    console.log("First recent item:", recentItems[0]);
+  }, [recentItems]);
 
   return (
     <PageContainer>
@@ -211,8 +238,9 @@ const Main = () => {
         {Categories.map((cate) => (
           <Menu
             key={cate.id}
-            onClick={() => setCategoryId(cate.id)}
+            onClick={() => handleCategoryClick(cate.id)}
             image={cate.image}
+            selected={cate.id === categoryId}
           >
             {cate.text}
           </Menu>
@@ -249,7 +277,7 @@ const Main = () => {
           <NextBtn src={Arrow} alt="자세히보기" />
         </DetailMenuTitle>
         <RecommendList>
-          {recentItems.map((item) => (
+          {recentFilteredProducts.map((item) => (
             <ProductSelect key={item.id} to={`/productDetail/${item.id}`}>
               <RecommemdProduct
                 name={item.name}
