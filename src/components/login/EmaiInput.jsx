@@ -9,7 +9,7 @@ const EmailLabel = styled.label`
   letter-spacing: -0.02em;
   text-align: left;
   color: #151515;
-  margin-top: 20px;
+  margin-top: 15px;
   margin-left: -27px;
 `;
 
