@@ -17,12 +17,12 @@ import AddPet from "../assets/images/add.png";
 import { getFeaturedProduct } from "../librarys/store-api";
 import { useEffect } from "react";
 
-import Snack from "../assets/images/category/간식.png";
-import Beauty from "../assets/images/category/미용.png";
-import Daily from "../assets/images/category/생활용품.png";
-import Clothes from "../assets/images/category/의류.png";
-import Toy from "../assets/images/category/장난감.png";
-import Medicine from "../assets/images/category/의약품.png";
+import Snack from "../assets/images/category/간식.svg";
+import Beauty from "../assets/images/category/미용.svg";
+import Daily from "../assets/images/category/생활용품.svg";
+import Clothes from "../assets/images/category/의류.svg";
+import Toy from "../assets/images/category/장난감.svg";
+import Medicine from "../assets/images/category/의약품.svg";
 
 const PageContainer = styled.div`
   display: block;
@@ -47,6 +47,7 @@ const PetRecommend = styled.div`
   padding-left: 20px;
   align-items: center;
 `;
+
 
 const PetImage = styled.img`
   width: 44px;
