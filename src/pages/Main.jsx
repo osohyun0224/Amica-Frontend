@@ -159,11 +159,11 @@ const ProductSelect = styled(Link)`
 
 const Categories = [
   { id: 1001, name: "snack", text: "간식", image: Snack },
-  { id: 1002, name: "daliy", text: "생활용품", image: Daily },
+  { id: 1006, name: "daliy", text: "생활용품", image: Daily },
   { id: 1003, name: "clothes", text: "의류", image: Clothes },
   { id: 1004, name: "medicine", text: "의약품", image: Medicine },
-  { id: 1005, name: "beauty", text: "미용", image: Beauty },
-  { id: 1006, name: "toy", text: "장난감", image: Toy },
+  { id: 1002, name: "beauty", text: "미용", image: Beauty },
+  { id: 1005, name: "toy", text: "장난감", image: Toy },
 ];
 
 const Main = () => {
@@ -175,12 +175,12 @@ const Main = () => {
 
   const filteredProducts =
     categoryId !== undefined
-      ? productList.filter((product) => product.categoryId === categoryId)
+      ? productList.filter((product) => product.category === categoryId)
       : productList;
 
   const recentFilteredProducts =
     categoryId !== undefined
-      ? recentItems.filter((product) => product.categoryId === categoryId)
+      ? recentItems.filter((product) => product.category === categoryId)
       : recentItems;
 
   useEffect(() => {
@@ -200,7 +200,24 @@ const Main = () => {
       })();
     }
   }, [categoryId]);
-  
+
+  ///
+  // 카테고리 ID와 상품 목록의 현재 상태를 로깅
+  useEffect(() => {
+    console.log("Current category ID:", categoryId);
+    console.log("Recent items:", recentItems);
+    console.log("Filtered recent items:", recentFilteredProducts);
+  }, [categoryId, recentItems, recentFilteredProducts]);
+
+  // 카테고리 선택시 로깅
+  const handleCategoryClick = (id) => {
+    console.log("Category clicked:", id);
+    setCategoryId(id);
+  };
+  ///
+  useEffect(() => {
+    console.log("First recent item:", recentItems[0]);
+  }, [recentItems]);
 
   return (
     <PageContainer>
@@ -216,7 +233,7 @@ const Main = () => {
         {Categories.map((cate) => (
           <Menu
             key={cate.id}
-            onClick={() => setCategoryId(cate.id)}
+            onClick={() => handleCategoryClick(cate.id)}
             image={cate.image}
             selected={cate.id === categoryId}
           >
