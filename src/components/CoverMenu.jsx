@@ -123,7 +123,7 @@ function CoverMenu() {
           onChange={setSearchValue}
           onSubmit={onSubmit}
         />
-        <PopularTitle>인기 검색어</PopularTitle>
+        <PopularTitle>최근 검색어</PopularTitle>
         <PopularKeywordWrapper>
           {popularKeywords.map((keyword, index) => (
             <Keyword key={index} onClick={() => onSubmit(keyword)}>
