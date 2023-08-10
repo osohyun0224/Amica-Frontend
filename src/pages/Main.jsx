@@ -185,12 +185,12 @@ const Main = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await getFeaturedProduct();
+      const data = await getFeaturedProduct(categoryId);
       setDeadlineItems(data.deadlineItems);
       setRecentItems(data.recentItems);
       setPopularItems(data.popularItems);
     })();
-  }, []);
+  }, [categoryId]);
 
   useEffect(() => {
     if (categoryId !== undefined) {
@@ -198,18 +198,23 @@ const Main = () => {
         const products = await getFeaturedProduct(categoryId);
         setProductList(Array.isArray(products) ? products : []);
       })();
+    } else {
+      // 카테고리가 선택되지 않았다면 전체 상품 목록을 불러오도록 해놓은 함수임
+      (async () => {
+        const products = await getFeaturedProduct();
+        setProductList(Array.isArray(products) ? products : []);
+      })();
     }
   }, [categoryId]);
 
-  ///
-  // 카테고리 ID와 상품 목록의 현재 상태를 로깅
+  // 카테고리 ID와 상품 목록의 현재 상태를 찍어볼려고 한 콘솔창
   useEffect(() => {
     console.log("Current category ID:", categoryId);
     console.log("Recent items:", recentItems);
     console.log("Filtered recent items:", recentFilteredProducts);
   }, [categoryId, recentItems, recentFilteredProducts]);
 
-  // 카테고리 선택시 로깅
+  // 카테고리 선택시 로깅찍어보는 것
   const handleCategoryClick = (id) => {
     console.log("Category clicked:", id);
     setCategoryId(id);

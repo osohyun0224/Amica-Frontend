@@ -569,15 +569,19 @@ function shuffleArray(array) {
   }
 }
 
-export async function getFeaturedProduct() {
-  const list = JSON.parse(JSON.stringify(productList));
+export async function getFeaturedProduct(categoryId) {
+  let list = [...productList];
+
+  if (categoryId) {
+    list = list.filter((item) => categoryId ? item.category === Number(categoryId) : true)
+  } 
 
   shuffleArray(list);
 
   return {
-    deadlineItems: list.splice(0, 3),
-    recentItems: list.splice(0, 3),
-    popularItems: list.splice(0, 3),
+    deadlineItems: list.slice(0, 3),
+    recentItems: list.slice(0, 3),
+    popularItems: list.slice(0, 3),
   };
 }
 
@@ -586,3 +590,4 @@ export async function getProduct(id) {
     JSON.stringify(productList.find((item) => item.id === Number(id)) || null),
   );
 }
+
