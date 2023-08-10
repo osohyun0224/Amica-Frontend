@@ -17,6 +17,13 @@ import AddPet from "../assets/images/add.png";
 import { getFeaturedProduct } from "../librarys/store-api";
 import { useEffect } from "react";
 
+import Snack from "../assets/images/category/간식.svg";
+import Beauty from "../assets/images/category/미용.svg";
+import Daily from "../assets/images/category/생활용품.svg";
+import Clothes from "../assets/images/category/의류.svg";
+import Toy from "../assets/images/category/장난감.svg";
+import Medicine from "../assets/images/category/의약품.svg";
+
 const PageContainer = styled.div`
   display: block;
   flex-direction: column;
@@ -40,6 +47,7 @@ const PetRecommend = styled.div`
   padding-left: 20px;
   align-items: center;
 `;
+
 
 const PetImage = styled.img`
   width: 44px;
@@ -75,6 +83,10 @@ const Menu = styled.div`
   height: 60px;
   font-size: 11px;
   color: #667080;
+  background-image: ${(props) => `url(${props.image})`};
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: 15px top; 
   background-color: #ffffff;
   margin: 15px 15px 0 0;
   padding-bottom: 8px;
@@ -84,6 +96,7 @@ const Menu = styled.div`
   float: left;
   cursor: pointer;
 `;
+
 
 const DetailMenu = styled.div`
   background-color: white;
@@ -146,12 +159,12 @@ const ProductSelect = styled(Link)`
 `;
 
 const Categories = [
-  { id: 1001, name: "snack", text: "간식" },
-  { id: 1002, name: "beauty", text: "미용" },
-  { id: 1003, name: "accessories", text: "의류/악세사리" },
-  { id: 1004, name: "nutritional", text: "영양제" },
-  { id: 1005, name: "toys", text: "장난감" },
-  { id: 1006, name: "toilet", text: "배변용품" },
+  { id: 1001, name: "snack", text: "간식", image: Snack },
+  { id: 1002, name: "daliy", text: "생활용품", image: Daily },
+  { id: 1003, name: "clothes", text: "의류", image: Clothes },
+  { id: 1004, name: "medicine", text: "의약품", image: Medicine },
+  { id: 1005, name: "beauty", text: "미용", image: Beauty },
+  { id: 1006, name: "toy", text: "장난감", image: Toy },
 ];
 
 const Main = () => {
@@ -196,7 +209,11 @@ const Main = () => {
       </PetRecommend>
       <CategoryList>
         {Categories.map((cate) => (
-          <Menu key={cate.id} onClick={() => setCategoryId(cate.id)}>
+          <Menu
+            key={cate.id}
+            onClick={() => setCategoryId(cate.id)}
+            image={cate.image}
+          >
             {cate.text}
           </Menu>
         ))}

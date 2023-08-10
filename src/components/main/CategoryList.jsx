@@ -3,10 +3,11 @@ import { styled } from "styled-components";
 import ScrollBar from "simplebar-react";
 
 const CategoryList = styled(ScrollBar)`
-  padding: 0 5px 6px 5px;
+  padding: 0px; 5px 15px 10px;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  margin-left: 20px;
 
   & .simplebar-content {
     display: flex;
