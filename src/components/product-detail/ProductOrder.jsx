@@ -235,6 +235,10 @@ const ProductOrder = (props) => {
 
         return headerHeight + orderListHeight + state.orderList.length * 33;
     };
+
+    const CheckList = () => {
+        state.orderList.length !== 0;
+    }
     
     return (
         <ProductOrderContainer style={{ height: `${ContainerHeight()}px` }}>
@@ -303,8 +307,7 @@ const ProductOrder = (props) => {
                     </TotalAmountContainer>
                 </DropDownContainer>
             </ProductOrderItem> 
-            <PurchaseBtn to={"/productDetail/orderInfo"}> 구매하기 
-            </PurchaseBtn>
+            <PurchaseBtn to={(state.orderList.length !== 0) ? "/productDetail/orderInfo" : ""}> 구매하기 </PurchaseBtn>
         </ProductOrderContainer>
     )
 }
