@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from "react";
+import { useState, useEffect, useReducer, useRef } from "react";
 import { styled } from "styled-components";
 import { Link, useParams } from "react-router-dom";
 
@@ -17,7 +17,7 @@ import { getProduct } from "../../librarys/store-api";
 const ProductOrderContainer = styled.div`
     max-width: 500px;
     width: 100%;
-    height: 323px;
+    height: auto;
     background-color: #FFFFFF;
     position: fixed;
     border-radius: 5px 5px 0 0;
@@ -29,6 +29,8 @@ const ProductOrderContainer = styled.div`
     margin-left: -25px;
     bottom: 0;
     z-index: 3;
+    overflow: auto;
+    transition: height 0.3s ease-in-out;
 `;
 
 const ProductOrderItem = styled.div`
@@ -64,7 +66,8 @@ const SelectOption = styled.div`
     display: flex;
     flex-direction: column;
     color: #667080;
-    padding: 0 5px 10px 5px;
+    padding: 0 5px;
+    margin: 20px 0;
 `;
 
 const SelectOptionTitle = styled.div`
@@ -76,6 +79,10 @@ const SelectOptionTitle = styled.div`
 
 const SelectOptionName = styled.div`
     margin-top: 5px;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: #667080;
 `;
 
 const SelectOptionDetail = styled.div`
@@ -87,6 +94,13 @@ const SelectOptionDetail = styled.div`
 const SelectOptionNumber = styled.div`
     display: flex;
     margin: 0 20px;
+`;
+
+const SelectOptionPrice = styled.p`
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: #667080;
 `;
 
 const BtnImg = styled.img`
@@ -109,23 +123,32 @@ const More = styled.img`
 const OrderList = styled.div`
     display: flex;
     flex-direction: column;
-    margin-top: 10px;
-    height: 100px;
-    overflow-y: scroll;
+    margin-top: -8px;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+    list-style-type: none;
+    left: 15px;
+    right: 15px;
+    position: absolute;
 `;
 
-const Line = styled.hr`
+const Line = styled.div`
     width: 100%;
     height: 1px;
-    background-color: rgba(0, 0, 0, 0.25);
+    display: flex;
+    position: absolute;
+    left: 0;
+    bottom: 120px;
+    background-color: rgba(102, 112, 128, 0.3);
 `;
 
 const TotalAmountContainer = styled.div`
-    width: 100%;
+    width: 94%;
     display: flex;
-    position: relative;
-    margin-bottom: 10px;
     flex-direction: row;
+    position: absolute;
+    bottom: 82px;
     justify-content: space-between; 
 `;
 
@@ -181,6 +204,7 @@ const ProductOrder = (props) => {
     const [data, setData] = useState({});
     const [viewProduct, setViewProduct] = useState(false);  // dropdownItem 클릭
     const [isOpenID, setIsOpenID] = useState(0);
+    const containerRef = useRef(null);
 
     const { id } = useParams();
 
@@ -204,9 +228,16 @@ const ProductOrder = (props) => {
             payload: value,
         })
     };
+
+    const ContainerHeight = () => {
+        const headerHeight = 225; // 헤더의 높이
+        const orderListHeight = 105; // OrderList의 예상 높이
+
+        return headerHeight + orderListHeight + state.orderList.length * 33;
+    };
     
     return (
-       <ProductOrderContainer>
+        <ProductOrderContainer style={{ height: `${ContainerHeight()}px` }}>
             <ProductOrderItem>
                 상품
                  <DropDownContainer>
@@ -217,60 +248,59 @@ const ProductOrder = (props) => {
                             src={MoreBtn} 
                         />
                     </DropDownOption>
-
-                    {(viewProduct) ? (
-                        <DropDown 
-                            orderList={state.orderList}
-                            setOrderList={onClickOrderList}
-                            productOption={data.options}
-                        />
-                    ) : (
-                        <>
-                            <Line/>
+                    <Line style={{ top: "100px"}}/>
+                    {(viewProduct) && (
+                        <> 
                             <OrderList>
-                                {state.orderList.map(item => (
-                                    <SelectOption>
-                                        <SelectOptionTitle>
-                                            <SelectOptionName> {item.name} </SelectOptionName>
-                                            <BtnImg 
-                                                src={cancel}
-                                                style={{ width: "20px", height: "20px" }}
-                                                onClick={() => dispatch({
-                                                    type: "onRemove",
-                                                    payload: item,
-                                                })}
-                                            />
-                                        </SelectOptionTitle>
-                                        <SelectOptionTitle style={{ marginTop: "10px" }}>
-                                            <SelectOptionDetail>
-                                                <BtnImg 
-                                                    src={minus} 
-                                                    onClick={() => dispatch({ 
-                                                        type: "minusQuantity", 
-                                                        payload: item,
-                                                    })}
-                                                />
-                                                <SelectOptionNumber> {item.quantity} </SelectOptionNumber>
-                                                <BtnImg 
-                                                    src={plus} 
-                                                    onClick={() => dispatch({ 
-                                                        type: "plusQuantity", 
-                                                        payload: item,
-                                                    })}
-                                                />
-                                            </SelectOptionDetail>
-                                            {(item.price).toLocaleString()}원
-                                        </SelectOptionTitle>
-                                    </SelectOption>
-                                ))}
+                                <DropDown 
+                                    className={(viewProduct ? "clicked" : "")}
+                                    orderList={state.orderList}
+                                    setOrderList={onClickOrderList}
+                                    productOption={data.options}
+                                />
                             </OrderList>
-                            <Line/>
-                            <TotalAmountContainer>
-                                <TATitle> 총 상품 금액 ({state.totalQuantity}개) </TATitle>
-                                <TotalAmount> {(state.totalAmount).toLocaleString()}원 </TotalAmount>
-                            </TotalAmountContainer>
                         </>
                     )}
+                    {state.orderList.map(item => (
+                        <SelectOption>
+                            <SelectOptionTitle>
+                                <SelectOptionName> {item.name} </SelectOptionName>
+                                <BtnImg 
+                                    src={cancel}
+                                    style={{ width: "20px", height: "20px" }}
+                                    onClick={() => dispatch({
+                                        type: "onRemove",
+                                        payload: item,
+                                    })}
+                                />
+                            </SelectOptionTitle>
+                            <SelectOptionTitle style={{ marginTop: "10px" }}>
+                                <SelectOptionDetail>
+                                     <BtnImg 
+                                        src={minus} 
+                                        onClick={() => dispatch({ 
+                                            type: "minusQuantity", 
+                                            payload: item,
+                                        })}
+                                    />
+                                    <SelectOptionNumber> {item.quantity} </SelectOptionNumber>
+                                    <BtnImg 
+                                        src={plus} 
+                                        onClick={() => dispatch({ 
+                                            type: "plusQuantity", 
+                                            payload: item,
+                                        })}
+                                    />
+                                </SelectOptionDetail>
+                                <SelectOptionPrice> {(item.price).toLocaleString()}원 </SelectOptionPrice>
+                            </SelectOptionTitle>
+                        </SelectOption>
+                    ))}
+                    <Line/>
+                    <TotalAmountContainer>
+                        <TATitle> 총 상품 금액 ({state.totalQuantity}개) </TATitle>
+                        <TotalAmount> {(state.totalAmount).toLocaleString()}원 </TotalAmount>
+                    </TotalAmountContainer>
                 </DropDownContainer>
             </ProductOrderItem> 
             <PurchaseBtn to={"/productDetail/orderInfo"}> 구매하기 
