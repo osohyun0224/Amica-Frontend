@@ -49,13 +49,14 @@ const ProductName = styled.p`
   line-height: 34.57px;
 `;
 
-const PerPrice = styled.div`
+const SubProductInfo = styled.div`
   display: flex;
   flex-direction: row;
+  margin-top: -2px;
 `;
 
 const Percent = styled.p`
-  margin-right: 11px;
+  margin-right: 7px;
   font-size: 22px;
   font-weight: 700;
   color: #d94a56;
@@ -67,6 +68,22 @@ const Price = styled.p`
   font-weight: 700;
   color: #151515;
   line-height: 34.57px;
+`;
+
+const CostPrice = styled.p`
+  font-size: 13px;
+  font-weight: 400;
+  text-decoration: line-through;
+  letter-spacing: -0.02em;
+  color: rgba(21, 21, 21, 0.3);
+`;
+
+const DiscountAmount = styled.p`
+  margin-left: 7px;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: #F2B366;
 `;
 
 const GroupPurchaseContainer = styled.div`
@@ -81,7 +98,7 @@ const GPSubContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: -10px;
+  margin-bottom: -13px;
 `;
 
 const GPTitle = styled.p`
@@ -216,6 +233,7 @@ const SellerInfoTitle = styled.ul`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+align-items: center;
   padding: 30px 20px;
   border: 1px solid #eef1f4;
 `;
@@ -235,8 +253,22 @@ const SellerPhone = styled(SellerDetailInfo)`
 
 const DropdownList = styled.li`
   display: flex;
-  padding: 6px 16px;
+  flex-direction: column;
+  padding: 6px 25px;
+  margin: 10px 0;
   cursor: pointer;
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  color: #667080;
+`;
+
+const DropDownItem = styled.ul`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const Line = styled.hr`
@@ -264,26 +296,26 @@ const SellerInfoList = [
   {
     id: 2,
     name: "상품필수정보",
-    content: "어쩌고 저쩌고",
+    content: "본 제품에 항균물질 등의 의약품을 추가로 급여하고자 할 경우 수의사 처방에 따르십시오.",
   },
   {
     id: 3,
     name: "교환 및 반품 정보",
-    content: "알아서 하세요",
+    content: "상품 택 제거 또는 개봉으로 상품 가치 훼손 시에는 상품 수령 후 7일 이내라도 교환 및 반품이 불가능합니다.",
   },
   {
     id: 4,
     name: "배송정보",
-    content: "1년 내 배송됨",
+    content: "상품 평균 배송일은 1~3일이며, 배송사의 사정에 따라 유동적일 수 있습니다.",
   },
   {
     id: 5,
     name: "판매자 정보",
-    // content: [
-    //     { sellerNameTitle: "사업자명", sellerName: "곽두팔" },
-    //     { sellerNumTitle: "사업자 등록번호", sellerNum: "000-00-00000" },
-    //     { sellerAddressTitle: "사업자 주소", sellerAddressTitle: "강원특별자치도 어쩌고 저쩌고 빌딩 7층" },
-    // ]
+    content: [
+        { sellerNameTitle: "사업자명", sellerName: "곽두팔" },
+        { sellerNumTitle: "사업자 등록번호", sellerNum: "000-00-00000" },
+        { sellerAddressTitle: "사업자 주소", sellerAddress: "강원특별자치도 어쩌고 저쩌고 빌딩 7층" },
+    ]
   },
 ];
 
@@ -292,8 +324,8 @@ const ProductDetail = () => {
   const [percent, setPercent] = useState(0);
   const [period, setPeriod] = useState("");
 
-  const [clickMenu, setClickMenu] = useState(false); // 정보/공지사항 전환
-  const [openOrder, setOpenOrder] = useState(false); // 구매하기 버튼 클릭
+  const [clickMenu, setClickMenu] = useState(false); 
+  const [openOrder, setOpenOrder] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenID, setIsOpenID] = useState(0);
 
@@ -343,9 +375,19 @@ const ProductDetail = () => {
   const onClickOrder = () => setOpenOrder((prev) => !prev);
 
   const handleToggle = (id) => {
-    setIsOpen(!isOpen);
-    setIsOpenID(id);
+    const ItemIndex = SellerInfoList.find(item => item.id === id);
+    if (ItemIndex) {
+      setIsOpen(!isOpen);
+      setIsOpenID(id);
+    }
   };
+
+  const date = new Date();
+  const ModifyDate = date.toLocaleDateString('en-GB', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).split('/').reverse().join('-');
   
   return (
     <>
@@ -356,7 +398,7 @@ const ProductDetail = () => {
         <Image src={data.coverImage} alt="상품 이미지" />
         <ProductInfoContainer>
           <ProductName> {data.name} </ProductName>
-          <PerPrice>
+          <SubProductInfo>
             <Percent style={{ display: percent > 0 ? null : "none" }}>
               {percent}%
             </Percent>
@@ -364,7 +406,15 @@ const ProductDetail = () => {
               {" "}
               {(data.discount || data.price || 0).toLocaleString()}원{" "}
             </Price>
-          </PerPrice>
+          </SubProductInfo>
+          <SubProductInfo>
+            <CostPrice style={{ display: percent > 0 ? null : "none" }}> 
+              {(data.price || 0).toLocaleString()}원 
+            </CostPrice>
+            <DiscountAmount style={{ display: percent > 0 ? null : "none" }}> 
+              할인금액 {(data.price - data.discount).toLocaleString()}원 
+            </DiscountAmount>
+          </SubProductInfo>
           <GroupPurchaseContainer>
             <GPSubContainer>
               <GPTitle> 공동구매 달성률 </GPTitle>
@@ -399,7 +449,7 @@ const ProductDetail = () => {
             <Notice>
               <NoticeTitle> {data.notice.title} </NoticeTitle>
               <NoticeContent> {data.notice.content} </NoticeContent>
-              <NoticeModifiedDate> {data.notice.modifiedDate} </NoticeModifiedDate>
+              <NoticeModifiedDate> 최근 수정일: {ModifyDate} </NoticeModifiedDate>
             </Notice>
           ) : (
             <PromotionalImage />
@@ -422,13 +472,27 @@ const ProductDetail = () => {
                     />
                   )}
                 </SellerInfoTitle>
-                {(isOpen && isOpenID === info.id) ? (
-                  <div>
-                    {SellerInfoList.map((list, idx) => (
-                      <DropdownList key={list.id}> {list.content} </DropdownList>
-                    ))}
-                  </div>
-                ) : ("")}
+                {isOpen && info.id === isOpenID ? (
+                  Array.isArray(info.content) ? (
+                  info.content.map((item, index) => (
+                    <DropdownList key={index}>
+                      <DropDownItem>
+                        <div> {item.sellerNameTitle} </div> 
+                        <div> {item.sellerName} </div>
+                      </DropDownItem>
+                      <DropDownItem>
+                        <div> {item.sellerNumTitle} </div>
+                        <div> {item.sellerNum} </div>
+                      </DropDownItem>
+                      <DropDownItem>
+                        <div> {item.sellerAddressTitle} </div>
+                        <div>{item.sellerAddress} </div>
+                      </DropDownItem>
+                    </DropdownList>
+                  ))
+                ) : (
+                  <DropdownList> {info.content} </DropdownList>
+                )) : ("")}
               </>
             ))}
           </SellerDetailInfo>

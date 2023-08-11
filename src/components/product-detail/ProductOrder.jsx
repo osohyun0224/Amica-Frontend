@@ -17,7 +17,6 @@ import { getProduct } from "../../librarys/store-api";
 const ProductOrderContainer = styled.div`
     max-width: 500px;
     width: 100%;
-    max-height: 500px;
     height: 323px;
     background-color: #FFFFFF;
     position: fixed;
@@ -125,6 +124,7 @@ const TotalAmountContainer = styled.div`
     width: 100%;
     display: flex;
     position: relative;
+    margin-bottom: 10px;
     flex-direction: row;
     justify-content: space-between; 
 `;
@@ -259,7 +259,7 @@ const ProductOrder = (props) => {
                                                     })}
                                                 />
                                             </SelectOptionDetail>
-                                            {(item.price)}원
+                                            {(item.price).toLocaleString()}원
                                         </SelectOptionTitle>
                                     </SelectOption>
                                 ))}
