@@ -242,6 +242,7 @@ const OrderInfo = () => {
     (sum, value) => sum + parseInt(value), 0
   );
   const navigate = useNavigate();
+  
   const option = useMemo(
     () =>
     product.options
@@ -250,12 +251,17 @@ const OrderInfo = () => {
     [product, optionId],
   );
   const optionPrice = useMemo(
-    () => (option ? option.discount || option.price : 0),
-    [option],
+    () => 
+    product.options
+     ? product.options.map((item, idx) => item.price * quality[idx])
+     : null,
+    [product, quality],
   );
   const totalPrice = useMemo(
-    () => optionPrice * totalQuality,
-    [optionPrice, totalQuality],
+    () => 
+    option ? optionPrice.reduce(
+      (sum, value) => sum + parseInt(value), 0) : 0,
+    [product, quality],
   );
 
   const startPayment = useCallback(() => {
@@ -322,7 +328,7 @@ const OrderInfo = () => {
         <OrderDetailContainer>
           <SubTitle>주문내역</SubTitle>
           <Line />
-          {product.options && optionId.map((itemId, idx )=> {
+          {product.options && optionId.map((itemId, idx)=> {
             const selectedOption = product.options.find(option => option.id === Number(itemId));
             return (
               <ProductDetailInfo key={selectedOption.id}>
@@ -332,7 +338,7 @@ const OrderInfo = () => {
                     <QualityPrice>
                       <ProductNumber> 옵션:{selectedOption.name} </ProductNumber>
                       <ProductNumber> {quality[idx]}개 </ProductNumber>
-                      <OrderPrice> {selectedOption.price.toLocaleString()}원 </OrderPrice>
+                      <OrderPrice> {optionPrice[idx].toLocaleString()}원 </OrderPrice>
                     </QualityPrice>
                 </OrderDetails>
               </ProductDetailInfo>
