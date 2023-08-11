@@ -39,7 +39,6 @@ const TopTitle = styled.div`
   color: #151515;
 `;
 
-// 주문내역 Container
 const OrderDetailContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -69,38 +68,43 @@ const OrderProfileImg = styled.img`
 const ProductDetailInfo = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 0 25px;
-  margin-bottom: -6px;
-  justify-content: space-between;
+  padding: 12px 20px;
+  margin-bottom: -5px;
+  width: 85%;
 `;
 
 const ProductName = styled.p`
-  margin: -7px 0 0 11px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 35px;
+  line-height: 20px;
   letter-spacing: -0.02em;
   color: #667080;
 `;
 
 const ProductNumber = styled.p`
-  margin: -7px 0 0 11px;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 400;
-  line-height: 35px;
   letter-spacing: -0.02em;
   color: #667080;
 `;
 
 const OrderDetails = styled.div`
-  min-width: 70%;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  margin-left: 10px;
+`;
+
+const QualityPrice = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const OrderPrice = styled.p`
   display: flex;
-  align-items: end;
+  justify-content: end;
   font-size: 15px;
   font-weight: 400;
   line-height: 35px;
@@ -131,7 +135,6 @@ const TotalAmount = styled.p`
   color: #151515;
 `;
 
-// 구매자 정보 Container (받는 이, 전화번호 ...)
 const BuyerInfoContainer = styled.div`
   width: 100%;
   display: flex;
@@ -141,7 +144,7 @@ const BuyerInfoContainer = styled.div`
 `;
 
 const BuyerInfoTitle = styled(SubTitle)`
-  margin: 0 0 5px 0;
+  margin: 10px 0 5px 0;
 `;
 
 const BuyerInputForm = styled.input`
@@ -151,7 +154,7 @@ const BuyerInputForm = styled.input`
   background: #f8f8f8;
   border: none;
   padding: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 const PurchaseBtn = styled.button`
@@ -226,8 +229,8 @@ async function requestPayment(order) {
 const OrderInfo = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const productId = searchParams.get("pid");
-  const optionId = searchParams.get("oid");
-  const quality = searchParams.get("qty");
+  const optionId = searchParams.get("oid").split(",");
+  const quality = searchParams.get("qty").split(",");
   const [product, setProduct] = useState({});
   const [name, setName] = useState("멋쟁이사자");
   const [phone, setPhone] = useState("01012345678");
@@ -235,12 +238,15 @@ const OrderInfo = () => {
   const [baseAddress, setBaseAddress] = useState("한림대학교");
   const [detailAddress, setDetailAddress] = useState("공학관 9999호");
   const [request, setRequest] = useState("총알 배송 부탁해요~");
+  const totalQuality = quality.reduce(
+    (sum, value) => sum + parseInt(value), 0
+  );
   const navigate = useNavigate();
   const option = useMemo(
     () =>
-      product.options
-        ? product.options.find((item) => item.id === Number(optionId))
-        : null,
+    product.options
+      ? product.options.find((item) => optionId.includes(item.id.toString()))
+      : null,
     [product, optionId],
   );
   const optionPrice = useMemo(
@@ -248,8 +254,8 @@ const OrderInfo = () => {
     [option],
   );
   const totalPrice = useMemo(
-    () => optionPrice * quality,
-    [optionPrice, quality],
+    () => optionPrice * totalQuality,
+    [optionPrice, totalQuality],
   );
 
   const startPayment = useCallback(() => {
@@ -272,8 +278,6 @@ const OrderInfo = () => {
           request,
         },
       });
-
-      console.log(order);
 
       const result = await requestPayment(order);
 
@@ -318,14 +322,21 @@ const OrderInfo = () => {
         <OrderDetailContainer>
           <SubTitle>주문내역</SubTitle>
           <Line />
-          <ProductDetailInfo>
-            <OrderProfileImg src={product.coverImage} alt="상품 이미지" />
-            <OrderDetails>
-              <ProductName> {product.name} </ProductName>
-              <ProductNumber> {quality}개 </ProductNumber>
-            </OrderDetails>
-            <OrderPrice> {optionPrice.toLocaleString()}원 </OrderPrice>
-          </ProductDetailInfo>
+          {product.options && optionId.map((itemId, idx )=> {
+            const selectedOption = product.options.find(option => option.id === Number(itemId));
+            return (
+              <ProductDetailInfo key={selectedOption.id}>
+                <OrderProfileImg src={product.coverImage} alt="상품 이미지" />
+                <OrderDetails>
+                  <ProductName> {product.name} </ProductName>
+                    <QualityPrice>
+                      <ProductNumber> 옵션:{selectedOption.name} </ProductNumber>
+                      <ProductNumber> {quality[idx]}개 </ProductNumber>
+                      <OrderPrice> {selectedOption.price.toLocaleString()}원 </OrderPrice>
+                    </QualityPrice>
+                </OrderDetails>
+              </ProductDetailInfo>
+            )})}
           <Line />
           <TotalAmountInfo>
             <TotalAmountTitle>총 상품 금액</TotalAmountTitle>

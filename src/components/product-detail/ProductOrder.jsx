@@ -307,7 +307,12 @@ const ProductOrder = (props) => {
                     </TotalAmountContainer>
                 </DropDownContainer>
             </ProductOrderItem> 
-            <PurchaseBtn to={(state.orderList.length !== 0) ? "/productDetail/orderInfo" : ""}> 구매하기 </PurchaseBtn>
+            <PurchaseBtn 
+                to={(state.orderList.length !== 0) ? 
+                    `/productDetail/orderInfo?pid=${id}&oid=${state.orderList.map(item => item.id).join(",")}&qty=${state.orderList.map(item => item.quantity).join(",")}` : ""
+                }> 
+                    구매하기 
+                </PurchaseBtn>
         </ProductOrderContainer>
     )
 }
