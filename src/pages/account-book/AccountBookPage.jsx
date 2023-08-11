@@ -77,15 +77,6 @@ const AccountBookPage = () => {
       <ExpenseInfomation value={expenseChange} />
       <MonthlyExpense data={monthlyData} />
       <DailyExpense date="8월 7일" data={initialDailyData} />
-      <div
-        style={{
-          width: "100%",
-          height: "800px",
-          border: "1px solid red",
-        }}
-      >
-        테스트 여백입니다.
-      </div>
     </Container>
   );
 };

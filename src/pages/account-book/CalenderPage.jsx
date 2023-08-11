@@ -54,15 +54,6 @@ const CalenderPage = () => {
           <Calender />
           <Divider style={{ margin: "24px auto" }} />
           <DailySummary />
-          <div
-            style={{
-              width: "100%",
-              height: "800px",
-              border: "1px solid red",
-            }}
-          >
-            테스트 여백입니다.
-          </div>
         </Container>
       </DispatchContext.Provider>
     </StateContext.Provider>
