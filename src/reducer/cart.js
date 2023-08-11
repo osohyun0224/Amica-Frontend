@@ -10,7 +10,24 @@ export function cartReducer(state, action) {
             const itemList = state.orderList.find((item) => item.id === action.payload.id);
          
             if (itemList) {
-                itemList.quantity += action.payload.quantity;
+                const plusQuantity = 1;
+                const plusPricePerUnit = itemList.price / itemList.quantity;
+        
+                return {
+                    ...state,
+                    orderList: state.orderList.map(item => {
+                        if (item.id === action.payload.id) {
+                            return {
+                                ...item,
+                                quantity: item.quantity + plusQuantity,
+                                price: item.price + plusPricePerUnit,
+                            };
+                        }
+                        return item;
+                    }),
+                    totalQuantity: state.totalQuantity + plusQuantity,
+                    totalAmount: state.totalAmount + plusPricePerUnit,
+                };
             }
             else {
                 const addList = {
@@ -92,13 +109,12 @@ export function cartReducer(state, action) {
 
             if (itemList) {
                 const removeQuantity = itemList.quantity;
-                const removePrice = itemList.price * removeQuantity;
 
                 return {
                     ...state,
                     orderList: state.orderList.filter(item => item.id !== action.payload.id),
                     totalQuantity: state.totalQuantity - removeQuantity,
-                    totalAmount: state.totalAmount - removePrice,
+                    totalAmount: state.totalAmount - itemList.price,
                 }
             }
         }
