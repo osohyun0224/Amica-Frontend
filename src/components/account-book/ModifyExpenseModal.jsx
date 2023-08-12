@@ -4,11 +4,10 @@ import { styled } from "styled-components";
 import Modal from "../Modal.jsx";
 import Select from "../Select.jsx";
 
-import { hide, selectProps } from "../../redux/modalSlice.js";
+import { hide, selectProps, show } from "../../redux/modalSlice.js";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { categorys } from "../../librarys/data.js";
-import { useEffect } from "react";
 import dayjs from "dayjs";
 
 const Container = styled.div`
@@ -118,6 +117,7 @@ const id = "modify_expense";
 
 const ModifyExpenseModal = ({}) => {
   const dispatch = useDispatch();
+  const [dataId, setId] = useState("");
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [date, setDate] = useState("");
@@ -129,6 +129,8 @@ const ModifyExpenseModal = ({}) => {
 
   useEffect(() => {
     if (modalProps !== undefined) {
+      setId(modalProps.id);
+
       const d = dayjs(modalProps.date);
       setYear(d.year());
       setMonth(d.month() + 1);
@@ -197,10 +199,15 @@ const ModifyExpenseModal = ({}) => {
         />
       </Container>
       <ButtonContainer>
-        <CoverOutlineButton onClick={() => dispatch(hide(id))}>
+        <CoverOutlineButton
+          onClick={() => {
+            dispatch(show({ id: "remove_expense", props: { id: dataId } }));
+            dispatch(hide(id));
+          }}
+        >
           삭제
         </CoverOutlineButton>
-        <CoverButton onClick={() => dispatch(hide(id))}>확인</CoverButton>
+        <CoverButton onClick={() => dispatch(hide(id))}>적용</CoverButton>
       </ButtonContainer>
     </Modal>
   );

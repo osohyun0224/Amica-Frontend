@@ -37,7 +37,7 @@ const Background = styled(SimpleBar)`
 const Content = styled.div`
   max-width: 400px;
   width: 80%;
-  min-height: 300px;
+  min-height: 240px;
   margin: 72px;
   border-radius: 6px;
   background-color: #ffffff;

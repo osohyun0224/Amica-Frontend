@@ -4,6 +4,7 @@ import { styled } from "styled-components";
 import ViewExpenseModal from "../../components/account-book/ViewExpenseModal.jsx";
 import AddExpenseModal from "../../components/account-book/AddExpenseModal.jsx";
 import ModifyExpenseModal from "../../components/account-book/ModifyExpenseModal.jsx";
+import RemoveExpenseModal from "../../components/account-book/RemoveExpenseModal.jsx";
 import Button from "../../components/account-book/Button.jsx";
 import CalenderStatus from "../../components/account-book/CalenderStatus.jsx";
 import Calender from "../../components/account-book/Calender.jsx";
@@ -65,6 +66,7 @@ const CalenderPage = () => {
         <ViewExpenseModal />
         <AddExpenseModal />
         <ModifyExpenseModal />
+        <RemoveExpenseModal />
         <Container>
           <CalenderStatus />
           <Calender />
