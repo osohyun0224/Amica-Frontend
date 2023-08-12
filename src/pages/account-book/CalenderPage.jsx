@@ -15,8 +15,8 @@ import { intialExpenseState, expenseReducer } from "../../reducer/expense.js";
 import { StateContext, DispatchContext } from "../../librarys/context.js";
 
 import {
-  GetExpenseMonthlyList,
-  GetExpenseMonthly,
+  getExpenseMonthlyList,
+  getExpenseMonthly,
 } from "../../librarys/expense-api.js";
 
 const Container = styled.div`
@@ -29,7 +29,7 @@ const CalenderPage = () => {
 
   useEffect(() => {
     (async () => {
-      const calenders = await GetExpenseMonthlyList();
+      const calenders = await getExpenseMonthlyList();
 
       calenders.sort((a, b) => b.year - a.year || b.month - a.month);
 
@@ -39,7 +39,7 @@ const CalenderPage = () => {
       });
 
       const { year, month } = calenders[0];
-      const expenses = await GetExpenseMonthly(year, month);
+      const expenses = await getExpenseMonthly(year, month);
 
       console.log(expenses);
 
@@ -52,7 +52,7 @@ const CalenderPage = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await GetExpenseMonthly(selectedYear, selectedMonth);
+      const data = await getExpenseMonthly(selectedYear, selectedMonth);
       dispatch({
         type: "loadExpenses",
         payload: data,

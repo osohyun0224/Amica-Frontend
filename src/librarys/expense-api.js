@@ -1,5 +1,8 @@
 import dayjs from "dayjs";
+import arraySupport from "dayjs/plugin/arraySupport";
 import { categorys } from "./data.js";
+
+dayjs.extend(arraySupport);
 
 const expenseList = [];
 
@@ -31,7 +34,7 @@ for (let i = 0; i < 120; i++) {
   createRandomExpense();
 }
 
-export function GetExpenseMonthlyList() {
+export function getExpenseMonthlyList() {
   return expenseList.reduce((result, item) => {
     const date = dayjs(item.date);
     const year = date.year();
@@ -52,7 +55,7 @@ export function GetExpenseMonthlyList() {
   }, []);
 }
 
-export function GetExpenseMonthly(year, month) {
+export function getExpenseMonthly(year, month) {
   const list = expenseList.filter((item) => {
     const date = dayjs(item.date);
     return date.year() === year && date.month() + 1 === month;

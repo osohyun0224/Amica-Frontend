@@ -2,28 +2,36 @@ export const categorys = [
   {
     id: 1001,
     title: "간식",
+    color: "rgb(54, 162, 235)",
   },
   {
     id: 1002,
     title: "미용",
+    color: "rgb(255, 99, 132)",
   },
   {
     id: 1003,
     title: "의류",
+    color: "rgb(255, 159, 64)",
   },
   {
     id: 1004,
     title: "의약품",
+    color: "rgb(255, 205, 86)",
   },
   {
     id: 1005,
     title: "장난감",
+    color: "rgb(75, 192, 192)",
   },
   {
     id: 1006,
     title: "생활용품",
+    color: "rgb(153, 102, 255)",
   },
 ];
+
+// rgb(201, 203, 207)
 
 export const petTags = [
   {
