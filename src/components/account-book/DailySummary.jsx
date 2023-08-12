@@ -45,6 +45,7 @@ const DailySummary = () => {
           id: "view_expense",
           props: {
             id: item.id,
+            orderId: item.orderId,
             list: [
               {
                 id: 0,

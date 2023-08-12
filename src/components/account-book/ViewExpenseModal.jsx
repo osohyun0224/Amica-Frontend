@@ -123,7 +123,7 @@ const ViewExpenseModal = ({}) => {
 
   useEffect(() => {
     if (modalProps !== undefined) {
-      setOrderId(modalProps.id);
+      setOrderId(modalProps.orderId);
       setList(modalProps.list);
     }
   }, [modalProps]);
