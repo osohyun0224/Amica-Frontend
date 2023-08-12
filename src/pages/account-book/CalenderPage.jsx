@@ -1,7 +1,9 @@
 import { useEffect, useState, useMemo, useReducer } from "react";
 import { styled } from "styled-components";
 
+import ViewExpenseModal from "../../components/account-book/ViewExpenseModal.jsx";
 import AddExpenseModal from "../../components/account-book/AddExpenseModal.jsx";
+import ModifyExpenseModal from "../../components/account-book/ModifyExpenseModal.jsx";
 import Button from "../../components/account-book/Button.jsx";
 import CalenderStatus from "../../components/account-book/CalenderStatus.jsx";
 import Calender from "../../components/account-book/Calender.jsx";
@@ -14,7 +16,7 @@ import { StateContext, DispatchContext } from "../../librarys/context.js";
 import {
   GetExpenseMonthlyList,
   GetExpenseMonthly,
-} from "../../librarys/accountBook-api.js";
+} from "../../librarys/expense-api.js";
 
 const Container = styled.div`
   margin: 8px 32px;
@@ -22,15 +24,27 @@ const Container = styled.div`
 
 const CalenderPage = () => {
   const [state, dispatch] = useReducer(expenseReducer, intialExpenseState);
-  const { calenderlist, selectedYear, selectedMonth } = state;
+  const { selectedYear, selectedMonth } = state;
 
   useEffect(() => {
     (async () => {
-      const data = await GetExpenseMonthlyList();
-      data.sort((a, b) => b.year - a.year || b.month - a.month);
+      const calenders = await GetExpenseMonthlyList();
+
+      calenders.sort((a, b) => b.year - a.year || b.month - a.month);
+
       dispatch({
         type: "loadCalenders",
-        payload: data,
+        payload: calenders,
+      });
+
+      const { year, month } = calenders[0];
+      const expenses = await GetExpenseMonthly(year, month);
+
+      console.log(expenses);
+
+      dispatch({
+        type: "loadExpenses",
+        payload: expenses,
       });
     })();
   }, []);
@@ -43,12 +57,14 @@ const CalenderPage = () => {
         payload: data,
       });
     })();
-  }, [calenderlist, selectedYear, selectedMonth]);
+  }, [selectedYear, selectedMonth]);
 
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
+        <ViewExpenseModal />
         <AddExpenseModal />
+        <ModifyExpenseModal />
         <Container>
           <CalenderStatus />
           <Calender />

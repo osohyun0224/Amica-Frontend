@@ -11,23 +11,22 @@ const TotalAmount = styled.p`
 `;
 
 const CalenderStatus = () => {
-  const { calenderlist, expenseList } = useContext(StateContext);
+  const { calenderlist, expenseList, selectedYear, selectedMonth } =
+    useContext(StateContext);
   const dispatch = useContext(DispatchContext);
 
-  const selectList = useMemo(
-    () =>
-      calenderlist.map((item, index) => ({
-        id: index,
-        year: item.year,
-        month: item.month,
-        name: `${item.year}년 ${item.month}월`,
-        default: index === 0,
-      })),
-    [calenderlist],
-  );
+  const selectList = useMemo(() => {
+    return calenderlist.map((item, index) => ({
+      id: index,
+      year: item.year,
+      month: item.month,
+      name: `${item.year}년 ${item.month}월`,
+      default: index === 0,
+    }));
+  }, [calenderlist]);
 
   const price = useMemo(
-    () => expenseList.reduce((result, item) => result + item.value, 0),
+    () => expenseList.reduce((result, item) => result + item.price, 0),
     [expenseList],
   );
 

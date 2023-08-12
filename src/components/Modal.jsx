@@ -42,6 +42,7 @@ const Content = styled.div`
   border-radius: 6px;
   background-color: #ffffff;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
 
   @media (max-width: 360px) {
     max-width: 288px;
@@ -49,9 +50,9 @@ const Content = styled.div`
   }
 `;
 
-const Modal = ({ className = "", style = {}, children }) => {
+const Modal = ({ id = "modal", className = "", style = {}, children }) => {
   const dispatch = useDispatch();
-  const isVisible = useSelector(selectVisible);
+  const isVisible = useSelector(selectVisible(id));
   const [interactable, setInteractable] = useState(false);
   const ref = useRef(null);
 
@@ -62,11 +63,15 @@ const Modal = ({ className = "", style = {}, children }) => {
 
   const onClick = useCallback(
     (e) => {
-      if (ref.current && !ref.current.contains(e.target)) {
-        dispatch(hide());
+      if (
+        ref.current &&
+        !ref.current.contains(e.target) &&
+        e.target.nodeName.toLowerCase() !== "html"
+      ) {
+        dispatch(hide(id));
       }
     },
-    [ref, dispatch],
+    [ref, dispatch, id],
   );
 
   useEffect(() => {

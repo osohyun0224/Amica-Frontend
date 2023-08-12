@@ -3,27 +3,22 @@ import { styled } from "styled-components";
 
 import { Heading, HeadingBold } from "../Heading.jsx";
 import Button from "./Button.jsx";
-import ExpenseItem from "./ExpenseItem.jsx";
+import DailyExpenseItem from "./DailyExpenseItem.jsx";
 
 import { StateContext, DispatchContext } from "../../librarys/context.js";
 
 import { show } from "../../redux/modalSlice.js";
 import { useDispatch } from "react-redux";
+import dayjs from "dayjs";
 
-const ExpenseTotal = styled(ExpenseItem)`
+const ExpenseTotal = styled(DailyExpenseItem)`
   color: rgba(21, 21, 21, 1);
   font-weight: 700;
-`;
-
-const ExpenseStyledItem = styled(ExpenseItem)`
-  color: rgba(21, 21, 21, 1);
 `;
 
 const Container = styled.div`
   width: 100%;
 `;
-
-const categoryName = ["악세서리", "간식", "사료", "생활용품", "영양제"];
 
 const DailySummary = () => {
   const { expenseList, selectedDate } = useContext(StateContext);
@@ -34,9 +29,49 @@ const DailySummary = () => {
   let totalPrice = 0;
 
   if (selectedDate) {
-    filteredList = expenseList.filter((item) => item.date === selectedDate);
-    totalPrice = filteredList.reduce((result, item) => result + item.value, 0);
+    filteredList = expenseList.filter(
+      (item) => dayjs(item.date).date() === selectedDate,
+    );
+    totalPrice = filteredList.reduce((result, item) => result + item.price, 0);
   }
+
+  console.log(filteredList);
+
+  const showModal = async (item) => {
+    if (item.orderId) {
+      // 주문 내역 모달 표시
+      modalDispatch(
+        show({
+          id: "view_expense",
+          props: {
+            id: item.id,
+            list: [
+              {
+                id: 0,
+                name: item.name,
+                price: item.price,
+                quantity: 1,
+              },
+            ],
+          },
+        }),
+      );
+    } else {
+      // 사용자 입력 소비 내역 -> 수정 모달 표시
+      modalDispatch(
+        show({
+          id: "modify_expense",
+          props: {
+            id: item.id,
+            date: item.date,
+            name: item.name,
+            price: item.price,
+            category: item.category,
+          },
+        }),
+      );
+    }
+  };
 
   return (
     <Container>
@@ -45,14 +80,20 @@ const DailySummary = () => {
       </Heading>
       <ExpenseTotal color={null} name="Total" price={totalPrice} />
       {filteredList.map((item) => (
-        <ExpenseStyledItem
+        <DailyExpenseItem
           key={item.id}
+          id={item.id}
           color={null}
-          name={categoryName[item.category]}
-          price={item.value}
+          name={item.name}
+          price={item.price}
+          order={item.orderId}
+          onClick={() => showModal(item)}
+          enabled={true}
         />
       ))}
-      <Button onClick={() => modalDispatch(show())}>소비내역 추가하기</Button>
+      <Button onClick={() => modalDispatch(show("add_expense"))}>
+        소비내역 추가하기
+      </Button>
     </Container>
   );
 };
