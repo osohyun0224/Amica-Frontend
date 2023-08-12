@@ -299,7 +299,7 @@ const ProductOrder = (props) => {
                     <Line/>
                     <TotalAmountContainer>
                         <TATitle> 총 상품 금액 ({state.totalQuantity}개) </TATitle>
-                        <TotalAmount> {((state.totalAmount)).toLocaleString()}원 </TotalAmount>
+                        <TotalAmount> {(state.totalAmount).toLocaleString()}원 </TotalAmount>
                     </TotalAmountContainer>
                 </DropDownContainer>
             </ProductOrderItem> 

@@ -16,12 +16,13 @@ import {
 import { Bootpay } from "@bootpay/client-js";
 
 const Container = styled.div`
-  width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: white;
+  background-color: #FFFFFF;
+  overflow-x: hidden;
+  overflow-y: scroll;
 `;
 
 // 최상단
@@ -54,7 +55,6 @@ const SubTitle = styled.p`
 `;
 
 const Line = styled.div`
-  width: 100%;
   margin: 10px 0;
   border: 1px dashed rgba(102, 112, 128, 0.3);
 `;
@@ -70,7 +70,7 @@ const ProductDetailInfo = styled.div`
   flex-direction: row;
   padding: 12px 20px;
   margin-bottom: -5px;
-  width: 85%;
+  width: 100%;
 `;
 
 const ProductName = styled.p`
@@ -96,15 +96,17 @@ const OrderDetails = styled.div`
 `;
 
 const QualityPrice = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
+  position: relative;
   align-items: center;
-  justify-content: space-between;
+  margin-top: 10px;
 `;
 
 const OrderPrice = styled.p`
-  display: flex;
-  justify-content: end;
+  position: absolute;
+  right: 60px;
   font-size: 15px;
   font-weight: 400;
   line-height: 35px;
@@ -127,7 +129,6 @@ const TotalAmountTitle = styled.p`
 `;
 
 const TotalAmount = styled.p`
-  text-align: right;
   font-size: 22px;
   font-weight: 800;
   line-height: 35px;
@@ -162,7 +163,6 @@ const PurchaseBtn = styled.button`
   width: 100%;
   height: 80px;
   gap: 10px;
-  bottom: 0;
   align-items: center;
   justify-content: center;
   border: none;
@@ -253,10 +253,12 @@ const OrderInfo = () => {
   const optionPrice = useMemo(
     () => 
     product.options
-     ? product.options.map((item, idx) => item.price * quality[idx])
+     ? product.options.map((item, idx) => 
+      item.price * quality[idx]).filter(value => !isNaN(value))
      : null,
     [product, quality],
   );
+  console.log(optionPrice);
   const totalPrice = useMemo(
     () => 
     option ? optionPrice.reduce(
@@ -336,8 +338,7 @@ const OrderInfo = () => {
                 <OrderDetails>
                   <ProductName> {product.name} </ProductName>
                     <QualityPrice>
-                      <ProductNumber> 옵션:{selectedOption.name} </ProductNumber>
-                      <ProductNumber> {quality[idx]}개 </ProductNumber>
+                      <ProductNumber> 옵션: {selectedOption.name} / {quality[idx]}개 </ProductNumber>
                       <OrderPrice> {optionPrice[idx].toLocaleString()}원 </OrderPrice>
                     </QualityPrice>
                 </OrderDetails>
