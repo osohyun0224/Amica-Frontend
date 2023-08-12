@@ -9,14 +9,11 @@ export const intialExpenseState = {
 export function expenseReducer(state, action) {
   switch (action.type) {
     case "loadCalenders": {
-      const list = [...action.payload];
-      const latest = list[list.length - 1];
-
       return {
         ...state,
-        calenderlist: list,
-        selectedYear: latest.year,
-        selectedMonth: latest.month,
+        calenderlist: [...action.payload],
+        selectedYear: null,
+        selectedMonth: null,
         selectedDate: null,
       };
     }
@@ -30,13 +27,20 @@ export function expenseReducer(state, action) {
       };
     }
     case "selectCalender": {
-      return {
-        ...state,
-        expenseList: [],
-        selectedYear: action.payload.year,
-        selectedMonth: action.payload.month,
-        selectedDate: null,
-      };
+      if (
+        action.payload.year === state.selectedYear &&
+        action.payload.month === state.selectedMonth
+      ) {
+        return state;
+      } else {
+        return {
+          ...state,
+          expenseList: [],
+          selectedYear: action.payload.year,
+          selectedMonth: action.payload.month,
+          selectedDate: null,
+        };
+      }
     }
     case "selectDate":
       return {

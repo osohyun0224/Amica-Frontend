@@ -69,7 +69,7 @@ const CalenderItem = ({ date, value = 0, type }) => {
 };
 
 CalenderItem.propTypes = {
-  date: PropTypes.string,
+  date: PropTypes.number,
   value: PropTypes.number,
   type: PropTypes.string,
 };

@@ -5,10 +5,31 @@ import { styled } from "styled-components";
 import downArrowImage from "../assets/images/downArrow.png";
 
 const Container = styled.div`
-  display: inline-flex;
+  display: inline-block;
+`;
+
+const SelectBox = styled.div`
+  border-radius: 6px;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   cursor: pointer;
+
+  &.outline {
+    padding: 8px 12px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    color: rgba(102, 112, 128, 1);
+
+    &.focus {
+      outline: 2px solid black;
+    }
+
+    & > p {
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
 `;
 
 const Label = styled.p`
@@ -22,7 +43,7 @@ const Icon = styled.img`
   object-fit: contain;
 `;
 
-const ListContainer = styled.div`
+const List = styled.div`
   min-width: 180px;
   max-height: 250px;
   border: 1px solid #0000003f;
@@ -46,9 +67,9 @@ const ListContainer = styled.div`
   }
 `;
 
-const ListItem = styled.p`
+const Item = styled.p`
   padding: 8px;
-  font-size: 20px;
+  font-size: 16px;
   transition: background-color 0.1s;
   cursor: pointer;
 
@@ -67,7 +88,7 @@ const ListItem = styled.p`
 //     select: false
 // }
 
-const Select = ({ list = [], onSelect }) => {
+const Select = ({ outline = false, list = [], value, onSelect, ...props }) => {
   const initialItem = list?.find((item) => item.default === true) || null;
   const [selectedItem, setItem] = useState(initialItem);
   const [isVisible, setVisible] = useState(false);
@@ -90,24 +111,41 @@ const Select = ({ list = [], onSelect }) => {
     setItem(initialItem);
   }, [initialItem]);
 
+  useEffect(() => {
+    if (value) {
+      const find = list.find((item) => item.id === value);
+
+      if (find) {
+        setItem(find);
+      }
+    }
+  }, [value, list]);
+
   return (
-    <>
-      <Container ref={container} onClick={() => setVisible(!isVisible)}>
+    <Container {...props}>
+      <SelectBox
+        className={[
+          isVisible ? "focus" : null,
+          outline ? "outline" : null,
+        ].join(" ")}
+        ref={container}
+        onClick={() => setVisible(!isVisible)}
+      >
         <Label>{selectedItem?.name}</Label>
         <Icon src={downArrowImage} />
-      </Container>
-      <ListContainer className={isVisible ? "visible" : ""}>
+      </SelectBox>
+      <List className={isVisible ? "visible" : ""}>
         {list.map((item) => (
-          <ListItem
+          <Item
             key={item.id}
             className={item.id === selectedItem?.id ? "select" : ""}
             onClick={() => (setItem(item), onSelect(item))}
           >
             {item.name}
-          </ListItem>
+          </Item>
         ))}
-      </ListContainer>
-    </>
+      </List>
+    </Container>
   );
 };
 
@@ -123,6 +161,9 @@ Select.propTypes = {
       default: PropTypes.bool,
     }),
   ),
+  className: PropTypes.string,
+  value: PropTypes.number,
+  outline: PropTypes.bool,
   /** 목록에서 특정한 값이 선택되면 이 이벤트를 호출합니다. */
   onSelect: PropTypes.func,
 };

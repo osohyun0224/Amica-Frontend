@@ -9,7 +9,7 @@ import { show } from "../redux/menuSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 
-import { selectVisible } from "../redux/modalSlice.js";
+import { selectCount } from "../redux/modalSlice.js";
 
 const Content = styled(SimpleBar)`
   width: 100%;
@@ -133,7 +133,7 @@ function HeaderPage() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const getSelected = (value) => (pathname === value ? "selected" : "");
-  const modalStatus = useSelector(selectVisible);
+  const modalStatus = useSelector(selectCount) > 0;
   const scrollElement = useRef();
   const headerElement = useRef();
   const [headerHeight, setHeaderHeight] = useState(0);
