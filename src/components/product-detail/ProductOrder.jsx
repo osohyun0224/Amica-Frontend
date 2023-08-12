@@ -230,15 +230,11 @@ const ProductOrder = (props) => {
     };
 
     const ContainerHeight = () => {
-        const headerHeight = 225; // 헤더의 높이
-        const orderListHeight = 105; // OrderList의 예상 높이
+        const headerHeight = 225; 
+        const orderListHeight = 105; 
 
         return headerHeight + orderListHeight + state.orderList.length * 33;
     };
-
-    const CheckList = () => {
-        state.orderList.length !== 0;
-    }
     
     return (
         <ProductOrderContainer style={{ height: `${ContainerHeight()}px` }}>
@@ -303,7 +299,7 @@ const ProductOrder = (props) => {
                     <Line/>
                     <TotalAmountContainer>
                         <TATitle> 총 상품 금액 ({state.totalQuantity}개) </TATitle>
-                        <TotalAmount> {(state.totalAmount).toLocaleString()}원 </TotalAmount>
+                        <TotalAmount> {((state.totalAmount)).toLocaleString()}원 </TotalAmount>
                     </TotalAmountContainer>
                 </DropDownContainer>
             </ProductOrderItem> 
