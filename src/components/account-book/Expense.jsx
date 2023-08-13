@@ -1,5 +1,7 @@
 import PropTypes from "prop-types";
+import { useContext } from "react";
 import { styled } from "styled-components";
+import { DispatchContext, StateContext } from "../../librarys/context";
 
 const Container = styled.div`
   width: 100%;
@@ -26,20 +28,25 @@ const Text = styled.p`
   color: rgba(21, 21, 21, 1);
 `;
 
-const Expense = ({ value }) => {
+const Expense = () => {
+  const { expenseList } = useContext(StateContext);
+
+  const totalPrice = expenseList.reduce(
+    (result, item) => result + item.price,
+    0,
+  );
+
   return (
     <Container>
       <Heading>이번달 쓴 금액</Heading>
       <TextContainer>
-        <Text>{value.toLocaleString()}</Text>
+        <Text>{totalPrice.toLocaleString()}</Text>
         <Text>원</Text>
       </TextContainer>
     </Container>
   );
 };
 
-Expense.propTypes = {
-  value: PropTypes.number,
-};
+Expense.propTypes = {};
 
 export default Expense;

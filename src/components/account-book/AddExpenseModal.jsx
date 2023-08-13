@@ -2,9 +2,12 @@ import PropTypes from "prop-types";
 import { styled } from "styled-components";
 
 import Modal from "../Modal.jsx";
+import Select from "../Select.jsx";
 
 import { hide } from "../../redux/modalSlice.js";
 import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { categorys } from "../../librarys/data.js";
 
 const Container = styled.div`
   margin: 16px;
@@ -39,22 +42,35 @@ const Textbox = styled.input`
 `;
 
 const TextboxContainer = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr 16px);
   align-items: center;
+  gap: 12px;
 
   & > input {
     width: 100%;
-    flex-shrink: 1;
-    flex-grow: 1;
+    text-align: right;
   }
 
   & > p {
     width: 100%;
-    margin-left: 8px;
-    flex-shrink: 1;
-    flex-grow: 1;
+    text-align: center;
   }
 `;
+
+const PriceContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  & > input {
+    text-align: right;
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+`;
+
+const Dropdown = styled(Select)``;
 
 const CoverButton = styled.button`
   width: 100%;
@@ -73,10 +89,21 @@ const CoverButton = styled.button`
   cursor: pointer;
 `;
 
+const intialList = categorys.map(({ id, title }, index) => ({
+  id,
+  name: title,
+  default: index === 0,
+}));
+
+const id = "add_expense";
+
 const AddExpenseModal = ({}) => {
   const dispatch = useDispatch();
+
+  const [list, setList] = useState(intialList);
+
   return (
-    <Modal>
+    <Modal id={id}>
       <Container>
         <Title>추가하기</Title>
         <Text>날짜</Text>
@@ -90,12 +117,16 @@ const AddExpenseModal = ({}) => {
         </TextboxContainer>
 
         <Text>금액</Text>
-        <Textbox type="text" placeholder="14000" />
+        <PriceContainer>
+          <Textbox type="text" placeholder="14000" />
+          <Text>원</Text>
+        </PriceContainer>
         <Text>이름</Text>
         <Textbox type="text" placeholder="달이 장난감" />
         <Text>카테고리</Text>
+        <Dropdown list={list} outline={true} />
       </Container>
-      <CoverButton onClick={() => dispatch(hide())}>확인</CoverButton>
+      <CoverButton onClick={() => dispatch(hide(id))}>확인</CoverButton>
     </Modal>
   );
 };

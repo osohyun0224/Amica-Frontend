@@ -569,13 +569,14 @@ function shuffleArray(array) {
   }
 }
 
-
 export async function getFeaturedProduct(categoryId) {
   let list = [...productList];
 
   if (categoryId) {
-    list = list.filter((item) => categoryId ? item.category === Number(categoryId) : true)
-  } 
+    list = list.filter((item) =>
+      categoryId ? item.category === Number(categoryId) : true,
+    );
+  }
 
   shuffleArray(list);
 
@@ -591,4 +592,3 @@ export async function getProduct(id) {
     JSON.stringify(productList.find((item) => item.id === Number(id)) || null),
   );
 }
-
