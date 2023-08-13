@@ -93,7 +93,7 @@ function ChangeDelivery() {
         <Link to="/profile">
           <BackButtonImage src={BackButton} alt="Back" />
         </Link>
-        <HeaderTitle>배송 조회 하기</HeaderTitle>
+        <HeaderTitle>주문 조회</HeaderTitle>
       </Header>
       <DateTitle>2023년 9월 3일 구매</DateTitle>
       {BaeList1.map((item) => (
