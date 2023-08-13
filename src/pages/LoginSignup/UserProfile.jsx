@@ -82,13 +82,15 @@ const MenuLink = styled(Link)`
   justify-content: space-between;
   align-items: center;
   border-top: 2px solid #eef1f4;
-  border-bottom: ${(props) =>
-    props.bottomBorder ? "2px solid #EEF1F4" : "none"};
   padding: 40px 50px;
   text-decoration: none;
   color: #151515;
   width: 110%;
   margin-left: -48px;
+
+  &:last-child {
+    border-bottom: 2px solid #eef1f4;
+  }
 `;
 
 const MenuText = styled.span`
@@ -132,10 +134,16 @@ function UserProfile() {
         <MenuText>비밀번호 변경</MenuText>
         <GoButtonImage src={GoButton} alt="Go" />
       </MenuLink>
-      <MenuLink to="/checkdelivery" bottomBorder={true}>
+      <MenuLink to="/checkdelivery">
         <MenuText>주문 조회</MenuText>
         <GoButtonImage src={GoButton} alt="Go" />
       </MenuLink>
+      {isAdmin ? (
+        <MenuLink to="/admin/store">
+          <MenuText>공동구매 관리</MenuText>
+          <GoButtonImage src={GoButton} alt="Go" />
+        </MenuLink>
+      ) : null}
     </PageContainer>
   );
 }
