@@ -6,14 +6,14 @@ const Container = styled.div`
   width: 100%;
   padding: 12px 24px;
   display: flex;
-  border-top: 1px solid #eef1f4;
+  border-top: 1px solid rgba(238, 241, 244, 1);
   cursor: pointer;
   gap: 12px;
 
   overflow: hidden;
 
-  &:last-child {
-    border-bottom: 1px solid #eef1f4;
+  &:last-of-type {
+    border-bottom: 1px solid rgba(238, 241, 244, 1);
   }
 `;
 
@@ -63,7 +63,7 @@ const ProductListItem = ({ src, name, type, price, ...props }) => {
 ProductListItem.propTypes = {
   src: PropTypes.string,
   name: PropTypes.string,
-  type: PropTypes.string,
+  type: PropTypes.array,
   price: PropTypes.number,
 };
 
