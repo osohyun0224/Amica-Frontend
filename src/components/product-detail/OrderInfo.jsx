@@ -25,7 +25,6 @@ const Container = styled.div`
   overflow-y: scroll;
 `;
 
-// 최상단
 const TopTitle = styled.div`
   width: 100%;
   height: 70px;
@@ -223,6 +222,14 @@ const OrderInfo = () => {
   [product, optionId, quality]
   );
 
+  const totalPrice = useMemo(
+    () => 
+    option ? optionPrice.reduce(
+      (sum, value) => sum + parseInt(value), 0) : 0,
+    [product, quality],
+  );
+  
+
   async function requestPayment(order) {
     const response = await Bootpay.requestPayment({
       application_id: "59a4d323396fa607cbe75de4",
@@ -268,19 +275,13 @@ const OrderInfo = () => {
     return true;
   }
 
-  const totalPrice = useMemo(
-    () => 
-    option ? optionPrice.reduce(
-      (sum, value) => sum + parseInt(value), 0) : 0,
-    [product, quality],
-  );
-  
   const startPayment = useCallback(() => {
     (async () => {
       const order = await postDraftOrder({
         productId: product.id,
         productName: product.name,
         option: product.options.map((item, idx) => ({
+          img: product.coverImage,
           id: item.id,
           name: item.name,
           quality: quality[idx],
@@ -289,7 +290,9 @@ const OrderInfo = () => {
         shipping: {
           name,
           phone,
-          address: `(${postal}) ${baseAddress} ${detailAddress}`,
+          postal,
+          baseAddress,
+          detailAddress,
           request,
         },
       });
@@ -311,6 +314,7 @@ const OrderInfo = () => {
     navigate,
     option,
     optionPrice,
+    totalPrice,
     phone,
     postal,
     product,
