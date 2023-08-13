@@ -5,7 +5,7 @@ import "react-indiana-drag-scroll/dist/style.css";
 import SimpleBar from "simplebar-react";
 import { Heading, HeadingBold } from "../../components/Heading.jsx";
 import MyPetListItem from "../../components/my-pet/MyPetListItem.jsx";
-import AddPetImage from "../../assets/images/AddPetB.png";
+import AddPetImage from "../../assets/images/addPet.png";
 import MyPetAddModal from "../../components/my-pet/MyPetInputModal.jsx";
 import MyPetKeyword from "../../assets/images/Keyword.png";
 import KeywordInputModal from "../../components/my-pet/KeywordInputModal.jsx";
@@ -22,7 +22,6 @@ const Container = styled.div`
 
 const ScrollContainer = styled(SimpleBar)`
   padding-bottom: 6px;
-  opacity: 0;
 
   & .simplebar-content {
     display: flex;
@@ -250,7 +249,7 @@ const MyPetPage = () => {
   return (
     <Container>
       <StyledMyPetList>
-        <ScrollContainer scrollableNodeProps={{ ref }} autoHide={true}>
+        <ScrollContainer scrollableNodeProps={{ ref }} autoHide={false}>
           {petList.map((item) => (
             <MyPetListItem
               key={item.id}
