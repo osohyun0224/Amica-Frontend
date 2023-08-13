@@ -4,7 +4,8 @@ import { selectIsLoggedIn } from "../redux/userSlice";
 import { useSelector } from "react-redux";
 
 function ProtectedRoute({ children, to = null }) {
-  const isLoggedIn = true || useSelector(selectIsLoggedIn);
+  // const isLoggedIn = useSelector(selectIsLoggedIn);
+  const isLoggedIn = true;
   const pathname = useLocation().pathname;
   const redirect = to || pathname;
   const url = "/login" + (redirect ? "?redirect=" + redirect : "");
