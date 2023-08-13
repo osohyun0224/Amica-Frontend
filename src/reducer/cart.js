@@ -8,7 +8,7 @@ export function cartReducer(state, action) {
     switch (action.type) {
         case "addOrderProduct": {
             const itemList = state.orderList.find((item) => item.id === action.payload.id);
-         
+            
             if (itemList) {
                 const plusQuantity = 1;
                 const plusPricePerUnit = itemList.price / itemList.quantity;
@@ -27,8 +27,9 @@ export function cartReducer(state, action) {
                     }),
                     totalQuantity: state.totalQuantity + plusQuantity,
                     totalAmount: state.totalAmount + plusPricePerUnit,
-                };
+                }
             }
+
             else {
                 const addList = {
                     id: action.payload.id,
@@ -37,17 +38,21 @@ export function cartReducer(state, action) {
                     quantity: 1,
                 }
 
+                if (action.payload.discount != 0) {
+                    addList.price = action.payload.discount;
+                }
                 return {
                     ...state,
                     orderList: [...state.orderList, addList],
                     totalQuantity: state.totalQuantity + 1,
-                    totalAmount: state.totalAmount + action.payload.price,
+                    totalAmount: state.totalAmount + addList.price,
                 }
             }
         } 
 
         case "plusQuantity": {
             const plusItem = state.orderList.find((item) => item.id === action.payload.id);
+            
             if (plusItem) {
                 const plusQuantity = 1;
                 const plusPricePerUnit = plusItem.price / plusItem.quantity;
