@@ -8,6 +8,7 @@ import ChangeUserName from "./pages/LoginSignup/ChangeUserName.jsx";
 import ChangeUserPW from "./pages/LoginSignup/ChangeUserPW.jsx";
 import CheckDelivery from "./pages/LoginSignup/CheckDelivery.jsx";
 import UserProfile from "./pages/LoginSignup/UserProfile.jsx";
+import AdminStorePage from "./pages/admin/StoreMenu.jsx";
 import LoginPage from "./pages/LoginSignup/LoginPage.jsx";
 import SignupPage from "./pages/LoginSignup/SignupPage.jsx";
 import SignCompelete from "./pages/LoginSignup/SignCompelete.jsx";
@@ -33,6 +34,62 @@ const resize = () => {
   document.documentElement.style.setProperty("--vh", `${vh}px`);
 };
 
+const routerList = [
+  { path: "/", element: <Home /> },
+  { path: "/login", element: <LoginPage /> },
+  { path: "/signup", element: <SignupPage /> },
+  { path: "/compelete", element: <SignCompelete /> },
+  { path: "/profile", element: <UserProfile />, role: 1 },
+  {
+    path: "/admin/store",
+    element: <AdminStorePage />,
+    role: 2,
+    redirect: "/main",
+  },
+  { path: "/changename", element: <ChangeUserName />, role: 1 },
+  { path: "/changepw", element: <ChangeUserPW />, role: 1 },
+  { path: "/checkdelivery", element: <CheckDelivery />, role: 1 },
+  { path: "/productDetail/:id", element: <ProductDetail />, role: 1 },
+  {
+    path: "/productDetail/orderInfo",
+    element: <OrderInfo />,
+    role: 1,
+    redirect: "/main",
+  },
+  {
+    path: "/orderComplete",
+    element: <OrderCompletePage />,
+    role: 1,
+    redirect: "/main",
+  },
+];
+
+const routerHeaderList = [
+  { path: "/main", element: <Main /> },
+  { path: "/search", element: <SearchPage /> },
+  { path: "/account-book", element: <AccountBookPage /> },
+  { path: "/account-book/calender", element: <CalenderPage /> },
+  { path: "/my-pet", element: <MyPetPage /> },
+];
+
+routerList.forEach((item) => {
+  if (item.role && item.role > 0) {
+    item.element = (
+      <ProtectedRoute role={item.role} to={item.redirect}>
+        {item.element}
+      </ProtectedRoute>
+    );
+  }
+});
+
+routerHeaderList.forEach((item) => {
+  item.element = (
+    <ProtectedRoute role={item.role} to={item.redirect}>
+      {item.element}
+    </ProtectedRoute>
+  );
+});
+
 function App() {
   // iOS Safari에서 vh 단위 조정
   useEffect(() => {
@@ -46,109 +103,14 @@ function App() {
       <Router>
         <CoverMenu />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <UserProfile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/changename"
-            element={
-              <ProtectedRoute>
-                <ChangeUserName />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/changepw"
-            element={
-              <ProtectedRoute>
-                <ChangeUserPW />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/checkdelivery"
-            element={
-              <ProtectedRoute>
-                <CheckDelivery />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/compelete" element={<SignCompelete />} />
-
-          <Route
-            path="/productDetail/:id"
-            element={
-              <ProtectedRoute>
-                <ProductDetail />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/productDetail/orderInfo"
-            element={
-              <ProtectedRoute to="/main">
-                <OrderInfo />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/orderComplete"
-            element={
-              <ProtectedRoute to="/main">
-                <OrderCompletePage />
-              </ProtectedRoute>
-            }
-          />
+          {routerList.map((item, index) => (
+            <Route key={index} path={item.path} element={item.element} />
+          ))}
 
           <Route element={<HeaderPage />}>
-            <Route
-              path="/main"
-              element={
-                <ProtectedRoute>
-                  <Main />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/search"
-              element={
-                <ProtectedRoute>
-                  <SearchPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/account-book"
-              element={
-                <ProtectedRoute>
-                  <AccountBookPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/account-book/calender"
-              element={
-                <ProtectedRoute>
-                  <CalenderPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/my-pet"
-              element={
-                <ProtectedRoute>
-                  <MyPetPage />
-                </ProtectedRoute>
-              }
-            />
+            {routerHeaderList.map((item, index) => (
+              <Route key={index} path={item.path} element={item.element} />
+            ))}
           </Route>
         </Routes>
       </Router>
