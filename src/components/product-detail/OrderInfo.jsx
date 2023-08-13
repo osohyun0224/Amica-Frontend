@@ -179,53 +179,6 @@ const PurchaseBtn = styled.button`
   text-decoration: none;
 `;
 
-async function requestPayment(order) {
-  const response = await Bootpay.requestPayment({
-    application_id: "59a4d323396fa607cbe75de4",
-    price: 100 || order.price,
-    order_name: order.productName,
-    order_id: order.orderId,
-    pg: "토스",
-    method: "카드",
-    tax_free: 0,
-    user: {
-      id: "testaccount",
-      username: order.shipping.name,
-      phone: order.shipping.phone,
-      email: "test@example.com",
-      addr: order.shipping.address,
-    },
-    items: [
-      {
-        id: order.option[0].id,
-        name: order.option[0].name,
-        qty: 1 || order.option[0].quality,
-        price: 100 || order.option[0].price,
-      },
-    ],
-    extra: {
-      open_type: "iframe",
-      card_quota: "0,2,3",
-      escrow: false,
-    },
-  });
-
-  if (response.event !== "done") {
-    alert(
-      "에러가 발생했습니다. 개발자 콘솔을 확인해주세요. 주문은 처음부터 다시 시도하세요.",
-    );
-    console.error(response);
-
-    await removeDraftOrder(order.orderId);
-
-    return false;
-  }
-
-  await _sendOrderComplete(order.orderId, response.data);
-
-  return true;
-}
-
 const OrderInfo = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const productId = searchParams.get("pid");
@@ -253,32 +206,86 @@ const OrderInfo = () => {
   const optionPrice = useMemo(
     () => 
     product.options
-     ? product.options.map((item, idx) => 
-      item.price * quality[idx]).filter(value => !isNaN(value))
-     : null,
-    [product, quality],
+      ? optionId.map((itemId, idx) => {
+          const checkOption = product.options.find(
+            option => option.id === Number(itemId)
+          );
+
+          if (checkOption) {
+            return (
+              (checkOption.discount !== 0
+                ? checkOption.discount
+                : checkOption.price) * quality[idx]
+            );
+          }
+        }).filter(value => !isNaN(value))
+      : [],
+  [product, optionId, quality]
   );
-  console.log(optionPrice);
+
+  async function requestPayment(order) {
+    const response = await Bootpay.requestPayment({
+      application_id: "59a4d323396fa607cbe75de4",
+      price: totalPrice,
+      order_name: order.productName,
+      order_id: order.orderId,
+      pg: "토스",
+      method: "카드",
+      tax_free: 0,
+      user: {
+        id: "testaccount",
+        username: order.shipping.name,
+        phone: order.shipping.phone,
+        email: "test@example.com",
+        addr: order.shipping.address,
+      },
+      items: order.option.map((item, idx) => ({
+        id: item.id,
+        name: item.name,
+        qty: item.quality[idx],
+        price: item.price[idx],
+      })),
+      extra: {
+        open_type: "iframe",
+        card_quota: "0,2,3",
+        escrow: false,
+      },
+    });
+   
+    if (response.event !== "done") {
+      alert(
+        "에러가 발생했습니다. 개발자 콘솔을 확인해주세요. 주문은 처음부터 다시 시도하세요.",
+      );
+      console.error(response);
+  
+      await removeDraftOrder(order.orderId);
+  
+      return false;
+    }
+  
+    await _sendOrderComplete(order.orderId, response.data);
+  
+    return true;
+  }
+
   const totalPrice = useMemo(
     () => 
     option ? optionPrice.reduce(
       (sum, value) => sum + parseInt(value), 0) : 0,
     [product, quality],
   );
-
+  
   const startPayment = useCallback(() => {
     (async () => {
       const order = await postDraftOrder({
         productId: product.id,
         productName: product.name,
-        option: [
-          {
-            id: option.id,
-            name: option.name,
-            quality,
-            price: optionPrice,
-          },
-        ],
+        option: product.options.map((item, idx) => ({
+          id: item.id,
+          name: item.name,
+          quality: quality[idx],
+          price: optionPrice[idx],
+        })).filter(value => !isNaN(value.price) && !isNaN(value.quality)),
         shipping: {
           name,
           phone,
@@ -286,7 +293,7 @@ const OrderInfo = () => {
           request,
         },
       });
-
+      console.log(order.option);
       const result = await requestPayment(order);
 
       console.log(await getOrderList());
@@ -330,20 +337,21 @@ const OrderInfo = () => {
         <OrderDetailContainer>
           <SubTitle>주문내역</SubTitle>
           <Line />
-          {product.options && optionId.map((itemId, idx)=> {
+          {product.options && optionId.map((itemId, idx) => {
             const selectedOption = product.options.find(option => option.id === Number(itemId));
-            return (
-              <ProductDetailInfo key={selectedOption.id}>
-                <OrderProfileImg src={product.coverImage} alt="상품 이미지" />
-                <OrderDetails>
-                  <ProductName> {product.name} </ProductName>
+              return (
+                <ProductDetailInfo key={selectedOption.id}>
+                  <OrderProfileImg src={product.coverImage} alt="상품 이미지" />
+                  <OrderDetails>
+                    <ProductName> {product.name} </ProductName>
                     <QualityPrice>
                       <ProductNumber> 옵션: {selectedOption.name} / {quality[idx]}개 </ProductNumber>
                       <OrderPrice> {optionPrice[idx].toLocaleString()}원 </OrderPrice>
                     </QualityPrice>
-                </OrderDetails>
-              </ProductDetailInfo>
-            )})}
+                  </OrderDetails>
+                </ProductDetailInfo>
+              );
+          })}
           <Line />
           <TotalAmountInfo>
             <TotalAmountTitle>총 상품 금액</TotalAmountTitle>

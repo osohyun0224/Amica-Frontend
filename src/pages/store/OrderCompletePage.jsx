@@ -56,13 +56,13 @@ const PaymentPage = () => {
       setOrder(data);
     })();
   }, [orderId, navigate]);
-
+  console.log(order);
   return (
     <Container>
       <Text>결제가 완료되었습니다!</Text>
       <Item>주문번호: {order.orderId}</Item>
       <Item>상품명: {order.productName}</Item>
-      <Item>금액: {order.price}</Item>
+      <Item>금액: {(order.totalPrice)}원 </Item>
       <Item>
         배송지: {order.shipping?.name}님 - {order.shipping?.address}
       </Item>
