@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useScrollContainer } from "react-indiana-drag-scroll";
 import "react-indiana-drag-scroll/dist/style.css";
 import SimpleBar from "simplebar-react";
-import { Heading, HeadingBold } from "../../components/Heading.jsx";
 import MyPetListItem from "../../components/my-pet/MyPetListItem.jsx";
 import AddPetImage from "../../assets/images/addPet.png";
 import MyPetAddModal from "../../components/my-pet/MyPetInputModal.jsx";
@@ -14,9 +13,10 @@ import ProductExample from "../../assets/images/RecentImage.png";
 import Pagination from "../../components/Pagination.jsx";
 
 const Container = styled.div`
-  display: block;
+  display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   background-color: #ffffff;
 `;
 
@@ -50,15 +50,14 @@ const ScrollContainer = styled(SimpleBar)`
 const StyledRectangle = styled.div`
   width: 320px;
   height: 114px;
-  position: relative;
-  margin-top: -80px;
-  margin-left: 10px;
+  position: absolute;
+  margin: 0 auto;
+  margin-top: -320px;
   margin-bottom: 20px;
   border-radius: 5px;
   box-shadow: 0px 2px 4px 0px #00000040;
   background: #ffffff;
   padding: 10px;
-  padding-top: -50px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -98,7 +97,7 @@ const StyledLine = styled.span`
 `;
 
 const StyledMyPetList = styled.div`
-  width: 103.4%;
+  width: 100%;
   height: 206px;
   margin-top: 0px;
   margin-left: 0px;
@@ -125,7 +124,7 @@ const Keyword = styled.div`
   line-height: 22px;
   letter-spacing: -0.02em;
   text-align: center;
-  color: #E0BD09;
+  color: #e0bd09;
   margin-right: 5px;
   white-space: nowrap;
 `;
@@ -138,13 +137,24 @@ const KeywordSection = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  margin-left:10px;
+  margin-left: 10px;
 `;
 
 const KeywordButton = styled.img`
   order: 1;
   padding-left: 10px;
 `;
+
+const HeadingBold = styled.span`
+  font-weight: 600;
+  text-align: left; 
+  margin: 8px 0;
+  font-size: 18px;
+  margin-top: 50px;
+  margin-left: 20px;  
+  align-self: flex-start;
+`;
+
 
 const MyPetPage = () => {
   const { ref } = useScrollContainer();
@@ -291,11 +301,9 @@ const MyPetPage = () => {
         </KeywordSection>
       </StyledRectangle>
 
-      <Heading>
-        <HeadingBold style={{ marginLeft: "20px" }}>
-          {pet.name} 최근 구매한 제품
-        </HeadingBold>
-      </Heading>
+      <HeadingBold style={{ marginLeft: "20px" }}>
+        {pet.name} 최근 구매한 제품
+      </HeadingBold>
       {currentRecentItems.map((item) => (
         <PurchasedList
           key={item.id}
