@@ -22,6 +22,7 @@ const Container = styled.div`
 
 const ScrollContainer = styled(SimpleBar)`
   padding-bottom: 6px;
+  opacity: 0;
 
   & .simplebar-content {
     display: flex;
@@ -249,7 +250,7 @@ const MyPetPage = () => {
   return (
     <Container>
       <StyledMyPetList>
-        <ScrollContainer scrollableNodeProps={{ ref }} autoHide={false}>
+        <ScrollContainer scrollableNodeProps={{ ref }} autoHide={true}>
           {petList.map((item) => (
             <MyPetListItem
               key={item.id}
