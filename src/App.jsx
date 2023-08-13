@@ -9,6 +9,10 @@ import ChangeUserPW from "./pages/LoginSignup/ChangeUserPW.jsx";
 import CheckDelivery from "./pages/LoginSignup/CheckDelivery.jsx";
 import UserProfile from "./pages/LoginSignup/UserProfile.jsx";
 import AdminStorePage from "./pages/admin/StoreMenu.jsx";
+import AdminStoreListPage from "./pages/admin/StoreList.jsx";
+import AdminStoreAddPage from "./pages/admin/StoreAdd.jsx";
+import AdminStoreModifyPage from "./pages/admin/StoreModify.jsx";
+import AdminStoreRemovePage from "./pages/admin/StoreRemove.jsx";
 import LoginPage from "./pages/LoginSignup/LoginPage.jsx";
 import SignupPage from "./pages/LoginSignup/SignupPage.jsx";
 import SignCompelete from "./pages/LoginSignup/SignCompelete.jsx";
@@ -43,6 +47,30 @@ const routerList = [
   {
     path: "/admin/store",
     element: <AdminStorePage />,
+    role: 2,
+    redirect: "/main",
+  },
+  {
+    path: "/admin/store/list",
+    element: <AdminStoreListPage />,
+    role: 2,
+    redirect: "/main",
+  },
+  {
+    path: "/admin/store/add",
+    element: <AdminStoreAddPage />,
+    role: 2,
+    redirect: "/main",
+  },
+  {
+    path: "/admin/store/modify/:id",
+    element: <AdminStoreModifyPage />,
+    role: 2,
+    redirect: "/main",
+  },
+  {
+    path: "/admin/store/remove/:id",
+    element: <AdminStoreRemovePage />,
     role: 2,
     redirect: "/main",
   },
