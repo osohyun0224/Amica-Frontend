@@ -49,10 +49,38 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/changename" element={<ChangeUserName />} />
-          <Route path="/changepw" element={<ChangeUserPW />} />
-          <Route path="/checkdelivery" element={<CheckDelivery />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <UserProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/changename"
+            element={
+              <ProtectedRoute>
+                <ChangeUserName />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/changepw"
+            element={
+              <ProtectedRoute>
+                <ChangeUserPW />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/checkdelivery"
+            element={
+              <ProtectedRoute>
+                <CheckDelivery />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/compelete" element={<SignCompelete />} />
 
           <Route
