@@ -239,11 +239,11 @@ const OrderInfo = () => {
         email: "test@example.com",
         addr: order.shipping.address,
       },
-      items: order.option.map((item, idx) => ({
+      items: order.option.map((item) => ({
         id: item.id,
         name: item.name,
-        qty: item.quality[idx],
-        price: item.price[idx],
+        qty: item.quality,
+        price: item.price,
       })),
       extra: {
         open_type: "iframe",
@@ -293,7 +293,7 @@ const OrderInfo = () => {
           request,
         },
       });
-      console.log(order.option);
+
       const result = await requestPayment(order);
 
       console.log(await getOrderList());
