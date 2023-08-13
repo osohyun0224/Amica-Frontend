@@ -16,13 +16,18 @@ import AddPet from "../assets/images/add.png";
 
 import { getFeaturedProduct } from "../librarys/store-api";
 import { useEffect } from "react";
-
+//카테고리 아이콘 
 import Snack from "../assets/images/category/간식.svg";
 import Beauty from "../assets/images/category/미용.svg";
 import Daily from "../assets/images/category/생활용품.svg";
 import Clothes from "../assets/images/category/의류.svg";
 import Toy from "../assets/images/category/장난감.svg";
 import Medicine from "../assets/images/category/의약품.svg";
+
+// 배너 예시 이미지 나중에 배너 이미지 나오면 갈아끼울 예정
+import Banner1 from "../assets/images/main-banner/Banner1.jpg";
+import Banner2 from "../assets/images/main-banner/Banner2.jpg";
+import Banner3 from "../assets/images/main-banner/Banner3.jpg";
 
 const PageContainer = styled.div`
   display: block;
@@ -140,21 +145,24 @@ const Title = styled.div`
   margin-left: 5px;
 `;
 
-const MoreBtn = styled.button`
-  width: 100%;
-  height: 80px;
-  border: none;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 22px;
-  text-align: center;
-  margin-top: 10px;
-  background-color: white;
-  cursor: pointer;
-`;
-
 const ProductSelect = styled(Link)`
   text-decoration: none;
+`;
+
+const BannerContainer = styled.div`
+  position: relative;
+  overflow: hidden;
+`;
+
+const BannerButton = styled.button`
+  position: absolute;
+  top: 50%;
+  ${(props) => (props.direction === "left" ? "left: 10px;" : "right: 10px;")}
+  background: rgba(0,0,0,0);
+  color: white;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
 `;
 
 const Categories = [
@@ -224,9 +232,39 @@ const Main = () => {
     console.log("First recent item:", recentItems[0]);
   }, [recentItems]);
 
+// 배너 구현 함수 
+  const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
+  const bannerImages = [Banner1, Banner2, Banner3];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBannerIndex((prevIndex) => (prevIndex + 1) % bannerImages.length);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [bannerImages.length]);
+
+  const handleBannerButtonClick = (direction) => {
+    if (direction === "left") {
+      setCurrentBannerIndex((prevIndex) => 
+        prevIndex === 0 ? bannerImages.length - 1 : prevIndex - 1
+      );
+    } else {
+      setCurrentBannerIndex((prevIndex) => (prevIndex + 1) % bannerImages.length);
+    }
+  };
+
   return (
     <PageContainer>
-      <Image />
+      <BannerContainer>
+        <Image src={bannerImages[currentBannerIndex]} alt="Banner Image" />
+        <BannerButton direction="left" onClick={() => handleBannerButtonClick("left")}>
+          {"<"}
+        </BannerButton>
+        <BannerButton direction="right" onClick={() => handleBannerButtonClick("right")}>
+          {">"}
+        </BannerButton>
+      </BannerContainer>
       <PetRecommend>
         <PetImage />
         <PetName> 누굴 위해 준비하니? </PetName>
@@ -310,7 +348,6 @@ const Main = () => {
           ))}
         </DeadLineList>
       </DetailMenu>
-      <MoreBtn> 더보기 </MoreBtn>
     </PageContainer>
   );
 };

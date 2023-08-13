@@ -22,6 +22,7 @@ const PageContainer = styled.div`
   flex-direction: column;
   background-color: #ffffff;
   color: #667080;
+  position: relative;
 `;
 
 const Back = styled.img`
@@ -287,6 +288,23 @@ const More = styled.img`
   }
 `;
 
+const ScrollToTopButton = styled.button`
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 15px;
+  border: none;
+  color:white;
+  background-color: #D94A56;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  z-index: 9999;  
+  &:hover {
+    background-color: #555;
+  }
+`;
+
 const SellerInfoList = [
   {
     id: 1,
@@ -388,6 +406,33 @@ const ProductDetail = () => {
     month: '2-digit',
     day: '2-digit',
   }).split('/').reverse().join('-');
+
+
+  // 스크롤 버튼 구현 코드 영역
+    const [showScrollToTop, setShowScrollToTop] = useState(false);
+
+    const handleScroll = () => {
+      if (window.pageYOffset > 200) {  
+        setShowScrollToTop(true);
+      } else {
+        setShowScrollToTop(false);
+      }
+    };
+  
+    useEffect(() => {
+      window.addEventListener('scroll', handleScroll);
+      
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }, []);
+  
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    };
   
   return (
     <>
@@ -497,6 +542,11 @@ const ProductDetail = () => {
             ))}
           </SellerDetailInfo>
         </SellerInfo>
+        {showScrollToTop && (
+        <ScrollToTopButton onClick={scrollToTop}>
+          ^
+        </ScrollToTopButton>
+      )}
       </PageContainer>
       {openOrder && (
         <Overlay show={openOrder} onClick={() => setOpenOrder(false)} />

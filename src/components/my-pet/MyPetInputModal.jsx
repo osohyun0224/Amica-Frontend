@@ -4,6 +4,7 @@ import InputForm from "../../components/InputForm.jsx";
 import SmallInputForm from "../SmallInputForm.jsx";
 import DropdownSpecies from "./DropdownSpecies.jsx";
 import DropdownSize from "./DropdownSize.jsx";
+import DropdownGender from "./DropdownGender.jsx";
 import MoreBtn from "../../assets/images/rightArrow.png";
 import { useState } from "react";
 
@@ -186,13 +187,19 @@ const More = styled.img`
 `;
 
 const MyPetInputModal = ({ show, onClose }) => {
+  const [genderDropdownOpen, setGenderDropdownOpen] = useState(false);
   const [speciesDropdownOpen, setSpeciesDropdownOpen] = useState(false);
   const [sizeDropdownOpen, setSizeDropdownOpen] = useState(false);
+  const [selectedGenderOption, setSelectedGenderOption] = useState("선택하기");
   const [selectedSpeciesOption, setSelectedSpeciesOption] = useState("선택하기");
   const [selectedSizeOption, setSelectedSizeOption] = useState("선택하기");
   const [previewImage, setPreviewImage] = useState(null);
 
   if (!show) return null;
+
+  const handleGenderDropdownClick= () => {
+    setGenderDropdownOpen(!genderDropdownOpen);
+  };
 
   const handleSpeciesDropdownClick = () => {
     setSpeciesDropdownOpen(!speciesDropdownOpen);
@@ -212,12 +219,17 @@ const MyPetInputModal = ({ show, onClose }) => {
     setSizeDropdownOpen(false);
   };
 
+  const handleGenderOptionSelect = (option) => {
+    setSelectedGenderOption(option);
+    setGenderDropdownOpen(false);
+  };
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreviewImage(reader.result); // 미리보기 URL 설정
+        setPreviewImage(reader.result); 
       };
       reader.readAsDataURL(file);
     }
@@ -273,7 +285,17 @@ const MyPetInputModal = ({ show, onClose }) => {
         <InputRow>
           <InputField>
             <LabelHeader>나이 </LabelHeader>
-            <SmallInputForm placeholder="나이" />
+            <DropDownContainer onClick={handleGenderDropdownClick}>
+          <DropDownOption>
+            {selectedGenderOption}
+            <More className={genderDropdownOpen ? "clicked" : ""} src={MoreBtn} />
+          </DropDownOption>
+          {genderDropdownOpen && (
+            <DropdownWrapper>
+              <DropdownGender onSelect={handleGenderOptionSelect} />
+            </DropdownWrapper>
+          )}
+        </DropDownContainer>
           </InputField>
           <InputField>
             <LabelHeader>성별 </LabelHeader>

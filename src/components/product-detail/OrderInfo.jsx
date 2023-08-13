@@ -16,15 +16,15 @@ import {
 import { Bootpay } from "@bootpay/client-js";
 
 const Container = styled.div`
-  width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: white;
+  background-color: #FFFFFF;
+  overflow-x: hidden;
+  overflow-y: scroll;
 `;
 
-// 최상단
 const TopTitle = styled.div`
   width: 100%;
   height: 70px;
@@ -54,7 +54,6 @@ const SubTitle = styled.p`
 `;
 
 const Line = styled.div`
-  width: 100%;
   margin: 10px 0;
   border: 1px dashed rgba(102, 112, 128, 0.3);
 `;
@@ -70,7 +69,7 @@ const ProductDetailInfo = styled.div`
   flex-direction: row;
   padding: 12px 20px;
   margin-bottom: -5px;
-  width: 85%;
+  width: 100%;
 `;
 
 const ProductName = styled.p`
@@ -96,15 +95,17 @@ const OrderDetails = styled.div`
 `;
 
 const QualityPrice = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
+  position: relative;
   align-items: center;
-  justify-content: space-between;
+  margin-top: 10px;
 `;
 
 const OrderPrice = styled.p`
-  display: flex;
-  justify-content: end;
+  position: absolute;
+  right: 60px;
   font-size: 15px;
   font-weight: 400;
   line-height: 35px;
@@ -127,7 +128,6 @@ const TotalAmountTitle = styled.p`
 `;
 
 const TotalAmount = styled.p`
-  text-align: right;
   font-size: 22px;
   font-weight: 800;
   line-height: 35px;
@@ -162,7 +162,6 @@ const PurchaseBtn = styled.button`
   width: 100%;
   height: 80px;
   gap: 10px;
-  bottom: 0;
   align-items: center;
   justify-content: center;
   border: none;
@@ -178,53 +177,6 @@ const PurchaseBtn = styled.button`
   letter-spacing: -0.02em;
   text-decoration: none;
 `;
-
-async function requestPayment(order) {
-  const response = await Bootpay.requestPayment({
-    application_id: "59a4d323396fa607cbe75de4",
-    price: 100 || order.price,
-    order_name: order.productName,
-    order_id: order.orderId,
-    pg: "토스",
-    method: "카드",
-    tax_free: 0,
-    user: {
-      id: "testaccount",
-      username: order.shipping.name,
-      phone: order.shipping.phone,
-      email: "test@example.com",
-      addr: order.shipping.address,
-    },
-    items: [
-      {
-        id: order.option[0].id,
-        name: order.option[0].name,
-        qty: 1 || order.option[0].quality,
-        price: 100 || order.option[0].price,
-      },
-    ],
-    extra: {
-      open_type: "iframe",
-      card_quota: "0,2,3",
-      escrow: false,
-    },
-  });
-
-  if (response.event !== "done") {
-    alert(
-      "에러가 발생했습니다. 개발자 콘솔을 확인해주세요. 주문은 처음부터 다시 시도하세요.",
-    );
-    console.error(response);
-
-    await removeDraftOrder(order.orderId);
-
-    return false;
-  }
-
-  await _sendOrderComplete(order.orderId, response.data);
-
-  return true;
-}
 
 const OrderInfo = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -253,34 +205,94 @@ const OrderInfo = () => {
   const optionPrice = useMemo(
     () => 
     product.options
-     ? product.options.map((item, idx) => item.price * quality[idx])
-     : null,
-    [product, quality],
+      ? optionId.map((itemId, idx) => {
+          const checkOption = product.options.find(
+            option => option.id === Number(itemId)
+          );
+
+          if (checkOption) {
+            return (
+              (checkOption.discount !== 0
+                ? checkOption.discount
+                : checkOption.price) * quality[idx]
+            );
+          }
+        }).filter(value => !isNaN(value))
+      : [],
+  [product, optionId, quality]
   );
+
   const totalPrice = useMemo(
     () => 
     option ? optionPrice.reduce(
       (sum, value) => sum + parseInt(value), 0) : 0,
     [product, quality],
   );
+  
+
+  async function requestPayment(order) {
+    const response = await Bootpay.requestPayment({
+      application_id: "59a4d323396fa607cbe75de4",
+      price: totalPrice,
+      order_name: order.productName,
+      order_id: order.orderId,
+      pg: "토스",
+      method: "카드",
+      tax_free: 0,
+      user: {
+        id: "testaccount",
+        username: order.shipping.name,
+        phone: order.shipping.phone,
+        email: "test@example.com",
+        addr: order.shipping.address,
+      },
+      items: order.option.map((item) => ({
+        id: item.id,
+        name: item.name,
+        qty: item.quality,
+        price: item.price,
+      })),
+      extra: {
+        open_type: "iframe",
+        card_quota: "0,2,3",
+        escrow: false,
+      },
+    });
+   
+    if (response.event !== "done") {
+      alert(
+        "에러가 발생했습니다. 개발자 콘솔을 확인해주세요. 주문은 처음부터 다시 시도하세요.",
+      );
+      console.error(response);
+  
+      await removeDraftOrder(order.orderId);
+  
+      return false;
+    }
+  
+    await _sendOrderComplete(order.orderId, response.data);
+  
+    return true;
+  }
 
   const startPayment = useCallback(() => {
     (async () => {
       const order = await postDraftOrder({
         productId: product.id,
         productName: product.name,
-        option: [
-          {
-            id: option.id,
-            name: option.name,
-            quality,
-            price: optionPrice,
-          },
-        ],
+        option: product.options.map((item, idx) => ({
+          img: product.coverImage,
+          id: item.id,
+          name: item.name,
+          quality: quality[idx],
+          price: optionPrice[idx],
+        })).filter(value => !isNaN(value.price) && !isNaN(value.quality)),
         shipping: {
           name,
           phone,
-          address: `(${postal}) ${baseAddress} ${detailAddress}`,
+          postal,
+          baseAddress,
+          detailAddress,
           request,
         },
       });
@@ -302,6 +314,7 @@ const OrderInfo = () => {
     navigate,
     option,
     optionPrice,
+    totalPrice,
     phone,
     postal,
     product,
@@ -328,21 +341,21 @@ const OrderInfo = () => {
         <OrderDetailContainer>
           <SubTitle>주문내역</SubTitle>
           <Line />
-          {product.options && optionId.map((itemId, idx)=> {
+          {product.options && optionId.map((itemId, idx) => {
             const selectedOption = product.options.find(option => option.id === Number(itemId));
-            return (
-              <ProductDetailInfo key={selectedOption.id}>
-                <OrderProfileImg src={product.coverImage} alt="상품 이미지" />
-                <OrderDetails>
-                  <ProductName> {product.name} </ProductName>
+              return (
+                <ProductDetailInfo key={selectedOption.id}>
+                  <OrderProfileImg src={product.coverImage} alt="상품 이미지" />
+                  <OrderDetails>
+                    <ProductName> {product.name} </ProductName>
                     <QualityPrice>
-                      <ProductNumber> 옵션:{selectedOption.name} </ProductNumber>
-                      <ProductNumber> {quality[idx]}개 </ProductNumber>
+                      <ProductNumber> 옵션: {selectedOption.name} / {quality[idx]}개 </ProductNumber>
                       <OrderPrice> {optionPrice[idx].toLocaleString()}원 </OrderPrice>
                     </QualityPrice>
-                </OrderDetails>
-              </ProductDetailInfo>
-            )})}
+                  </OrderDetails>
+                </ProductDetailInfo>
+              );
+          })}
           <Line />
           <TotalAmountInfo>
             <TotalAmountTitle>총 상품 금액</TotalAmountTitle>
