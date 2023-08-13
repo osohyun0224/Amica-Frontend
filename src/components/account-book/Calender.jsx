@@ -45,9 +45,10 @@ function CreateCalender(data, selectedYear, selectedMonth, selectedDate) {
       type = "saturday";
     }
 
-    const find = data.find(
-      (item) => month === date.month() && item.date === date.date(),
-    );
+    const find = data.find((item) => {
+      const d = dayjs(item.date);
+      return d.month() === date.month() && d.date() === date.date();
+    });
 
     list.push({
       id: `${year}-${month}-${i}`,
@@ -66,20 +67,20 @@ const Calender = () => {
     useContext(StateContext);
 
   const list = expenseList.reduce((result, item) => {
-    const element = result.find((element) => element.date === item.date);
+    const date = dayjs(item.date).date();
+    const element = result.find((element) => element.date === date);
 
     if (!element) {
       result.push({
         date: item.date,
-        value: item.value,
+        value: item.price,
       });
     } else {
-      element.value += item.value;
+      element.value += item.price;
     }
 
     return result;
   }, []);
-
   const calender = CreateCalender(
     list,
     selectedYear,
