@@ -107,7 +107,7 @@ const GoButtonImage = styled.img`
   cursor: pointer;
 `;
 
-function UserProfile() {
+function StoreMenu() {
   const email = useSelector(selectEmail);
   const name = useSelector(selectName);
   const isAdmin = useSelector(selectIsAdmin);
@@ -115,37 +115,27 @@ function UserProfile() {
   return (
     <PageContainer>
       <Header>
-        <Link to="/my-pet">
+        <Link to="/profile">
           <BackButtonImage src={BackButton} alt="Back" />
         </Link>
       </Header>
-      <HeaderTitle>안녕하세요</HeaderTitle>
-      <HeaderName>
-        {name}
-        {isAdmin ? " (관리자)" : null} 님,
-      </HeaderName>
-      <HeaderEmail>{email}</HeaderEmail>
+      <HeaderTitle>공동구매 관리자 메뉴</HeaderTitle>
+      <HeaderEmail>원하시는 메뉴를 선택하세요.</HeaderEmail>
 
-      <MenuLink to="/changename">
-        <MenuText>사용자 이름 변경</MenuText>
+      <MenuLink to="/admin/store/add">
+        <MenuText>공동구매 추가</MenuText>
         <GoButtonImage src={GoButton} alt="Go" />
       </MenuLink>
-      <MenuLink to="/changepw">
-        <MenuText>비밀번호 변경</MenuText>
+      <MenuLink to="/admin/store/list?to=modify">
+        <MenuText>공동구매 수정</MenuText>
         <GoButtonImage src={GoButton} alt="Go" />
       </MenuLink>
-      <MenuLink to="/checkdelivery">
-        <MenuText>주문 조회</MenuText>
+      <MenuLink to="/admin/store/list?to=remove">
+        <MenuText>공동구매 삭제</MenuText>
         <GoButtonImage src={GoButton} alt="Go" />
       </MenuLink>
-      {isAdmin ? (
-        <MenuLink to="/admin/store">
-          <MenuText>공동구매 관리</MenuText>
-          <GoButtonImage src={GoButton} alt="Go" />
-        </MenuLink>
-      ) : null}
     </PageContainer>
   );
 }
 
-export default UserProfile;
+export default StoreMenu;
