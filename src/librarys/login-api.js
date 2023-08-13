@@ -8,7 +8,7 @@ export async function userLogin(id, password) {
     },
     {
       id: "likelion2@example.com",
-      password: "asdf1234",
+      password: "qwerty123",
       name: "멋쟁이사자",
       admin: true,
     },

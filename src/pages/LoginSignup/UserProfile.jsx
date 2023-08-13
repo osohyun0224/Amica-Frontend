@@ -4,6 +4,8 @@ import BackButton from "../../assets/images/getback.png";
 import GoButton from "../../assets/images/Page-right.png";
 import { Link } from "react-router-dom";
 import { userLogin } from "../../librarys/login-api";
+import { useSelector } from "react-redux";
+import { selectEmail, selectIsAdmin, selectName } from "../../redux/userSlice";
 
 const PageContainer = styled.div`
   display: flex;
@@ -104,16 +106,9 @@ const GoButtonImage = styled.img`
 `;
 
 function UserProfile() {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const loginUser = async () => {
-      const loginInfo = await userLogin("likelion1@example.com", "qwerty123");
-      setUser(loginInfo);
-    };
-
-    loginUser();
-  }, []);
+  const email = useSelector(selectEmail);
+  const name = useSelector(selectName);
+  const isAdmin = useSelector(selectIsAdmin);
 
   return (
     <PageContainer>
@@ -123,14 +118,11 @@ function UserProfile() {
         </Link>
       </Header>
       <HeaderTitle>안녕하세요</HeaderTitle>
-      {user ? (
-        <>
-          <HeaderName>{user.name} 님,</HeaderName>
-          <HeaderEmail>{user.email}</HeaderEmail>
-        </>
-      ) : (
-        <HeaderName>Loading...</HeaderName>
-      )}
+      <HeaderName>
+        {name}
+        {isAdmin ? " (관리자)" : null} 님,
+      </HeaderName>
+      <HeaderEmail>{email}</HeaderEmail>
 
       <MenuLink to="/changename">
         <MenuText>사용자 이름 변경</MenuText>
@@ -141,7 +133,7 @@ function UserProfile() {
         <GoButtonImage src={GoButton} alt="Go" />
       </MenuLink>
       <MenuLink to="/checkdelivery" bottomBorder={true}>
-        <MenuText>주문배송조회</MenuText>
+        <MenuText>주문 조회</MenuText>
         <GoButtonImage src={GoButton} alt="Go" />
       </MenuLink>
     </PageContainer>
