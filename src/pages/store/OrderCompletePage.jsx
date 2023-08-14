@@ -216,7 +216,7 @@ const PaymentPage = () => {
       <PaymentDetailContainer>
         <Title> 주문번호: {order.orderId }</Title>
         <Line />
-        {order.option.map((item, idx) => {
+        {order?.option.map((item, idx) => {
           return (
             <ProductDetailInfo>
             <ProductImg src={item.img} alt="상품 이미지"/>
@@ -233,7 +233,7 @@ const PaymentPage = () => {
         <Line />
         <TotalAmountInfo>
           <TotalAmountTitle> 총 결제 금액 </TotalAmountTitle>
-          <TotalAmount> {(order.price).toLocaleString()}원 </TotalAmount>
+          <TotalAmount> {(order.price)?.toLocaleString()}원 </TotalAmount>
         </TotalAmountInfo>
         
         <BuyerInfoContainer>
