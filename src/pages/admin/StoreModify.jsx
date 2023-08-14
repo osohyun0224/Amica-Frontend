@@ -55,9 +55,9 @@ const StoreModify = () => {
 
   return (
     <Container className={modalStatus ? "freeze" : null}>
-      <HeaderTitle url="/admin/store/list?to=modify" title="공동구매 생성" />
+      <HeaderTitle url="/admin/store/list?to=modify" title="공동구매 수정" />
       <StoreForm id={id} />
-      <CoverButton>상품 추가하기</CoverButton>
+      <CoverButton>상품 수정하기</CoverButton>
     </Container>
   );
 };
