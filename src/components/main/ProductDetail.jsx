@@ -394,7 +394,7 @@ const ProductDetail = () => {
 
   const handleToggle = (id) => {
     const ItemIndex = SellerInfoList.find(item => item.id === id);
-    if (ItemIndex) {
+    if (ItemIndex && id !== 1) {
       setIsOpen(!isOpen);
       setIsOpenID(id);
     }
@@ -504,7 +504,7 @@ const ProductDetail = () => {
           <SellerDetailInfo>
             {SellerInfoList.map((info) => (
               <>
-                <SellerInfoTitle key={info.id}>
+                <SellerInfoTitle onClick={()=> handleToggle(info.id)}>
                   {info.name}
                   {info.id === 1 ? (
                     <SellerPhone> {info.content} </SellerPhone>
@@ -513,7 +513,6 @@ const ProductDetail = () => {
                       key={info.id}
                       className= {(isOpen && isOpenID === info.id) ? "clicked" : ""}
                       src={MoreBtn}
-                      onClick={()=> handleToggle(info.id)}
                     />
                   )}
                 </SellerInfoTitle>
