@@ -140,7 +140,7 @@ const BuyerInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 27px 30px;
+  padding: 21px 30px;
 `;
 
 const BuyerInfoTitle = styled(SubTitle)`
@@ -164,6 +164,8 @@ const PurchaseBtn = styled.button`
   gap: 10px;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  bottom: 0;
   border: none;
   border-radius: 0;
   box-shadow: none;
