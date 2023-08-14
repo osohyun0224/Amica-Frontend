@@ -12,6 +12,7 @@ const Background = styled(SimpleBar)`
   width: 100%;
   height: calc(var(--vh) * 100);
   top: 0;
+  left: calc(50% - 250px);
   z-index: 99;
   position: fixed;
   background-color: rgba(0, 0, 0, 0.25);
@@ -31,6 +32,10 @@ const Background = styled(SimpleBar)`
 
   &.hidden {
     opacity: 0;
+  }
+
+  @media (max-width: 500px) {
+    left: 0;
   }
 `;
 
@@ -63,11 +68,7 @@ const Modal = ({ id = "modal", className = "", style = {}, children }) => {
 
   const onClick = useCallback(
     (e) => {
-      if (
-        ref.current &&
-        !ref.current.contains(e.target) &&
-        e.target.nodeName.toLowerCase() !== "html"
-      ) {
+      if (ref.current && !ref.current.contains(e.target)) {
         dispatch(hide(id));
       }
     },
@@ -75,9 +76,9 @@ const Modal = ({ id = "modal", className = "", style = {}, children }) => {
   );
 
   useEffect(() => {
-    document.addEventListener("click", onClick, true);
+    document.addEventListener("mousedown", onClick, true);
     return () => {
-      document.removeEventListener("click", onClick, true);
+      document.removeEventListener("mousedown", onClick, true);
     };
   }, [onClick]);
 
