@@ -53,7 +53,7 @@ const ProductListItem = ({ src, name, type, price, ...props }) => {
       <Image src={src} alt="상품이미지" />
       <Info>
         <Title>{name}</Title>
-        <ProductType type={type} />
+        <ProductType style={{ maxHeight: "28px" }} type={type} />
         <Price>{price.toLocaleString()}원</Price>
       </Info>
     </Container>

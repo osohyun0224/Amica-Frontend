@@ -2,7 +2,6 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 const Container = styled.div`
-  max-height: 28px;
   display: flex;
   flex-wrap: wrap;
   overflow: hidden;
