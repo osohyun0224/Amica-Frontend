@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo, useReducer } from "react";
 import { styled } from "styled-components";
 
+import HeaderTitle from "../../components/HeaderTitle.jsx";
 import ViewExpenseModal from "../../components/account-book/ViewExpenseModal.jsx";
 import AddExpenseModal from "../../components/account-book/AddExpenseModal.jsx";
 import ModifyExpenseModal from "../../components/account-book/ModifyExpenseModal.jsx";
@@ -20,7 +21,7 @@ import {
 } from "../../librarys/expense-api.js";
 
 const Container = styled.div`
-  margin: 8px 32px;
+  margin: 0 32px;
 `;
 
 const CalenderPage = () => {
@@ -63,6 +64,7 @@ const CalenderPage = () => {
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
+        <HeaderTitle url="/account-book/" title="이번 달 쓴 금액" />
         <ViewExpenseModal />
         <AddExpenseModal />
         <ModifyExpenseModal />
