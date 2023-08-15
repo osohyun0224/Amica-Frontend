@@ -163,7 +163,8 @@ const BackButton = styled(Button)`
   width: 275px;
   height: 50px;
   margin: auto;
-  margin-top: 15px;
+  margin-top: 30px;
+  margin-bottom: 60px;
 
   font-size: 16px;
   font-weight: 600;
