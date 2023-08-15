@@ -9,7 +9,6 @@ import RemoveExpenseModal from "../../components/account-book/RemoveExpenseModal
 import Button from "../../components/account-book/Button.jsx";
 import CalenderStatus from "../../components/account-book/CalenderStatus.jsx";
 import Calender from "../../components/account-book/Calender.jsx";
-import Divider from "../../components/account-book/Divider.jsx";
 import DailySummary from "../../components/account-book/DailySummary.jsx";
 
 import { intialExpenseState, expenseReducer } from "../../reducer/expense.js";
@@ -22,6 +21,12 @@ import {
 
 const Container = styled.div`
   margin: 0 32px;
+`;
+
+const Divider = styled.div`
+  width: 75%;
+  margin: 8px auto;
+  border: 1px solid black;
 `;
 
 const CalenderPage = () => {
