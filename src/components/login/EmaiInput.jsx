@@ -1,58 +1,88 @@
 import styled from "styled-components";
-import PropTypes from 'prop-types';
+import { useContext } from "react";
+import { DispatchContext, StateContext } from "../../librarys/context";
 
-const EmailLabel = styled.label`
-  font-family: "Nanum Gothic";
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 30px;
-  letter-spacing: -0.02em;
-  text-align: left;
-  color: #151515;
-  margin-top: 15px;
-  margin-left: -27px;
+import { debounce } from "../../librarys/util";
+import { useMemo } from "react";
+
+const Container = styled.div`
+  margin: 0 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
-const EmailInputField = styled.input`
-  width: 329px;
-  height: 30px;
-  top: 340px;
-  left: 23px;
-  font-family: "Nanum Gothic";
+const Input = styled.input`
+  padding: 8px;
   font-size: 14px;
+  background-color: rgba(248, 248, 248, 1);
+  border: 1px solid transparent;
   border-radius: 5px;
-  border: 1px solid
-    ${(props) => (props.invalidEmail ? "#D94A56" : "transparent")};
-  margin-left: -27px;
 
-  @media (min-width: 768px) {
-    width: 329px;
+  transition:
+    border 0.2s,
+    color 0.2s;
+
+  &::placeholder {
+    color: #bfbfbf;
+  }
+
+  &.error {
+    border: 1px solid rgba(217, 74, 86, 1);
   }
 `;
 
-const InvalidEmailMessage = styled.p`
-  font-family: "Nanum Gothic";
-  color: #d94a56;
+const Error = styled.p`
   margin-top: 5px;
-  font-size: 10px;
+  color: #d94a56;
+  font-size: 12px;
+
+  &.hidden {
+    opacity: 0;
+  }
 `;
 
-const EmailInput = ({ email, invalidEmail, handleEmailChange }) => (
-  <>
-    <EmailLabel>이메일</EmailLabel>
-    <EmailInputField
-      placeholder="이메일 주소를 입력하세요."
-      type="email"
-      onChange={handleEmailChange}
-      value={email}
-      invalidEmail={invalidEmail}
-    />
-    {invalidEmail && <InvalidEmailMessage>이메일 형식을 다시 확인해주세요</InvalidEmailMessage>}
-  </>
-);
-EmailInput.propTypes = {
-  email: PropTypes.string.isRequired,
-  invalidEmail: PropTypes.bool.isRequired,
-  handleEmailChange: PropTypes.func.isRequired,
+const EmailInput = () => {
+  const { email, emailCheck } = useContext(StateContext);
+  const dispatch = useContext(DispatchContext);
+
+  const errorMessage = useMemo(() => {
+    if (emailCheck !== false) {
+      return "-";
+    } else if (email === "") {
+      return "이메일을 입력하세요.";
+    } else {
+      return "이메일 형식을 다시 확인해주세요.";
+    }
+  }, [email, emailCheck]);
+
+  function onInput(event) {
+    const value = event.target.value;
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    dispatch({
+      type: "setEmail",
+      payload: value,
+    });
+    dispatch({
+      type: "setEmailCheck",
+      payload: regex.test(value),
+    });
+  }
+
+  return (
+    <Container>
+      <Input
+        className={emailCheck === false ? "error" : null}
+        placeholder="likelion@example.com"
+        type="text"
+        onInput={debounce(onInput)}
+      />
+      <Error className={emailCheck === false ? null : "hidden"}>
+        {errorMessage}
+      </Error>
+    </Container>
+  );
 };
+
 export default EmailInput;

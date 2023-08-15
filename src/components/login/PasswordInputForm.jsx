@@ -1,122 +1,144 @@
 import styled from "styled-components";
-import PropTypes from 'prop-types';
+import { useContext } from "react";
+import { DispatchContext, StateContext } from "../../librarys/context";
+import { useState } from "react";
 
-const PasswordLabel = styled.label`
-  font-family: "Nanum Gothic";
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 30px;
-  letter-spacing: -0.02em;
-  text-align: left;
-  color: #151515;
-  margin-top: 10px;
-  margin-left: -27px;
-  font-family: NanumGothic;
+import CheckImage from "../../assets/images/check.svg";
+import { useEffect } from "react";
 
+const Container = styled.div`
+  margin: 0 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
-const PasswordInput = styled.input`
-  font-family: "Nanum Gothic";
-  width: 329px;
-  height: 30px;
-  top: 340px;
-  left: 23px;
-  font-size: 16px;
+const Input = styled.input`
+  margin-top: 12px;
+  padding: 8px;
+  font-size: 14px;
+  background-color: rgba(248, 248, 248, 1);
+  border: 1px solid transparent;
   border-radius: 5px;
-  border: 1px solid
-    ${(props) => (props.invalidEmail ? "#D94A56" : "transparent")};
-  margin-left: -27px;
 
-  @media (min-width: 768px) {
-    width: 329px;
+  transition:
+    border 0.2s,
+    color 0.2s;
+
+  &::placeholder {
+    color: #bfbfbf;
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &.error {
+    border: 1px solid rgba(217, 74, 86, 1);
   }
 `;
 
 const RequirementsContainer = styled.div`
-  font-family: "Nanum Gothic";
-  font-weight: 500;
+  margin-top: 4px;
   display: flex;
-  justify-content: flex-start;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  margin-left: -27px;
+  align-items: center;
+  gap: 12px;
 `;
 
 const RequirementText = styled.span`
-  font-family: "Nanum Gothic";
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-weight: 500;
-  font-size: 10px;
-  color: ${(props) => (props.$isValid ? "green" : "red")};
-  margin-right: 10px;
+  font-size: 12px;
+  color: rgba(102, 112, 128, 0.5);
   font-weight: 500;
+
+  transition: color 0.2s;
+
+  &.check {
+    color: rgba(217, 74, 86, 1);
+  }
 `;
 
-const ConfirmationText = styled.span`
-  font-family: "Nanum Gothic";
-  font-weight: 500;
-  font-size: 10px;
-  color: ${(props) =>
-    props.$isValid === null ? "red" : props.$isValid ? "green" : "red"};
-  margin-top: 5px;
-  margin-left: -27px;
+const Check = styled.img`
+  width: 12px;
+  height: 12px;
+  filter: ${(props) =>
+    props.value
+      ? "invert(40%) sepia(33%) saturate(5457%) hue-rotate(331deg) brightness(93%) contrast(82%)"
+      : "invert(44%) sepia(8%) saturate(893%) hue-rotate(178deg) brightness(93%) contrast(82%)"};
+  opacity: ${(props) => (props.value ? "1" : "0.3")};
+
+  transition:
+    opacity 0.2s,
+    filter 0.2s;
 `;
 
-const PasswordInputForm = ({
-  password,
-  passwordCheck,
-  handlePasswordChange,
-  handlePasswordCheckChange,
-  lengthRequirement,
-  letterRequirement,
-  numberRequirement,
-  isPasswordMatch,
-}) => (
-  <>
-  <PasswordLabel>비밀번호</PasswordLabel>
-      <PasswordInput
-        label="비밀번호"
-        placeholder="비밀번호를 입력하세요."
+const PasswordInputForm = () => {
+  const { password, passwordCheck } = useContext(StateContext);
+  const dispatch = useContext(DispatchContext);
+
+  const [validate, setValidate] = useState("");
+
+  const lengthCheck = password?.length >= 8;
+  const alphabetCheck = /[a-zA-Z]/g.test(password || "");
+  const numberCheck = /\d/g.test(password);
+  const validateCheck = password !== "" && password === validate;
+
+  useEffect(() => {
+    if (password !== null) {
+      dispatch({
+        type: "setPasswordCheck",
+        payload: lengthCheck && alphabetCheck && numberCheck && validateCheck,
+      });
+    }
+  }, [
+    dispatch,
+    password,
+    lengthCheck,
+    alphabetCheck,
+    numberCheck,
+    validateCheck,
+  ]);
+
+  return (
+    <Container>
+      <Input
+        className={passwordCheck === false ? "error" : null}
+        placeholder="비밀번호 입력"
         type="password"
-        onChange={handlePasswordChange}
-        value={password}
+        onInput={(event) =>
+          dispatch({
+            type: "setPassword",
+            payload: event.target.value,
+          })
+        }
       />
-
       <RequirementsContainer>
-        <RequirementText $isValid={lengthRequirement}>
-          8자 이상 {lengthRequirement ? "✓" : ""}
+        <RequirementText className={lengthCheck ? "check" : null}>
+          8자 이상 <Check src={CheckImage} value={lengthCheck} />
         </RequirementText>
-        <RequirementText $isValid={letterRequirement}>
-          영문 포함 {letterRequirement ? "✓" : ""}
+        <RequirementText className={alphabetCheck ? "check" : null}>
+          영문 포함 <Check src={CheckImage} value={alphabetCheck} />
         </RequirementText>
-        <RequirementText $isValid={numberRequirement}>
-          숫자 포함 {numberRequirement ? "✓" : ""}
+        <RequirementText className={numberCheck ? "check" : null}>
+          숫자 포함 <Check src={CheckImage} value={numberCheck} />
         </RequirementText>
       </RequirementsContainer>
-
-      <PasswordInput
-        label="비밀번호 확인"
-        placeholder="비밀번호를 입력하세요."
+      <Input
+        className={passwordCheck === false ? "error" : null}
+        placeholder="비밀번호 확인"
         type="password"
-        onChange={handlePasswordCheckChange}
-        value={passwordCheck}
+        onInput={(event) => setValidate(event.target.value)}
       />
-
-      <ConfirmationText $isValid={isPasswordMatch}>
-        비밀번호 확인{" "}
-        {isPasswordMatch !== null ? (isPasswordMatch ? "✓" : "") : ""}
-      </ConfirmationText>
-  </>
-);
-PasswordInputForm.propTypes = {
-  password: PropTypes.string.isRequired,
-  passwordCheck: PropTypes.string.isRequired,
-  handlePasswordChange: PropTypes.func.isRequired,
-  handlePasswordCheckChange: PropTypes.func.isRequired,
-  lengthRequirement: PropTypes.bool.isRequired,
-  letterRequirement: PropTypes.bool.isRequired,
-  numberRequirement: PropTypes.bool.isRequired,
-  isPasswordMatch: PropTypes.bool,
+      <RequirementsContainer>
+        <RequirementText className={validateCheck ? "check" : null}>
+          비밀번호 일치 <Check src={CheckImage} value={validateCheck} />
+        </RequirementText>
+      </RequirementsContainer>
+    </Container>
+  );
 };
 
 export default PasswordInputForm;
-
