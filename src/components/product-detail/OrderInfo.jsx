@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import DaumPostcode from 'react-daum-postcode';
+import Postcode from "./Postcode";
 import styled from "styled-components";
-
 import { getProduct } from "../../librarys/store-api";
 
 import {
@@ -195,6 +196,7 @@ const OrderInfo = () => {
     detailAddress: "",
     request: ""
   });
+  const [openPostcode, setOpenPostcode] = useState(false);
   const navigate = useNavigate();
 
   const { name, phone, postal, baseAddress, detailAddress, request } = userInfo;
@@ -206,6 +208,8 @@ const OrderInfo = () => {
       [title]: value
     });
   };
+
+  const openPost = () => setOpenPostcode(!openPostcode);
 
   const option = useMemo(
     () =>
@@ -222,7 +226,6 @@ const OrderInfo = () => {
           const checkOption = product.options.find(
             option => option.id === Number(itemId)
           );
-
           if (checkOption) {
             return (
               checkOption.discount !== 0
@@ -275,14 +278,10 @@ const OrderInfo = () => {
         "에러가 발생했습니다. 개발자 콘솔을 확인해주세요. 주문은 처음부터 다시 시도하세요.",
       );
       console.error(response);
-  
       await removeDraftOrder(order.orderId);
-  
       return false;
     }
-  
     await _sendOrderComplete(order.orderId, response.data);
-  
     return true;
   }
   
@@ -309,7 +308,6 @@ const OrderInfo = () => {
       });
       
       const result = await requestPayment(order);
-
       console.log(await getOrderList());
 
       if (!result) {
@@ -340,7 +338,6 @@ const OrderInfo = () => {
       if (data === null) {
         return;
       }
-
       setProduct(data);
     })();
   }, [productId]);
@@ -393,8 +390,15 @@ const OrderInfo = () => {
             title="postal"
             value={postal}
             onChange={onChange}
+            onClick={openPost}
             placeholder="우편번호"
           />
+          { openPostcode && (
+            <Postcode 
+              userInfo={userInfo} 
+              setUserInfo={setUserInfo}
+              openPost={openPost}/>
+          )}
           <BuyerInputForm 
             title="baseAddress"
             value={baseAddress}
@@ -420,5 +424,4 @@ const OrderInfo = () => {
     </Container>
   );
 };
-
 export default OrderInfo;
