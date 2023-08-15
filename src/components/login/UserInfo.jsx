@@ -1,83 +1,90 @@
+import { useContext } from "react";
 import styled from "styled-components";
-import PropTypes from 'prop-types';
+import { DispatchContext, StateContext } from "../../librarys/context";
+import { filterNumber } from "../../librarys/util";
 
-const UsernameLabel = styled.label`
-  font-family: "Nanum Gothic";
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 30px;
-  letter-spacing: -0.02em;
-  text-align: left;
-  color: #151515;
-  margin-top: 10px;
-  margin-left: -27px;
+const Container = styled.div`
+  margin: 0 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
-const UsernameInputField = styled.input`
-  width: 100%;
-  max-width: 329px;
-  height: 30px;
-  font-size: 16px;
-  border-radius: 5px;
-  font-family: "Nanum Gothic";
+const Input = styled.input`
+  padding: 8px;
+  font-size: 14px;
+  background-color: rgba(248, 248, 248, 1);
   border: 1px solid transparent;
-  margin-left: -27px;
+  border-radius: 5px;
 
-  @media (min-width: 768px) {
-    width: 329px;
+  transition:
+    border 0.2s,
+    color 0.2s;
+
+  &::placeholder {
+    color: #bfbfbf;
+  }
+
+  &.error {
+    border: 1px solid rgba(217, 74, 86, 1);
   }
 `;
 
-const PhoneLabel = styled.label`
-  font-family: "Nanum Gothic";
+const Label = styled.p`
+  margin: 8px 0;
+  margin-top: 12px;
   font-size: 16px;
   font-weight: 700;
-  line-height: 30px;
-  letter-spacing: -0.02em;
-  text-align: left;
-  color: #151515;
-  margin-top: 10px;
-  margin-left: -27px;
-`;
+  color: rgba(21, 21, 21, 1);
 
-const PhoneInputField = styled.input`
-  font-family: "Nanum Gothic";
-  width: 100%;
-  max-width: 329px;
-  height: 30px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid transparent;
-  margin-left: -27px;
-
-  @media (min-width: 768px) {
-    width: 329px;
+  &:first-child {
+    margin-top: 32px;
   }
 `;
-const UserInfo = ({ username, userphone, handleUsernameChange, handleUserPhoneChange }) => (
-  <>
-    <UsernameLabel>사용자 이름</UsernameLabel>
-    <UsernameInputField
-      placeholder="  닉네임"
-      type="text"
-      onChange={handleUsernameChange}
-      value={username}
-    />
-    <PhoneLabel>휴대폰 번호</PhoneLabel>
-    <PhoneInputField
-      placeholder="  휴대폰 번호"
-      type="text"
-      onChange={handleUserPhoneChange}
-      value={userphone}
-    />
-  </>
-);
 
-UserInfo.propTypes = {
-  username: PropTypes.string.isRequired,
-  userphone: PropTypes.string.isRequired,
-  handleUsernameChange: PropTypes.func.isRequired,
-  handleUserPhoneChange: PropTypes.func.isRequired,
+const UserInfo = () => {
+  const { phone } = useContext(StateContext);
+  const dispatch = useContext(DispatchContext);
+
+  function onNameInput(event) {
+    const value = event.target.value;
+
+    dispatch({
+      type: "setName",
+      payload: value,
+    });
+
+    dispatch({
+      type: "setNameCheck",
+      payload: value !== "",
+    });
+  }
+
+  function onPhoneInput(value) {
+    dispatch({
+      type: "setPhone",
+      payload: value,
+    });
+
+    dispatch({
+      type: "setPhoneCheck",
+      payload: value !== "",
+    });
+  }
+
+  return (
+    <Container>
+      <Label>이름</Label>
+      <Input placeholder="김멋사" type="text" onInput={onNameInput} />
+      <Label>휴대폰</Label>
+      <Input
+        placeholder="01012345678"
+        type="text"
+        onInput={filterNumber(onPhoneInput)}
+        value={phone}
+      />
+    </Container>
+  );
 };
 
 export default UserInfo;

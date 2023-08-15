@@ -7,68 +7,66 @@ import {
 } from "react-router-dom";
 import styled from "styled-components";
 import BackButton from "../../assets/images/getback.png";
-import EmailInput from "../../components/login/EmaiInput.jsx";
 import LoginPassword from "../../components/login/LoginPassword.jsx";
+import HeaderTitle from "../../components/HeaderTitle.jsx";
 
 import { userLogin } from "../../librarys/login-api.js";
 import { login, selectName } from "../../redux/userSlice.js";
 import { useDispatch } from "react-redux";
 
-const PageContainer = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  background-color: white;
   min-height: calc(var(--vh) * 100);
-  margin: 0 auto;
-  max-width: 1000px;
-  padding-top: 30px;
-  padding-left: 50px;
-  position: relative;
-  z-index: 1;
 `;
 
-const Header = styled.header`
-  width: 111%;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  margin-top: -31px;
-  margin-left: -50px;
-`;
-
-const HeaderTitle = styled.h1`
-  font-family: "Nanum Gothic";
-  font-size: 20px;
+const Label = styled.p`
+  margin: 8px 24px;
+  margin-top: 24px;
+  font-size: 16px;
   font-weight: 700;
-  line-height: 30px;
-  letter-spacing: -0.02em;
-  text-align: center;
-  color: #151515;
+  color: rgba(21, 21, 21, 1);
 `;
 
-const BackButtonImage = styled.img`
-  position: absolute;
-  left: 15px;
-  margin-top: -20px;
-  cursor: pointer;
+const Input = styled.input`
+  margin: 0 24px;
+  padding: 8px;
+  font-size: 14px;
+  background-color: rgba(248, 248, 248, 1);
+  border: 1px solid transparent;
+  border-radius: 5px;
+
+  transition:
+    border 0.2s,
+    color 0.2s;
+
+  &::placeholder {
+    color: #bfbfbf;
+  }
+
+  &.error {
+    border: 1px solid rgba(217, 74, 86, 1);
+  }
 `;
 
-const BottomBox = styled(Link)`
+const Spacer = styled.div`
+  flex-grow: 1;
+`;
+
+const BottomBox = styled.button`
+  padding: 24px;
+  border: none;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 84px;
+
   background-color: #d94a56;
   color: white;
   text-align: center;
-  position: absolute;
-  bottom: 0;
-  text-decoration: none;
-  margin-left: -50px;
+  cursor: pointer;
+
+  transition: opacity 0.2s;
 `;
 
 function LoginPage() {
@@ -89,7 +87,6 @@ function LoginPage() {
   const navigate = useNavigate();
 
   const handleLoginClick = async (e) => {
-    e.preventDefault();
     const account = await userLogin(email, password);
 
     if (!account) {
@@ -109,20 +106,25 @@ function LoginPage() {
   };
 
   return (
-    <PageContainer>
-      <Header>
-        <Link to="/">
-          <BackButtonImage src={BackButton} alt="Back" />
-        </Link>
-        <HeaderTitle>로그인</HeaderTitle>
-      </Header>
-      <EmailInput email={email} handleEmailChange={handleEmailChange} />
-      <LoginPassword
-        password={password}
-        handlePasswordChange={handlePasswordChange}
+    <Container>
+      <HeaderTitle url="/" title="로그인" />
+      <Label>이메일</Label>
+      <Input
+        type="text"
+        placeholder="likelion1@example.com"
+        value={email}
+        onInput={handleEmailChange}
       />
+      <Label>비밀번호</Label>
+      <Input
+        type="password"
+        placeholder="qwerty123"
+        value={password}
+        onInput={handlePasswordChange}
+      />
+      <Spacer />
       <BottomBox onClick={handleLoginClick}>로그인</BottomBox>
-    </PageContainer>
+    </Container>
   );
 }
 
