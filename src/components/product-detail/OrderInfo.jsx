@@ -172,7 +172,8 @@ const PurchaseBtn = styled.button`
   border-radius: 0;
   box-shadow: none;
   background-color: #d94a56;
-  cursor: pointer;
+  opacity: ${(props) => (props.active ? "1" : "0.5")};
+  cursor: ${(props) => (props.active ? "pointer" : "auto")};
 
   color: #ffffff;
   font-size: 16px;
@@ -210,6 +211,9 @@ const OrderInfo = () => {
   };
 
   const openPost = () => setOpenPostcode(!openPostcode);
+
+  const isComplete = 
+    Object.values(userInfo).every(value => value !== "");
 
   const option = useMemo(
     () =>
@@ -420,7 +424,7 @@ const OrderInfo = () => {
           />
         </BuyerInfoContainer>
       </OrderDetailContainer>
-      <PurchaseBtn onClick={startPayment}> 결제하기 </PurchaseBtn>
+      <PurchaseBtn onClick={startPayment} active={isComplete}> 결제하기 </PurchaseBtn>
     </Container>
   );
 };
