@@ -32,6 +32,10 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto;
+  max-height: 370px; 
+  padding: 20px 10px; 
+  margin-bottom: 20px;
 `;
 
 const ModalHeader = styled.div`
@@ -59,7 +63,8 @@ const Keywords = styled.div`
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 10px;
-  margin-left: 10px;
+  width: 100%;
+  box-sizing: border-box;
 `;
 
 const Keyword = styled.div`
@@ -109,14 +114,55 @@ const ConfirmText = styled.p`
 const KeywordInputModal = ({ show, onClose, setKeywords, selectedPetId }) => {
   const [selectedKeywords, setSelectedKeywords] = useState([]);
   const keywordsList = [
-    "뚱냥이",
-    "코리안 숏헤어",
-    "잇몸이 약함",
-    "구토 자주함",
-    "골골송 많이 함",
-    "장난감 좋아함",
-    "식탐이 많음",
-    "온순함",
+    "간식좋아함", 
+    "장난감좋아함", 
+    "고령의펫", 
+    "추위탐", 
+    "더위탐", 
+    "체중조절필요", 
+    "야행성펫", 
+    "산책좋아함", 
+    "운동러버", 
+    "소프트간식굿", 
+    "딱딱한간식굿", 
+    "푹신한물건굿", 
+    "피부민감", 
+    "건조한피부", 
+    "빛민감", 
+    "순한샴푸필수", 
+    "온도민감", 
+    "털빠짐주의", 
+    "사냥본능", 
+    "냄새에민감", 
+    "물놀이좋아함", 
+    "새벽활동러", 
+    "높은곳좋아함", 
+    "털관리필수", 
+    "집을좋아함", 
+    "혼자놀기왕", 
+    "사교성좋음", 
+    "곤충스낵러버", 
+    "다이어트필요", 
+    "기술학습빠름", 
+    "움직이기싫음", 
+    "하루종일놀기", 
+    "배변훈련필요", 
+    "소리좋아함", 
+    "감촉민감", 
+    "관절보호필요", 
+    "인형좋아함", 
+    "자주목욕필요", 
+    "거친털", 
+    "부드러운털", 
+    "숲속좋아함", 
+    "모래놀이팬", 
+    "길들이기쉬움", 
+    "길들이기힘듦", 
+    "소리에예민", 
+    "무서움잘느낌", 
+    "다양한맛탐색", 
+    "피부알러지있음", 
+    "스트레스관리필요"
   ];
 
   const toggleKeywordSelection = (keyword) => {
