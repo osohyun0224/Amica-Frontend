@@ -134,10 +134,11 @@ const KeywordSection = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   position: absolute;
-  bottom: 0;
+  bottom: -10px;
   left: 0;
   right: 0;
   margin-left: 10px;
+
 `;
 
 const KeywordButton = styled.img`
