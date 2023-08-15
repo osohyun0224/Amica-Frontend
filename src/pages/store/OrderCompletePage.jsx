@@ -216,7 +216,7 @@ const PaymentPage = () => {
       <PaymentDetailContainer>
         <Title> 주문번호: {order.orderId }</Title>
         <Line />
-        {order?.option.map((item, idx) => {
+        {order?.option?.map((item, idx) => {
           return (
             <ProductDetailInfo>
             <ProductImg src={item.img} alt="상품 이미지"/>
