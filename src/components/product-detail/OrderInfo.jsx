@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import DaumPostcode from 'react-daum-postcode';
+import Postcode from "./Postcode";
 import styled from "styled-components";
-
 import { getProduct } from "../../librarys/store-api";
 
 import {
@@ -171,7 +172,8 @@ const PurchaseBtn = styled.button`
   border-radius: 0;
   box-shadow: none;
   background-color: #d94a56;
-  cursor: pointer;
+  opacity: ${(props) => (props.active ? "1" : "0.5")};
+  cursor: ${(props) => (props.active ? "pointer" : "auto")};
 
   color: #ffffff;
   font-size: 16px;
@@ -195,6 +197,7 @@ const OrderInfo = () => {
     detailAddress: "",
     request: ""
   });
+  const [openPostcode, setOpenPostcode] = useState(false);
   const navigate = useNavigate();
 
   const { name, phone, postal, baseAddress, detailAddress, request } = userInfo;
@@ -206,6 +209,11 @@ const OrderInfo = () => {
       [title]: value
     });
   };
+
+  const openPost = () => setOpenPostcode(!openPostcode);
+
+  const isComplete = 
+    Object.values(userInfo).every(value => value !== "");
 
   const option = useMemo(
     () =>
@@ -222,7 +230,6 @@ const OrderInfo = () => {
           const checkOption = product.options.find(
             option => option.id === Number(itemId)
           );
-
           if (checkOption) {
             return (
               checkOption.discount !== 0
@@ -275,14 +282,10 @@ const OrderInfo = () => {
         "에러가 발생했습니다. 개발자 콘솔을 확인해주세요. 주문은 처음부터 다시 시도하세요.",
       );
       console.error(response);
-  
       await removeDraftOrder(order.orderId);
-  
       return false;
     }
-  
     await _sendOrderComplete(order.orderId, response.data);
-  
     return true;
   }
   
@@ -309,7 +312,6 @@ const OrderInfo = () => {
       });
       
       const result = await requestPayment(order);
-
       console.log(await getOrderList());
 
       if (!result) {
@@ -340,7 +342,6 @@ const OrderInfo = () => {
       if (data === null) {
         return;
       }
-
       setProduct(data);
     })();
   }, [productId]);
@@ -393,8 +394,15 @@ const OrderInfo = () => {
             title="postal"
             value={postal}
             onChange={onChange}
+            onClick={openPost}
             placeholder="우편번호"
           />
+          { openPostcode && (
+            <Postcode 
+              userInfo={userInfo} 
+              setUserInfo={setUserInfo}
+              openPost={openPost}/>
+          )}
           <BuyerInputForm 
             title="baseAddress"
             value={baseAddress}
@@ -416,9 +424,8 @@ const OrderInfo = () => {
           />
         </BuyerInfoContainer>
       </OrderDetailContainer>
-      <PurchaseBtn onClick={startPayment}> 결제하기 </PurchaseBtn>
+      <PurchaseBtn onClick={startPayment} active={isComplete}> 결제하기 </PurchaseBtn>
     </Container>
   );
 };
-
 export default OrderInfo;
