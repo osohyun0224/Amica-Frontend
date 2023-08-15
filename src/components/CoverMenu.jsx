@@ -129,7 +129,9 @@ function CoverMenu() {
       alert("최소 2글자 이상 입력하세요.");
       return;
     }
-    registerKeyword(value);
+    if (!keywords.includes(value)) {
+      registerKeyword(value);
+    }
     navigate("/search?query=" + value);
     close();
   };
@@ -145,7 +147,7 @@ function CoverMenu() {
         <RecentTitle>
           최근 검색어 <ResetButton src={CloseImage} onClick={resetKeyword} />
         </RecentTitle>
-        <Keywords type={keywords} />
+        <Keywords type={keywords} onClick={onSubmit} />
       </ProfileNav>
     </Overlay>
   );
