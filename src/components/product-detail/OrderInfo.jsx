@@ -141,6 +141,7 @@ const BuyerInfoContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: 21px 30px;
+  margin-bottom: 70px;
 `;
 
 const BuyerInfoTitle = styled(SubTitle)`
@@ -164,7 +165,7 @@ const PurchaseBtn = styled.button`
   gap: 10px;
   align-items: center;
   justify-content: center;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   border: none;
   border-radius: 0;
@@ -186,17 +187,26 @@ const OrderInfo = () => {
   const optionId = searchParams.get("oid").split(",");
   const quality = searchParams.get("qty").split(",");
   const [product, setProduct] = useState({});
-  const [name, setName] = useState("멋쟁이사자");
-  const [phone, setPhone] = useState("01012345678");
-  const [postal, setPostal] = useState("12345");
-  const [baseAddress, setBaseAddress] = useState("한림대학교");
-  const [detailAddress, setDetailAddress] = useState("공학관 9999호");
-  const [request, setRequest] = useState("총알 배송 부탁해요~");
-  const totalQuality = quality.reduce(
-    (sum, value) => sum + parseInt(value), 0
-  );
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    phone: "",
+    postal: "",
+    baseAddress: "",
+    detailAddress: "",
+    request: ""
+  });
   const navigate = useNavigate();
+
+  const { name, phone, postal, baseAddress, detailAddress, request } = userInfo;
   
+  const onChange = (e) => {
+    const { title, value } = e.target;
+    setUserInfo({
+      ...userInfo,
+      [title]: value
+    });
+  };
+
   const option = useMemo(
     () =>
     product.options
@@ -204,9 +214,10 @@ const OrderInfo = () => {
       : null,
     [product, optionId],
   );
+
   const optionPrice = useMemo(
     () => 
-    product.options
+    option
       ? optionId.map((itemId, idx) => {
           const checkOption = product.options.find(
             option => option.id === Number(itemId)
@@ -214,23 +225,21 @@ const OrderInfo = () => {
 
           if (checkOption) {
             return (
-              (checkOption.discount !== 0
-                ? checkOption.discount
-                : checkOption.price) * quality[idx]
+              checkOption.discount !== 0
+              ? checkOption.discount
+              : checkOption.price
             );
           }
         }).filter(value => !isNaN(value))
       : [],
-  [product, optionId, quality]
-  );
-
-  const totalPrice = useMemo(
-    () => 
-    option ? optionPrice.reduce(
-      (sum, value) => sum + parseInt(value), 0) : 0,
-    [product, quality],
+    [product, optionId, quality]
   );
   
+  const totalPrice = useMemo(() => {
+    return optionPrice.reduce((sum, value, idx) => {
+      return sum + value * quality[idx];
+    }, 0);
+  }, [optionPrice, quality]);
 
   async function requestPayment(order) {
     const response = await Bootpay.requestPayment({
@@ -276,7 +285,7 @@ const OrderInfo = () => {
   
     return true;
   }
-
+  
   const startPayment = useCallback(() => {
     (async () => {
       const order = await postDraftOrder({
@@ -298,7 +307,7 @@ const OrderInfo = () => {
           request,
         },
       });
-
+      
       const result = await requestPayment(order);
 
       console.log(await getOrderList());
@@ -352,7 +361,7 @@ const OrderInfo = () => {
                     <ProductName> {product.name} </ProductName>
                     <QualityPrice>
                       <ProductNumber> 옵션: {selectedOption.name} / {quality[idx]}개 </ProductNumber>
-                      <OrderPrice> {optionPrice[idx].toLocaleString()}원 </OrderPrice>
+                      <OrderPrice> {optionPrice[idx]?.toLocaleString()}원 </OrderPrice>
                     </QualityPrice>
                   </OrderDetails>
                 </ProductDetailInfo>
@@ -361,39 +370,49 @@ const OrderInfo = () => {
           <Line />
           <TotalAmountInfo>
             <TotalAmountTitle>총 상품 금액</TotalAmountTitle>
-            <TotalAmount> {totalPrice.toLocaleString()}원 </TotalAmount>
+            <TotalAmount> {totalPrice?.toLocaleString()}원 </TotalAmount>
           </TotalAmountInfo>
         </OrderDetailContainer>
         <BuyerInfoContainer>
           <BuyerInfoTitle> 받는 이 </BuyerInfoTitle>
-          <BuyerInputForm value={name} onChange={setName} placeholder="이름" />
+          <BuyerInputForm 
+            title="name"
+            value={name} 
+            onChange={onChange} 
+            placeholder="이름" 
+          />
           <BuyerInfoTitle> 전화번호 </BuyerInfoTitle>
           <BuyerInputForm
+            title="phone"
             value={phone}
-            onChange={setPhone}
-            placeholder="01012345678"
+            onChange={onChange}
+            placeholder="전화번호"
           />
           <BuyerInfoTitle> 주소지</BuyerInfoTitle>
           <BuyerInputForm
+            title="postal"
             value={postal}
-            onChange={setPostal}
+            onChange={onChange}
             placeholder="우편번호"
           />
-          <BuyerInputForm
+          <BuyerInputForm 
+            title="baseAddress"
             value={baseAddress}
-            onChange={setBaseAddress}
+            onChange={onChange}
             placeholder="주소"
           />
           <BuyerInputForm
+            title="detailAddress"
             value={detailAddress}
-            onChange={setDetailAddress}
+            onChange={onChange}
             placeholder="상세주소"
           />
           <BuyerInfoTitle> 요청사항 </BuyerInfoTitle>
           <BuyerInputForm
+            title="request"
             value={request}
-            onChange={setRequest}
-            placeholder="배송 후 연락주세요."
+            onChange={onChange}
+            placeholder="배송 요청사항"
           />
         </BuyerInfoContainer>
       </OrderDetailContainer>

@@ -163,7 +163,8 @@ const BackButton = styled(Button)`
   width: 275px;
   height: 50px;
   margin: auto;
-  margin-top: 15px;
+  margin-top: 30px;
+  margin-bottom: 60px;
 
   font-size: 16px;
   font-weight: 600;
@@ -216,7 +217,7 @@ const PaymentPage = () => {
       <PaymentDetailContainer>
         <Title> 주문번호: {order.orderId }</Title>
         <Line />
-        {order?.option.map((item, idx) => {
+        {order?.option?.map((item, idx) => {
           return (
             <ProductDetailInfo>
             <ProductImg src={item.img} alt="상품 이미지"/>
