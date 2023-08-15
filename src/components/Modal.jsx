@@ -55,7 +55,7 @@ const Content = styled.div`
   }
 `;
 
-const Modal = ({ id = "modal", className = "", style = {}, children }) => {
+const Modal = ({ id, className, style, children }) => {
   const dispatch = useDispatch();
   const isVisible = useSelector(selectVisible(id));
   const [interactable, setInteractable] = useState(false);
@@ -95,9 +95,14 @@ const Modal = ({ id = "modal", className = "", style = {}, children }) => {
 };
 
 Modal.propTypes = {
+  id: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object,
   children: PropTypes.node,
+};
+
+Modal.defaultProps = {
+  id: "modal",
 };
 
 export default Modal;

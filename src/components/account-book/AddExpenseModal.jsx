@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { styled } from "styled-components";
 
 import Modal from "../Modal.jsx";
@@ -38,7 +37,5 @@ const AddExpenseModal = () => {
     </Modal>
   );
 };
-
-AddExpenseModal.propTypes = {};
 
 export default AddExpenseModal;

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import Select from "../../components/Select.jsx";
 import ProductTypeSelect from "../../components/ProductTypeSelect.jsx";
@@ -61,24 +62,6 @@ const Divider = styled.div`
   width: calc(100% + 48px);
   margin: 24px -24px;
   border-top: 1px dashed rgba(21, 21, 21, 0.3);
-`;
-
-const DateContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr 16px);
-  align-items: center;
-  gap: 12px;
-
-  & > input {
-    width: 100%;
-    text-align: right;
-  }
-
-  & > p {
-    margin: 0;
-    width: 100%;
-    text-align: center;
-  }
 `;
 
 const SelectContainer = styled.div`
@@ -260,6 +243,10 @@ const StoreForm = ({ id }) => {
       </Hint>
     </Container>
   );
+};
+
+StoreForm.propTypes = {
+  id: PropTypes.number,
 };
 
 export default StoreForm;

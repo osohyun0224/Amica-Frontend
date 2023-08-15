@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { styled } from "styled-components";
 
 import Modal from "../Modal.jsx";
@@ -6,7 +5,7 @@ import ExpenseModalForm from "./ExpenseModalForm.jsx";
 
 import { hide, selectProps, show } from "../../redux/modalSlice.js";
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const ButtonContainer = styled.div`
   width: 100%;
@@ -66,7 +65,5 @@ const ModifyExpenseModal = () => {
     </Modal>
   );
 };
-
-ModifyExpenseModal.propTypes = {};
 
 export default ModifyExpenseModal;

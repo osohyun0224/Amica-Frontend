@@ -1,15 +1,9 @@
-import PropTypes from "prop-types";
 import { styled } from "styled-components";
 
 import Modal from "../Modal.jsx";
-import Select from "../Select.jsx";
 
 import { hide, selectProps } from "../../redux/modalSlice.js";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
-import { categorys } from "../../librarys/data.js";
-import { useEffect } from "react";
-import dayjs from "dayjs";
 
 const Container = styled.div`
   margin: 16px;
@@ -74,14 +68,7 @@ const id = "remove_expense";
 
 const RemoveExpenseModal = ({}) => {
   const dispatch = useDispatch();
-  const [dataId, setId] = useState("");
-  const modalProps = useSelector(selectProps(id));
-
-  useEffect(() => {
-    if (modalProps !== undefined) {
-      setId(modalProps.id);
-    }
-  }, [modalProps]);
+  const value = useSelector(selectProps(id));
 
   return (
     <Modal id={id}>
@@ -102,7 +89,5 @@ const RemoveExpenseModal = ({}) => {
     </Modal>
   );
 };
-
-RemoveExpenseModal.propTypes = {};
 
 export default RemoveExpenseModal;
