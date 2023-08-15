@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
 import { styled } from "styled-components";
 
-import RightArrowImage from "../../assets/images/rightArrow.png";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { StateContext } from "../../librarys/context";
 
 const Container = styled.div`
@@ -19,15 +18,15 @@ const Text = styled.p`
 
 const ExpenseInfomation = ({ previous }) => {
   const { expenseList } = useContext(StateContext);
-  const totalPrice = expenseList.reduce(
-    (result, item) => result + item.price,
-    0,
-  );
-  const value = totalPrice - previous;
 
-  const valueString = Math.abs(value).toLocaleString();
+  const message = useMemo(() => {
+    const totalPrice = expenseList.reduce(
+      (result, item) => result + item.price,
+      0,
+    );
+    const value = totalPrice - previous;
+    const valueString = Math.abs(value).toLocaleString();
 
-  const message = (() => {
     if (value > 0) {
       return `저번달 대비 ${valueString}원을 더 지출했어요`;
     } else if (value < 0) {
@@ -35,7 +34,7 @@ const ExpenseInfomation = ({ previous }) => {
     } else {
       return `저번달과 지출액이 똑같아요`;
     }
-  })();
+  }, [expenseList, previous]);
 
   return (
     <Container>
@@ -46,6 +45,10 @@ const ExpenseInfomation = ({ previous }) => {
 
 ExpenseInfomation.propTypes = {
   previous: PropTypes.number,
+};
+
+ExpenseInfomation.defaultProps = {
+  previous: 0,
 };
 
 export default ExpenseInfomation;
