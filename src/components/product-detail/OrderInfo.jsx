@@ -187,14 +187,26 @@ const OrderInfo = () => {
   const optionId = searchParams.get("oid").split(",");
   const quality = searchParams.get("qty").split(",");
   const [product, setProduct] = useState({});
-  const [name, setName] = useState("멋쟁이사자");
-  const [phone, setPhone] = useState("01012345678");
-  const [postal, setPostal] = useState("12345");
-  const [baseAddress, setBaseAddress] = useState("한림대학교");
-  const [detailAddress, setDetailAddress] = useState("공학관 9999호");
-  const [request, setRequest] = useState("총알 배송 부탁해요~");
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    phone: "",
+    postal: "",
+    baseAddress: "",
+    detailAddress: "",
+    request: ""
+  });
   const navigate = useNavigate();
+
+  const { name, phone, postal, baseAddress, detailAddress, request } = userInfo;
   
+  const onChange = (e) => {
+    const { title, value } = e.target;
+    setUserInfo({
+      ...userInfo,
+      [title]: value
+    });
+  };
+
   const option = useMemo(
     () =>
     product.options
@@ -229,7 +241,6 @@ const OrderInfo = () => {
     }, 0);
   }, [optionPrice, quality]);
 
-console.log(totalPrice);
   async function requestPayment(order) {
     const response = await Bootpay.requestPayment({
       application_id: "59a4d323396fa607cbe75de4",
@@ -333,7 +344,7 @@ console.log(totalPrice);
       setProduct(data);
     })();
   }, [productId]);
-console.log(optionPrice);
+
   return (
     <Container>
       <TopTitle>배송정보</TopTitle>
@@ -364,34 +375,44 @@ console.log(optionPrice);
         </OrderDetailContainer>
         <BuyerInfoContainer>
           <BuyerInfoTitle> 받는 이 </BuyerInfoTitle>
-          <BuyerInputForm value={name} onChange={setName} placeholder="이름" />
+          <BuyerInputForm 
+            title="name"
+            value={name} 
+            onChange={onChange} 
+            placeholder="이름" 
+          />
           <BuyerInfoTitle> 전화번호 </BuyerInfoTitle>
           <BuyerInputForm
+            title="phone"
             value={phone}
-            onChange={setPhone}
-            placeholder="01012345678"
+            onChange={onChange}
+            placeholder="전화번호"
           />
           <BuyerInfoTitle> 주소지</BuyerInfoTitle>
           <BuyerInputForm
+            title="postal"
             value={postal}
-            onChange={setPostal}
+            onChange={onChange}
             placeholder="우편번호"
           />
-          <BuyerInputForm
+          <BuyerInputForm 
+            title="baseAddress"
             value={baseAddress}
-            onChange={setBaseAddress}
+            onChange={onChange}
             placeholder="주소"
           />
           <BuyerInputForm
+            title="detailAddress"
             value={detailAddress}
-            onChange={setDetailAddress}
+            onChange={onChange}
             placeholder="상세주소"
           />
           <BuyerInfoTitle> 요청사항 </BuyerInfoTitle>
           <BuyerInputForm
+            title="request"
             value={request}
-            onChange={setRequest}
-            placeholder="배송 후 연락주세요."
+            onChange={onChange}
+            placeholder="배송 요청사항"
           />
         </BuyerInfoContainer>
       </OrderDetailContainer>
