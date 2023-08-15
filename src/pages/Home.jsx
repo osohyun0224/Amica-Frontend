@@ -1,77 +1,90 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../components/Button.jsx";
+import LandingBackgroundImage from "../assets/images/landingBackground.jpg";
+import { useRef } from "react";
 
 const PageContainer = styled.div`
-  background-color: white;
-  min-height: 100%;
-  margin: 0 auto;
-  max-width: 1000px;
-`;
+  padding: 64px 32px;
+  min-height: calc(var(--vh) * 100);
+  background-position: 50%;
+  background-size: cover;
 
-const ButtonContainer = styled.div`
-  position: fixed;
-  bottom: 50px;
-  left: 0;
-  right: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
+  align-item: center;
+
+  transition: background 0.2s;
+
+  animation-duration: 5s;
+  animation-name: slide;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: ease-in-out;
+
+  @keyframes slide {
+    from {
+      background-position: 48%;
+    }
+
+    to {
+      background-position: 52%;
+    }
+  }
 `;
 
-const StyledButton = styled(Button)`
-  padding: 13px 24px;
+const StyledButton = styled.button`
+  min-width: 300px;
+  padding: 12px 4px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 `;
 
 const StyledLoginButton = styled(StyledButton)`
-  background: #D94A56;
+  background: #d94a56;
   color: white;
-  box-shadow: 0px 4px 4px 0px #00000040;
-  border: 1px solid #D94A56;
+
+  &:hover {
+  }
+`;
+
+const StyledLink = styled(Link)`
+  margin: 4px 0;
+  text-align: center;
 `;
 
 const StyledSignupButton = styled(StyledButton)`
   background: white;
-  color: #D94A56;
-  border: 1px solid #D94A56;
+  color: #d94a56;
+  border: 1px solid #d94a56;
 `;
 
-const Title = styled.h1`
-  font-family: Nanum Gothic;
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 33px;
-  letter-spacing: 0em;
-  text-align: left;
-  margin-left: 20px;
-  margin-top: 100px;
-`;
-
-const SubTitle = styled.p`
-  font-size: 16px;
+const Title = styled.p`
+  font-size: 50px;
   font-weight: 600;
-  line-height: 18px;
-  letter-spacing: 0em;
-  margin-left: 20px;
-  margin-top: 10px;
-  text-align: left;
+  flex-grow: 1;
+`;
+
+const Subtitle = styled.p`
+  margin-top: 64px;
+  font-size: 16px;
+  font-weight: 400;
 `;
 
 function Home() {
   return (
-    <PageContainer>
-      <Title>대충 깔쌈한 슬로건?</Title>
-      <SubTitle>서비스명 나오면 <br/> 그에 따른 ... 이쁜... 말 예정</SubTitle>
-      <ButtonContainer>
-        <Link to="/login">
-          <StyledLoginButton>로그인</StyledLoginButton>
-        </Link>
-        <Link to="/signup">
-          <StyledSignupButton>회원가입</StyledSignupButton>
-        </Link>
-      </ButtonContainer>
+    <PageContainer
+      style={{ backgroundImage: `url(${LandingBackgroundImage})` }}
+    >
+      <Subtitle>내 친구를 위한 현명한 소비</Subtitle>
+      <Title>Amica!</Title>
+      <StyledLink to="/login">
+        <StyledLoginButton>로그인</StyledLoginButton>
+      </StyledLink>
+      <StyledLink to="/signup">
+        <StyledSignupButton>회원가입</StyledSignupButton>
+      </StyledLink>
     </PageContainer>
   );
 }
