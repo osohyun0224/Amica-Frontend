@@ -9,7 +9,7 @@ import UserInfo from "../../components/login/UserInfo.jsx";
 import HeaderTitle from "../../components/HeaderTitle.jsx";
 
 import { DispatchContext, StateContext } from "../../librarys/context";
-import { intialSignupState, signupReducer } from "../../reducer/signUp";
+import { intialSignupState, signupReducer } from "../../reducer/signup.js";
 
 const Container = styled.div`
   display: flex;
