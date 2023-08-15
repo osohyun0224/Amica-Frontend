@@ -43,14 +43,6 @@ function StoreList() {
   useEffect(() => {
     (async () => {
       const data = await getProductList();
-
-      data.forEach((item) => {
-        const category = categorys.find(
-          (element) => element.id === item.category,
-        );
-        item.categoryName = category.title;
-      });
-
       setProducts(data);
     })();
   }, []);
@@ -64,7 +56,7 @@ function StoreList() {
           key={item.id}
           src={item.thumbnailImage}
           name={item.name}
-          type={[item.categoryName, ...item.tag]}
+          category={item.category}
           price={item.price}
           onClick={() => navigate(`/admin/store/${to}/${item.id}`)}
         />

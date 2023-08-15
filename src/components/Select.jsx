@@ -89,8 +89,7 @@ const Item = styled.p`
 // }
 
 const Select = ({ outline = false, list = [], value, onSelect, ...props }) => {
-  const initialItem = list?.find((item) => item.default === true) || null;
-  const [selectedItem, setItem] = useState(initialItem);
+  const [selectedItem, setItem] = useState();
   const [isVisible, setVisible] = useState(false);
   const container = useRef(null);
 
@@ -106,10 +105,6 @@ const Select = ({ outline = false, list = [], value, onSelect, ...props }) => {
       document.removeEventListener("click", eventCallback, true);
     };
   }, []);
-
-  useEffect(() => {
-    setItem(initialItem);
-  }, [initialItem]);
 
   useEffect(() => {
     if (value) {

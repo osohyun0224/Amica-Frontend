@@ -90,13 +90,13 @@ const routerList = [
     role: 1,
     redirect: "/main",
   },
+  { path: "/account-book/calender", element: <CalenderPage /> },
 ];
 
 const routerHeaderList = [
   { path: "/main", element: <Main /> },
   { path: "/search", element: <SearchPage /> },
   { path: "/account-book", element: <AccountBookPage /> },
-  { path: "/account-book/calender", element: <CalenderPage /> },
   { path: "/my-pet", element: <MyPetPage /> },
 ];
 

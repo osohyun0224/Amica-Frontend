@@ -64,12 +64,9 @@ function StoreRemove() {
   useEffect(() => {
     (async () => {
       const data = await getProduct(id);
-      const category = categorys.find((item) => item.id === data.category);
-      data.categoryName = category.title;
-      console.log(data);
       setProduct(data);
     })();
-  }, []);
+  }, [id]);
 
   return (
     <Container>
@@ -79,7 +76,7 @@ function StoreRemove() {
           <ProductListItem
             src={product.thumbnailImage}
             name={product.name}
-            type={[product.categoryName, ...product.tag]}
+            category={product.category}
             price={product.price}
           />
         ) : null}

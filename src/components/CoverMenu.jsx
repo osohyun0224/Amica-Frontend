@@ -1,11 +1,15 @@
 import { useState } from "react";
 import styled from "styled-components";
 import SearchBar from "../components/SearchBar.jsx";
+import ProductType from "./NewProductType.jsx";
+
+import CloseImage from "../assets/images/x.png";
 
 import { show, hide, selectVisible } from "../redux/menuSlice.js";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const ProfileNav = styled.div`
   width: 80%;
@@ -52,31 +56,32 @@ const Overlay = styled.div`
   }
 `;
 
-const PopularTitle = styled.div`
+const RecentTitle = styled.div`
+  margin: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 16px;
   font-weight: 600;
-  margin: 16px;
 `;
 
-const PopularKeywordWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-left: 16px;
-`;
-
-const Keyword = styled.div`
-  min-width: 75px;
-  max-width: 200px;
-  padding: 4px 8px;
-  border-radius: 5px;
-  background-color: #fcecd9;
-  font-size: 14px;
-  overflow: hidden;
-  text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+const ResetButton = styled.img`
+  width: 18px;
+  height: 18px;
   cursor: pointer;
+`;
+
+const Keywords = styled(ProductType)`
+  margin: 0 16px;
+
+  & > p {
+    max-width: 130px;
+    flex-grow: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: pointer;
+  }
 `;
 
 function CoverMenu() {
@@ -84,20 +89,33 @@ function CoverMenu() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
-  const popularKeywords = [
-    "강아지용품",
-    "수제츄르",
-    "영양제",
-    "아무거나정말정말긴해시태그1",
-    "긴해시태그1",
-    "긴해시태그2",
-    "아무거나정말정말긴해시태그1",
-    "아무거나정말정말긴해시태그1",
-  ];
+  const [keywords, setKeywords] = useState([]);
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("recent-search"));
+
+    if (Array.isArray(data)) {
+      setKeywords(data);
+    } else {
+      localStorage.setItem("recent-search", "[]");
+    }
+  }, []);
 
   function close() {
     setSearchValue("");
     dispatch(hide());
+  }
+
+  function registerKeyword(keyword) {
+    keywords.push(keyword);
+    localStorage.setItem("recent-search", JSON.stringify(keywords));
+  }
+
+  function resetKeyword() {
+    if (confirm("최근 검색어를 초기화 하겠습니까?")) {
+      localStorage.setItem("recent-search", "[]");
+      setKeywords([]);
+    }
   }
 
   const onClick = (e) => {
@@ -111,6 +129,7 @@ function CoverMenu() {
       alert("최소 2글자 이상 입력하세요.");
       return;
     }
+    registerKeyword(value);
     navigate("/search?query=" + value);
     close();
   };
@@ -123,14 +142,10 @@ function CoverMenu() {
           onChange={setSearchValue}
           onSubmit={onSubmit}
         />
-        <PopularTitle>최근 검색어</PopularTitle>
-        <PopularKeywordWrapper>
-          {popularKeywords.map((keyword, index) => (
-            <Keyword key={index} onClick={() => onSubmit(keyword)}>
-              #{keyword}
-            </Keyword>
-          ))}
-        </PopularKeywordWrapper>
+        <RecentTitle>
+          최근 검색어 <ResetButton src={CloseImage} onClick={resetKeyword} />
+        </RecentTitle>
+        <Keywords type={keywords} />
       </ProfileNav>
     </Overlay>
   );

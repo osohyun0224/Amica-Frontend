@@ -68,7 +68,9 @@ const Calender = () => {
 
   const list = expenseList.reduce((result, item) => {
     const date = dayjs(item.date).date();
-    const element = result.find((element) => element.date === date);
+    const element = result.find(
+      (element) => dayjs(element.date).date() === date,
+    );
 
     if (!element) {
       result.push({
