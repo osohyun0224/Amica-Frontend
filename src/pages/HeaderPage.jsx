@@ -1,4 +1,4 @@
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ProfileImage from "../assets/images/profile.png";
 import Search from "../assets/images/search.png";
@@ -69,7 +69,7 @@ const Title = styled.p`
   font-size: 24px;
   font-weight: 700;
 `;
-const RightImagesWrapper = styled.div`
+const ImageContainer = styled.div`
   display: flex;
   align-items: center;
 `;
@@ -87,7 +87,7 @@ const Image = styled.img`
   }
 `;
 
-const MenuWrapper = styled.div`
+const MenuContainer = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
@@ -131,6 +131,7 @@ const Container = styled.div`
 
 function HeaderPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const getSelected = (value) => (pathname === value ? "selected" : "");
   const modalStatus = useSelector(selectCount) > 0;
@@ -156,14 +157,16 @@ function HeaderPage() {
       <Header className={visible ? "" : "hidden"} ref={headerElement}>
         <TitleWrapper>
           <Title>Title</Title>
-          <RightImagesWrapper>
+          <ImageContainer>
             <Image src={Search} alt="메뉴" onClick={() => dispatch(show())} />
-            <Link to="/profile">
-              <Image src={ProfileImage} alt="프로필" />
-            </Link>
-          </RightImagesWrapper>
+            <Image
+              src={ProfileImage}
+              alt="프로필"
+              onClick={() => navigate("/profile")}
+            />
+          </ImageContainer>
         </TitleWrapper>
-        <MenuWrapper>
+        <MenuContainer>
           <MenuButton to="/main" className={getSelected("/main")}>
             HOME
           </MenuButton>
@@ -176,7 +179,7 @@ function HeaderPage() {
           <MenuButton to="/my-pet" className={getSelected("/my-pet")}>
             My Pet
           </MenuButton>
-        </MenuWrapper>
+        </MenuContainer>
       </Header>
       <Content
         className={modalStatus ? "freeze" : null}

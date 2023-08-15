@@ -17,11 +17,13 @@ const Type = styled.p`
   background-color: rgba(252, 236, 217, 1);
 `;
 
-const ProductType = ({ type, ...props }) => {
+const ProductType = ({ type, onClick, ...props }) => {
   return (
     <Container {...props}>
       {type.map((item, index) => (
-        <Type key={index}>{item}</Type>
+        <Type key={index} onClick={() => onClick(item)}>
+          {item}
+        </Type>
       ))}
     </Container>
   );
@@ -29,6 +31,7 @@ const ProductType = ({ type, ...props }) => {
 
 ProductType.propTypes = {
   type: PropTypes.arrayOf(PropTypes.string),
+  onClick: PropTypes.func,
 };
 
 export default ProductType;

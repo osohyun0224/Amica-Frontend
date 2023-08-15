@@ -26,7 +26,7 @@ const Title = styled.p`
   font-weight: 700;
 `;
 
-const HeaderTitle = ({ url = "/main", title }) => {
+const HeaderTitle = ({ url, title }) => {
   const navigate = useNavigate();
   return (
     <Container>
@@ -39,6 +39,11 @@ const HeaderTitle = ({ url = "/main", title }) => {
 HeaderTitle.propTypes = {
   url: PropTypes.string,
   title: PropTypes.string,
+};
+
+HeaderTitle.defaultProps = {
+  url: "/main",
+  title: "",
 };
 
 export default HeaderTitle;
