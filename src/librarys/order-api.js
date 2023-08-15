@@ -67,6 +67,7 @@ export async function postDraftOrder(data) {
     productName: "",
     option: [
       {
+        img: "",
         id: 0,
         name: "",
         quality: 0,

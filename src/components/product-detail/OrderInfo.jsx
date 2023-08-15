@@ -193,9 +193,6 @@ const OrderInfo = () => {
   const [baseAddress, setBaseAddress] = useState("한림대학교");
   const [detailAddress, setDetailAddress] = useState("공학관 9999호");
   const [request, setRequest] = useState("총알 배송 부탁해요~");
-  const totalQuality = quality.reduce(
-    (sum, value) => sum + parseInt(value), 0
-  );
   const navigate = useNavigate();
   
   const option = useMemo(
@@ -205,9 +202,10 @@ const OrderInfo = () => {
       : null,
     [product, optionId],
   );
+
   const optionPrice = useMemo(
     () => 
-    product.options
+    option
       ? optionId.map((itemId, idx) => {
           const checkOption = product.options.find(
             option => option.id === Number(itemId)
@@ -215,24 +213,23 @@ const OrderInfo = () => {
 
           if (checkOption) {
             return (
-              (checkOption.discount !== 0
-                ? checkOption.discount
-                : checkOption.price) * quality[idx]
+              checkOption.discount !== 0
+              ? checkOption.discount
+              : checkOption.price
             );
           }
         }).filter(value => !isNaN(value))
       : [],
-  [product, optionId, quality]
-  );
-
-  const totalPrice = useMemo(
-    () => 
-    option ? optionPrice.reduce(
-      (sum, value) => sum + parseInt(value), 0) : 0,
-    [product, quality],
+    [product, optionId, quality]
   );
   
+  const totalPrice = useMemo(() => {
+    return optionPrice.reduce((sum, value, idx) => {
+      return sum + value * quality[idx];
+    }, 0);
+  }, [optionPrice, quality]);
 
+console.log(totalPrice);
   async function requestPayment(order) {
     const response = await Bootpay.requestPayment({
       application_id: "59a4d323396fa607cbe75de4",
@@ -277,7 +274,7 @@ const OrderInfo = () => {
   
     return true;
   }
-
+  
   const startPayment = useCallback(() => {
     (async () => {
       const order = await postDraftOrder({
@@ -299,7 +296,7 @@ const OrderInfo = () => {
           request,
         },
       });
-
+      
       const result = await requestPayment(order);
 
       console.log(await getOrderList());
@@ -336,7 +333,7 @@ const OrderInfo = () => {
       setProduct(data);
     })();
   }, [productId]);
-
+console.log(optionPrice);
   return (
     <Container>
       <TopTitle>배송정보</TopTitle>
@@ -353,7 +350,7 @@ const OrderInfo = () => {
                     <ProductName> {product.name} </ProductName>
                     <QualityPrice>
                       <ProductNumber> 옵션: {selectedOption.name} / {quality[idx]}개 </ProductNumber>
-                      <OrderPrice> {optionPrice[idx].toLocaleString()}원 </OrderPrice>
+                      <OrderPrice> {optionPrice[idx]?.toLocaleString()}원 </OrderPrice>
                     </QualityPrice>
                   </OrderDetails>
                 </ProductDetailInfo>
@@ -362,7 +359,7 @@ const OrderInfo = () => {
           <Line />
           <TotalAmountInfo>
             <TotalAmountTitle>총 상품 금액</TotalAmountTitle>
-            <TotalAmount> {totalPrice.toLocaleString()}원 </TotalAmount>
+            <TotalAmount> {totalPrice?.toLocaleString()}원 </TotalAmount>
           </TotalAmountInfo>
         </OrderDetailContainer>
         <BuyerInfoContainer>
