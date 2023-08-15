@@ -2,6 +2,10 @@ import styled from "styled-components";
 import ProductType from "./NewProductType.jsx";
 import PropTypes from "prop-types";
 
+import { categorys, petTags } from "../librarys/data.js";
+import { useEffect } from "react";
+import { useState } from "react";
+
 const Container = styled.div`
   width: 100%;
   padding: 12px 24px;
@@ -47,13 +51,20 @@ const Price = styled.p`
   font-weight: 700;
 `;
 
-const ProductListItem = ({ src, name, type, price, ...props }) => {
+const ProductListItem = ({ src, name, category, price, ...props }) => {
+  const [type, setType] = useState("");
+
+  useEffect(() => {
+    const find = categorys.find((item) => item.id === category);
+    setType(find ? find.title : category);
+  }, [category]);
+
   return (
     <Container {...props}>
       <Image src={src} alt="상품이미지" />
       <Info>
         <Title>{name}</Title>
-        <ProductType style={{ maxHeight: "28px" }} type={type} />
+        <ProductType style={{ maxHeight: "28px" }} type={[type]} />
         <Price>{price.toLocaleString()}원</Price>
       </Info>
     </Container>
