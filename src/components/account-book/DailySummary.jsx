@@ -35,8 +35,6 @@ const DailySummary = () => {
     totalPrice = filteredList.reduce((result, item) => result + item.price, 0);
   }
 
-  console.log(filteredList);
-
   const showModal = async (item) => {
     if (item.orderId) {
       // 주문 내역 모달 표시
