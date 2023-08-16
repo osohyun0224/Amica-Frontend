@@ -22,7 +22,7 @@ const productList = [
         id: 1,
         name: "1kg x 1",
         price: 21000,
-        discount: 16000,
+        discount: 1000,
       },
       {
         id: 2,
