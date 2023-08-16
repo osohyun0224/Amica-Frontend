@@ -86,13 +86,18 @@ const AddOptionModal = ({ onComplete }) => {
       discount,
     });
     dispatch(hide(id));
-    setName("");
-    setPrice("");
-    setDiscount("");
+  }
+
+  function clear(value) {
+    if (value) {
+      setName("");
+      setPrice("");
+      setDiscount("");
+    }
   }
 
   return (
-    <Modal id={id}>
+    <Modal id={id} onToggle={clear}>
       <Container>
         <Title>추가하기</Title>
         <Text>이름</Text>
