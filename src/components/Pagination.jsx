@@ -1,50 +1,39 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
-import ReactPaginate from 'react-paginate';
-import styled from 'styled-components';
-import leftArrow from '../assets/images/Page-left.png';
-import rightArrow from '../assets/images/Page-right.png';
-import './Pagination.scss';
+import { useState } from "react";
+import PropTypes from "prop-types";
+import ReactPaginate from "react-paginate";
+import styled from "styled-components";
+import leftArrow from "../assets/images/Page-left.png";
+import rightArrow from "../assets/images/Page-right.png";
 
 const StyledPaginateContainer = styled.div`
+  margin: 10px 0;
   display: flex;
   justify-content: center;
-  padding: 10px 0;
 `;
 
 const StyledArrow = styled.img`
-  height: 12px;
+  height: 16px;
   vertical-align: middle;
-  border: none; // Add this line
-  outline: none; // Add this line
 `;
 
 const StyledReactPaginate = styled(ReactPaginate)`
   display: flex;
   justify-content: center;
   list-style: none;
+  gap: 8px;
 
   .page-link {
-    font-family: 'Nanum Gothic';
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 19px;
-    letter-spacing: -0.02em;
-    text-align: center;
-    color: black;
-    margin: 0 3px;
-    padding: 5px 10px;
+    padding: 8px 10px;
     border-radius: 5px;
-    border: none; // Change this line
-    outline: none; // Add this line
-
-    &:hover {
-      background-color: #5c859b55;
-    }
+    font-size: 13px;
+    text-align: center;
+    color: rgba(102, 112, 128, 1);
+    cursor: pointer;
   }
 
   .active-link {
-    color: #D94A56;
+    color: rgba(217, 74, 86, 1);
+    font-weight: 800;
   }
 `;
 
@@ -70,15 +59,13 @@ function Pagination({ totalItems, itemsPerPage, onChange }) {
         marginPagesDisplayed={2}
         pageRangeDisplayed={5}
         onPageChange={handlePageClick}
-        containerClassName={"pagination"}
-        subContainerClassName={"pages pagination"}
-        activeClassName={"active"}
+        activeClassName="active"
         forcePage={currentPage}
-        pageClassName={"page"}
-        pageLinkClassName={"page-link"}
-        previousLinkClassName={"page-link"}
-        nextLinkClassName={"page-link"}
-        activeLinkClassName={"active-link"}
+        pageClassName="page"
+        pageLinkClassName="page-link"
+        previousLinkClassName="page-link"
+        nextLinkClassName="page-link"
+        activeLinkClassName="active-link"
       />
     </StyledPaginateContainer>
   );
