@@ -65,7 +65,7 @@ const ProductListItem = ({ src, name, category, price, ...props }) => {
       <Info>
         <Title>{name}</Title>
         <ProductType style={{ maxHeight: "28px" }} type={[type]} />
-        <Price>{price.toLocaleString()}원</Price>
+        <Price>{price?.toLocaleString() || "-"}원</Price>
       </Info>
     </Container>
   );
@@ -74,7 +74,7 @@ const ProductListItem = ({ src, name, category, price, ...props }) => {
 ProductListItem.propTypes = {
   src: PropTypes.string,
   name: PropTypes.string,
-  type: PropTypes.array,
+  category: PropTypes.string,
   price: PropTypes.number,
 };
 
