@@ -8,13 +8,39 @@ import PasswordInputForm from "../../components/login/PasswordInputForm.jsx";
 import UserInfo from "../../components/login/UserInfo.jsx";
 import HeaderTitle from "../../components/HeaderTitle.jsx";
 
+import SimpleBar from "simplebar-react";
+
 import { DispatchContext, StateContext } from "../../librarys/context";
 import { intialSignupState, signupReducer } from "../../reducer/signup.js";
 
-const Container = styled.div`
+const Container = styled(SimpleBar)`
   display: flex;
   flex-direction: column;
-  min-height: calc(var(--vh) * 100);
+  width: 100%;
+  height: calc(var(--vh) * 100);
+  overflow: auto;
+
+  &.freeze > .simplebar-track {
+    display: none;
+  }
+
+  & .simplebar-content {
+    min-height: calc(var(--vh) * 100);
+    display: flex;
+    flex-direction: column;
+  }
+
+  & > .simplebar-track.simplebar-horizontal {
+    height: 7px;
+  }
+
+  & > .simplebar-track.simplebar-vertical {
+    width: 7px;
+  }
+
+  & .simplebar-mask {
+    z-index: auto;
+  }
 `;
 
 const Label = styled.p`
@@ -26,6 +52,7 @@ const Label = styled.p`
 `;
 
 const Spacer = styled.div`
+  min-height: 64px;
   flex-grow: 1;
 `;
 

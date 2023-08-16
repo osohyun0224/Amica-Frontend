@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
+import keywordImage from "../assets/images/add.svg";
+
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -17,21 +19,42 @@ const Type = styled.p`
   background-color: rgba(252, 236, 217, 1);
 `;
 
-const ProductType = ({ type, onClick, ...props }) => {
+const AddButton = styled.img`
+  width: 24px;
+  height: 24px;
+  border: 2px solid black;
+  border-radius: 6px;
+  filter: invert(97%) sepia(48%) saturate(7479%) hue-rotate(329deg)
+    brightness(103%) contrast(90%);
+  object-fit: contain;
+  cursor: pointer;
+`;
+
+const ProductType = ({ type, showAdd, onClick, onAddClick, ...props }) => {
   return (
     <Container {...props}>
-      {type.map((item, index) => (
+      {type?.map((item, index) => (
         <Type key={index} onClick={() => onClick(item)}>
           {item}
         </Type>
       ))}
+      {showAdd ? (
+        <AddButton src={keywordImage} alt="키워드 추가" onClick={onAddClick} />
+      ) : null}
     </Container>
   );
 };
 
 ProductType.propTypes = {
   type: PropTypes.arrayOf(PropTypes.string),
+  showAdd: PropTypes.bool,
   onClick: PropTypes.func,
+  onAddClick: PropTypes.func,
+};
+
+ProductType.defaultProps = {
+  type: [],
+  showAdd: false,
 };
 
 export default ProductType;

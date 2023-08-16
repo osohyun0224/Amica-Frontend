@@ -1,4 +1,35 @@
-const petList = [];
+const petList = [
+  {
+    id: 1,
+    name: "멍멍",
+    species: "dog",
+    size: "small",
+    age: 5,
+    gender: "male",
+    tags: [102, 112, 113, 135],
+    image: "https://placehold.co/64",
+  },
+  {
+    id: 2,
+    name: "야옹",
+    species: "cat",
+    size: "large",
+    age: 6,
+    gender: "female_neutering",
+    tags: [109, 121, 131, 134],
+    image: "https://placehold.co/64",
+  },
+  {
+    id: 3,
+    name: "토끼",
+    species: "rabbit",
+    size: "medium",
+    age: 2,
+    gender: "female",
+    tags: [103, 134, 142, 147],
+    image: "https://placehold.co/64",
+  },
+];
 
 // petList의 스키마
 const schema = {
@@ -9,7 +40,7 @@ const schema = {
   age: 0,
   gender: "",
   tags: [103, 104, 106, 108],
-  imageUrl: "https://placehold.co/64",
+  image: "https://placehold.co/64",
 };
 
 export async function getPetList() {
@@ -33,7 +64,7 @@ export async function createPet(data) {
     age: 0,
     gender: "",
     tags: [103, 104, 106, 108],
-    imageUrl: "https://placehold.co/64",
+    image: "https://placehold.co/64",
   };
 
   petList.push({
@@ -53,7 +84,7 @@ export async function modifyPet(id, data) {
     age: 0,
     gender: "",
     tags: [103, 104, 106, 108],
-    imageUrl: "https://placehold.co/64",
+    image: "https://placehold.co/64",
   };
 
   const item = petList.find((item) => item.id === Number(id));
@@ -68,7 +99,7 @@ export async function modifyPet(id, data) {
   item.age = data.age;
   item.gender = data.gender;
   item.tags = data.tags;
-  item.imageUrl = data.imageUrl;
+  item.image = data.image;
 
   return true;
 }

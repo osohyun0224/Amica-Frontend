@@ -55,7 +55,7 @@ const Content = styled.div`
   }
 `;
 
-const Modal = ({ id, className, style, children }) => {
+const Modal = ({ id, className, style, children, onToggle }) => {
   const dispatch = useDispatch();
   const isVisible = useSelector(selectVisible(id));
   const [interactable, setInteractable] = useState(false);
@@ -82,6 +82,10 @@ const Modal = ({ id, className, style, children }) => {
     };
   }, [onClick]);
 
+  useEffect(() => {
+    onToggle(isVisible);
+  }, [isVisible]);
+
   return (
     <Background
       className={backgroundClass}
@@ -99,10 +103,12 @@ Modal.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   children: PropTypes.node,
+  onToggle: PropTypes.func,
 };
 
 Modal.defaultProps = {
   id: "modal",
+  onToggle: () => {},
 };
 
 export default Modal;

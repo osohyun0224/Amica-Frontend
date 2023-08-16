@@ -6,6 +6,7 @@ import ExpenseModalForm from "./ExpenseModalForm.jsx";
 import { hide } from "../../redux/modalSlice.js";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
+import { categorys } from "../../librarys/data.js";
 
 const CoverButton = styled.button`
   width: 100%;
@@ -30,9 +31,19 @@ const AddExpenseModal = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState(null);
 
+  function clear(value) {
+    if (value) {
+      setData({
+        price: 0,
+        name: "",
+        category: categorys[0].id,
+      });
+    }
+  }
+
   return (
-    <Modal id={id}>
-      <ExpenseModalForm onChange={setData} />
+    <Modal id={id} onToggle={clear}>
+      <ExpenseModalForm data={data} onChange={setData} />
       <CoverButton onClick={() => dispatch(hide(id))}>확인</CoverButton>
     </Modal>
   );

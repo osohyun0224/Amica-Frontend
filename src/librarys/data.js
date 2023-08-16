@@ -263,3 +263,10 @@ export const petSpecies = [
   { id: "hedgehog", title: "고슴도치" },
   { id: "chipmunk", title: "다람쥐" },
 ];
+
+export const petGender = [
+  { id: "male", title: "수컷" },
+  { id: "female", title: "암컷" },
+  { id: "male_neutering", title: "수컷 (중성화)" },
+  { id: "female_neutering", title: "암컷 (중성화)" },
+];

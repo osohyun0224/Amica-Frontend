@@ -5,30 +5,26 @@ import LandingBackgroundImage from "../assets/images/landingBackground.jpg";
 const Container = styled.div`
   padding: 64px 24px;
   min-height: calc(var(--vh) * 100);
-  background-position: 50%;
-  background-size: cover;
 
   display: flex;
   flex-direction: column;
   align-item: center;
   justify-content: center;
 
-  transition: background 0.2s;
-
-  animation-duration: 5s;
-  animation-name: slide;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease-in-out;
-
-  @keyframes slide {
-    from {
-      background-position: 47%;
-    }
-
-    to {
-      background-position: 53%;
-    }
+  & > * {
+    z-index: 1;
   }
+`;
+
+const Background = styled.img`
+  max-width: 500px;
+  width: 100%;
+  height: 100%;
+  margin-left: -24px;
+  position: absolute;
+  object-fit: cover;
+
+  z-index: 0;
 `;
 
 const StyledButton = styled.button`
@@ -77,7 +73,8 @@ const Subtitle = styled.p`
 function Home() {
   const navigate = useNavigate();
   return (
-    <Container style={{ backgroundImage: `url(${LandingBackgroundImage})` }}>
+    <Container>
+      <Background src={LandingBackgroundImage} />
       <Subtitle>내 친구를 위한 현명한 소비</Subtitle>
       <Title>Amica!</Title>
       <LoginButton onClick={() => navigate("/login")}>로그인</LoginButton>

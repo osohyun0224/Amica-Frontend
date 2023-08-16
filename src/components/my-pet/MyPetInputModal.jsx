@@ -6,313 +6,239 @@ import DropdownSpecies from "./DropdownSpecies.jsx";
 import DropdownSize from "./DropdownSize.jsx";
 import DropdownGender from "./DropdownGender.jsx";
 import MoreBtn from "../../assets/images/rightArrow.png";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.4);
-  box-shadow: 0px 2px 4px 0px #00000040;
-  z-index: 99;
-`;
+import Select from "../Select.jsx";
+import Modal from "../Modal.jsx";
+import { useDispatch } from "react-redux";
+import { hide } from "../../redux/modalSlice.js";
+import { petGender, petSizes, petSpecies } from "../../librarys/data.js";
+import { filterNumber } from "../../librarys/util.js";
 
-const ModalWrapper = styled.div`
-  width: 321px;
-  height: 469px;
-  position: relative;
+const Preview = styled.div`
+  width: 128px;
+  height: 128px;
+  padding: 2px;
   border-radius: 5px;
-  background: #ffffff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ModalHeader = styled.div`
-  font-family: Nanum Gothic;
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 22px;
-  letter-spacing: -0.02em;
+  border: 1.5px solid #f2d335;
+  align-self: center;
   text-align: center;
-  margin-top: 20px;
-`;
+  font-size: 12px;
+  color: rgba(102, 112, 128, 1);
 
-const ImageBox = styled.label`
-  width: 118px;
-  height: 118px;
-  padding: 2px 6px 2px 6px;
-  border-radius: 5px;
-  border: 1px solid #f2d335;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  background: #ffffff;
   cursor: pointer;
-  margin-top: 30px;
+`;
+
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 `;
 
 const ImageInput = styled.input`
   display: none;
 `;
 
-const ImageText = styled.p`
-  font-family: Nanum Gothic;
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 20px;
-  letter-spacing: -0.02em;
-  text-align: center;
-  margin: 0;
-  color: #f2d335;
-`;
-
-const NameHeader = styled.div`
-  font-family: NanumGothic;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 30px;
-  letter-spacing: -0.02em;
-  text-align: left;
-  margin-top: 20px;
-  margin-left: -250px;
-`;
-
-const LabelHeader = styled.div`
-  font-family: NanumGothic;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 30px;
-  letter-spacing: -0.02em;
-  text-align: left;
-  margin-top: 20px;
-  margin-left: -0px;
-`;
-
-const InputField = styled.div`
+const Container = styled.div`
+  margin: 16px;
   display: flex;
   flex-direction: column;
-  margin-right: 5px;
+  gap: 8px;
 `;
 
-const InputRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: 10px 0;
-  margin-top: -10px;
-  flex-direction: row;
-  align-items: stretch;
-  &:last-child ${InputField} {
-    margin-right: 5px;
-  }
-`;
-
-const ConfirmButton = styled.div`
+const Title = styled.p`
   width: 100%;
-  height: 60px;
-  padding: 12px 16px 12px 24px;
-  border-radius: 0px 0px 5px 5px;
-  gap: 10px;
-  background: #d94a56;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+  margin-bottom: 24px;
+  font-weight: 600;
+  font-size: 20px;
+  text-align: center;
 `;
 
-const ConfirmText = styled.p`
-  font-family: Nanum Gothic;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 22px;
-  letter-spacing: -0.02em;
-  text-align: left;
-  margin: 0;
-  color: #ffffff;
+const Text = styled.p`
+  font-weight: 600;
+  font-size: 14px;
 `;
 
-const DropDownContainer = styled.div`
-  width: 135px;
-  max-width: 100%; 
-  height: 40px;
-  background-color: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.25);
+const Input = styled.input`
+  padding: 8px;
+  border: none;
   border-radius: 6px;
-  margin-top: 3px;
-  position: relative;
-  font-size: 12px;
-`;
+  font-size: 16px;
+  background-color: rgba(248, 248, 248, 1);
 
-const DropdownWrapper = styled.div`
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%; 
-  z-index: 2;
-  background-color: #ffffff; 
-  overflow-y: auto; 
-  max-height: 150px; 
-`;
-
-const DropDownOption = styled.div`
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 17px 0 12px;
-
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 22px;
-  letter-spacing: -0.02em;
-  text-align: left;
-`;
-
-const More = styled.img`
-  width: 9px;
-  height: 16px;
-  transform: rotate(90deg);
-  cursor: pointer;
-  margin-left:10px;
-
-  &.clicked {
-    transform: rotate(270deg);
+  &::placeholder {
+    color: rgba(21, 21, 21, 0.3);
   }
 `;
 
-const MyPetInputModal = ({ show, onClose }) => {
-  const [genderDropdownOpen, setGenderDropdownOpen] = useState(false);
-  const [speciesDropdownOpen, setSpeciesDropdownOpen] = useState(false);
-  const [sizeDropdownOpen, setSizeDropdownOpen] = useState(false);
-  const [selectedGenderOption, setSelectedGenderOption] = useState("선택하기");
-  const [selectedSpeciesOption, setSelectedSpeciesOption] = useState("선택하기");
-  const [selectedSizeOption, setSelectedSizeOption] = useState("선택하기");
-  const [previewImage, setPreviewImage] = useState(null);
+const AgeContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
 
-  if (!show) return null;
+  & > input {
+    text-align: right;
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+`;
 
-  const handleGenderDropdownClick= () => {
-    setGenderDropdownOpen(!genderDropdownOpen);
-  };
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+`;
 
-  const handleSpeciesDropdownClick = () => {
-    setSpeciesDropdownOpen(!speciesDropdownOpen);
-  };
+const Item = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+`;
 
-  const handleSizeDropdownClick = () => {
-    setSizeDropdownOpen(!sizeDropdownOpen);
-  };
+const CoverButton = styled.button`
+  width: 100%;
+  padding: 18px 0;
+  border: none;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: rgba(217, 74, 86, 1);
 
-  const handleSpeciesOptionSelect = (option) => {
-    setSelectedSpeciesOption(option);
-    setSpeciesDropdownOpen(false);
-  };
+  transition: background-color 0.2s;
 
-  const handleSizeOptionSelect = (option) => {
-    setSelectedSizeOption(option);
-    setSizeDropdownOpen(false);
-  };
+  &:hover {
+    background-color: rgba(217, 74, 86, 0.85);
+  }
 
-  const handleGenderOptionSelect = (option) => {
-    setSelectedGenderOption(option);
-    setGenderDropdownOpen(false);
-  };
+  cursor: pointer;
+`;
+
+const id = "add_pet";
+
+function createSelectList(list) {
+  return list.map((item) => ({
+    id: item.id,
+    name: item.title,
+  }));
+}
+
+const speciesList = createSelectList(petSpecies);
+const sizeList = createSelectList(petSizes);
+const genderList = createSelectList(petGender);
+
+const MyPetInputModal = () => {
+  const dispatch = useDispatch();
+  const inputRef = useRef();
+  const [image, setImage] = useState(null);
+  const [name, setName] = useState("");
+  const [species, setSpecies] = useState(speciesList[0].id);
+  const [size, setSize] = useState(sizeList[0].id);
+  const [gender, setGender] = useState(genderList[0].id);
+  const [age, setAge] = useState("");
+
+  function openUpload() {
+    if (inputRef) {
+      inputRef.current.click();
+    }
+  }
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
+    if (file && file.type.includes("image")) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreviewImage(reader.result); 
+        setImage(reader.result);
       };
       reader.readAsDataURL(file);
     }
   };
 
+  function clear(value) {
+    if (value) {
+      setImage(null);
+      setName("");
+      setSpecies(speciesList[0].id);
+      setSize(sizeList[0].id);
+      setGender(genderList[0].id);
+      setAge("");
+    }
+  }
 
   return (
-    <ModalOverlay onClick={onClose}>
-      <ModalWrapper onClick={(e) => e.stopPropagation()}>
-        <ModalHeader>추가하기</ModalHeader>
-        <ImageBox htmlFor="fileInput">
-          <ImageInput type="file" accept="image/*" id="fileInput" onChange={handleImageChange} />
-          {previewImage ? (
-            <img src={previewImage} alt="Preview" style={{ width: '100%', height: '100%' }} />
+    <Modal id={id} onToggle={clear}>
+      <Container>
+        <ImageInput
+          ref={inputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+        />
+        <Title>추가하기</Title>
+        <Preview onClick={openUpload}>
+          {image ? (
+            <Image src={image} />
           ) : (
-            <ImageText>
-              이미지를 <br /> 추가해주세요
-            </ImageText>
+            <p>
+              이미지를 <br />
+              추가해주세요
+            </p>
           )}
-        </ImageBox>
-        <NameHeader>이름 *</NameHeader>
-        <InputForm placeholder="이름" />
-        <InputRow>
-        <InputField>
-          <LabelHeader>종 *</LabelHeader>
-          <DropDownContainer onClick={handleSpeciesDropdownClick}>
-          <DropDownOption>
-            {selectedSpeciesOption}
-            <More className={speciesDropdownOpen ? "clicked" : ""} src={MoreBtn} />
-          </DropDownOption>
-          {speciesDropdownOpen && (
-            <DropdownWrapper>
-              <DropdownSpecies onSelect={handleSpeciesOptionSelect} />
-            </DropdownWrapper>
-          )}
-        </DropDownContainer>
-        </InputField>
-        <InputField>
-          <LabelHeader>크기 *</LabelHeader>
-          <DropDownContainer onClick={handleSizeDropdownClick}>
-          <DropDownOption>
-            {selectedSizeOption}
-            <More className={sizeDropdownOpen ? "clicked" : ""} src={MoreBtn} />
-          </DropDownOption>
-          {sizeDropdownOpen && (
-            <DropdownWrapper>
-              <DropdownSize onSelect={handleSizeOptionSelect} />
-            </DropdownWrapper>
-          )}
-        </DropDownContainer>
-        </InputField>
-    </InputRow>
-        <InputRow>
-          <InputField>
-            <LabelHeader>나이 </LabelHeader>
-            <DropDownContainer onClick={handleGenderDropdownClick}>
-          <DropDownOption>
-            {selectedGenderOption}
-            <More className={genderDropdownOpen ? "clicked" : ""} src={MoreBtn} />
-          </DropDownOption>
-          {genderDropdownOpen && (
-            <DropdownWrapper>
-              <DropdownGender onSelect={handleGenderOptionSelect} />
-            </DropdownWrapper>
-          )}
-        </DropDownContainer>
-          </InputField>
-          <InputField>
-            <LabelHeader>성별 </LabelHeader>
-            <SmallInputForm placeholder="성별" />
-          </InputField>
-        </InputRow>
-        <ConfirmButton onClick={onClose}>
-          <ConfirmText>확인</ConfirmText>
-        </ConfirmButton>
-      </ModalWrapper>
-    </ModalOverlay>
+        </Preview>
+        <Text>이름</Text>
+        <Input
+          type="text"
+          placeholder="멍멍이"
+          value={name}
+          onInput={(e) => setName(e.target.value)}
+        />
+        <Grid>
+          <Item>
+            <Text>종</Text>
+            <Select
+              list={createSelectList(petSpecies)}
+              value={species}
+              outline={true}
+              onSelect={(item) => setSpecies(item.id)}
+            />
+          </Item>
+          <Item>
+            <Text>크기</Text>
+            <Select
+              list={createSelectList(petSizes)}
+              value={size}
+              outline={true}
+              onSelect={(item) => setSize(item.id)}
+            />
+          </Item>
+          <Item>
+            <Text>성별</Text>
+            <Select
+              list={createSelectList(petGender)}
+              value={gender}
+              outline={true}
+              onSelect={(item) => setGender(item.id)}
+            />
+          </Item>
+          <Item>
+            <Text>나이</Text>
+            <AgeContainer>
+              <Input
+                type="text"
+                size="1"
+                placeholder="3"
+                value={age}
+                onInput={filterNumber(setAge)}
+              />
+            </AgeContainer>
+          </Item>
+        </Grid>
+      </Container>
+      <CoverButton onClick={() => dispatch(hide(id))}>확인</CoverButton>
+    </Modal>
   );
-};
-
-MyPetInputModal.propTypes = {
-  show: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
 };
 
 export default MyPetInputModal;
