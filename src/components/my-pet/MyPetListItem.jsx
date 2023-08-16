@@ -1,9 +1,11 @@
 import PropTypes from "prop-types";
+import { useContext } from "react";
 import { styled } from "styled-components";
+import { StateContext } from "../../librarys/context";
 
 const Container = styled.button`
   width: 70px;
-  padding-right: 12px;
+  margin: 0 4px;
   box-sizing: content-box;
   display: flex;
   flex-direction: column;
@@ -14,18 +16,10 @@ const Container = styled.button`
   cursor: pointer;
 `;
 
-const ImageWrapper = styled.div`
-  width: 69px;
-  height: 69px;
-  border-radius: 50%;
-  margin-top:10px;
-  margin-left:10px;
-  border: ${props => props.selected ? '2.6px solid #D94A56' : 'none'};
-`;
-
 const Image = styled.img`
   width: 64px;
   height: 64px;
+  border: 2px solid ${(props) => (props.selected ? "#D94A56" : "transparent")};
   border-radius: 50%;
   background-color: #cfcfcf;
 `;
@@ -39,12 +33,11 @@ const Text = styled.p`
   white-space: nowrap;
 `;
 
-const MyPetListItem = ({ id, selectedId, src, name, onClick }) => {
+const MyPetListItem = ({ id, src, name, onClick }) => {
+  const { pet } = useContext(StateContext);
   return (
     <Container onClick={onClick}>
-      <ImageWrapper selected={id === selectedId}>
-        <Image src={src} />
-      </ImageWrapper>
+      <Image src={src} selected={pet?.id === id} />
       <Text>{name}</Text>
     </Container>
   );
@@ -52,7 +45,6 @@ const MyPetListItem = ({ id, selectedId, src, name, onClick }) => {
 
 MyPetListItem.propTypes = {
   id: PropTypes.number,
-  selectedId: PropTypes.number,
   src: PropTypes.string,
   name: PropTypes.string,
   onClick: PropTypes.func,
