@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useScrollContainer } from "react-indiana-drag-scroll";
-import "react-indiana-drag-scroll/dist/style.css";
 import SimpleBar from "simplebar-react";
 import MyPetListItem from "../../components/my-pet/MyPetListItem.jsx";
 import AddPetImage from "../../assets/images/addPet.png";
@@ -138,7 +137,6 @@ const KeywordSection = styled.div`
   left: 0;
   right: 0;
   margin-left: 10px;
-
 `;
 
 const KeywordButton = styled.img`
@@ -148,14 +146,13 @@ const KeywordButton = styled.img`
 
 const HeadingBold = styled.span`
   font-weight: 600;
-  text-align: left; 
+  text-align: left;
   margin: 8px 0;
   font-size: 18px;
   margin-top: 50px;
-  margin-left: 20px;  
+  margin-left: 20px;
   align-self: flex-start;
 `;
-
 
 const MyPetPage = () => {
   const { ref } = useScrollContainer();

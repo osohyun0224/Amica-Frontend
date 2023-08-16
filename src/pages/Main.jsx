@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { ScrollContainer } from "react-indiana-drag-scroll";
-import "react-indiana-drag-scroll/dist/style.css";
 
 //import ProductType from "../components/ProductType";
 import CategoryList from "../components/main/CategoryList";
@@ -16,7 +15,7 @@ import AddPet from "../assets/images/add.png";
 
 import { getFeaturedProduct } from "../librarys/store-api";
 import { useEffect } from "react";
-//카테고리 아이콘 
+//카테고리 아이콘
 import Snack from "../assets/images/category/간식.svg";
 import Beauty from "../assets/images/category/미용.svg";
 import Daily from "../assets/images/category/생활용품.svg";
@@ -232,13 +231,15 @@ const Main = () => {
     console.log("First recent item:", recentItems[0]);
   }, [recentItems]);
 
-// 배너 구현 함수 
+  // 배너 구현 함수
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const bannerImages = [Banner1, Banner2, Banner3];
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentBannerIndex((prevIndex) => (prevIndex + 1) % bannerImages.length);
+      setCurrentBannerIndex(
+        (prevIndex) => (prevIndex + 1) % bannerImages.length,
+      );
     }, 2000);
 
     return () => clearInterval(interval);
@@ -246,11 +247,13 @@ const Main = () => {
 
   const handleBannerButtonClick = (direction) => {
     if (direction === "left") {
-      setCurrentBannerIndex((prevIndex) => 
-        prevIndex === 0 ? bannerImages.length - 1 : prevIndex - 1
+      setCurrentBannerIndex((prevIndex) =>
+        prevIndex === 0 ? bannerImages.length - 1 : prevIndex - 1,
       );
     } else {
-      setCurrentBannerIndex((prevIndex) => (prevIndex + 1) % bannerImages.length);
+      setCurrentBannerIndex(
+        (prevIndex) => (prevIndex + 1) % bannerImages.length,
+      );
     }
   };
 
@@ -258,10 +261,16 @@ const Main = () => {
     <PageContainer>
       <BannerContainer>
         <Image src={bannerImages[currentBannerIndex]} alt="Banner Image" />
-        <BannerButton direction="left" onClick={() => handleBannerButtonClick("left")}>
+        <BannerButton
+          direction="left"
+          onClick={() => handleBannerButtonClick("left")}
+        >
           {"<"}
         </BannerButton>
-        <BannerButton direction="right" onClick={() => handleBannerButtonClick("right")}>
+        <BannerButton
+          direction="right"
+          onClick={() => handleBannerButtonClick("right")}
+        >
           {">"}
         </BannerButton>
       </BannerContainer>
