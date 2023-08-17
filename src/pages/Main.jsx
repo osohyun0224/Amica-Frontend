@@ -44,15 +44,6 @@ const Image = styled.img`
   border: none;
 `;
 
-const PetRecommend = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 10vh;
-  padding-left: 20px;
-  align-items: center;
-`;
-
 const PetImage = styled.img`
   width: 44px;
   height: 44px;
@@ -70,9 +61,15 @@ const PetName = styled.p`
   margin-left: 10px;
 `;
 
-const MovePetPage = styled(Link)`
-  margin: auto;
-  margin-right: 0;
+const PetRecommend = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 10vh;
+  padding-left: 20px;
+  align-items: center;
+  justify-content: space-between; 
+  position: relative;
 `;
 
 const PetAddBtn = styled.img`
@@ -80,7 +77,9 @@ const PetAddBtn = styled.img`
   height: 24px;
   margin-right: 20px;
   cursor: pointer;
+  margin-left: auto; 
 `;
+
 
 const Menu = styled.div`
   width: 60px;
@@ -167,7 +166,9 @@ const BannerButton = styled.button`
 
 const PetDropdown = styled.div`
   position: absolute;
-  width: 250px;
+  top: 100%; 
+  left: 0; 
+  width: 100vw; 
   max-height: 200px;
   overflow-y: auto;
   background-color: white;
@@ -310,9 +311,7 @@ const Main = () => {
       <PetRecommend>
             <PetImage />
             <PetName> 누굴 위해 준비하니? </PetName>
-            <MovePetPage to={"/my-pet"}>
                 <PetAddBtn src={AddPet} onClick={() => setDropdownVisible(!isDropdownVisible)} />
-            </MovePetPage>
             {isDropdownVisible && (
                 <PetDropdown>
                     {petList.map((pet) => (
