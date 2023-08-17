@@ -258,10 +258,10 @@ export const petSizes = [
 export const petSpecies = [
   { id: "dog", title: "강아지" },
   { id: "cat", title: "고양이" },
+  { id: "bird", title: "새" },
+  { id: "fish", title: "생선" },
   { id: "rabbit", title: "토끼" },
   { id: "hamster", title: "햄스터" },
-  { id: "hedgehog", title: "고슴도치" },
-  { id: "chipmunk", title: "다람쥐" },
 ];
 
 export const petGender = [
