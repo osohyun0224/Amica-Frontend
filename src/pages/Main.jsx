@@ -12,6 +12,7 @@ import RecommemdProduct from "../components/main/RecommendList";
 import Arrow from "../assets/images/rightArrow.png";
 //import ProductExample from "../assets/images/productExample.jpeg";
 import AddPet from "../assets/images/add.png";
+import DownArrow from "../assets/images/downArrow.png";
 
 import { getFeaturedProduct } from "../librarys/store-api";
 import { useEffect } from "react";
@@ -73,9 +74,9 @@ const PetRecommend = styled.div`
 `;
 
 const PetAddBtn = styled.img`
-  width: 24px;
-  height: 24px;
-  margin-right: 20px;
+  width: ${props => props.isDownArrow ? "12px" : "24px"};
+  height: ${props => props.isDownArrow ? "12px" : "24px"};
+  margin-right: 40px;
   cursor: pointer;
   margin-left: auto; 
 `;
@@ -214,6 +215,7 @@ const Main = () => {
   const [categoryId, setCategoryId] = useState();
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [selectedPet, setSelectedPet] = useState(null); 
+  const [ setIsDropdownOpen] = useState(false);
 
   const filteredProducts =
     categoryId !== undefined
@@ -314,14 +316,19 @@ const Main = () => {
   <PetName>
     {selectedPet ? `${selectedPet.name} 위해 준비했어요` : "누굴 위해 준비하니?"}
   </PetName>
-  <PetAddBtn src={AddPet} onClick={() => setDropdownVisible(!isDropdownVisible)} />
+  <PetAddBtn 
+  isDownArrow={isDropdownVisible || selectedPet}
+  src={isDropdownVisible || selectedPet ? DownArrow : AddPet} 
+  onClick={() => setDropdownVisible(!isDropdownVisible)} 
+/>
   {isDropdownVisible && (
     <PetDropdown>
       {petList.map((pet) => (
         <PetItem key={pet.id} onClick={() => {
           console.log(pet.name);
-          setSelectedPet(pet);  
+          setSelectedPet(pet);
           setDropdownVisible(false);
+          setIsDropdownOpen(false);
         }}>
           <img src={pet.image} alt={pet.name} />
           {pet.name}
