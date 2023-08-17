@@ -105,14 +105,14 @@ const Menu = styled.div`
 const DetailMenu = styled.div`
   background-color: white;
   clear: both;
-  margin: 30px 0 0 17px;
+  margin: 25px 17px 0 17px;
   text-decoration: none;
 `;
 
 const DetailMenuTitle = styled.div`
   display: flex;
   flex-direction: row;
-  margin: 0 25px 20px 0;
+  margin: 0 25px 15px 0;
 `;
 
 const NextBtn = styled.img`
