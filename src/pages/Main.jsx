@@ -59,7 +59,7 @@ const PetName = styled.p`
   color: #151515;
   line-height: 22px;
   letter-spacing: -0.02em;
-  margin-left: 10px;
+  margin: 0 5px 0 7px;
 `;
 
 const PetRecommend = styled.div`
@@ -67,18 +67,18 @@ const PetRecommend = styled.div`
   flex-direction: row;
   width: 100%;
   height: 10vh;
-  padding-left: 20px;
+  padding: 0 20px;
   align-items: center;
   justify-content: space-between; 
   position: relative;
 `;
 
 const PetAddBtn = styled.img`
-  width: ${props => props.isDownArrow ? "12px" : "24px"};
-  height: ${props => props.isDownArrow ? "12px" : "24px"};
-  margin-right: 40px;
+  width: ${props => props.isDownArrow ? "16px" : "24px"};
+  height: ${props => props.isDownArrow ? "10px" : "24px"};
   cursor: pointer;
-  margin-left: auto; 
+  margin: auto;
+  margin-right: 0;
 `;
 
 
@@ -112,6 +112,7 @@ const DetailMenu = styled.div`
 const DetailMenuTitle = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   margin: 0 25px 15px 0;
 `;
 
@@ -142,7 +143,7 @@ const Title = styled.div`
   font-weight: 700;
   line-height: 22px;
   letter-spacing: -0.02em;
-  margin-left: 5px;
+  margin: 0 7px;
 `;
 
 const ProductSelect = styled(Link)`
@@ -167,17 +168,17 @@ const BannerButton = styled.button`
 
 const PetDropdown = styled.div`
   position: absolute;
-  top: 100%; 
-  left: 0; 
-  width: 100vw; 
+  top: 100%;
+  left: 0;
+  width: 100vw;
+  max-width: 500px;
   max-height: 200px;
   overflow-y: auto;
   background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 5px;
   z-index: 100; 
-  padding: 8px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  padding: 8px 8px 8px 16px;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
 const PetItem = styled.div`
@@ -312,31 +313,34 @@ const Main = () => {
         </BannerButton>
       </BannerContainer>
       <PetRecommend>
-  <PetImage src={selectedPet ? selectedPet.image : undefined} alt={selectedPet ? selectedPet.name : "Pet Image"} />
-  <PetName>
-    {selectedPet ? `${selectedPet.name} 위해 준비했어요` : "누굴 위해 준비하니?"}
-  </PetName>
-  <PetAddBtn 
-  isDownArrow={isDropdownVisible || selectedPet}
-  src={isDropdownVisible || selectedPet ? DownArrow : AddPet} 
-  onClick={() => setDropdownVisible(!isDropdownVisible)} 
-/>
-  {isDropdownVisible && (
-    <PetDropdown>
-      {petList.map((pet) => (
-        <PetItem key={pet.id} onClick={() => {
-          console.log(pet.name);
-          setSelectedPet(pet);
-          setDropdownVisible(false);
-          setIsDropdownOpen(false);
-        }}>
-          <img src={pet.image} alt={pet.name} />
-          {pet.name}
-        </PetItem>
-      ))}
-    </PetDropdown>
-  )}
-</PetRecommend>
+        <PetImage src={selectedPet ? selectedPet.image : undefined} alt={selectedPet ? selectedPet.name : "Pet Image"} />
+        {selectedPet ?
+          <>
+            <PetName> {selectedPet.name} </PetName> 
+            위해 준비했어요 
+          </> : <PetName> 최근 등록된 상품 </PetName>
+        }  
+        <PetAddBtn 
+          isDownArrow={isDropdownVisible || selectedPet}
+          src={isDropdownVisible || selectedPet ? DownArrow : AddPet} 
+          onClick={() => setDropdownVisible(!isDropdownVisible)} 
+        />
+        {isDropdownVisible && (
+          <PetDropdown>
+            {petList.map((pet) => (
+              <PetItem key={pet.id} onClick={() => {
+                console.log(pet.name);
+                setSelectedPet(pet);
+                setDropdownVisible(false);
+                setIsDropdownOpen(false);
+              }}>
+                <img src={pet.image} alt={pet.name} />
+                {pet.name}
+              </PetItem>
+            ))}
+          </PetDropdown>
+        )}
+      </PetRecommend>
       <CategoryList>
         {Categories.map((cate) => (
           <Menu
@@ -376,7 +380,12 @@ const Main = () => {
       </DetailMenu>
       <DetailMenu>
         <DetailMenuTitle>
-          <Title> 최근 등록된 상품 </Title>
+          {selectedPet ?
+            <>
+              <Title> {selectedPet.name} </Title> 
+              위해 준비했어요 
+            </> : <Title> 최근 등록된 상품 </Title>
+          }  
           <NextBtn src={Arrow} alt="자세히보기" />
         </DetailMenuTitle>
         <RecommendList>
