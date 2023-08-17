@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-
+import petList from "../librarys/pet-api.js";
 import { ScrollContainer } from "react-indiana-drag-scroll";
 
 //import ProductType from "../components/ProductType";
@@ -15,6 +15,7 @@ import AddPet from "../assets/images/add.png";
 
 import { getFeaturedProduct } from "../librarys/store-api";
 import { useEffect } from "react";
+
 //카테고리 아이콘
 import Snack from "../assets/images/category/간식.svg";
 import Beauty from "../assets/images/category/미용.svg";
@@ -164,6 +165,37 @@ const BannerButton = styled.button`
   z-index: 10;
 `;
 
+const PetDropdown = styled.div`
+  position: absolute;
+  width: 250px;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 100; 
+  padding: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+`;
+
+const PetItem = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f6f6f6;
+  }
+
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    margin-right: 12px;
+  }
+`;
+
 const Categories = [
   { id: 1001, name: "snack", text: "간식", image: Snack },
   { id: 1006, name: "daliy", text: "생활용품", image: Daily },
@@ -179,6 +211,7 @@ const Main = () => {
   const [recentItems, setRecentItems] = useState([]);
   const [popularItems, setPopularItems] = useState([]);
   const [categoryId, setCategoryId] = useState();
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   const filteredProducts =
     categoryId !== undefined
@@ -275,12 +308,25 @@ const Main = () => {
         </BannerButton>
       </BannerContainer>
       <PetRecommend>
-        <PetImage />
-        <PetName> 누굴 위해 준비하니? </PetName>
-        <MovePetPage to={"/my-pet"}>
-          <PetAddBtn src={AddPet} />
-        </MovePetPage>
-      </PetRecommend>
+            <PetImage />
+            <PetName> 누굴 위해 준비하니? </PetName>
+            <MovePetPage to={"/my-pet"}>
+                <PetAddBtn src={AddPet} onClick={() => setDropdownVisible(!isDropdownVisible)} />
+            </MovePetPage>
+            {isDropdownVisible && (
+                <PetDropdown>
+                    {petList.map((pet) => (
+                        <PetItem key={pet.id} onClick={() => {
+                            console.log(pet.name);
+                            setDropdownVisible(false);
+                        }}>
+                            <img src={pet.image} alt={pet.name} />
+                            {pet.name}
+                        </PetItem>
+                    ))}
+                </PetDropdown>
+            )}
+        </PetRecommend>
       <CategoryList>
         {Categories.map((cate) => (
           <Menu

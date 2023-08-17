@@ -114,4 +114,6 @@ export async function removePet(id) {
   petList.splice(index, 1);
 
   return true;
+  
 }
+export default petList;
