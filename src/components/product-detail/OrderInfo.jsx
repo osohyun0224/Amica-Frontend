@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import DaumPostcode from 'react-daum-postcode';
+import DaumPostcode from "react-daum-postcode";
 import Postcode from "./Postcode";
 import styled from "styled-components";
 import { getProduct } from "../../librarys/store-api";
@@ -21,7 +21,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   overflow-x: hidden;
   overflow-y: scroll;
 `;
@@ -195,53 +195,52 @@ const OrderInfo = () => {
     postal: "",
     baseAddress: "",
     detailAddress: "",
-    request: ""
+    request: "",
   });
   const [openPostcode, setOpenPostcode] = useState(false);
   const navigate = useNavigate();
 
   const { name, phone, postal, baseAddress, detailAddress, request } = userInfo;
-  
+
   const onChange = (e) => {
     const { title, value } = e.target;
     setUserInfo({
       ...userInfo,
-      [title]: value
+      [title]: value,
     });
   };
 
   const openPost = () => setOpenPostcode(!openPostcode);
 
-  const isComplete = 
-    Object.values(userInfo).every(value => value !== "");
+  const isComplete = Object.values(userInfo).every((value) => value !== "");
 
   const option = useMemo(
     () =>
-    product.options
-      ? product.options.find((item) => optionId.includes(item.id.toString()))
-      : null,
+      product.options
+        ? product.options.find((item) => optionId.includes(item.id.toString()))
+        : null,
     [product, optionId],
   );
 
   const optionPrice = useMemo(
-    () => 
-    option
-      ? optionId.map((itemId, idx) => {
-          const checkOption = product.options.find(
-            option => option.id === Number(itemId)
-          );
-          if (checkOption) {
-            return (
-              checkOption.discount !== 0
-              ? checkOption.discount
-              : checkOption.price
-            );
-          }
-        }).filter(value => !isNaN(value))
-      : [],
-    [product, optionId, quality]
+    () =>
+      option
+        ? optionId
+            .map((itemId, idx) => {
+              const checkOption = product.options.find(
+                (option) => option.id === Number(itemId),
+              );
+              if (checkOption) {
+                return checkOption.discount !== 0
+                  ? checkOption.discount
+                  : checkOption.price;
+              }
+            })
+            .filter((value) => !isNaN(value))
+        : [],
+    [product, optionId, quality],
   );
-  
+
   const totalPrice = useMemo(() => {
     return optionPrice.reduce((sum, value, idx) => {
       return sum + value * quality[idx];
@@ -276,7 +275,7 @@ const OrderInfo = () => {
         escrow: false,
       },
     });
-   
+
     if (response.event !== "done") {
       alert(
         "에러가 발생했습니다. 개발자 콘솔을 확인해주세요. 주문은 처음부터 다시 시도하세요.",
@@ -288,19 +287,21 @@ const OrderInfo = () => {
     await _sendOrderComplete(order.orderId, response.data);
     return true;
   }
-  
+
   const startPayment = useCallback(() => {
     (async () => {
       const order = await postDraftOrder({
         productId: product.id,
         productName: product.name,
-        option: product.options.map((item, idx) => ({
-          img: product.coverImage,
-          id: item.id,
-          name: item.name,
-          quality: quality[idx],
-          price: optionPrice[idx],
-        })).filter(value => !isNaN(value.price) && !isNaN(value.quality)),
+        option: product.options
+          .map((item, idx) => ({
+            img: product.coverImage,
+            id: item.id,
+            name: item.name,
+            quality: quality[idx],
+            price: optionPrice[idx],
+          }))
+          .filter((value) => !isNaN(value.price) && !isNaN(value.quality)),
         shipping: {
           name,
           phone,
@@ -310,7 +311,7 @@ const OrderInfo = () => {
           request,
         },
       });
-      
+
       const result = await requestPayment(order);
       console.log(await getOrderList());
 
@@ -353,21 +354,30 @@ const OrderInfo = () => {
         <OrderDetailContainer>
           <SubTitle>주문내역</SubTitle>
           <Line />
-          {product.options && optionId.map((itemId, idx) => {
-            const selectedOption = product.options.find(option => option.id === Number(itemId));
+          {product.options &&
+            optionId.map((itemId, idx) => {
+              const selectedOption = product.options.find(
+                (option) => option.id === Number(itemId),
+              );
               return (
                 <ProductDetailInfo key={selectedOption.id}>
                   <OrderProfileImg src={product.coverImage} alt="상품 이미지" />
                   <OrderDetails>
                     <ProductName> {product.name} </ProductName>
                     <QualityPrice>
-                      <ProductNumber> 옵션: {selectedOption.name} / {quality[idx]}개 </ProductNumber>
-                      <OrderPrice> {optionPrice[idx]?.toLocaleString()}원 </OrderPrice>
+                      <ProductNumber>
+                        {" "}
+                        옵션: {selectedOption.name} / {quality[idx]}개{" "}
+                      </ProductNumber>
+                      <OrderPrice>
+                        {" "}
+                        {optionPrice[idx]?.toLocaleString()}원{" "}
+                      </OrderPrice>
                     </QualityPrice>
                   </OrderDetails>
                 </ProductDetailInfo>
               );
-          })}
+            })}
           <Line />
           <TotalAmountInfo>
             <TotalAmountTitle>총 상품 금액</TotalAmountTitle>
@@ -376,11 +386,11 @@ const OrderInfo = () => {
         </OrderDetailContainer>
         <BuyerInfoContainer>
           <BuyerInfoTitle> 받는 이 </BuyerInfoTitle>
-          <BuyerInputForm 
+          <BuyerInputForm
             title="name"
-            value={name} 
-            onChange={onChange} 
-            placeholder="이름" 
+            value={name}
+            onChange={onChange}
+            placeholder="이름"
           />
           <BuyerInfoTitle> 전화번호 </BuyerInfoTitle>
           <BuyerInputForm
@@ -397,13 +407,14 @@ const OrderInfo = () => {
             onClick={openPost}
             placeholder="우편번호"
           />
-          { openPostcode && (
-            <Postcode 
-              userInfo={userInfo} 
+          {openPostcode && (
+            <Postcode
+              userInfo={userInfo}
               setUserInfo={setUserInfo}
-              openPost={openPost}/>
+              openPost={openPost}
+            />
           )}
-          <BuyerInputForm 
+          <BuyerInputForm
             title="baseAddress"
             value={baseAddress}
             onChange={onChange}
@@ -424,7 +435,10 @@ const OrderInfo = () => {
           />
         </BuyerInfoContainer>
       </OrderDetailContainer>
-      <PurchaseBtn onClick={startPayment} active={isComplete}> 결제하기 </PurchaseBtn>
+      <PurchaseBtn onClick={startPayment} active={isComplete}>
+        {" "}
+        결제하기{" "}
+      </PurchaseBtn>
     </Container>
   );
 };
