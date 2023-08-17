@@ -213,6 +213,7 @@ const Main = () => {
   const [popularItems, setPopularItems] = useState([]);
   const [categoryId, setCategoryId] = useState();
   const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const [selectedPet, setSelectedPet] = useState(null); 
 
   const filteredProducts =
     categoryId !== undefined
@@ -309,23 +310,26 @@ const Main = () => {
         </BannerButton>
       </BannerContainer>
       <PetRecommend>
-            <PetImage />
-            <PetName> 누굴 위해 준비하니? </PetName>
-                <PetAddBtn src={AddPet} onClick={() => setDropdownVisible(!isDropdownVisible)} />
-            {isDropdownVisible && (
-                <PetDropdown>
-                    {petList.map((pet) => (
-                        <PetItem key={pet.id} onClick={() => {
-                            console.log(pet.name);
-                            setDropdownVisible(false);
-                        }}>
-                            <img src={pet.image} alt={pet.name} />
-                            {pet.name}
-                        </PetItem>
-                    ))}
-                </PetDropdown>
-            )}
-        </PetRecommend>
+  <PetImage src={selectedPet ? selectedPet.image : undefined} alt={selectedPet ? selectedPet.name : "Pet Image"} />
+  <PetName>
+    {selectedPet ? `${selectedPet.name} 위해 준비했어요` : "누굴 위해 준비하니?"}
+  </PetName>
+  <PetAddBtn src={AddPet} onClick={() => setDropdownVisible(!isDropdownVisible)} />
+  {isDropdownVisible && (
+    <PetDropdown>
+      {petList.map((pet) => (
+        <PetItem key={pet.id} onClick={() => {
+          console.log(pet.name);
+          setSelectedPet(pet);  
+          setDropdownVisible(false);
+        }}>
+          <img src={pet.image} alt={pet.name} />
+          {pet.name}
+        </PetItem>
+      ))}
+    </PetDropdown>
+  )}
+</PetRecommend>
       <CategoryList>
         {Categories.map((cate) => (
           <Menu
