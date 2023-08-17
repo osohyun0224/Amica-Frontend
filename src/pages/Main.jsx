@@ -67,18 +67,18 @@ const PetRecommend = styled.div`
   flex-direction: row;
   width: 100%;
   height: 10vh;
-  padding-left: 20px;
+  padding: 0 20px;
   align-items: center;
   justify-content: space-between; 
   position: relative;
 `;
 
 const PetAddBtn = styled.img`
-  width: ${props => props.isDownArrow ? "12px" : "24px"};
-  height: ${props => props.isDownArrow ? "12px" : "24px"};
-  margin-right: 40px;
+  width: ${props => props.isDownArrow ? "16px" : "24px"};
+  height: ${props => props.isDownArrow ? "10px" : "24px"};
   cursor: pointer;
-  margin-left: auto; 
+  margin: auto;
+  margin-right: 0;
 `;
 
 
@@ -167,17 +167,17 @@ const BannerButton = styled.button`
 
 const PetDropdown = styled.div`
   position: absolute;
-  top: 100%; 
-  left: 0; 
-  width: 100vw; 
+  top: 100%;
+  left: 0;
+  width: 100vw;
+  max-width: 500px;
   max-height: 200px;
   overflow-y: auto;
   background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 5px;
   z-index: 100; 
-  padding: 8px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  padding: 8px 8px 8px 16px;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
 const PetItem = styled.div`
@@ -317,10 +317,10 @@ const Main = () => {
     {selectedPet ? `${selectedPet.name} 위해 준비했어요` : "누굴 위해 준비하니?"}
   </PetName>
   <PetAddBtn 
-  isDownArrow={isDropdownVisible || selectedPet}
-  src={isDropdownVisible || selectedPet ? DownArrow : AddPet} 
-  onClick={() => setDropdownVisible(!isDropdownVisible)} 
-/>
+    isDownArrow={isDropdownVisible || selectedPet}
+    src={isDropdownVisible || selectedPet ? DownArrow : AddPet} 
+    onClick={() => setDropdownVisible(!isDropdownVisible)} 
+  />
   {isDropdownVisible && (
     <PetDropdown>
       {petList.map((pet) => (
