@@ -14,6 +14,9 @@ import { useDispatch } from "react-redux";
 import { hide } from "../../redux/modalSlice.js";
 import { petGender, petSizes, petSpecies } from "../../librarys/data.js";
 import { filterNumber } from "../../librarys/util.js";
+import { createPet } from "../../librarys/pet-api.js";
+import { useContext } from "react";
+import { DispatchContext } from "../../librarys/context.js";
 
 const Preview = styled.div`
   width: 128px;
@@ -130,7 +133,8 @@ const sizeList = createSelectList(petSizes);
 const genderList = createSelectList(petGender);
 
 const MyPetInputModal = () => {
-  const dispatch = useDispatch();
+  const dispatch = useContext(DispatchContext);
+  const modalDispatch = useDispatch();
   const inputRef = useRef();
   const [image, setImage] = useState(null);
   const [name, setName] = useState("");
@@ -164,6 +168,33 @@ const MyPetInputModal = () => {
       setSize(sizeList[0].id);
       setGender(genderList[0].id);
       setAge("");
+    }
+  }
+
+  async function complete() {
+    if (name.length < 1) {
+      alert("이름을 작성하세요.");
+      return;
+    }
+
+    const result = await createPet({
+      name,
+      species,
+      size,
+      image,
+      age: Number(age),
+      tags: [],
+      gender,
+    });
+
+    if (result) {
+      dispatch({
+        type: "reload",
+      });
+      modalDispatch(hide(id));
+    } else {
+      alert("오류 발생 -- 펫이 등록되지 못했습니다.");
+      return;
     }
   }
 
@@ -236,7 +267,7 @@ const MyPetInputModal = () => {
           </Item>
         </Grid>
       </Container>
-      <CoverButton onClick={() => dispatch(hide(id))}>확인</CoverButton>
+      <CoverButton onClick={complete}>확인</CoverButton>
     </Modal>
   );
 };
