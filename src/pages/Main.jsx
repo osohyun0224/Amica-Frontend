@@ -12,6 +12,7 @@ import RecommemdProduct from "../components/main/RecommendList";
 import Arrow from "../assets/images/rightArrow.png";
 //import ProductExample from "../assets/images/productExample.jpeg";
 import AddPet from "../assets/images/add.png";
+import DownArrow from "../assets/images/downArrow.png";
 
 import { getFeaturedProduct } from "../librarys/store-api";
 import { useEffect } from "react";
@@ -44,15 +45,6 @@ const Image = styled.img`
   border: none;
 `;
 
-const PetRecommend = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 10vh;
-  padding-left: 20px;
-  align-items: center;
-`;
-
 const PetImage = styled.img`
   width: 44px;
   height: 44px;
@@ -70,17 +62,25 @@ const PetName = styled.p`
   margin-left: 10px;
 `;
 
-const MovePetPage = styled(Link)`
-  margin: auto;
-  margin-right: 0;
+const PetRecommend = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 10vh;
+  padding-left: 20px;
+  align-items: center;
+  justify-content: space-between; 
+  position: relative;
 `;
 
 const PetAddBtn = styled.img`
-  width: 24px;
-  height: 24px;
-  margin-right: 20px;
+  width: ${props => props.isDownArrow ? "12px" : "24px"};
+  height: ${props => props.isDownArrow ? "12px" : "24px"};
+  margin-right: 40px;
   cursor: pointer;
+  margin-left: auto; 
 `;
+
 
 const Menu = styled.div`
   width: 60px;
@@ -167,7 +167,9 @@ const BannerButton = styled.button`
 
 const PetDropdown = styled.div`
   position: absolute;
-  width: 250px;
+  top: 100%; 
+  left: 0; 
+  width: 100vw; 
   max-height: 200px;
   overflow-y: auto;
   background-color: white;
@@ -212,6 +214,8 @@ const Main = () => {
   const [popularItems, setPopularItems] = useState([]);
   const [categoryId, setCategoryId] = useState();
   const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const [selectedPet, setSelectedPet] = useState(null); 
+  const [ setIsDropdownOpen] = useState(false);
 
   const filteredProducts =
     categoryId !== undefined
@@ -308,25 +312,31 @@ const Main = () => {
         </BannerButton>
       </BannerContainer>
       <PetRecommend>
-            <PetImage />
-            <PetName> 누굴 위해 준비하니? </PetName>
-            <MovePetPage to={"/my-pet"}>
-                <PetAddBtn src={AddPet} onClick={() => setDropdownVisible(!isDropdownVisible)} />
-            </MovePetPage>
-            {isDropdownVisible && (
-                <PetDropdown>
-                    {petList.map((pet) => (
-                        <PetItem key={pet.id} onClick={() => {
-                            console.log(pet.name);
-                            setDropdownVisible(false);
-                        }}>
-                            <img src={pet.image} alt={pet.name} />
-                            {pet.name}
-                        </PetItem>
-                    ))}
-                </PetDropdown>
-            )}
-        </PetRecommend>
+  <PetImage src={selectedPet ? selectedPet.image : undefined} alt={selectedPet ? selectedPet.name : "Pet Image"} />
+  <PetName>
+    {selectedPet ? `${selectedPet.name} 위해 준비했어요` : "누굴 위해 준비하니?"}
+  </PetName>
+  <PetAddBtn 
+  isDownArrow={isDropdownVisible || selectedPet}
+  src={isDropdownVisible || selectedPet ? DownArrow : AddPet} 
+  onClick={() => setDropdownVisible(!isDropdownVisible)} 
+/>
+  {isDropdownVisible && (
+    <PetDropdown>
+      {petList.map((pet) => (
+        <PetItem key={pet.id} onClick={() => {
+          console.log(pet.name);
+          setSelectedPet(pet);
+          setDropdownVisible(false);
+          setIsDropdownOpen(false);
+        }}>
+          <img src={pet.image} alt={pet.name} />
+          {pet.name}
+        </PetItem>
+      ))}
+    </PetDropdown>
+  )}
+</PetRecommend>
       <CategoryList>
         {Categories.map((cate) => (
           <Menu
