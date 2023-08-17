@@ -15,7 +15,7 @@ const Kind = styled.p`
     margin: 5px 0 9px 5px;
     border-radius: 5px;
     position: relative;
-    bottom: 120px;
+    bottom: 195px;
 `;
 
 const ProductType = ({ type, ...props }) => {

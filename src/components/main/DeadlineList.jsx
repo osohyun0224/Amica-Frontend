@@ -18,31 +18,28 @@ const Page = styled.div`
   flex-direction: column;
   margin: 0 5px 10px 5px;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
   cursor: pointer;
 `;
 
 const Image = styled.img`
   width: 100%;
-  height: 120px;
-  border-radius: 7px 7px 0 0;
-  position: relative;
+  height: 100%;
+  border-radius: 10px;
   object-fit: cover;
 `;
 
 const Detail = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
   width: 195px;
   height: 80px;
   border-radius: 0 0 10px 10px;
-  /* margin-bottom: 60px; */
-  margin-top: -44px;
-  padding: 8px 0 0 8px;
+  margin-top: -120px;
+  padding: 15px 0 0 8px;
   line-height: 22px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0) 0%,
-    #ffffff 17.71%
-  );
-  display: block;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 17.71%);
 `;
 
 const Title = styled.p`
@@ -50,8 +47,11 @@ const Title = styled.p`
   height: 16px;
   font-size: 12px;
   font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.02em;
   color: #151515;
-  margin-bottom: 4px;
+
+  margin-bottom: 3px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
@@ -64,11 +64,15 @@ const InfoContainer = styled.div`
 const Info = styled.p`
   font-size: 14px;
   font-weight: 700;
+  line-height: 22px;
+  letter-spacing: -0.02em;
 `;
 
 const Period = styled.p`
   font-size: 9px;
   font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.02em;
   color: rgba(21, 21, 21, 0.5);
 `;
 
