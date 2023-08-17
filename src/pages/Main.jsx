@@ -376,7 +376,7 @@ const Main = () => {
       </DetailMenu>
       <DetailMenu>
         <DetailMenuTitle>
-          <Title> 최근 등록된 상품 </Title>
+          <Title> {selectedPet ? `${selectedPet.name} 위해 준비했어요` : "최근 등록된 상품"} </Title>
           <NextBtn src={Arrow} alt="자세히보기" />
         </DetailMenuTitle>
         <RecommendList>
