@@ -53,7 +53,7 @@ export async function getPet(id) {
   );
 }
 
-let id = 0;
+let id = (petList?.at(-1)?.id || -1) + 1;
 
 export async function createPet(data) {
   // data 스키마

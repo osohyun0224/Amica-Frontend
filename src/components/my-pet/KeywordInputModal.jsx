@@ -6,8 +6,9 @@ import ProductTypeSelect from "../ProductTypeSelect.jsx";
 import Modal from "../Modal.jsx";
 import { petTags } from "../../librarys/data.js";
 import { useDispatch } from "react-redux";
-import { StateContext } from "../../librarys/context.js";
+import { DispatchContext, StateContext } from "../../librarys/context.js";
 import { hide } from "../../redux/modalSlice.js";
+import { modifyPet } from "../../librarys/pet-api.js";
 
 const Heading = styled.div`
   margin: 16px 0;
@@ -49,7 +50,8 @@ const CoverButton = styled.button`
 const id = "modify_pet_tag";
 
 const KeywordInputModal = () => {
-  const dispatch = useDispatch();
+  const dispatch = useContext(DispatchContext);
+  const modalDispatch = useDispatch();
   const [tags, setTags] = useState([]);
   const { pet } = useContext(StateContext);
 
@@ -58,6 +60,24 @@ const KeywordInputModal = () => {
       setTags(pet.tags);
     }
   }, [pet]);
+
+  async function complete() {
+    console.log(tags);
+    const result = await modifyPet(pet.id, {
+      ...pet,
+      tags,
+    });
+
+    if (result) {
+      dispatch({
+        type: "reload",
+      });
+      modalDispatch(hide(id));
+    } else {
+      alert("오류 발생 -- 펫이 수정되지 못했습니다.");
+      return;
+    }
+  }
 
   return (
     <Modal id={id}>
@@ -68,7 +88,7 @@ const KeywordInputModal = () => {
         value={tags}
         onSelect={setTags}
       />
-      <CoverButton onClick={() => dispatch(hide(id))}>확인</CoverButton>
+      <CoverButton onClick={complete}>확인</CoverButton>
     </Modal>
   );
 };

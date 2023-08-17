@@ -37,18 +37,20 @@ const Decoration = styled.div`
 
 const MyPetPage = () => {
   const [state, dispatch] = useReducer(petReducer, intialPetState);
-  const { pet } = state;
+  const { pet, reload } = state;
 
   useEffect(() => {
-    (async () => {
-      const petData = await getPetList();
+    if (reload) {
+      (async () => {
+        const petData = await getPetList();
 
-      dispatch({
-        type: "loadPets",
-        payload: petData,
-      });
-    })();
-  }, []);
+        dispatch({
+          type: "loadPets",
+          payload: petData,
+        });
+      })();
+    }
+  }, [reload]);
 
   useEffect(() => {
     if (pet) {
