@@ -61,7 +61,7 @@ const BottomBox = styled(Link)`
   position: absolute;
   bottom: 0;
   text-decoration: none;
-  margin-left: 60px;
+  margin-left: 110px;
   margin-bottom: 120px;
 `;
 

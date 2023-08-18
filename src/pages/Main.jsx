@@ -5,7 +5,7 @@ import petList from "../librarys/pet-api.js";
 import { ScrollContainer } from "react-indiana-drag-scroll";
 
 //import ProductType from "../components/ProductType";
-import CategoryList from "../components/main/CategoryList";
+import CategoryList from "../components/main/Category.jsx";
 import DeadlineProduct from "../components/main/DeadlineList";
 import RecommemdProduct from "../components/main/RecommendList";
 
@@ -18,13 +18,6 @@ import Who from "../assets/images/whoare.png";
 import { getFeaturedProduct } from "../librarys/store-api";
 import { useEffect } from "react";
 
-//카테고리 아이콘
-import Snack from "../assets/images/category/간식.svg";
-import Beauty from "../assets/images/category/미용.svg";
-import Daily from "../assets/images/category/생활용품.svg";
-import Clothes from "../assets/images/category/의류.svg";
-import Toy from "../assets/images/category/장난감.svg";
-import Medicine from "../assets/images/category/의약품.svg";
 
 // 배너 예시 이미지 나중에 배너 이미지 나오면 갈아끼울 예정
 import Banner1 from "../assets/images/main-banner/Banner1.webp";
@@ -82,25 +75,6 @@ const PetAddBtn = styled.img`
   margin-right: 0;
 `;
 
-const Menu = styled.div`
-  width: 60px;
-  height: 60px;
-  font-size: 11px;
-  color: #667080;
-  background-image: ${(props) => `url(${props.image})`};
-  background-size: 50%;
-  background-repeat: no-repeat;
-  background-position: 15px top;
-  background-color: #ffffff;
-  margin: 15px 15px 0 0;
-  padding-bottom: 8px;
-  justify-content: center;
-  align-items: end;
-  display: flex;
-  float: left;
-  cursor: pointer;
-  border: ${(props) => (props.selected ? "2px solid #667080" : "none")};
-`;
 
 const DetailMenu = styled.div`
   background-color: white;
@@ -202,14 +176,7 @@ const PetItem = styled.div`
   }
 `;
 
-const Categories = [
-  { id: 1001, name: "snack", text: "간식", image: Snack },
-  { id: 1006, name: "daliy", text: "생활용품", image: Daily },
-  { id: 1003, name: "clothes", text: "의류", image: Clothes },
-  { id: 1004, name: "medicine", text: "의약품", image: Medicine },
-  { id: 1002, name: "beauty", text: "미용", image: Beauty },
-  { id: 1005, name: "toy", text: "장난감", image: Toy },
-];
+
 
 const Main = () => {
   const [productList, setProductList] = useState([]);
@@ -368,18 +335,7 @@ const Main = () => {
           </PetDropdown>
         )}
       </PetRecommend>
-      <CategoryList>
-        {Categories.map((cate) => (
-          <Menu
-            key={cate.id}
-            onClick={() => handleCategoryClick(cate.id)}
-            image={cate.image}
-            selected={cate.id === categoryId}
-          >
-            {cate.text}
-          </Menu>
-        ))}
-      </CategoryList>
+     < CategoryList value={categoryId} onSelect={handleCategoryClick} />
       <productList>
         {filteredProducts.map((product, index) => (
           <ProductItem key={index} product={product} />
@@ -455,4 +411,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default Main;                        
