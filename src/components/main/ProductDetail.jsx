@@ -15,6 +15,7 @@ import UpArrowImage from "../../assets/images/upArrow.png";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import ImageModal from "./ImageModal.jsx";
+import NoticeModal from "./NoticeModal.jsx";
 
 dayjs.extend(duration);
 
@@ -57,6 +58,7 @@ const Container = styled(SimpleBar)`
 
 const Image = styled.img`
   width: 100%;
+  min-height: 500px;
   background-color: #eef1f4;
 `;
 
@@ -243,9 +245,20 @@ const NoticeModifiedDate = styled.p`
   margin-top: 30px;
   font-size: 14px;
   font-weight: 400;
-  line-height: 40px;
-  letter-spacing: -0.02em;
   color: #667080;
+`;
+
+const NoticeEditButton = styled.a`
+  margin-top: 4px;
+  margin-bottom: 8px;
+  border: none;
+  display: flex;
+  justify-content: flex-end;
+  text-decoration: underline;
+  font-size: 14px;
+  font-weight: 400;
+  color: #667080;
+  cursor: pointer;
 `;
 
 const ScrollToTopButton = styled.img`
@@ -350,9 +363,16 @@ const ProductDetail = () => {
     }
   }
 
+  function onNoticeClick() {
+    if (isAdmin) {
+      dispatch(show("modify_notice"));
+    }
+  }
+
   return (
     <Container scrollableNodeProps={{ ref }}>
       <ImageModal />
+      <NoticeModal />
       <HeaderTitle url="/main" title="" />
       {openOrder && (
         <Overlay
@@ -417,6 +437,12 @@ const ProductDetail = () => {
             <NoticeTitle> {data.notice.title} </NoticeTitle>
             <NoticeContent> {data.notice.content} </NoticeContent>
             <NoticeModifiedDate> 최근 수정일: {ModifyDate} </NoticeModifiedDate>
+            <NoticeEditButton
+              className={isAdmin ? null : "hidden"}
+              onClick={onNoticeClick}
+            >
+              편집하기
+            </NoticeEditButton>
           </Notice>
         ) : (
           <PromotionalImage src={data.descriptionImage} />

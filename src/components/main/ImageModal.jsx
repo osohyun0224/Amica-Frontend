@@ -61,13 +61,21 @@ const CoverButton = styled.button`
   color: #ffffff;
   background-color: rgba(217, 74, 86, 1);
 
-  transition: background-color 0.2s;
+  cursor: pointer;
+
+  transition:
+    opacity 0.2s,
+    background 0.2s;
 
   &:hover {
     background-color: rgba(217, 74, 86, 0.85);
   }
 
-  cursor: pointer;
+  &.disabled {
+    background-color: rgba(217, 74, 86, 1);
+    opacity: 0.5;
+    cursor: auto;
+  }
 `;
 
 const id = "upload_image";
@@ -79,6 +87,8 @@ const ImageModal = () => {
   const descriptionRef = useRef();
   const [headerImage, setHeaderImage] = useState(null);
   const [descriptionImage, setDescriptionImage] = useState(null);
+
+  const isComplete = headerImage && descriptionImage;
 
   function openUpload(ref) {
     return () => {
@@ -118,7 +128,9 @@ const ImageModal = () => {
     // } else {
     //   alert("오류 발생 -- 펫이 등록되지 못했습니다.");
     //   return;
-    navigate(0);
+    if (isComplete) {
+      navigate(0);
+    }
   }
 
   function clear(value) {
@@ -167,7 +179,12 @@ const ImageModal = () => {
           )}
         </Preview>
       </Container>
-      <CoverButton onClick={complete}>확인</CoverButton>
+      <CoverButton
+        className={isComplete ? null : "disabled"}
+        onClick={complete}
+      >
+        확인
+      </CoverButton>
     </Modal>
   );
 };
