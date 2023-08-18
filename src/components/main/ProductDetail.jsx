@@ -65,7 +65,7 @@ const ProductName = styled.p`
   color: #151515;
   font-size: 17.29px;
   font-weight: 400;
-  line-height: 34.57px;
+  line-height: 25px;
 `;
 
 const SubProductInfo = styled.div`

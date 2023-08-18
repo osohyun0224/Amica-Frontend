@@ -114,7 +114,7 @@ const DetailMenuTitle = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 0 25px 15px 0;
+  margin: 0 10px 15px 0;
 `;
 
 const NextBtn = styled.img`
