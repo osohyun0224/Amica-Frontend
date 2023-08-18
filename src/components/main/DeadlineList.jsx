@@ -127,8 +127,6 @@ const DetailProductList = ({
     }),
   ];
 
-  console.log(types);
-
   useEffect(() => {
     const endDate = dayjs(end);
     setInterval(() => {

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import LandingBackgroundImage from "../assets/images/landingBackground.jpg";
 
+import LogoImage from "../assets/images/mainLogo.svg";
 import PetImage from "../assets/images/pet.png";
 
 const Container = styled.div`
@@ -12,8 +12,10 @@ const Container = styled.div`
 
   display: flex;
   flex-direction: column;
-  align-item: center;
+  align-items: center;
   justify-content: center;
+
+  text-align: center;
 
   & > * {
     z-index: 1;
@@ -23,9 +25,8 @@ const Container = styled.div`
 const Background = styled.img`
   max-width: 500px;
   width: 100%;
-  height: 100%;
+  bottom: 64px;
   padding: 0 min(10%, 50px);
-  margin-left: -24px;
   position: absolute;
   object-fit: contain;
 
@@ -63,16 +64,20 @@ const SignupButton = styled(StyledButton)`
   }
 `;
 
-const Title = styled.p`
-  font-size: 50px;
-  font-weight: 600;
-  flex-grow: 1;
+const Title = styled.img`
+  margin-top: 64px;
+  max-width: 360px;
+  width: 100%;
 `;
 
 const Subtitle = styled.p`
-  margin-top: 64px;
   font-size: 16px;
   font-weight: 400;
+  color: white;
+`;
+
+const Spacer = styled.div`
+  flex-grow: 1;
 `;
 
 function Home() {
@@ -80,8 +85,9 @@ function Home() {
   return (
     <Container>
       <Background src={PetImage} />
+      <Title src={LogoImage} />
       <Subtitle>내 친구를 위한 현명한 소비</Subtitle>
-      <Title>Amica!</Title>
+      <Spacer />
       <LoginButton onClick={() => navigate("/login")}>로그인</LoginButton>
       <SignupButton onClick={() => navigate("/signup")}>회원가입</SignupButton>
     </Container>
