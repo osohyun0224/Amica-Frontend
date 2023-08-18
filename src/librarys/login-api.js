@@ -1,3 +1,21 @@
+import { instance } from "./axios";
+
+export async function _userLogin(id, password) {
+  const response = await instance.post("login", { mid: id, password });
+
+  const item = response.data;
+
+  const result = {
+    email: item.id,
+    name: item.name,
+    admin: item.admin,
+    access_token: item.accessToken,
+    refresh_token: item.refreshToken,
+  };
+
+  return result;
+}
+
 export async function userLogin(id, password) {
   const accounts = [
     {
@@ -31,4 +49,35 @@ export async function userLogin(id, password) {
     refresh_token: "token2",
     admin: account.admin,
   };
+}
+
+export async function registerUser(mid, password, name, phone) {
+  const response = await instance.post("user/join", {
+    mid,
+    password,
+    name,
+    phone,
+  });
+
+  return response.data;
+}
+
+export async function changePassword(mid, currentPassword, newPassword) {
+  const response = await instance.post("user/auth/change-password", {
+    mid,
+    currentPassword,
+    newPassword,
+  });
+
+  return response.data;
+}
+
+export async function changeName(mid, currentName, newName) {
+  const response = await instance.post("user/auth/change-name", {
+    mid,
+    currentName,
+    newName,
+  });
+
+  return response.data;
 }

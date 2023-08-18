@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 
 import Button from "../Button";
@@ -13,6 +14,7 @@ import UpArrowImage from "../../assets/images/upArrow.png";
 
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
+import ImageModal from "./ImageModal.jsx";
 
 dayjs.extend(duration);
 
@@ -20,6 +22,8 @@ import { getProduct } from "../../librarys/store-api.js";
 
 import SimpleBar from "simplebar-react";
 import { useRef } from "react";
+import { selectIsAdmin } from "../../redux/userSlice";
+import { show } from "../../redux/modalSlice";
 
 const Container = styled(SimpleBar)`
   display: flex;
@@ -65,7 +69,7 @@ const ProductName = styled.p`
   color: #151515;
   font-size: 17.29px;
   font-weight: 400;
-  line-height: 34.57px;
+  line-height: 25px;
 `;
 
 const SubProductInfo = styled.div`
@@ -267,6 +271,8 @@ const ScrollToTopButton = styled.img`
 `;
 
 const ProductDetail = () => {
+  const isAdmin = useSelector(selectIsAdmin);
+  const dispatch = useDispatch();
   const ref = useRef(null);
   const [data, setData] = useState({});
   const [percent, setPercent] = useState(0);
@@ -338,8 +344,15 @@ const ProductDetail = () => {
     }
   };
 
+  function onImageClick() {
+    if (isAdmin) {
+      dispatch(show("upload_image"));
+    }
+  }
+
   return (
     <Container scrollableNodeProps={{ ref }}>
+      <ImageModal />
       <HeaderTitle url="/main" title="" />
       {openOrder && (
         <Overlay
@@ -349,7 +362,7 @@ const ProductDetail = () => {
           <OverlayBackground />
         </Overlay>
       )}
-      <Image src={data.coverImage} alt="상품 이미지" />
+      <Image onClick={onImageClick} src={data.coverImage} alt="상품 이미지" />
       <ProductInfoContainer>
         <ProductName> {data.name} </ProductName>
         <SubProductInfo>

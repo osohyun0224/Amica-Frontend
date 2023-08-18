@@ -5,7 +5,7 @@ import petList from "../librarys/pet-api.js";
 import { ScrollContainer } from "react-indiana-drag-scroll";
 
 //import ProductType from "../components/ProductType";
-import CategoryList from "../components/main/CategoryList";
+import CategoryList from "../components/main/Category.jsx";
 import DeadlineProduct from "../components/main/DeadlineList";
 import RecommemdProduct from "../components/main/RecommendList";
 
@@ -18,18 +18,11 @@ import Who from "../assets/images/whoare.png";
 import { getFeaturedProduct } from "../librarys/store-api";
 import { useEffect } from "react";
 
-//카테고리 아이콘
-import Snack from "../assets/images/category/간식.svg";
-import Beauty from "../assets/images/category/미용.svg";
-import Daily from "../assets/images/category/생활용품.svg";
-import Clothes from "../assets/images/category/의류.svg";
-import Toy from "../assets/images/category/장난감.svg";
-import Medicine from "../assets/images/category/의약품.svg";
 
 // 배너 예시 이미지 나중에 배너 이미지 나오면 갈아끼울 예정
-import Banner1 from "../assets/images/main-banner/Banner1.jpg";
-import Banner2 from "../assets/images/main-banner/Banner2.jpg";
-import Banner3 from "../assets/images/main-banner/Banner3.jpg";
+import Banner1 from "../assets/images/main-banner/Banner1.webp";
+import Banner2 from "../assets/images/main-banner/Banner2.webp";
+import Banner3 from "../assets/images/main-banner/Banner3.webp";
 
 const PageContainer = styled.div`
   display: block;
@@ -40,7 +33,7 @@ const PageContainer = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  height: 18vh;
+  max-height: 200px;
   background: #eef1f4;
   margin-top: 10px;
   border: none;
@@ -70,38 +63,18 @@ const PetRecommend = styled.div`
   height: 10vh;
   padding: 0 20px;
   align-items: center;
-  justify-content: space-between; 
+  justify-content: space-between;
   position: relative;
 `;
 
 const PetAddBtn = styled.img`
-  width: ${props => props.isDownArrow ? "16px" : "24px"};
-  height: ${props => props.isDownArrow ? "10px" : "24px"};
+  width: ${(props) => (props.isDownArrow ? "16px" : "24px")};
+  height: ${(props) => (props.isDownArrow ? "10px" : "24px")};
   cursor: pointer;
   margin: auto;
   margin-right: 0;
 `;
 
-
-const Menu = styled.div`
-  width: 60px;
-  height: 60px;
-  font-size: 11px;
-  color: #667080;
-  background-image: ${(props) => `url(${props.image})`};
-  background-size: 50%;
-  background-repeat: no-repeat;
-  background-position: 15px top;
-  background-color: #ffffff;
-  margin: 15px 15px 0 0;
-  padding-bottom: 8px;
-  justify-content: center;
-  align-items: end;
-  display: flex;
-  float: left;
-  cursor: pointer;
-  border: ${(props) => (props.selected ? "2px solid #667080" : "none")};
-`;
 
 const DetailMenu = styled.div`
   background-color: white;
@@ -114,7 +87,7 @@ const DetailMenuTitle = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 0 25px 15px 0;
+  margin: 0 10px 15px 0;
 `;
 
 const NextBtn = styled.img`
@@ -162,7 +135,9 @@ const BannerButton = styled.button`
   top: 50%;
   ${(props) => (props.direction === "left" ? "left: 10px;" : "right: 10px;")}
   background: rgba(0,0,0,0);
-  color: white;
+  color: rgba(217, 74, 86, 1);
+  font-weight: 800;
+  font-size: 20px;
   border: none;
   cursor: pointer;
   z-index: 10;
@@ -178,7 +153,7 @@ const PetDropdown = styled.div`
   overflow-y: auto;
   background-color: white;
   border-radius: 5px;
-  z-index: 100; 
+  z-index: 100;
   padding: 8px 8px 8px 16px;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
 `;
@@ -201,14 +176,7 @@ const PetItem = styled.div`
   }
 `;
 
-const Categories = [
-  { id: 1001, name: "snack", text: "간식", image: Snack },
-  { id: 1006, name: "daliy", text: "생활용품", image: Daily },
-  { id: 1003, name: "clothes", text: "의류", image: Clothes },
-  { id: 1004, name: "medicine", text: "의약품", image: Medicine },
-  { id: 1002, name: "beauty", text: "미용", image: Beauty },
-  { id: 1005, name: "toy", text: "장난감", image: Toy },
-];
+
 
 const Main = () => {
   const [productList, setProductList] = useState([]);
@@ -217,13 +185,12 @@ const Main = () => {
   const [popularItems, setPopularItems] = useState([]);
   const [categoryId, setCategoryId] = useState();
   const [isDropdownVisible, setDropdownVisible] = useState(false);
-  const [selectedPet, setSelectedPet] = useState(null); 
+  const [selectedPet, setSelectedPet] = useState(null);
   const [setIsDropdownOpen] = useState(false);
   // 사용자 펫 선택 시 카테고리 + 태그 필터링화 되는 상태 => 마감 임박
   const [filteredDeadlineItems, setFilteredDeadlineItems] = useState([]);
   // 사용자 펫 선택 시 카테고리 + 태그 필터링화 되는 상태 => 인기 만점
   const [filteredPopularItems, setFilteredPopularItems] = useState([]);
-
 
   const filteredProducts =
     categoryId !== undefined
@@ -251,8 +218,7 @@ const Main = () => {
         setProductList(Array.isArray(products) ? products : []);
       })();
     } else {
-
-      // 카테고리가 선택되지 않았다면 전체 상품 목록을 불러오도록 해놓은 함수
+      // 카테고리가 선택되지 않았다면 전체 상품 목록을 불러오도록 해놓은 함수임
       (async () => {
         const products = await getFeaturedProduct();
         setProductList(Array.isArray(products) ? products : []);
@@ -261,10 +227,10 @@ const Main = () => {
   }, [categoryId]);
 
   useEffect(() => {
-    // 선택된 펫에 따라 "마감 임박" 물품 목록 필터링화
+    // 선택된 펫에 따라 "마감임박" 물품 목록 필터링화
     if (selectedPet) {
-      const matchingItems = deadlineItems.filter(item =>
-        selectedPet.tags.some(tag => item.tag.includes(tag))
+      const matchingItems = deadlineItems.filter((item) =>
+        selectedPet.tags.some((tag) => item.tag.includes(tag)),
       );
       setFilteredDeadlineItems(matchingItems);
     } else {
@@ -275,8 +241,8 @@ const Main = () => {
   useEffect(() => {
     // 선택된 펫에 따라 "인기 만점" 물품 목록 필터링화
     if (selectedPet) {
-      const matchingItems = popularItems.filter(item =>
-        selectedPet.tags.some(tag => item.tag.includes(tag))
+      const matchingItems = popularItems.filter((item) =>
+        selectedPet.tags.some((tag) => item.tag.includes(tag)),
       );
       setFilteredPopularItems(matchingItems);
     } else {
@@ -284,23 +250,10 @@ const Main = () => {
     }
   }, [selectedPet, popularItems]);
 
-  // 카테고리 ID와 상품 목록의 현재 상태를 찍어볼려고 한 콘솔창
-  useEffect(() => {
-    console.log("Current category ID:", categoryId);
-    console.log("Recent items:", recentItems);
-    console.log("Filtered recent items:", recentFilteredProducts);
-  }, [categoryId, recentItems, recentFilteredProducts]);
-
   // 카테고리 선택시 로깅찍어보는 것
   const handleCategoryClick = (id) => {
-    console.log("Category clicked:", id);
     setCategoryId(id);
   };
-
-  // 페이지 새로 고침 시, 아무것도 선택되지 않은 초기 추천 아이템 리스트 콘솔 찍는 함수
-  useEffect(() => {
-    console.log("First recent item:", recentItems[0]);
-  }, [recentItems]);
 
   // 배너 구현 함수
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
@@ -346,27 +299,35 @@ const Main = () => {
         </BannerButton>
       </BannerContainer>
       <PetRecommend>
-        <PetImage src={selectedPet ? selectedPet.image : Who} alt={selectedPet ? selectedPet.name : "Pet Image"} />
-        {selectedPet ?
+        <PetImage
+          src={selectedPet ? selectedPet.image : Who}
+          alt={selectedPet ? selectedPet.name : "Pet Image"}
+        />
+        {selectedPet ? (
           <>
-            <PetName> {selectedPet.name} </PetName> 
-            위해 준비했어요 
-          </> : <PetName> 누굴 위해 준비하니? </PetName>
-        }  
-        <PetAddBtn 
+            <PetName> {selectedPet.name} </PetName>
+            위해 준비했어요
+          </>
+        ) : (
+          <PetName> 누굴 위해 준비하니? </PetName>
+        )}
+        <PetAddBtn
           isDownArrow={isDropdownVisible || selectedPet}
-          src={isDropdownVisible || selectedPet ? DownArrow : AddPet} 
-          onClick={() => setDropdownVisible(!isDropdownVisible)} 
+          src={isDropdownVisible || selectedPet ? DownArrow : AddPet}
+          onClick={() => setDropdownVisible(!isDropdownVisible)}
         />
         {isDropdownVisible && (
           <PetDropdown>
             {petList.map((pet) => (
-              <PetItem key={pet.id} onClick={() => {
-                console.log(pet.name);
-                setSelectedPet(pet);
-                setDropdownVisible(false);
-                setIsDropdownOpen(false);
-              }}>
+              <PetItem
+                key={pet.id}
+                onClick={() => {
+                  console.log(pet.name);
+                  setSelectedPet(pet);
+                  setDropdownVisible(false);
+                  setIsDropdownOpen(false);
+                }}
+              >
                 <img src={pet.image} alt={pet.name} />
                 {pet.name}
               </PetItem>
@@ -374,18 +335,7 @@ const Main = () => {
           </PetDropdown>
         )}
       </PetRecommend>
-      <CategoryList>
-        {Categories.map((cate) => (
-          <Menu
-            key={cate.id}
-            onClick={() => handleCategoryClick(cate.id)}
-            image={cate.image}
-            selected={cate.id === categoryId}
-          >
-            {cate.text}
-          </Menu>
-        ))}
-      </CategoryList>
+     < CategoryList value={categoryId} onSelect={handleCategoryClick} />
       <productList>
         {filteredProducts.map((product, index) => (
           <ProductItem key={index} product={product} />
@@ -413,12 +363,14 @@ const Main = () => {
       </DetailMenu>
       <DetailMenu>
         <DetailMenuTitle>
-          {selectedPet ?
+          {selectedPet ? (
             <>
-              <Title> {selectedPet.name} </Title> 
-              위해 준비했어요 
-            </> : <Title> 최근 등록된 상품 </Title>
-          }  
+              <Title> {selectedPet.name} </Title>
+              위해 준비했어요
+            </>
+          ) : (
+            <Title> 최근 등록된 상품 </Title>
+          )}
           <NextBtn src={Arrow} alt="자세히보기" />
         </DetailMenuTitle>
         <RecommendList>
@@ -459,4 +411,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default Main;                        

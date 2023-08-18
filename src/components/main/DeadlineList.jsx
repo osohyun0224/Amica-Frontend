@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
 import { useState, useEffect, useMemo } from "react";
-import ProductType from "../ProductType";
+import ProductType from "../NewProductType.jsx";
 
-import { categorys } from "../../librarys/data.js";
+import { categorys, petTags } from "../../librarys/data.js";
 
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
@@ -22,24 +22,42 @@ const Page = styled.div`
   cursor: pointer;
 `;
 
+const Wrapper = styled.div`
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
 const Image = styled.img`
+  z-index: 0;
+  top: 0;
+  position: absolute;
   width: 100%;
   height: 100%;
   border-radius: 10px;
   object-fit: cover;
 `;
 
+const Type = styled(ProductType)`
+  max-height: 26px;
+  margin: 4px;
+`;
+
 const Detail = styled.div`
   display: flex;
   flex-direction: column;
-  position: relative;
-  width: 195px;
+  width: 100%;
   height: 80px;
   border-radius: 0 0 10px 10px;
-  margin-top: -120px;
   padding: 15px 0 0 8px;
   line-height: 22px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 17.71%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    #ffffff 17.71%
+  );
 `;
 
 const Title = styled.p`
@@ -100,6 +118,17 @@ const DetailProductList = ({
     }
   }, [category]);
 
+  const types = [
+    categoryName,
+    ...tag.map((item) => {
+      const find = petTags.find((element) => element.id === item);
+
+      return find ? find.title : item;
+    }),
+  ];
+
+  console.log(types);
+
   useEffect(() => {
     const endDate = dayjs(end);
     setInterval(() => {
@@ -126,28 +155,25 @@ const DetailProductList = ({
   return (
     <Page>
       <Image src={src} alt="상품이미지" />
-      <InfoContainer>
-        <ProductType type={categoryName} />
-        {tag.map((item) => (
-          <ProductType key={item} type={item} />
-        ))}
-      </InfoContainer>
-      <Detail>
-        <Title> {name} </Title>
-        <InfoContainer>
-          <Info
-            style={{
-              display: discount > 0 ? null : "none",
-              color: "#D94A56",
-              marginRight: "7px",
-            }}
-          >
-            {percent}%
-          </Info>
-          <Info>{(discount || price).toLocaleString()}원</Info>
-        </InfoContainer>
-        <Period> 공동구매 마감까지 {period} 남음 </Period>
-      </Detail>
+      <Wrapper>
+        <Type type={types} />
+        <Detail>
+          <Title> {name} </Title>
+          <InfoContainer>
+            <Info
+              style={{
+                display: discount > 0 ? null : "none",
+                color: "#D94A56",
+                marginRight: "7px",
+              }}
+            >
+              {percent}%
+            </Info>
+            <Info>{(discount || price).toLocaleString()}원</Info>
+          </InfoContainer>
+          <Period> 공동구매 마감까지 {period} 남음 </Period>
+        </Detail>
+      </Wrapper>
     </Page>
   );
 };

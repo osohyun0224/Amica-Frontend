@@ -275,7 +275,7 @@ export async function postDraftOrder(data) {
   };
 
   orderList.push(order);
-
+  console.log(order);
   return order;
 }
 

@@ -2,9 +2,13 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import LandingBackgroundImage from "../assets/images/landingBackground.jpg";
 
+import PetImage from "../assets/images/pet.png";
+
 const Container = styled.div`
   padding: 64px 24px;
   min-height: calc(var(--vh) * 100);
+
+  background: linear-gradient(182deg, #f2b366 0%, #f2d335 37.5%), #fff;
 
   display: flex;
   flex-direction: column;
@@ -20,9 +24,10 @@ const Background = styled.img`
   max-width: 500px;
   width: 100%;
   height: 100%;
+  padding: 0 min(10%, 50px);
   margin-left: -24px;
   position: absolute;
-  object-fit: cover;
+  object-fit: contain;
 
   z-index: 0;
 `;
@@ -74,7 +79,7 @@ function Home() {
   const navigate = useNavigate();
   return (
     <Container>
-      <Background src={LandingBackgroundImage} />
+      <Background src={PetImage} />
       <Subtitle>내 친구를 위한 현명한 소비</Subtitle>
       <Title>Amica!</Title>
       <LoginButton onClick={() => navigate("/login")}>로그인</LoginButton>

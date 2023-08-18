@@ -19,3 +19,11 @@ export function debounce(callback, ms = 400) {
     }, ms);
   };
 }
+
+export function getTags(text) {
+  return JSON.parse(text.replace("{", "[").replace("}", "]"));
+}
+
+export function parseTags(tags) {
+  return JSON.stringify(tags).replace("[", "{").replace("]", "}");
+}
