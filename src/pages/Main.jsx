@@ -13,6 +13,7 @@ import Arrow from "../assets/images/rightArrow.png";
 //import ProductExample from "../assets/images/productExample.jpeg";
 import AddPet from "../assets/images/add.png";
 import DownArrow from "../assets/images/downArrow.png";
+import Who from "../assets/images/whoare.png";
 
 import { getFeaturedProduct } from "../librarys/store-api";
 import { useEffect } from "react";
@@ -313,12 +314,12 @@ const Main = () => {
         </BannerButton>
       </BannerContainer>
       <PetRecommend>
-        <PetImage src={selectedPet ? selectedPet.image : undefined} alt={selectedPet ? selectedPet.name : "Pet Image"} />
+        <PetImage src={selectedPet ? selectedPet.image : Who} alt={selectedPet ? selectedPet.name : "Pet Image"} />
         {selectedPet ?
           <>
             <PetName> {selectedPet.name} </PetName> 
             위해 준비했어요 
-          </> : <PetName> 최근 등록된 상품 </PetName>
+          </> : <PetName> 누굴 위해 준비하니? </PetName>
         }  
         <PetAddBtn 
           isDownArrow={isDropdownVisible || selectedPet}
