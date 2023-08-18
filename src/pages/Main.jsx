@@ -219,8 +219,11 @@ const Main = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [selectedPet, setSelectedPet] = useState(null); 
   const [setIsDropdownOpen] = useState(false);
-  // 사용자 펫 선택 시 카테고리 + 태그 필터링화 되는 상태
+  // 사용자 펫 선택 시 카테고리 + 태그 필터링화 되는 상태 => 마감 임박
   const [filteredDeadlineItems, setFilteredDeadlineItems] = useState([]);
+  // 사용자 펫 선택 시 카테고리 + 태그 필터링화 되는 상태 => 인기 만점
+  const [filteredPopularItems, setFilteredPopularItems] = useState([]);
+
 
   const filteredProducts =
     categoryId !== undefined
@@ -269,6 +272,18 @@ const Main = () => {
     }
   }, [selectedPet, deadlineItems]);
 
+  useEffect(() => {
+    // 선택된 펫에 따라 "인기 만점" 물품 목록 필터링화
+    if (selectedPet) {
+      const matchingItems = popularItems.filter(item =>
+        selectedPet.tags.some(tag => item.tag.includes(tag))
+      );
+      setFilteredPopularItems(matchingItems);
+    } else {
+      setFilteredPopularItems(popularItems);
+    }
+  }, [selectedPet, popularItems]);
+
   // 카테고리 ID와 상품 목록의 현재 상태를 찍어볼려고 한 콘솔창
   useEffect(() => {
     console.log("Current category ID:", categoryId);
@@ -281,7 +296,8 @@ const Main = () => {
     console.log("Category clicked:", id);
     setCategoryId(id);
   };
-  ///
+
+  // 페이지 새로 고침 시, 아무것도 선택되지 않은 초기 추천 아이템 리스트 콘솔 찍는 함수
   useEffect(() => {
     console.log("First recent item:", recentItems[0]);
   }, [recentItems]);
@@ -424,7 +440,7 @@ const Main = () => {
           <Title> 요즘 집사들 필수 아이템! 인기 만점 </Title>
         </DetailMenuTitle>
         <DeadLineList>
-          {popularItems.map((item) => (
+          {filteredPopularItems.map((item) => (
             <ProductSelect key={item.id} to={`/productDetail/${item.id}`}>
               <DeadlineProduct
                 name={item.name}
