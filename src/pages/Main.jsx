@@ -154,6 +154,7 @@ const ProductSelect = styled(Link)`
 const BannerContainer = styled.div`
   position: relative;
   overflow: hidden;
+  margin-top: -10px;
 `;
 
 const BannerButton = styled.button`
