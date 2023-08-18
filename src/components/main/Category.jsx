@@ -13,10 +13,12 @@ const Container = styled(ScrollContainer)`
   gap: 12px;
 `;
 
-const Item = styled.div`
+const Item = styled.button`
   padding: 4px 12px;
+  border: none;
   border-radius: 8px;
   font-size: 11px;
+  background: none;
   color: #667080;
   display: flex;
   flex-direction: column;

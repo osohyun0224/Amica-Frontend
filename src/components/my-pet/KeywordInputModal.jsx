@@ -62,7 +62,6 @@ const KeywordInputModal = () => {
   }, [pet]);
 
   async function complete() {
-    console.log(tags);
     const result = await modifyPet(pet.id, {
       ...pet,
       tags,

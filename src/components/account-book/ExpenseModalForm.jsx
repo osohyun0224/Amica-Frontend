@@ -100,7 +100,7 @@ const ExpenseModalForm = ({ data, onChange }) => {
         <Textbox
           type="text"
           placeholder="14,000"
-          value={priceState.toLocaleString()}
+          value={priceState?.toLocaleString()}
           onInput={filterNumber(setPrice)}
         />
         <Text>원</Text>
