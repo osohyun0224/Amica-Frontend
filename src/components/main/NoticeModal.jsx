@@ -3,6 +3,8 @@ import { styled } from "styled-components";
 import Modal from "../Modal.jsx";
 
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { hide } from "../../redux/modalSlice.js";
 
 const Container = styled.div`
   margin: 16px;
@@ -72,6 +74,7 @@ const id = "modify_notice";
 const NoticeModal = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const dispatch = useDispatch();
 
   return (
     <Modal id={id}>
@@ -92,7 +95,7 @@ const NoticeModal = () => {
           onInput={(e) => setDescription(e.target.value)}
         />
       </Container>
-      <CoverButton onClick={close}>확인</CoverButton>
+      <CoverButton onClick={dispatch(hide(id))}>확인</CoverButton>
     </Modal>
   );
 };
