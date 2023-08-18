@@ -1,19 +1,57 @@
+//id: 5 
+import Product1Image from "../assets/images/dummydata/무제1-2.webp";
+import Product1DescriptionImage from "../assets/images/dummydata/무제1-1.webp";
+//id:8 
+import Product2Image from "../assets/images/dummydata/무제2-1.webp";
+import Product2DescriptionImage from "../assets/images/dummydata/무제2-2.webp";
+//id:19
+import Product3Image from "../assets/images/dummydata/무제3-1.webp";
+import Product3DescriptionImage from "../assets/images/dummydata/무제3-2.webp";
+//id:1 - 고양이 사료
+import Product4Image from "../assets/images/dummydata/무제4-2.webp";
+import Product4DescriptionImage from "../assets/images/dummydata/무제4-1.webp";
+//id:2- 고양이 사료
+import Product5Image from "../assets/images/dummydata/무제5-1.webp";
+import Product5DescriptionImage from "../assets/images/dummydata/무제5-2.webp";
+//id:3- 강아지 사료
+import Product6Image from "../assets/images/dummydata/무제6-1.webp";
+import Product6DescriptionImage from "../assets/images/dummydata/무제6-2.webp";
+// 7 시간없어  미안해
+//id:18  코코시루 자동 급수기
+import Product8Image from "../assets/images/dummydata/무제8-1.webp";
+import Product8DescriptionImage from "../assets/images/dummydata/무제8-2.webp";
+//id:10 휴먼그레이드의 반려묘 영양제
+import Product9Image from "../assets/images/dummydata/무제9-2.webp";
+import Product9DescriptionImage from "../assets/images/dummydata/무제9-1.webp";
+//id:11 안티러스의 츄르타입 연어 맛 영양제
+import Product10Image from "../assets/images/dummydata/무제10-1.webp";
+import Product10DescriptionImage from "../assets/images/dummydata/무제10-2.webp";
+//id: 9 멍냥타임 사냥놀이 무브 인형
+import Product11Image from "../assets/images/dummydata/무제11-1.webp";
+import Product11DescriptionImage from "../assets/images/dummydata/무제11-2.webp";
+//
+import Product12Image from "../assets/images/dummydata/무제12-1.webp";
+import Product12DescriptionImage from "../assets/images/dummydata/무제12-2.webp";
+
+import Product13Image from "../assets/images/dummydata/무제13-1.webp";
+import Product13DescriptionImage from "../assets/images/dummydata/무제13-2.webp";
+
 const productList = [
   {
     id: 1,
-    name: "뉴트리나 건강백서 포메라니안 강아지사료",
-    thumbnailImage: "https://placehold.co/256",
-    coverImage: "https://placehold.co/512",
-    descriptionImage: "https://placehold.co/300x700",
+    name: "Royal CANIN 프리미엄 고양이 사료",
+    thumbnailImage: Product4Image,
+    coverImage: Product4Image,
+    descriptionImage: Product4DescriptionImage,
     category: 1001,
     price: 21000,
     discount: 16000,
     users: 582,
     endDate: "2023-08-24T00:00:00+09:00",
     notice: {
-      title: "배송 안내",
+      title: "Royal CANIN 고양이 사료",
       content:
-        "배송 폭증으로 인해서 배송이 다소 늦어지고 있습니다.\n불편을 드려 죄송합니다. 최대한 빠르게 저희 제품을 만나보실 수 있도록 하겠습니다.",
+        "어미의 임신 시기 부터 새끼 고양이의 생후 13개월 까지 맞춤형 프리미엄 고양이 사료를 경험해보세요. ",
       modifiedDate: "2023-08-05T17:12:04+09:00",
     },
     options: [
@@ -36,24 +74,24 @@ const productList = [
         discount: 44000,
       },
     ],
-    tag: [105, 121, 144],
+    tag: [105, 130, 143],
     goalPrice: 905847,
     currentPrice: 1447767,
   },
   {
     id: 2,
-    name: "나우프레쉬 그레인프리 어덜트 고양이 사료",
-    thumbnailImage: "https://placehold.co/256",
-    coverImage: "https://placehold.co/512",
-    descriptionImage: "https://placehold.co/300x700",
+    name: "프리미엄 보양식 사료 캣밥",
+    thumbnailImage: Product5Image,
+    coverImage: Product5Image,
+    descriptionImage: Product5DescriptionImage,
     category: 1001,
     price: 93000,
     discount: 0,
     users: 73,
     endDate: "2023-08-24T00:00:00+09:00",
     notice: {
-      title: "공지사항",
-      content: "공지사항입니다.\n\n안녕하세요.",
+      title: "보양식 사료 캣밥",
+      content: "육즙이 살아있는 프리미엄 보양식 사료 캣밥을 경험해보세요",
       modifiedDate: "2023-08-06T11:33:39+09:00",
     },
     options: [
@@ -70,37 +108,37 @@ const productList = [
   },
   {
     id: 3,
-    name: "시저 1세 이상 베스트 강아지 주식캔 100g * 10",
-    thumbnailImage: "https://placehold.co/256",
-    coverImage: "https://placehold.co/512",
-    descriptionImage: "https://placehold.co/300x700",
+    name: "하림 펫 푸드 강아지 밥이 보약",
+    thumbnailImage: Product6Image,
+    coverImage: Product6Image,
+    descriptionImage: Product6DescriptionImage,
     category: 1001,
     price: 15000,
     discount: 0,
     users: 772,
     endDate: "2023-08-27T03:00:00+09:00",
     notice: {
-      title: "품절 안내",
+      title: "밥이 보약! 하림 펫 푸드",
       content:
-        "안녕하세요.\n여러분들의 뜨거운 관심 덕분에 닭 제품군 전량 품절되었습니다. 감사합니다.",
+        "헤어볼 걱정 없이 맞춤 솔루션과 체중과 피모에 따라 여러 종류의 펫 푸드를 경험해보세요.",
       modifiedDate: "2023-08-07T18:23:49+09:00",
     },
     options: [
       {
         id: 1,
-        name: "소",
+        name: "걱정없는 헤어볼",
         price: 15000,
         discount: 0,
       },
       {
         id: 2,
-        name: "닭",
+        name: "빛나는 피모",
         price: 15000,
         discount: 0,
       },
       {
         id: 3,
-        name: "양",
+        name: "No 스트레스",
         price: 15000,
         discount: 0,
       },
@@ -139,18 +177,18 @@ const productList = [
   },
   {
     id: 5,
-    name: "플러쉬퍼피 컴팩 롱 핀 소프트 슬리커 반려동물 브러쉬",
-    thumbnailImage: "https://placehold.co/256",
-    coverImage: "https://placehold.co/512",
-    descriptionImage: "https://placehold.co/300x700",
+    name: "마임 헤어드레스 한날 빗",
+    thumbnailImage: Product1Image,
+    coverImage: Product1Image,
+    descriptionImage: Product1DescriptionImage,
     category: 1002,
     price: 32000,
     discount: 0,
     users: 84,
     endDate: "2023-08-24T00:00:00+09:00",
     notice: {
-      title: "안내",
-      content: "공지사항입니다.",
+      title: "한날 빗",
+      content: "깨끗한 집과 반려동물을 위한 선택",
       modifiedDate: "2023-08-07T18:23:49+09:00",
     },
     options: [
@@ -223,18 +261,18 @@ const productList = [
   },
   {
     id: 8,
-    name: "스트라이프 후드티 반려동물용",
-    thumbnailImage: "https://placehold.co/256",
-    coverImage: "https://placehold.co/512",
-    descriptionImage: "https://placehold.co/300x700",
+    name: "귀여운 고양이 후드티",
+    thumbnailImage:  Product2Image,
+    coverImage: Product2Image,
+    descriptionImage: Product2DescriptionImage,
     category: 1003,
     price: 18000,
     discount: 16000,
     users: 322,
     endDate: "2023-08-24T00:00:00+09:00",
     notice: {
-      title: "안내",
-      content: "공지사항입니다.",
+      title: "고양이 후드티",
+      content: "귀엽고 사랑스러운 고양이 반려묘의 옷을 입혀주세요:)",
       modifiedDate: "2023-08-07T18:23:49+09:00",
     },
     options: [
@@ -251,24 +289,30 @@ const productList = [
   },
   {
     id: 9,
-    name: "딩동펫 반려동물용 동물튜브",
-    thumbnailImage: "https://placehold.co/256",
-    coverImage: "https://placehold.co/512",
-    descriptionImage: "https://placehold.co/300x700",
+    name: "멍냥타임 움직이는 사냥놀이 인형",
+    thumbnailImage: Product11Image,
+    coverImage: Product11Image,
+    descriptionImage: Product11DescriptionImage,
     category: 1003,
     price: 15000,
     discount: 12000,
     users: 54,
     endDate: "2023-08-24T12:00:00+09:00",
     notice: {
-      title: "안내",
-      content: "공지사항입니다.",
+      title: "사냥놀이 인형",
+      content: "분리불안과 우울증을 해소하는 사냥 놀이시간으로 체중조절과 스트레스 해소까지!!",
       modifiedDate: "2023-08-07T18:23:49+09:00",
     },
     options: [
       {
         id: 1,
-        name: "기본",
+        name: "물고기",
+        price: 15000,
+        discount: 12000,
+      },
+      {
+        id: 2,
+        name: "말꼬리",
         price: 15000,
         discount: 12000,
       },
@@ -279,18 +323,18 @@ const productList = [
   },
   {
     id: 10,
-    name: "프로젝트21 강아지 퓨어 브레스 케어 영양제",
-    thumbnailImage: "https://placehold.co/256",
-    coverImage: "https://placehold.co/512",
-    descriptionImage: "https://placehold.co/300x700",
+    name: "Humangrade 반려묘 영양제",
+    thumbnailImage: Product9Image,
+    coverImage: Product9Image,
+    descriptionImage: Product9DescriptionImage,
     category: 1004,
     price: 30000,
     discount: 28000,
     users: 416,
     endDate: "2023-08-28T00:00:00+09:00",
     notice: {
-      title: "안내",
-      content: "공지사항입니다.",
+      title: "휴먼그레이드의 프리미엄 반려묘 영양제",
+      content: "질병케어와 영양밸런스의 균형을 위해 인 성분과 나트륨 함량을 맞춰서 만든 리얼 영양간식",
       modifiedDate: "2023-08-07T18:23:49+09:00",
     },
     options: [
@@ -307,25 +351,25 @@ const productList = [
   },
   {
     id: 11,
-    name: "영양제2",
-    thumbnailImage: "https://placehold.co/256",
-    coverImage: "https://placehold.co/512",
-    descriptionImage: "https://placehold.co/300x700",
+    name: "안티러스 캣 츄르타입 영양제",
+    thumbnailImage: Product10Image,
+    coverImage: Product10Image,
+    descriptionImage: Product10DescriptionImage,
     category: 1004,
     price: 43000,
     discount: 0,
     users: 331,
     endDate: "2023-08-28T00:00:00+09:00",
     notice: {
-      title: "안내",
-      content: "공지사항입니다.",
+      title: "안티러스의 신제품 츄르 타입 영양제",
+      content: "재채기, 눈 염증 등 눈 질환, 호흡기 질환에 도움을 줍니다!",
       modifiedDate: "2023-08-07T18:23:49+09:00",
     },
     options: [
       {
         id: 1,
-        name: "기본",
-        price: 43000,
+        name: "연어 맛",
+        price: 15000,
         discount: 0,
       },
     ],
@@ -363,18 +407,18 @@ const productList = [
   },
   {
     id: 13,
-    name: "장난감1",
-    thumbnailImage: "https://placehold.co/256",
-    coverImage: "https://placehold.co/512",
-    descriptionImage: "https://placehold.co/300x700",
+    name: "멍냥타임 파스텔 교체형 낚시대",
+    thumbnailImage: Product12Image,
+    coverImage: Product12Image,
+    descriptionImage: Product12DescriptionImage,
     category: 1005,
     price: 12200,
     discount: 0,
     users: 220,
     endDate: "2023-08-28T00:00:00+09:00",
     notice: {
-      title: "안내",
-      content: "공지사항입니다.",
+      title: "파스텔 교체형 낚시대",
+      content: "낚시놀이는 해주고 싶은데.. 여러가지 사기에는 보관이 불편할 때 이 제품을 추천합니다!",
       modifiedDate: "2023-08-07T18:23:49+09:00",
     },
     options: [
@@ -448,9 +492,9 @@ const productList = [
   {
     id: 16,
     name: "배변용품1",
-    thumbnailImage: "https://placehold.co/256",
-    coverImage: "https://placehold.co/512",
-    descriptionImage: "https://placehold.co/300x700",
+    thumbnailImage: Product13Image,
+    coverImage: Product13Image,
+    descriptionImage: Product11DescriptionImage,
     category: 1006,
     price: 12000,
     discount: 0,
@@ -503,18 +547,18 @@ const productList = [
   },
   {
     id: 18,
-    name: "배변용품3",
-    thumbnailImage: "https://placehold.co/256",
-    coverImage: "https://placehold.co/512",
-    descriptionImage: "https://placehold.co/300x700",
+    name: "코코시루 자동 급수기",
+    thumbnailImage: Product8Image,
+    coverImage: Product8Image,
+    descriptionImage: Product8DescriptionImage,
     category: 1006,
     price: 27000,
     discount: 18000,
     users: 419,
     endDate: "2023-08-28T00:00:00+09:00",
     notice: {
-      title: "안내",
-      content: "공지사항입니다.",
+      title: "코코시루 자동 급수기",
+      content: "매일 쓰는 급수기, 아무거나 쓰지 마세요! 코코시루 자동 급수기로 시작하세요:)",
       modifiedDate: "2023-08-07T18:23:49+09:00",
     },
     options: [
@@ -528,6 +572,34 @@ const productList = [
     tag: [102, 118, 126],
     goalPrice: 693352,
     currentPrice: 374623,
+  },
+  {
+    id: 19,
+    name: "상처 보호엔 고양이 환자복",
+    thumbnailImage:  Product3Image,
+    coverImage: Product3Image,
+    descriptionImage: Product3DescriptionImage,
+    category: 1003,
+    price: 18000,
+    discount: 16000,
+    users: 322,
+    endDate: "2023-08-24T00:00:00+09:00",
+    notice: {
+      title: "고양이 환자복",
+      content: "중성화 수술 후 or 상처 보호에 이 고양이 환자복을 입혀주세요:)",
+      modifiedDate: "2023-08-07T18:23:49+09:00",
+    },
+    options: [
+      {
+        id: 1,
+        name: "기본",
+        price: 18000,
+        discount: 16000,
+      },
+    ],
+    tag: [109, 131, 148],
+    goalPrice: 867050,
+    currentPrice: 1287257,
   },
 ];
 
