@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ProfileImage from "../assets/images/profile.png";
 import Search from "../assets/images/search.png";
 import SimpleBar from "simplebar-react";
+import LogoImage from "../assets/images/logo.svg";
 
 import { show } from "../redux/menuSlice.js";
 
@@ -65,13 +66,13 @@ const TitleWrapper = styled.div`
   align-items: center;
 `;
 
-const Title = styled.p`
-  font-size: 24px;
-  font-weight: 700;
-`;
 const ImageContainer = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const Logo = styled.img`
+  object-fit: contain;
 `;
 
 const Image = styled.img`
@@ -156,7 +157,7 @@ function HeaderPage() {
     <Container>
       <Header className={visible ? "" : "hidden"} ref={headerElement}>
         <TitleWrapper>
-          <Title>Amica!</Title>
+          <Logo src={LogoImage} />
           <ImageContainer>
             <Image src={Search} alt="메뉴" onClick={() => dispatch(show())} />
             <Image
