@@ -22,7 +22,7 @@ import MyPetPage from "./pages/my-pet/MyPetPage.jsx";
 import ProductDetail from "./components/main/ProductDetail.jsx";
 import OrderInfo from "./components/product-detail/OrderInfo.jsx";
 import OrderCompletePage from "./pages/store/OrderCompletePage.jsx";
-import SearchPage from "./pages/store/SearchPage.jsx";
+import DetailPage from "./pages/store/DetailPage.jsx";
 import HeaderPage from "./pages/HeaderPage.jsx";
 import Main from "./pages/Main.jsx";
 import "./App.scss";
@@ -95,7 +95,7 @@ const routerList = [
 
 const routerHeaderList = [
   { path: "/main", element: <Main /> },
-  { path: "/search", element: <SearchPage /> },
+  { path: "/main/list", element: <DetailPage /> },
   { path: "/account-book", element: <AccountBookPage /> },
   { path: "/my-pet", element: <MyPetPage /> },
 ];

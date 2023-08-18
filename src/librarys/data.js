@@ -1,33 +1,47 @@
+//카테고리 아이콘
+import Snack from "../assets/images/category/간식.svg";
+import Beauty from "../assets/images/category/미용.svg";
+import Daily from "../assets/images/category/생활용품.svg";
+import Clothes from "../assets/images/category/의류.svg";
+import Toy from "../assets/images/category/장난감.svg";
+import Medicine from "../assets/images/category/의약품.svg";
+
 export const categorys = [
   {
     id: 1001,
     title: "간식",
     color: "rgb(54, 162, 235)",
+    image: Snack,
   },
   {
     id: 1002,
     title: "미용",
     color: "rgb(255, 99, 132)",
+    image: Beauty,
   },
   {
     id: 1003,
     title: "의류",
     color: "rgb(255, 159, 64)",
+    image: Clothes,
   },
   {
     id: 1004,
     title: "의약품",
     color: "rgb(255, 205, 86)",
+    image: Medicine,
   },
   {
     id: 1005,
     title: "장난감",
     color: "rgb(75, 192, 192)",
+    image: Toy,
   },
   {
     id: 1006,
     title: "생활용품",
     color: "rgb(153, 102, 255)",
+    image: Daily,
   },
 ];
 
