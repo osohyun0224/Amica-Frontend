@@ -6,15 +6,18 @@ import { userLogin } from "../../librarys/login-api";
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  /* align-items: flex-start; */
+  justify-content: center;
   background-color: white;
   min-height: calc(var(--vh) * 100);
   margin: 0 auto;
   max-width: 1000px;
-  padding-top: 30px;
-  padding-left: 50px;
   position: relative;
   z-index: 1;
+`;
+
+const SignupTitleContainer = styled.div`
+  text-align: center;
 `;
 
 const SignupTitle = styled.h3`
@@ -22,10 +25,16 @@ const SignupTitle = styled.h3`
   font-size: 24px;
   font-weight: 700;
   line-height: 22px;
+  letter-spacing: 0.07em; 
+  margin-bottom: 15px;
+`;
+
+const SignupSubTitle = styled.p`
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 22px;
   letter-spacing: 0.07em;
-  text-align: center;
-  margin-top: 239px;
-  margin-left: 120px;
+  margin-bottom: 10px;
 `;
 
 const HeaderName = styled.p`
@@ -35,8 +44,7 @@ const HeaderName = styled.p`
   line-height: 22px;
   letter-spacing: 0.07em;
   text-align: center;
-  margin-top: 14px;
-  margin-left: 130px;
+  margin-bottom: 250px;
 `;
 
 const BottomBox = styled(Link)`
@@ -71,10 +79,13 @@ function SignCompelete() {
   return (
     <PageContainer>
       <Link to="/"></Link>
-      <SignupTitle>환영합니다!</SignupTitle>
+      <SignupTitleContainer>
+        <SignupSubTitle>Wooooooooooha!!</SignupSubTitle>
+        <SignupTitle>환영합니다</SignupTitle>
+      </SignupTitleContainer>
       {user ? (
         <>
-          <HeaderName>{user.name} 님! </HeaderName>
+          <HeaderName>{user.name} 님!</HeaderName>
         </>
       ) : (
         <HeaderName>Loading...</HeaderName>
