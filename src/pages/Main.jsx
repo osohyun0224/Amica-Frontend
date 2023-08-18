@@ -218,7 +218,9 @@ const Main = () => {
   const [categoryId, setCategoryId] = useState();
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [selectedPet, setSelectedPet] = useState(null); 
-  const [ setIsDropdownOpen] = useState(false);
+  const [setIsDropdownOpen] = useState(false);
+  // 사용자 펫 선택 시 카테고리 + 태그 필터링화 되는 상태
+  const [filteredDeadlineItems, setFilteredDeadlineItems] = useState([]);
 
   const filteredProducts =
     categoryId !== undefined
@@ -246,6 +248,7 @@ const Main = () => {
         setProductList(Array.isArray(products) ? products : []);
       })();
     } else {
+
       // 카테고리가 선택되지 않았다면 전체 상품 목록을 불러오도록 해놓은 함수임
       (async () => {
         const products = await getFeaturedProduct();
@@ -253,6 +256,18 @@ const Main = () => {
       })();
     }
   }, [categoryId]);
+
+  useEffect(() => {
+    // 선택된 펫에 따라 "마감임박" 물품 목록 필터링화
+    if (selectedPet) {
+      const matchingItems = deadlineItems.filter(item =>
+        selectedPet.tags.some(tag => item.tag.includes(tag))
+      );
+      setFilteredDeadlineItems(matchingItems);
+    } else {
+      setFilteredDeadlineItems(deadlineItems);
+    }
+  }, [selectedPet, deadlineItems]);
 
   // 카테고리 ID와 상품 목록의 현재 상태를 찍어볼려고 한 콘솔창
   useEffect(() => {
@@ -365,7 +380,7 @@ const Main = () => {
           <Title> 마감 임박! </Title>
         </DetailMenuTitle>
         <DeadLineList>
-          {deadlineItems.map((item) => (
+          {filteredDeadlineItems.map((item) => (
             <ProductSelect key={item.id} to={`/productDetail/${item.id}`}>
               <DeadlineProduct
                 name={item.name}
@@ -406,7 +421,7 @@ const Main = () => {
       </DetailMenu>
       <DetailMenu>
         <DetailMenuTitle>
-          <Title> 요즘 집사들 필수 아이템! 인기만점 </Title>
+          <Title> 요즘 집사들 필수 아이템! 인기 만점 </Title>
         </DetailMenuTitle>
         <DeadLineList>
           {popularItems.map((item) => (
