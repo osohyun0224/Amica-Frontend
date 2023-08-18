@@ -252,7 +252,7 @@ const Main = () => {
       })();
     } else {
 
-      // 카테고리가 선택되지 않았다면 전체 상품 목록을 불러오도록 해놓은 함수임
+      // 카테고리가 선택되지 않았다면 전체 상품 목록을 불러오도록 해놓은 함수
       (async () => {
         const products = await getFeaturedProduct();
         setProductList(Array.isArray(products) ? products : []);
@@ -261,7 +261,7 @@ const Main = () => {
   }, [categoryId]);
 
   useEffect(() => {
-    // 선택된 펫에 따라 "마감임박" 물품 목록 필터링화
+    // 선택된 펫에 따라 "마감 임박" 물품 목록 필터링화
     if (selectedPet) {
       const matchingItems = deadlineItems.filter(item =>
         selectedPet.tags.some(tag => item.tag.includes(tag))
