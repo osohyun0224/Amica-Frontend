@@ -13,6 +13,7 @@ import Arrow from "../assets/images/rightArrow.png";
 //import ProductExample from "../assets/images/productExample.jpeg";
 import AddPet from "../assets/images/add.png";
 import DownArrow from "../assets/images/downArrow.png";
+import Who from "../assets/images/whoare.png";
 
 import { getFeaturedProduct } from "../librarys/store-api";
 import { useEffect } from "react";
@@ -153,6 +154,7 @@ const ProductSelect = styled(Link)`
 const BannerContainer = styled.div`
   position: relative;
   overflow: hidden;
+  margin-top: -10px;
 `;
 
 const BannerButton = styled.button`
@@ -216,7 +218,12 @@ const Main = () => {
   const [categoryId, setCategoryId] = useState();
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [selectedPet, setSelectedPet] = useState(null); 
-  const [ setIsDropdownOpen] = useState(false);
+  const [setIsDropdownOpen] = useState(false);
+  // 사용자 펫 선택 시 카테고리 + 태그 필터링화 되는 상태 => 마감 임박
+  const [filteredDeadlineItems, setFilteredDeadlineItems] = useState([]);
+  // 사용자 펫 선택 시 카테고리 + 태그 필터링화 되는 상태 => 인기 만점
+  const [filteredPopularItems, setFilteredPopularItems] = useState([]);
+
 
   const filteredProducts =
     categoryId !== undefined
@@ -244,6 +251,7 @@ const Main = () => {
         setProductList(Array.isArray(products) ? products : []);
       })();
     } else {
+
       // 카테고리가 선택되지 않았다면 전체 상품 목록을 불러오도록 해놓은 함수임
       (async () => {
         const products = await getFeaturedProduct();
@@ -251,6 +259,30 @@ const Main = () => {
       })();
     }
   }, [categoryId]);
+
+  useEffect(() => {
+    // 선택된 펫에 따라 "마감임박" 물품 목록 필터링화
+    if (selectedPet) {
+      const matchingItems = deadlineItems.filter(item =>
+        selectedPet.tags.some(tag => item.tag.includes(tag))
+      );
+      setFilteredDeadlineItems(matchingItems);
+    } else {
+      setFilteredDeadlineItems(deadlineItems);
+    }
+  }, [selectedPet, deadlineItems]);
+
+  useEffect(() => {
+    // 선택된 펫에 따라 "인기 만점" 물품 목록 필터링화
+    if (selectedPet) {
+      const matchingItems = popularItems.filter(item =>
+        selectedPet.tags.some(tag => item.tag.includes(tag))
+      );
+      setFilteredPopularItems(matchingItems);
+    } else {
+      setFilteredPopularItems(popularItems);
+    }
+  }, [selectedPet, popularItems]);
 
   // 카테고리 ID와 상품 목록의 현재 상태를 찍어볼려고 한 콘솔창
   useEffect(() => {
@@ -264,7 +296,8 @@ const Main = () => {
     console.log("Category clicked:", id);
     setCategoryId(id);
   };
-  ///
+
+  // 페이지 새로 고침 시, 아무것도 선택되지 않은 초기 추천 아이템 리스트 콘솔 찍는 함수
   useEffect(() => {
     console.log("First recent item:", recentItems[0]);
   }, [recentItems]);
@@ -313,12 +346,12 @@ const Main = () => {
         </BannerButton>
       </BannerContainer>
       <PetRecommend>
-        <PetImage src={selectedPet ? selectedPet.image : undefined} alt={selectedPet ? selectedPet.name : "Pet Image"} />
+        <PetImage src={selectedPet ? selectedPet.image : Who} alt={selectedPet ? selectedPet.name : "Pet Image"} />
         {selectedPet ?
           <>
             <PetName> {selectedPet.name} </PetName> 
             위해 준비했어요 
-          </> : <PetName> 최근 등록된 상품 </PetName>
+          </> : <PetName> 누굴 위해 준비하니? </PetName>
         }  
         <PetAddBtn 
           isDownArrow={isDropdownVisible || selectedPet}
@@ -363,7 +396,7 @@ const Main = () => {
           <Title> 마감 임박! </Title>
         </DetailMenuTitle>
         <DeadLineList>
-          {deadlineItems.map((item) => (
+          {filteredDeadlineItems.map((item) => (
             <ProductSelect key={item.id} to={`/productDetail/${item.id}`}>
               <DeadlineProduct
                 name={item.name}
@@ -404,10 +437,10 @@ const Main = () => {
       </DetailMenu>
       <DetailMenu>
         <DetailMenuTitle>
-          <Title> 요즘 집사들 필수 아이템! 인기만점 </Title>
+          <Title> 요즘 집사들 필수 아이템! 인기 만점 </Title>
         </DetailMenuTitle>
         <DeadLineList>
-          {popularItems.map((item) => (
+          {filteredPopularItems.map((item) => (
             <ProductSelect key={item.id} to={`/productDetail/${item.id}`}>
               <DeadlineProduct
                 name={item.name}
