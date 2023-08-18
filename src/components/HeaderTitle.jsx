@@ -12,14 +12,14 @@ const Container = styled.div`
 `;
 
 const Image = styled.img`
-  width: 48px;
-  height: 48px;
+  width: 36px;
+  height: 36px;
   object-fit: contain;
   cursor: pointer;
 `;
 
 const Title = styled.p`
-  margin-right: 48px;
+  margin-right: 36px;
   flex-grow: 1;
   text-align: center;
   font-size: 20px;

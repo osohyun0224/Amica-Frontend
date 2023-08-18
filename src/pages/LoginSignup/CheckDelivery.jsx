@@ -1,10 +1,16 @@
 import styled from "styled-components";
 import BackButton from "../../assets/images/getback.png";
-import { Link } from "react-router-dom";
-import DeliveryList from "../../components/delivery/DeliveryList";
-import ProductExample from "../../assets/images/RecentImage.png";
+import { Link, useNavigate } from "react-router-dom";
 
-const PageContainer = styled.div`
+import { useEffect } from "react";
+import { getOrderList } from "../../librarys/order-api";
+import { useState } from "react";
+
+import HeaderTitle from "../../components/HeaderTitle.jsx";
+import ProductListItem from "../../components/ProductListItem.jsx";
+import dayjs from "dayjs";
+
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -12,101 +18,75 @@ const PageContainer = styled.div`
   min-height: calc(var(--vh) * 100);
   margin: 0 auto;
   max-width: 1000px;
-  padding-top: 30px;
-  padding-left: 50px;
   position: relative;
   z-index: 1;
 `;
 
-const BackButtonImage = styled.img`
-  position: absolute;
-  left: 15px;
-  margin-top: -20px;
-  cursor: pointer;
-`;
-
-const HeaderTitle = styled.h1`
-  font-family: Nanum Gothic;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 22px;
-  letter-spacing: -0.02em;
-  text-align: center;
-  margin-top: 5px;
-  margin-left: 30px;
-`;
-
-const Header = styled.header`
-  width: 100%;
-  height: 150px;
-  background: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  margin-top: -80px;
-  margin-left: -50px;
-`;
-
 const DateTitle = styled.div`
-  font-family: Inter;
+  margin: 12px 24px;
+  margin-top: 36px;
   font-size: 16px;
   font-weight: 700;
-  line-height: 22px;
-  letter-spacing: -0.02em;
-  text-align: left;
-  margin-left: -30px;
-  margin-bottom: 10px;
 `;
 
-const BaeList1 = [
-  {
-    id: 21,
-    name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
-    kind: "사료",
-    price: "56,000",
-    deliverId: "운송장번호: 293-19-192891 (CJ대한통운)",
-    date: "2023.05.09",
-  },
-  {
-    id: 22,
-    name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
-    kind: "사료",
-    price: "56,000",
-    deliverId: "운송장번호: ...",
-    date: "2023.05.09",
-  },
-  {
-    id: 23,
-    name: "[안심하고 먹는 유기농] 전연령 사료 6kg",
-    kind: "사료",
-    price: "56,000",
-    deliverId: "운송장번호: ...",
-    date: "2023.05.09",
-  },
-];
+const Item = styled(ProductListItem)`
+  padding: 12px 24px;
+`;
 
 function ChangeDelivery() {
+  const navigate = useNavigate();
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const data = await getOrderList();
+
+      if (data) {
+        setOrders(
+          data.reduce((result, item) => {
+            const date = dayjs(item.payment.purchased_at).format("YYYY-MM-DD");
+
+            const find = result.find((element) => element.date === date);
+
+            if (find) {
+              find.list.push(item);
+            } else {
+              result.push({
+                date,
+                list: [item],
+              });
+            }
+
+            return result;
+          }, []),
+        );
+      }
+    })();
+  }, []);
+
+  console.log(orders);
+
   return (
-    <PageContainer>
-      <Header>
-        <Link to="/profile">
-          <BackButtonImage src={BackButton} alt="Back" />
-        </Link>
-        <HeaderTitle>주문 조회</HeaderTitle>
-      </Header>
-      <DateTitle>2023년 9월 3일 구매</DateTitle>
-      {BaeList1.map((item) => (
-        <DeliveryList
-          key={item.id}
-          src={ProductExample}
-          name={item.name}
-          kind={item.kind}
-          deliverId={item.deliverId}
-          price={item.price}
-        />
+    <Container>
+      <HeaderTitle to="/userProfile" title="주문 조회" />
+      {orders.map((element) => (
+        <>
+          <DateTitle>
+            {dayjs(element.date).format("YYYY년 MM월 DD일")} 구매
+          </DateTitle>
+          {element.list.map((item) => (
+            <Item
+              key={item.id}
+              src={item.product.thumbnailImage}
+              name={item.product.name}
+              category={item.product.category}
+              price={item.price}
+              onClick={() => navigate(`/productDetail/${item.product.id}`)}
+            />
+          ))}
+        </>
       ))}
-    </PageContainer>
+    </Container>
   );
 }
 
