@@ -283,23 +283,10 @@ const Main = () => {
     }
   }, [selectedPet, popularItems]);
 
-  // 카테고리 ID와 상품 목록의 현재 상태를 찍어볼려고 한 콘솔창
-  useEffect(() => {
-    console.log("Current category ID:", categoryId);
-    console.log("Recent items:", recentItems);
-    console.log("Filtered recent items:", recentFilteredProducts);
-  }, [categoryId, recentItems, recentFilteredProducts]);
-
   // 카테고리 선택시 로깅찍어보는 것
   const handleCategoryClick = (id) => {
-    console.log("Category clicked:", id);
     setCategoryId(id);
   };
-
-  // 페이지 새로 고침 시, 아무것도 선택되지 않은 초기 추천 아이템 리스트 콘솔 찍는 함수
-  useEffect(() => {
-    console.log("First recent item:", recentItems[0]);
-  }, [recentItems]);
 
   // 배너 구현 함수
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
