@@ -1,6 +1,10 @@
 import { instance } from "./axios.js";
 import { getTags } from "./util.js";
 
+import PetImage1 from "../assets/images/pet1.png";
+import PetImage2 from "../assets/images/pet2.png";
+import PetImage3 from "../assets/images/pet3.png";
+
 const petList = [
   {
     id: 1,
@@ -10,7 +14,7 @@ const petList = [
     age: 5,
     gender: "male",
     tags: [102, 112, 113, 135],
-    image: "https://placehold.co/64",
+    image: PetImage1,
   },
   {
     id: 2,
@@ -20,7 +24,7 @@ const petList = [
     age: 6,
     gender: "female_neutering",
     tags: [109, 121, 131, 134],
-    image: "https://placehold.co/64",
+    image: PetImage2,
   },
   {
     id: 3,
@@ -30,7 +34,7 @@ const petList = [
     age: 2,
     gender: "female",
     tags: [103, 134, 142, 147],
-    image: "https://placehold.co/64",
+    image: PetImage3,
   },
 ];
 

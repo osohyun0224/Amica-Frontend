@@ -12,6 +12,9 @@ import SimpleBar from "simplebar-react";
 
 import { DispatchContext, StateContext } from "../../librarys/context";
 import { intialSignupState, signupReducer } from "../../reducer/signup.js";
+import { registerUser } from "../../librarys/login-api.js";
+import { login, selectName } from "../../redux/userSlice.js";
+import { useDispatch } from "react-redux";
 
 const Container = styled(SimpleBar)`
   display: flex;
@@ -76,21 +79,38 @@ const BottomBox = styled.button`
 
 function SignupPage() {
   const navigate = useNavigate();
+  const loginDispatch = useDispatch();
   const [state, dispatch] = useReducer(signupReducer, intialSignupState);
   const {
     agreement,
     marketing,
+    email,
     emailCheck,
+    password,
     passwordCheck,
+    name,
     nameCheck,
+    phone,
     phoneCheck,
   } = state;
 
   const isComplete =
     agreement && emailCheck && passwordCheck && nameCheck && phoneCheck;
 
-  function onClick() {
+  async function onClick() {
     if (isComplete) {
+      const data = await registerUser(email, password, name, phone);
+
+      loginDispatch(
+        login({
+          access_token: "token11",
+          refresh_token: "token22",
+          email,
+          name,
+          admin: data.admin,
+        }),
+      );
+
       navigate("/compelete");
     }
   }

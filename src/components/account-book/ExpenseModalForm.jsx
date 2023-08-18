@@ -87,7 +87,7 @@ const ExpenseModalForm = ({ data, onChange }) => {
 
   return (
     <Container>
-      <Title>추가하기</Title>
+      <Title>소비내역</Title>
       <Text>날짜</Text>
       <Textbox
         type="date"

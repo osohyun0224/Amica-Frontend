@@ -70,8 +70,8 @@ const BottomBox = styled.button`
 `;
 
 function LoginPage() {
-  const [email, setEmail] = useState("likelion1@example.com");
-  const [password, setPassword] = useState("qwerty123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const redirect = searchParams.get("redirect");
@@ -91,7 +91,7 @@ function LoginPage() {
 
     if (!account) {
       alert(
-        "로그인을 다시 시도하여주세요.\nid: likelion1@example.com\npw: qwerty123",
+        "계정이 존재하지 않거나 비밀번호가 틀렸습니다.\n다시 시도해주세요.\n\n[일반 계정]\nid: likelion1@example.com\npw: qwerty123\n[관리자 계정]\nid: likelion2@example.com\npw: qwerty123",
       );
       return;
     }

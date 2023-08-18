@@ -10,16 +10,36 @@ import HeaderTitle from "../../components/HeaderTitle.jsx";
 import ProductListItem from "../../components/ProductListItem.jsx";
 import dayjs from "dayjs";
 
-const Container = styled.div`
+import SimpleBar from "simplebar-react";
+
+const Container = styled(SimpleBar)`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  background-color: white;
-  min-height: calc(var(--vh) * 100);
-  margin: 0 auto;
-  max-width: 1000px;
-  position: relative;
-  z-index: 1;
+  width: 100%;
+  height: calc(var(--vh) * 100);
+  overflow: auto;
+
+  &.freeze > .simplebar-track {
+    display: none;
+  }
+
+  & .simplebar-content {
+    min-height: calc(var(--vh) * 100);
+    display: flex;
+    flex-direction: column;
+  }
+
+  & > .simplebar-track.simplebar-horizontal {
+    height: 7px;
+  }
+
+  & > .simplebar-track.simplebar-vertical {
+    width: 7px;
+  }
+
+  & .simplebar-mask {
+    z-index: auto;
+  }
 `;
 
 const DateTitle = styled.div`
@@ -45,7 +65,6 @@ function ChangeDelivery() {
         setOrders(
           data.reduce((result, item) => {
             const date = dayjs(item.payment.purchased_at).format("YYYY-MM-DD");
-
             const find = result.find((element) => element.date === date);
 
             if (find) {
