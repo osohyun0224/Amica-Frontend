@@ -75,8 +75,7 @@ const Keywords = styled(ProductType)`
   margin: 0 16px;
 
   & > p {
-    max-width: 130px;
-    flex-grow: 1;
+    max-width: fit-content;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

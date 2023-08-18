@@ -58,7 +58,7 @@ const Container = styled(SimpleBar)`
 
 const Image = styled.img`
   width: 100%;
-  min-height: 500px;
+  aspect-ratio: 1;
   background-color: #eef1f4;
 `;
 
@@ -211,6 +211,7 @@ const SelectionButton = styled.div`
 `;
 
 const PromotionalImage = styled(Image)`
+  aspect-ratio: auto;
   min-height: 500px;
 `;
 
