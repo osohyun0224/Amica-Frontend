@@ -132,7 +132,7 @@ function CoverMenu() {
     if (!keywords.includes(value)) {
       registerKeyword(value);
     }
-    navigate("/search?query=" + value);
+    navigate("/main/list?search=" + value);
     close();
   };
 
