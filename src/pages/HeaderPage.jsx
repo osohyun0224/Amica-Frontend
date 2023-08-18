@@ -156,7 +156,7 @@ function HeaderPage() {
     <Container>
       <Header className={visible ? "" : "hidden"} ref={headerElement}>
         <TitleWrapper>
-          <Title>Title</Title>
+          <Title>Amica!</Title>
           <ImageContainer>
             <Image src={Search} alt="메뉴" onClick={() => dispatch(show())} />
             <Image
