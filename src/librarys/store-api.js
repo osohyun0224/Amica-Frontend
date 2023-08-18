@@ -35,6 +35,24 @@ import Product12DescriptionImage from "../assets/images/dummydata/무제12-2.web
 
 import Product13Image from "../assets/images/dummydata/무제13-1.webp";
 import Product13DescriptionImage from "../assets/images/dummydata/무제13-2.webp";
+//id: 17
+import Product15Image from "../assets/images/dummydata/무제15-1.webp";
+import Product15DescriptionImage from "../assets/images/dummydata/무제15-2.webp";
+//
+import Product16Image from "../assets/images/dummydata/무제16-1.webp";
+import Product16DescriptionImage from "../assets/images/dummydata/무제16-2.webp";
+
+import Product17Image from "../assets/images/dummydata/무제17-2.webp";
+import Product17DescriptionImage from "../assets/images/dummydata/무제17-1.webp";
+
+import Product18Image from "../assets/images/dummydata/무제18-1.webp";
+import Product18DescriptionImage from "../assets/images/dummydata/무제18-2.webp";
+
+import Product19Image from "../assets/images/dummydata/무제19-1.jpg";
+import Product19DescriptionImage from "../assets/images/dummydata/무제19-2.png";
+
+import Product20Image from "../assets/images/dummydata/무제20-1.png";
+import Product20DescriptionImage from "../assets/images/dummydata/무제20-2.jpg";
 
 const productList = [
   {
@@ -148,34 +166,6 @@ const productList = [
     currentPrice: 890423,
   },
   {
-    id: 4,
-    name: "휘슬 허브4 약용 반려동물 샴푸",
-    thumbnailImage: "https://placehold.co/256",
-    coverImage: "https://placehold.co/512",
-    descriptionImage: "https://placehold.co/300x700",
-    category: 1002,
-    price: 9200,
-    discount: 7000,
-    users: 543,
-    endDate: "2023-08-28T00:00:00+09:00",
-    notice: {
-      title: "안내",
-      content: "공지사항입니다.",
-      modifiedDate: "2023-08-07T18:23:49+09:00",
-    },
-    options: [
-      {
-        id: 1,
-        name: "기본",
-        price: 9200,
-        discount: 0,
-      },
-    ],
-    tag: [120, 135, 138],
-    goalPrice: 545266,
-    currentPrice: 656838,
-  },
-  {
     id: 5,
     name: "마임 헤어드레스 한날 빗",
     thumbnailImage: Product1Image,
@@ -205,18 +195,18 @@ const productList = [
   },
   {
     id: 6,
-    name: "두카메디 셀 케어미스트",
-    thumbnailImage: "https://placehold.co/256",
-    coverImage: "https://placehold.co/512",
-    descriptionImage: "https://placehold.co/300x700",
+    name: "모이스처 미스트 독스",
+    thumbnailImage: Product19Image,
+    coverImage: Product19Image,
+    descriptionImage: Product19DescriptionImage,
     category: 1002,
     price: 28000,
     discount: 14000,
     users: 233,
     endDate: "2023-08-24T00:00:00+09:00",
     notice: {
-      title: "안내",
-      content: "공지사항입니다.",
+      title: "모이스처 미스트 독스",
+      content: "프로폴리스추출물과 하이드롤라이즈드실크를 함유해 피모 보습, 정전기 방지, 컨디셔닝 효과를 선사하며 플로럴 계열 식품첨가물 향을 적용한 프리미엄 피모 케어 모이스처 미스트",
       modifiedDate: "2023-08-07T18:23:49+09:00",
     },
     options: [
@@ -233,27 +223,33 @@ const productList = [
   },
   {
     id: 7,
-    name: "알럽펫 큐트 강아지 선글라스",
-    thumbnailImage: "https://placehold.co/256",
-    coverImage: "https://placehold.co/512",
-    descriptionImage: "https://placehold.co/300x700",
+    name: "소중형 강아지 선글라스",
+    thumbnailImage: Product20Image,
+    coverImage: Product20Image,
+    descriptionImage: Product20DescriptionImage,
     category: 1003,
     price: 18000,
     discount: 0,
     users: 1209,
     endDate: "2023-08-28T00:00:00+09:00",
     notice: {
-      title: "안내",
-      content: "공지사항입니다.",
+      title: "강아지 선글라스",
+      content: "소 중형 다양한 사이즈로 강아지 선글라스를 만나보세요!",
       modifiedDate: "2023-08-07T18:23:49+09:00",
     },
     options: [
       {
         id: 1,
-        name: "기본",
+        name: "소형",
         price: 18000,
         discount: 0,
       },
+      {
+        id: 2,
+        name: "중형",
+        price: 18000,
+        discount: 0,
+      }
     ],
     tag: [108, 138, 144],
     goalPrice: 917371,
@@ -379,18 +375,18 @@ const productList = [
   },
   {
     id: 12,
-    name: "영양제3",
-    thumbnailImage: "https://placehold.co/256",
-    coverImage: "https://placehold.co/512",
-    descriptionImage: "https://placehold.co/300x700",
+    name: "펫앤닥터 피부앤굿",
+    thumbnailImage: Product16Image,
+    coverImage: Product16Image,
+    descriptionImage: Product16DescriptionImage,
     category: 1004,
     price: 24000,
     discount: 0,
     users: 1892,
     endDate: "2023-08-28T00:00:00+09:00",
     notice: {
-      title: "안내",
-      content: "공지사항입니다.",
+      title: "펫의 피부건강엔 펫앤닥터 !",
+      content: "하루 한번, 피부와 면역을 보호하여 건강한 반려생활을 선물하세요.",
       modifiedDate: "2023-08-07T18:23:49+09:00",
     },
     options: [
@@ -435,18 +431,18 @@ const productList = [
   },
   {
     id: 14,
-    name: "장난감2",
-    thumbnailImage: "https://placehold.co/256",
-    coverImage: "https://placehold.co/512",
-    descriptionImage: "https://placehold.co/300x700",
+    name: "반려동물 플레이볼",
+    thumbnailImage: Product17Image,
+    coverImage: Product17Image,
+    descriptionImage: Product17DescriptionImage,
     category: 1005,
     price: 15200,
     discount: 13000,
     users: 528,
     endDate: "2023-08-28T00:00:00+09:00",
     notice: {
-      title: "안내",
-      content: "공지사항입니다.",
+      title: "반려동물 딸랑딸랑! 플레이볼",
+      content: "딸랑이 소리로 호기심을 자극시키는 플레이볼입니다!",
       modifiedDate: "2023-08-07T18:23:49+09:00",
     },
     options: [
@@ -463,18 +459,18 @@ const productList = [
   },
   {
     id: 15,
-    name: "장난감3",
-    thumbnailImage: "https://placehold.co/256",
-    coverImage: "https://placehold.co/512",
-    descriptionImage: "https://placehold.co/300x700",
+    name: "셀프 터그놀이 칫솔봉",
+    thumbnailImage: Product18Image,
+    coverImage: Product18Image,
+    descriptionImage: Product18DescriptionImage,
     category: 1005,
     price: 8330,
     discount: 7700,
     users: 469,
     endDate: "2023-08-28T00:00:00+09:00",
     notice: {
-      title: "안내",
-      content: "공지사항입니다.",
+      title: "펫파인더 셀프 터그놀이 칫솔 놀이봉",
+      content: "펫 혼자서도 양치질을 잘하기 위해 연습하는 칫솔봉 !",
       modifiedDate: "2023-08-07T18:23:49+09:00",
     },
     options: [
@@ -525,18 +521,18 @@ const productList = [
   },
   {
     id: 17,
-    name: "배변용품2",
-    thumbnailImage: "https://placehold.co/256",
-    coverImage: "https://placehold.co/512",
-    descriptionImage: "https://placehold.co/300x700",
+    name: "반려동물 배변패드",
+    thumbnailImage: Product15Image,
+    coverImage: Product15Image,
+    descriptionImage: Product15DescriptionImage,
     category: 1006,
     price: 17400,
     discount: 0,
     users: 991,
     endDate: "2023-08-28T00:00:00+09:00",
     notice: {
-      title: "안내",
-      content: "공지사항입니다.",
+      title: "Dr. BRO 반려동물 배변패드 ",
+      content: "반려동물을 위한 흡수력 좋은 배변패드! 모두를 생각하는 마음으로 제작된 착한 배변패드",
       modifiedDate: "2023-08-07T18:23:49+09:00",
     },
     options: [
