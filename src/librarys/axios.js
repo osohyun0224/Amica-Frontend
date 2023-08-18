@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export const instance = axios.create({
-  baseURL: "https://amica.prisism.io/api/",
+  baseURL: "http://amica.prisism.io:8080/",
   timeout: 10000,
 });

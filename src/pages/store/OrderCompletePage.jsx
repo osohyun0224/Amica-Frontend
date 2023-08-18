@@ -13,7 +13,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   overflow-x: hidden;
   overflow-y: scroll;
 `;
@@ -151,7 +151,6 @@ const BuyerInfoContainer = styled.div`
 `;
 
 const PgReceipt = styled.a`
-  text-decoration: none;
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
@@ -170,7 +169,7 @@ const BackButton = styled(Button)`
   font-weight: 600;
   line-height: 18px;
   letter-spacing: 0em;
-  color: #FFFFFF;
+  color: #ffffff;
 `;
 
 const AddressContent = styled.p`
@@ -187,7 +186,6 @@ const Line = styled.div`
   margin: 10px 0;
   border: 1px dashed rgba(102, 112, 128, 0.3);
 `;
-
 
 const PaymentPage = () => {
   const [order, setOrder] = useState({});
@@ -215,43 +213,49 @@ const PaymentPage = () => {
     <Container>
       <TopTitle> 결제완료 </TopTitle>
       <PaymentDetailContainer>
-        <Title> 주문번호: {order.orderId }</Title>
+        <Title> 주문번호: {order.id}</Title>
         <Line />
         {order?.option?.map((item, idx) => {
           return (
-            <ProductDetailInfo>
-            <ProductImg src={item.img} alt="상품 이미지"/>
-            <ProductDetail>
-              <ProductName> {order.productName} </ProductName>
-              <QualityPrice>
-                <ProductNumber> 옵션: {item.name} / {item.quality}개 </ProductNumber>
-                <ProductPrice> {(item.price)}원 </ProductPrice>
-              </QualityPrice>
-            </ProductDetail>
+            <ProductDetailInfo key={item.id}>
+              <ProductImg src={item.img} alt="상품 이미지" />
+              <ProductDetail>
+                <ProductName> {order.productName} </ProductName>
+                <QualityPrice>
+                  <ProductNumber>
+                    옵션: {item.name} / {item.quality}개
+                  </ProductNumber>
+                  <ProductPrice> {item.price}원 </ProductPrice>
+                </QualityPrice>
+              </ProductDetail>
             </ProductDetailInfo>
-          )
+          );
         })}
         <Line />
         <TotalAmountInfo>
           <TotalAmountTitle> 총 결제 금액 </TotalAmountTitle>
-          <TotalAmount> {(order.price)?.toLocaleString()}원 </TotalAmount>
+          <TotalAmount> {order.price?.toLocaleString()}원 </TotalAmount>
         </TotalAmountInfo>
-        
+
         <BuyerInfoContainer>
           <Title> 받는 이 </Title>
-          <Content style={{ marginLeft: "35px" }}> {order.shipping?.name} </Content>
+          <Content style={{ marginLeft: "35px" }}>
+            {order.shipping?.name}
+          </Content>
         </BuyerInfoContainer>
         <BuyerInfoContainer>
           <Title> 전화번호 </Title>
           <Content style={{ marginLeft: "25px" }}>
-            {order.shipping?.phone} 
+            {order.shipping?.phone}
           </Content>
         </BuyerInfoContainer>
         <BuyerInfoContainer>
-          <Title style={{ 
-            height: "130px",
-          }}> 
-            주소지 
+          <Title
+            style={{
+              height: "130px",
+            }}
+          >
+            주소지
           </Title>
           <AddressInfo>
             <Content> {order.shipping?.postal} </Content>
@@ -261,13 +265,15 @@ const PaymentPage = () => {
         </BuyerInfoContainer>
         <BuyerInfoContainer>
           <Title> 요청사항 </Title>
-          <Content style={{ marginLeft: "25px" }}> {order.shipping?.request} </Content>
+          <Content style={{ marginLeft: "25px" }}>
+            {" "}
+            {order.shipping?.request}{" "}
+          </Content>
         </BuyerInfoContainer>
         <BuyerInfoContainer>
           <Title> 결제수단 </Title>
-          <Content style={{ marginLeft: "25px" }}> 
-            {order.payment?.method} - {" "} 
-            {order.payment?.card_data?.card_company} 
+          <Content style={{ marginLeft: "25px" }}>
+            {order.payment?.method}
           </Content>
         </BuyerInfoContainer>
         <BuyerInfoContainer>

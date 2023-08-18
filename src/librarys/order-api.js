@@ -4,7 +4,7 @@ const orderList = [
     product: {
       id: 1,
       name: "뉴트리나 건강백서 포메라니안 강아지사료",
-      thumbnailImage: "https://picsum.photos/256?1",
+      thumbnailImage: "https://placehold.co/256",
       category: 1001,
     },
     option: [
@@ -60,7 +60,7 @@ const orderList = [
     product: {
       id: 5,
       name: "플러쉬퍼피 컴팩 롱 핀 소프트 슬리커 반려동물 브러쉬",
-      thumbnailImage: "https://picsum.photos/256?5",
+      thumbnailImage: "https://placehold.co/256",
       category: 1002,
     },
     option: [
@@ -116,7 +116,7 @@ const orderList = [
     product: {
       id: 6,
       name: "두카메디 셀 케어미스트",
-      thumbnailImage: "https://picsum.photos/256?6",
+      thumbnailImage: "https://placehold.co/256",
       category: 1002,
     },
     option: [

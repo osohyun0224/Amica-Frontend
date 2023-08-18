@@ -1,9 +1,15 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import DaumPostcode from "react-daum-postcode";
-import Postcode from "./Postcode";
+import Postcode from "./Postcode.jsx";
 import styled from "styled-components";
 import { getProduct } from "../../librarys/store-api";
+
+import { filterNumber } from "../../librarys/util.js";
+
+import SimpleBar from "simplebar-react";
+
+import HeaderTitle from "../HeaderTitle.jsx";
 
 import {
   checkOrderStatus,
@@ -16,14 +22,34 @@ import {
 
 import { Bootpay } from "@bootpay/client-js";
 
-const Container = styled.div`
-  margin: 0 auto;
+const Container = styled(SimpleBar)`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  background-color: #ffffff;
-  overflow-x: hidden;
-  overflow-y: scroll;
+  width: 100%;
+  height: calc(var(--vh) * 100);
+  overflow: auto;
+
+  &.freeze > .simplebar-track {
+    display: none;
+  }
+
+  & .simplebar-content {
+    min-height: calc(var(--vh) * 100);
+    display: flex;
+    flex-direction: column;
+  }
+
+  & > .simplebar-track.simplebar-horizontal {
+    height: 7px;
+  }
+
+  & > .simplebar-track.simplebar-vertical {
+    width: 7px;
+  }
+
+  & .simplebar-mask {
+    z-index: auto;
+  }
 `;
 
 const TopTitle = styled.div`
@@ -68,49 +94,39 @@ const OrderProfileImg = styled.img`
 const ProductDetailInfo = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 12px 20px;
-  margin-bottom: -5px;
-  width: 100%;
+  padding: 12px 32px;
 `;
 
 const ProductName = styled.p`
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
-  letter-spacing: -0.02em;
   color: #667080;
 `;
 
 const ProductNumber = styled.p`
   font-size: 13px;
   font-weight: 400;
-  letter-spacing: -0.02em;
   color: #667080;
 `;
 
 const OrderDetails = styled.div`
-  width: 100%;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   margin-left: 10px;
 `;
 
 const QualityPrice = styled.div`
-  width: 100%;
   display: flex;
-  flex-direction: row;
-  position: relative;
   align-items: center;
+  justify-content: space-between;
   margin-top: 10px;
 `;
 
 const OrderPrice = styled.p`
-  position: absolute;
-  right: 60px;
   font-size: 15px;
   font-weight: 400;
-  line-height: 35px;
-  letter-spacing: -0.02em;
   color: #667080;
 `;
 
@@ -171,8 +187,7 @@ const PurchaseBtn = styled.button`
   border: none;
   border-radius: 0;
   box-shadow: none;
-  background-color: #d94a56;
-  opacity: ${(props) => (props.active ? "1" : "0.5")};
+  background-color: ${(props) => (props.active ? "#d94a56" : "#eca4aa")};
   cursor: ${(props) => (props.active ? "pointer" : "auto")};
 
   color: #ffffff;
@@ -181,6 +196,11 @@ const PurchaseBtn = styled.button`
   line-height: 22px;
   letter-spacing: -0.02em;
   text-decoration: none;
+`;
+
+const AddressWrapper = styled.div`
+  width: 100%;
+  cursor: pointer;
 `;
 
 const OrderInfo = () => {
@@ -210,9 +230,16 @@ const OrderInfo = () => {
     });
   };
 
-  const openPost = () => setOpenPostcode(!openPostcode);
+  const openPost = (e) => {
+    setOpenPostcode(!openPostcode);
+  };
 
-  const isComplete = Object.values(userInfo).every((value) => value !== "");
+  const isComplete = [
+    userInfo.name,
+    userInfo.phone,
+    userInfo.postal,
+    userInfo.baseAddress,
+  ].every((value) => value !== "");
 
   const option = useMemo(
     () =>
@@ -252,7 +279,7 @@ const OrderInfo = () => {
       application_id: "59a4d323396fa607cbe75de4",
       price: totalPrice,
       order_name: order.productName,
-      order_id: order.orderId,
+      order_id: order.id,
       pg: "토스",
       method: "카드",
       tax_free: 0,
@@ -276,23 +303,25 @@ const OrderInfo = () => {
       },
     });
 
-    if (response.event !== "done") {
-      alert(
-        "에러가 발생했습니다. 개발자 콘솔을 확인해주세요. 주문은 처음부터 다시 시도하세요.",
-      );
-      console.error(response);
-      await removeDraftOrder(order.orderId);
-      return false;
-    }
-    await _sendOrderComplete(order.orderId, response.data);
+    await _sendOrderComplete(order.id, response.data);
     return true;
   }
 
   const startPayment = useCallback(() => {
+    if (!isComplete) {
+      return;
+    }
+
     (async () => {
       const order = await postDraftOrder({
         productId: product.id,
         productName: product.name,
+        product: {
+          id: product.id,
+          name: product.name,
+          thumbnailImage: product.thumbnailImage,
+          category: product.category,
+        },
         option: product.options
           .map((item, idx) => ({
             img: product.coverImage,
@@ -302,6 +331,7 @@ const OrderInfo = () => {
             price: optionPrice[idx],
           }))
           .filter((value) => !isNaN(value.price) && !isNaN(value.quality)),
+        pet: 2,
         shipping: {
           name,
           phone,
@@ -312,13 +342,29 @@ const OrderInfo = () => {
         },
       });
 
-      const result = await requestPayment(order);
-      console.log(await getOrderList());
+      try {
+        const result = await requestPayment(order);
 
-      if (!result) {
-        navigate("/main");
-      } else {
-        navigate("/orderComplete?oid=" + order.orderId);
+        if (!result) {
+          navigate("/main");
+        } else {
+          navigate("/orderComplete?oid=" + order.id);
+        }
+      } catch (e) {
+        if (e.error_code === "RC_PROCESS_CANCELLED") {
+          alert("결제를 취소 하셨습니다.");
+        } else if (e.message) {
+          alert(e.message);
+        } else {
+          alert(
+            "에러가 발생했습니다. 개발자 콘솔을 확인해주세요. 주문은 처음부터 다시 시도하세요.",
+          );
+        }
+
+        console.error(e);
+
+        navigate("/productDetail/" + product.id);
+        await removeDraftOrder(order.id);
       }
     })();
   }, [
@@ -349,10 +395,17 @@ const OrderInfo = () => {
 
   return (
     <Container>
-      <TopTitle>배송정보</TopTitle>
+      <HeaderTitle to="/main" title="배송 정보" />
+      {openPostcode && (
+        <Postcode
+          userInfo={userInfo}
+          setUserInfo={setUserInfo}
+          openPost={openPost}
+        />
+      )}
       <OrderDetailContainer>
         <OrderDetailContainer>
-          <SubTitle>주문내역</SubTitle>
+          <SubTitle>주문 내역</SubTitle>
           <Line />
           {product.options &&
             optionId.map((itemId, idx) => {
@@ -366,12 +419,10 @@ const OrderInfo = () => {
                     <ProductName> {product.name} </ProductName>
                     <QualityPrice>
                       <ProductNumber>
-                        {" "}
-                        옵션: {selectedOption.name} / {quality[idx]}개{" "}
+                        옵션: {selectedOption.name} / {quality[idx]}개
                       </ProductNumber>
                       <OrderPrice>
-                        {" "}
-                        {optionPrice[idx]?.toLocaleString()}원{" "}
+                        {optionPrice[idx]?.toLocaleString()}원
                       </OrderPrice>
                     </QualityPrice>
                   </OrderDetails>
@@ -396,30 +447,28 @@ const OrderInfo = () => {
           <BuyerInputForm
             title="phone"
             value={phone}
-            onChange={onChange}
+            onInput={(e) => {
+              e.target.value = e.target.value.replaceAll(/\D+/g, "");
+              onChange(e);
+            }}
             placeholder="전화번호"
           />
           <BuyerInfoTitle> 주소지</BuyerInfoTitle>
-          <BuyerInputForm
-            title="postal"
-            value={postal}
-            onChange={onChange}
-            onClick={openPost}
-            placeholder="우편번호"
-          />
-          {openPostcode && (
-            <Postcode
-              userInfo={userInfo}
-              setUserInfo={setUserInfo}
-              openPost={openPost}
+          <AddressWrapper>
+            <BuyerInputForm
+              title="postal"
+              value={postal}
+              onClick={openPost}
+              placeholder="우편번호"
             />
-          )}
-          <BuyerInputForm
-            title="baseAddress"
-            value={baseAddress}
-            onChange={onChange}
-            placeholder="주소"
-          />
+            <BuyerInputForm
+              title="baseAddress"
+              value={baseAddress}
+              onClick={openPost}
+              placeholder="주소"
+            />
+          </AddressWrapper>
+
           <BuyerInputForm
             title="detailAddress"
             value={detailAddress}
@@ -436,8 +485,7 @@ const OrderInfo = () => {
         </BuyerInfoContainer>
       </OrderDetailContainer>
       <PurchaseBtn onClick={startPayment} active={isComplete}>
-        {" "}
-        결제하기{" "}
+        결제하기
       </PurchaseBtn>
     </Container>
   );
