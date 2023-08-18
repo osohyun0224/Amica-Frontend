@@ -49,7 +49,7 @@ const Content = styled.div`
   background-color: #ffffff;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
   overflow: hidden;
-
+  z-index: 9999;
   @media (max-width: 360px) {
     max-width: 288px;
     width: calc(100% - 24px);
