@@ -18,7 +18,6 @@ import Who from "../assets/images/whoare.png";
 import { getFeaturedProduct } from "../librarys/store-api";
 import { useEffect } from "react";
 
-
 // 배너 예시 이미지 나중에 배너 이미지 나오면 갈아끼울 예정
 import Banner1 from "../assets/images/main-banner/Banner1.webp";
 import Banner2 from "../assets/images/main-banner/Banner2.webp";
@@ -74,7 +73,6 @@ const PetAddBtn = styled.img`
   margin: auto;
   margin-right: 0;
 `;
-
 
 const DetailMenu = styled.div`
   background-color: white;
@@ -176,7 +174,14 @@ const PetItem = styled.div`
   }
 `;
 
-
+const NotFoundText = styled.p`
+  font-size: 16px;
+  font-weight: 700;
+  color: #151515;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  margin-left: 37%;
+`;
 
 const Main = () => {
   const [productList, setProductList] = useState([]);
@@ -335,7 +340,7 @@ const Main = () => {
           </PetDropdown>
         )}
       </PetRecommend>
-     < CategoryList value={categoryId} onSelect={handleCategoryClick} />
+      <CategoryList value={categoryId} onSelect={handleCategoryClick} />
       <productList>
         {filteredProducts.map((product, index) => (
           <ProductItem key={index} product={product} />
@@ -346,19 +351,23 @@ const Main = () => {
           <Title> 마감 임박! </Title>
         </DetailMenuTitle>
         <DeadLineList>
-          {filteredDeadlineItems.map((item) => (
-            <ProductSelect key={item.id} to={`/productDetail/${item.id}`}>
-              <DeadlineProduct
-                name={item.name}
-                category={item.category}
-                price={item.price}
-                discount={item.discount}
-                end={item.endDate}
-                src={item.thumbnailImage}
-                tag={item.tag}
-              />
-            </ProductSelect>
-          ))}
+          {filteredDeadlineItems.length > 0 ? (
+            filteredDeadlineItems.map((item) => (
+              <ProductSelect key={item.id} to={`/productDetail/${item.id}`}>
+                <DeadlineProduct
+                  name={item.name}
+                  category={item.category}
+                  price={item.price}
+                  discount={item.discount}
+                  end={item.endDate}
+                  src={item.thumbnailImage}
+                  tag={item.tag}
+                />
+              </ProductSelect>
+            ))
+          ) : (
+            <NotFoundText>상품이 없어요</NotFoundText>
+          )}
         </DeadLineList>
       </DetailMenu>
       <DetailMenu>
@@ -392,7 +401,8 @@ const Main = () => {
           <Title> 요즘 집사들 필수 아이템! 인기 만점 </Title>
         </DetailMenuTitle>
         <DeadLineList>
-          {filteredPopularItems.map((item) => (
+        {filteredPopularItems.length > 0 ? (
+            filteredPopularItems.map((item) => (
             <ProductSelect key={item.id} to={`/productDetail/${item.id}`}>
               <DeadlineProduct
                 name={item.name}
@@ -404,11 +414,14 @@ const Main = () => {
                 tag={item.tag}
               />
             </ProductSelect>
-          ))}
-        </DeadLineList>
-      </DetailMenu>
+            ))
+            ) : (
+              <NotFoundText>상품이 없어요</NotFoundText>
+            )}
+          </DeadLineList>
+        </DetailMenu>
     </PageContainer>
   );
 };
 
-export default Main;                        
+export default Main;
