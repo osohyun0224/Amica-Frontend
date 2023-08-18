@@ -113,7 +113,7 @@ const SellerInfo = () => {
   const handleToggle = (id) => {
     if (isOpen(id)) {
       setOpen(open.filter((item) => item !== id));
-    } else {
+    } else if (id !== 1) {
       setOpen([...open, id]);
     }
   };
