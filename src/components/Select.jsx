@@ -28,6 +28,10 @@ const SelectBox = styled.div`
     & > p {
       font-size: 16px;
       font-weight: 500;
+
+      @media screen and (max-width: 500px) {
+        font-size: 11px;
+      }
     }
   }
 `;
@@ -41,10 +45,15 @@ const Icon = styled.img`
   width: 16px;
   height: 16px;
   object-fit: contain;
+
+  @media screen and (max-width: 500px) {
+    width: 12px;
+    height: 12px;
+  }
 `;
 
 const List = styled.div`
-  min-width: 180px;
+  min-width: 120px;
   max-height: 250px;
   border: 1px solid #0000003f;
   border-radius: 8px;
@@ -72,6 +81,11 @@ const Item = styled.p`
   font-size: 16px;
   transition: background-color 0.1s;
   cursor: pointer;
+
+  @media screen and (max-width: 500px) {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
 
   &.select {
     background-color: #efefef;
