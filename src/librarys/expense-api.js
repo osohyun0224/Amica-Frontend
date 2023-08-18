@@ -30,6 +30,8 @@ function createRandomExpense() {
   date.month();
 }
 
+console.log(expenseList);
+
 for (let i = 0; i < 120; i++) {
   createRandomExpense();
 }
