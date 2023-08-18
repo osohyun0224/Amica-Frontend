@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { userLogin } from "../../librarys/login-api";
+import { useSelector } from "react-redux";
+import { selectName } from "../../redux/userSlice";
 
 const PageContainer = styled.div`
   display: flex;
@@ -25,7 +27,7 @@ const SignupTitle = styled.h3`
   font-size: 24px;
   font-weight: 700;
   line-height: 22px;
-  letter-spacing: 0.07em; 
+  letter-spacing: 0.07em;
   margin-bottom: 15px;
 `;
 
@@ -66,16 +68,8 @@ const BottomBox = styled(Link)`
 `;
 
 function SignCompelete() {
-  const [user, setUser] = useState(null);
+  const name = useSelector(selectName);
 
-  useEffect(() => {
-    const loginUser = async () => {
-      const loginInfo = await userLogin("likelion1@example.com", "qwerty123");
-      setUser(loginInfo);
-    };
-
-    loginUser();
-  }, []);
   return (
     <PageContainer>
       <Link to="/"></Link>
@@ -83,13 +77,7 @@ function SignCompelete() {
         <SignupSubTitle>Wooooooooooha!!</SignupSubTitle>
         <SignupTitle>환영합니다</SignupTitle>
       </SignupTitleContainer>
-      {user ? (
-        <>
-          <HeaderName>{user.name} 님!</HeaderName>
-        </>
-      ) : (
-        <HeaderName>Loading...</HeaderName>
-      )}
+      <HeaderName>{name} 님!</HeaderName>
       <BottomBox to="/main">메인페이지로 가기</BottomBox>
     </PageContainer>
   );
