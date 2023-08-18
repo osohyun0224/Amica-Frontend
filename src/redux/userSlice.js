@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 
 export const userSlice = createSlice({
   name: "user",
   initialState: {
-    // access_token: null,
-    // refresh_token: null,
-    // email: null,
-    // name: null,
-    // admin: false,
+    // access_token: Cookies.get("access_token") || null,
+    // refresh_token: Cookies.get("refresh_token") || null,
+    // email: Cookies.get("email") || null,
+    // name: Cookies.get("name") || null,
+    // admin: Cookies.get("admin") || null,
     access_token: "token1",
     refresh_token: "token2",
     email: "likelion2@example.com",

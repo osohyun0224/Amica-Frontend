@@ -24,6 +24,7 @@ const Background = styled(SimpleBar)`
   & .simplebar-content {
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 
   &.locked {

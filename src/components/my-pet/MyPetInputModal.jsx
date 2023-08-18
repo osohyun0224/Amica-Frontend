@@ -1,11 +1,4 @@
 import styled from "styled-components";
-import PropTypes from "prop-types";
-import InputForm from "../../components/InputForm.jsx";
-import SmallInputForm from "../SmallInputForm.jsx";
-import DropdownSpecies from "./DropdownSpecies.jsx";
-import DropdownSize from "./DropdownSize.jsx";
-import DropdownGender from "./DropdownGender.jsx";
-import MoreBtn from "../../assets/images/rightArrow.png";
 import { useRef, useState } from "react";
 
 import Select from "../Select.jsx";
