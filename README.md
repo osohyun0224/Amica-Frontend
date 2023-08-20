@@ -1,9 +1,11 @@
 ## 🎉 2023 멋쟁이사자처럼 대학 11주년 해커톤 출품작 , Amica! 🦁 
-제대로 기록하는 내 친구를 위한 현명한 소비, Amica! 프론트엔드 개발 레포 ✍🏻 
-
+<div align="center">
+제대로 기록하는 내 친구를 위한 현명한 소비, Amica! 개발 레포 ✍🏻
+<br/><br/>
 <img src="https://github.com/osohyun0224/Amica_Frontend/assets/53892427/204e0745-2d3e-4ab7-98a4-9631a501ffa8" width=80% />
+</div>
 
-## 🔥 동기없는 비동기 팀
+## 🔥 동기없는 비동기처리 팀
 | PM/DESIGN | FE  | FE | FE | BE | AI |
 | :---: | :---: | :---: | :---: | :---: | :---: |
 |  <img width="130px" src="https://avatars.githubusercontent.com/u/117716667?v=4" /> | <img width="130px" src="https://avatars.githubusercontent.com/u/53892427?v=4"/> |  <img width="130px" src="https://avatars.githubusercontent.com/u/35104213?v=4" /> |  <img width="130px" src="https://avatars.githubusercontent.com/u/101046600?v=4" /> |  <img width="130px" src="https://avatars.githubusercontent.com/u/80760160?v=4" /> |  <img width="130px" src="https://github.com/osohyun0224/Amica_Frontend/assets/53892427/e6318bed-3c99-4155-9fba-2a55bdaef169" />
@@ -11,52 +13,56 @@
 |[@ChoiARi](https://github.com/Akdbkahdkaka)  | [@osohyun0224](https://github.com/osohyun0224)   |  [@PortalCube](https://github.com/PortalCube)    | [@YoonA](https://github.com/yoona1110)   | [@Dong Heon Lee](https://github.com/Sirius506775)  |  [@InSung Bahk](https://github.com/insung3511) |
 
 ## 📚 Amica Development (23.07.17 - 08.18)
+![Slack](https://img.shields.io/badge/slack-white?style=for-the-badge&logo=slack&logoColor=white&color=4A154B)
 ![Figma](https://img.shields.io/badge/figma-white?style=for-the-badge&logo=figma&logoColor=white&color=F24E1E)
 ![React.js](https://img.shields.io/badge/React.js-white?style=for-the-badge&logo=React&logoColor=black&color=61DAFB)
-![Spring Boot](https://img.shields.io/badge/spring%20boot-Black?style=for-the-badge&logo=springboot&logoColor=white&color=#6DB33F)
-![Slack](https://img.shields.io/badge/slack-white?style=for-the-badge&logo=slack&logoColor=white&color=4A154B)
+![Spring Boot](https://img.shields.io/badge/spring%20boot-Black?style=for-the-badge&logo=springboot&logoColor=white&color=6DB33F)
+![scikitlearn](https://img.shields.io/badge/scikitlearn-white?style=for-the-badge&logo=scikitlearn&logoColor=white&color=F7931E)
+![numpy](https://img.shields.io/badge/numpy-white?style=for-the-badge&logo=numpy&logoColor=white&color=013243)
+![polars](https://img.shields.io/badge/polars-white?style=for-the-badge&logo=polars&logoColor=white&color=CD792C)
+![Pycaret](https://img.shields.io/badge/Pycaret-white?style=for-the-badge&logo=Pycaret&logoColor=white&color=40AEF0)
 
-## 👨🏻‍💻 FrontEnd dev Packages
-```javascript
-    "@bootpay/client-js": "^4.3.1",
-    "@reduxjs/toolkit": "^1.9.5",
-    "axios": "^1.4.0",
-    "dayjs": "^1.11.9",
-    "immer": "^10.0.2",
-    "js-cookie": "^3.0.5",
-    "react": "^18.2.0",
-    "react-daum-postcode": "^3.1.3",
-    "react-dom": "^18.2.0",
-    "react-indiana-drag-scroll": "^3.0.3-alpha",
-    "react-paginate": "^8.2.0",
-    "react-redux": "^8.1.1",
-    "react-router-dom": "^6.14.2",
-    "redux": "^4.2.1",
-    "simplebar-react": "^3.2.4",
-    "styled-components": "^6.0.5",
-    "use-immer": "^0.9.0"
-```
+## 👨🏻‍💻 FrontEnd Tech Stacks
+
+**Stack**|**Version**|**Why**
+:-------:|:---------:|:------:
+React.js|`18.2.0`| CSR로 구현하여 사용자에게 빠르게 반응하는 인터페이스를 제공하기 위함. <br/> 특히 상품 추천 알고리즘과 같은 동적인 기능 구현에 적합하다고 생각해 도입
+Redux|`8.1.1`| 프로젝트의 상태 변화를 예측 가능하고 관리하기 위해 도입
+@reduxjs/toolkit|`1.9.5`| Redux를 사용하면서 생기는 boilerplate 코드를 줄이고, <br/> Redux 코드 작성에 필요한 도구와 헬퍼를 갖추기 위함. <br/> 또한 불변성을 유지하면서 상태 업데이트를 간소화하고, <br/> 비동기 작업을 쉽게 관리하기 위해 도입
+Styled-Components|`5.3.9`| 스타일 작성의 생산성 향상을 위하여 CSS-in-JS 도입
+@bootpay/client-js|`4.3.1`| 웹앱에서 결제 기능을 구현하기 위해 도입
+immer <br/> user-immer|`10.0.2` `0.9.0` | 불변성을 유지하면서 객체나 배열을 업데이트하기 쉽게 해주기 위해서 도입
+axios|`1.4.0`| API 통신에 사용하기 위해 도입
+react-router-dom |`6.14.2`| 다른 페이지 이동 기능을 구현하기 위해 도입
+dayjs|`1.11.9`| Date 객체를 보다 편하게 다루기 위해서 도입
+react-daum-postcode|`3.1.3`| 사용자가 물품을 주문할 때, 한국 주소 등록을 위해서 도입
+react-indiana-drag-scroll|`3.0.3-alpha`| 스크롤 영역을 드래그하여 움직일 수 있도록 하기 위해서 도입
+react-paginate|`8.2.0`| 페이지네이션 (페이징) 기능 구현을 위해 도입
+simplebar-react|`3.2.4`| 사용자 지정 스크롤 바 기능 구현을 위해 도입
 
 ## 💡 Amica는 어떤 서비스 인가요?
 
 ### 💭 기획 의도
+<div align="center">
 <img src="https://github.com/osohyun0224/Amica_Frontend/assets/53892427/e37d1de2-4ac9-45d4-8438-8830aaeae374" width=80% />
 <img src="https://github.com/osohyun0224/Amica_Frontend/assets/53892427/b305562b-a0d4-4114-a1ca-d79e889a371e" width=80% />
 
 <br/>
 Amica는 반려동물을 기르는 사람들을 대상으로 제공하는 이커머스 웹앱 서비스입니다.
+</div>
 
 ### 🖐🏻 메인 기능 
+<div align="center">
 <img src="https://github.com/osohyun0224/Amica_Frontend/assets/53892427/a80b412a-ba2b-454f-8e28-8a9c111e9c16" width=80% />
 <img src="https://github.com/osohyun0224/Amica_Frontend/assets/53892427/75d0b4a1-a63b-464e-b749-b0ef216ea0f4" width=80% />
 <img src="https://github.com/osohyun0224/Amica_Frontend/assets/53892427/e2d823db-6fd8-4074-bf5f-05f33efb8ae1" width=80% />
+</div>
 
 ### 📺 개발 화면
 [vercel 링크로 웹사이트 확인하기](https://async-without-sync.vercel.app)
 
 ## 🐶 모든 기능 소개 
 
-<br/>
 
 > 1. 로그인 및 회원가입
 - 웹사이트는 일반 유저(User)와 공동구매를 관리하는 관리자(admin)의 2가지 계정 유형이 존재합니다.
@@ -125,11 +131,11 @@ Amica는 반려동물을 기르는 사람들을 대상으로 제공하는 이커
 <img src="https://github.com/osohyun0224/Amica_Frontend/assets/53892427/9ea86e3b-c986-418b-a32b-4c682d58ee30" width=33% />
 <img src="https://github.com/osohyun0224/Amica_Frontend/assets/53892427/524855cf-e512-4922-b30c-6012e28f343a" width=33% />
 
-## 🧾 개발 관련 문서 모음 
+## 🧾 Amica 개발 관련 문서 모음 
 - [Amica 최종 기능 명세서](https://www.notion.so/osohyun/2e9de48e1c9f4de5a17bcb3a9fef2bb6)
 - [Backend API 명세서-1](https://documenter.getpostman.com/view/25536437/2s9Y5SUjhs)
-- [Backend API 명세서-1](https://documenter.getpostman.com/view/25536437/2s9Y5SVQyW)
-- [Backend API 명세서-1](https://documenter.getpostman.com/view/25536437/2s9Y5SVR3m)
+- [Backend API 명세서-2](https://documenter.getpostman.com/view/25536437/2s9Y5SVQyW)
+- [Backend API 명세서-3](https://documenter.getpostman.com/view/25536437/2s9Y5SVR3m)
 - [AI Server API 명세서](https://documenter.getpostman.com/view/28690465/2s9Y5R3nHv)
 - [개발자 전체 칸반보드](https://github.com/orgs/Likelion-MainHackaton-2team/projects/1)
 
