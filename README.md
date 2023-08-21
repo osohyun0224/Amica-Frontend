@@ -40,6 +40,9 @@ react-indiana-drag-scroll|`3.0.3-alpha`| 스크롤 영역을 드래그하여 움
 react-paginate|`8.2.0`| 페이지네이션 (페이징) 기능 구현을 위해 도입
 simplebar-react|`3.2.4`| 사용자 지정 스크롤 바 기능 구현을 위해 도입
 
+## 👨🏻‍💻 System Architecture
+![image](https://github.com/osohyun0224/Amica_Frontend/assets/53892427/827096c5-d446-432e-9db2-2a9bd85fecf9)
+
 ## 💡 Amica는 어떤 서비스 인가요?
 
 ### 💭 기획 의도
